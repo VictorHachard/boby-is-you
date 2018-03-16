@@ -5,7 +5,7 @@
  */
 package view;
 
-import view.javaFxMethodForGames;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,6 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import static view.javaFxMethodForGames.moveImageByCase;
 
 /*
  *
@@ -30,19 +31,20 @@ public class JavaBobyIsYou extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException 
     {
-        Pane root =new Pane();
         Map map = new Map("map1");
-        convertBoardToImage(map.getBoard(),root);
-        
-        Scene scene = new Scene(root, (map.getWidth())*64, (map.getHeight())*64);
+       
+        Scene scene = initScene(map);
         
         primaryStage.setTitle("BabaIsYou");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
     /**
-     * cree une image
-     * @param name
+     * methode qui importe une image et qui l'ajoute a un pane passer en parametre
+     * @param name nom de l'image a importer
+     * @param root object de type Pane
+     * @param posx un entier qui indique la position sur l'axe des x
+     * @param posy un entier qui indique la position sur l'axe des y 
      * @return ImageView une image prete a etre affichée
      */
     public static void addImage(String name,Pane root,int posx,int posy)
@@ -56,8 +58,9 @@ public class JavaBobyIsYou extends Application {
         root.getChildren().add(image);
     }
     /**
-     * 
-     * @param board 
+     * methode qui va ajouter une image a la un objet Pane a chaque iteration c'est à dire pour chaque objet present dans board
+     * @param board un plateau de jeux contenatn les elements du jeux
+     * @param root un objet de type Pane
      */
     public static void convertBoardToImage(ArrayList[][] board,Pane root)
     {
@@ -87,7 +90,19 @@ public class JavaBobyIsYou extends Application {
             }
         }
     }
-
+    /**
+     * cree une scene a partir d'un objet map
+     * @param map un objet qui a un attribut qui contient board
+     * @return 
+     */
+    // map doit avoir un board , getWidth ,getHeigth
+    public static Scene initScene(Map map)
+    {
+        Pane root =new Pane();
+        convertBoardToImage(map.getBoard(),root);  
+        Scene scene = new Scene(root, (map.getWidth())*64, (map.getHeight())*64);
+        return scene;
+    }
     public static void main(String[] args) {
         launch(args);
     }
