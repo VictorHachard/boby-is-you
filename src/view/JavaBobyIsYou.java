@@ -5,6 +5,7 @@
  */
 package view;
 
+import view.javaFxMethodForGames;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -73,54 +74,15 @@ public class JavaBobyIsYou extends Application {
                 for (int k = 0 ;k < board[i][j].size() ; k++)
                 {   
               
-                    GameObject gameobject = (GameObject) board[i][j].get(0);
-                 
-                    posx = gameobject.getPosX();
-                    posy = gameobject.getPosY();
+                    gameObject = (GameObject) board[i][j].get(k);
                     
-                    objectName = board[i][j].get(k).getClass().getName();
-                    switch(objectName)
-                    {
-			case "gameobject.Wall":
-                            addImage("wall",root,posx,posy);
-                            break;
-			case "gameobject.Rock":
-                            addImage("rock",root,posx,posy);
-                            break;
-			case "gameobject.Flag":
-                            addImage("flag", root,posx,posy);
-                            break;
-			case "gameobject.Baba":
-                            addImage("baba",root,posx,posy);
-                            break;
-			case "gameobject.TextIs":
-                            addImage("is",root,posx,posy);
-                            break;
-			case "gameobject.TextWall":
-                            addImage("text_wall",root,posx,posy);
-                            break;
-			case "gameobject.TextRock":
-                            addImage("text_rock",root,posx,posy);
-                            break;
-			case "gameobject.TextFlag":
-                            addImage("text_flag",root,posx,posy);
-                            break;
-			case "gameobject.TextBaba":
-                            addImage("text_baba",root,posx,posy);
-                            break;
-			case "gameobject.TextPush":
-                            addImage("text_push",root,posx,posy);
-                            break;
-			case "gameobject.TextWin":
-                            addImage("text_win",root,posx,posy);
-                            break;
-			case "gameobject.TextYou":
-                            addImage("text_you",root,posx,posy);
-                            break;
-			case "gameobject.TextStop":
-                            addImage("text_stop",root,posx,posy);
-			break;
-                    }                   
+                    posx = gameObject.getPosX();
+                    posy = gameObject.getPosY();
+                    
+                    objectName = gameObject.getClass().getSimpleName();
+                    // besoin d'une method qui retourne le nom de l'object
+                    // liste des noms possible (Baba,Flag,Grass,Ice,Keke,Lava,Metal,Rock,TextBaba,TextFlag,TextIs,TextPush,TextRock,TextStop,TextWall,TextWin,TextYou,Wall,Water)
+                    addImage(objectName,root,posx,posy);     
                 }
             }
         }
