@@ -13,6 +13,8 @@ public class NewMain {
         Board b = new Board("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\maps\\map1.txt");
         
         System.out.println(b.getAff());
+        //TypeElements objectName = b.getListGrid().get(1).get(1).getListeContenu().get(0).getTypeElements();
+        //System.out.println(objectName);
     }
     
 }

@@ -21,6 +21,8 @@ import static jdk.nashorn.internal.objects.NativeString.toUpperCase;
 public class Board {
     private List<String> listMove;
     private List<List<Placement>> listGrid;
+    private int x;
+    private int y;
     
     Board(String fileName){
         listMove = new ArrayList<>();
@@ -31,6 +33,8 @@ public class Board {
             //lecture de la premier ligne pour determiner et crée le board.
             String line = buffer.readLine();
             String[] size = line.split(" ");
+            this.x = Integer.parseInt(size[0])+2;
+            this.y = Integer.parseInt(size[1])+2;
             generateGrid(Integer.parseInt(size[0]),Integer.parseInt(size[1]));
             
             //lecture de toutes les autres lignes pour ajouter les elments dans le board.
@@ -57,22 +61,11 @@ public class Board {
     }
     
     //getters
-    
-    /**
-     * return une liste avec les elments.
-     * @param x
-     * @param y
-     * @return ArrayList<Placement>
-     */
-    public ArrayList<Placement> getElement(int x, int y) {
-        return null;
-        //return listGrid.get(x)).get(y));
-    }
-    
+       
     /**
      * return x la taille du tableau board
      * @return x
-     *
+     */
     public int getSizeX() {
         return this.x;
     }
@@ -80,10 +73,18 @@ public class Board {
     /**
      * return y la taille du tableau board
      * @return y
-     *
+     */
     public int getSizeY() {
         return this.y;
-    }*/
+    }
+    
+    /**
+     * return List<List<Placement>> la liste board
+     * @return List<List<Placement>>
+     */
+    public List<List<Placement>> getListGrid() {
+        return this.listGrid;
+    }
     
     /**
      * 

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- *
 package view;
 
 
@@ -20,17 +15,19 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import model.Board;
+import model.Placement;
+import model.TypeElements;
 import static view.javaFxMethodForGames.moveImageByCase;
 
 /*
  *
  * @author Glaskani
- *
+ */
 public class JavaBobyIsYou extends Application {
     
     @Override
-    public void start(Stage primaryStage) throws IOException 
-    {
+    public void start(Stage primaryStage) throws IOException {
         Map map = new Map("map1");
        
         Scene scene = initScene(map);
@@ -39,16 +36,15 @@ public class JavaBobyIsYou extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+    
     /**
      * importe une image et qui l'ajoute a un pane passer en parametre
      * @param name nom de l'image à importer
      * @param root object de type Pane
      * @param posx un entier qui indique la position sur l'axe des x
      * @param posy un entier qui indique la position sur l'axe des y 
-     * @return ImageView une image prete a etre affichée
-     *
-    public static void addImage(String name,Pane root,int posx,int posy)
-    {
+     */
+    public static void addImage(TypeElements name,Pane root,int posx,int posy) {
         String imageURI = new File("image/"+name+".png").toURI().toString();
         Image image_= new Image(imageURI);
         ImageView image = new ImageView(image_);
@@ -57,54 +53,36 @@ public class JavaBobyIsYou extends Application {
         moveImageByCase(image,posx,posy);
         root.getChildren().add(image);
     }
+    
     /**
      * ajoute une image a la un objet Pane a chaque iteration c'est à dire pour chaque objet present dans board
      * @param board un plateau de jeux contenatn les elements du jeux
      * @param root un objet de type Pane
-     *
-    public static void convertBoardToImage(ArrayList[][] board,Pane root)
-    {
-        String objectName;
-        ImageView image;
-
-        int posx;
-        int posy;
-        
-        for (int i = 0 ; i < board.length ; i++ )
-        {
-            for (int j = 0 ; j < board[0].length ; j++)
-            {
-                for (int k = 0 ;k < board[i][j].size() ; k++)
-                {   
-              
-                    gameObject = (GameObject) board[i][j].get(k);
-                    
-                    posx = gameObject.getPosX();
-                    posy = gameObject.getPosY();
-                    
-                    objectName = gameObject.getClass().getSimpleName();
-                    // besoin d'une method qui retourne le nom de l'object
-                    // liste des noms possible (Baba,Flag,Grass,Ice,Keke,Lava,Metal,Rock,TextBaba,TextFlag,TextIs,TextPush,TextRock,TextStop,TextWall,TextWin,TextYou,Wall,Water)
-                    addImage(objectName,root,posx,posy);     
+     */
+    public static void convertBoardToImage(Board board,Pane root) {       
+        for(int i=0;i<board.getSizeX();i++) {
+            for(int j=0;j<board.getSizeY();j++) {
+                for(int k=0;k<board.getListGrid().get(i).get(j).getListeContenu().size();k++) {   
+                    TypeElements objectName = board.getListGrid().get(i).get(j).getListeContenu().get(k).getTypeElements();
+                    addImage(objectName,root,i,j);     
                 }
             }
         }
     }
+    
     /**
      * cree une scene a partir d'un objet map
      * @param map un objet qui a un attribut qui contient board
      * @return 
-     *
-    // map doit avoir un board , getWidth ,getHeigth
-    public static Scene initScene(Map map)
-    {
+     */
+    public static Scene initScene(Map map) {
         Pane root =new Pane();
         convertBoardToImage(map.getBoard(),root);  
         Scene scene = new Scene(root, (map.getWidth())*64, (map.getHeight())*64);
         return scene;
     }
+    
     public static void main(String[] args) {
         launch(args);
     }
 }
-*/
