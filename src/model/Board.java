@@ -24,6 +24,10 @@ public class Board {
     private int x;
     private int y;
     
+    /**
+     * Créé un Board en fonction du fileName.
+     * @param fileName String
+     */
     Board(String fileName){
         listMove = new ArrayList<>();
         listGrid = new ArrayList<>();
@@ -48,6 +52,11 @@ public class Board {
         }
     }
     
+    /**
+     * Crée un Board de taille x,y et ajoute les elements injouable et EMPTY.
+     * @param x int
+     * @param y int
+     */
     private void generateGrid(int x,int y){        
             for(int j=0;j<y+2;j++){
                 listGrid.add(new ArrayList<>());
@@ -63,36 +72,32 @@ public class Board {
     //getters
        
     /**
-     * return x la taille du tableau board
-     * @return x
+     * Revois la taille du tableau board en abscisse.
+     * @return int
      */
     public int getSizeX() {
         return this.x;
     }
     
     /**
-     * return y la taille du tableau board
-     * @return y
+     * Revois la taille du tableau board en ordonnée.
+     * @return int
      */
     public int getSizeY() {
         return this.y;
     }
     
     /**
-     * return List<List<Placement>> la liste board
-     * @return List<List<Placement>>
+     * Revois la liste contenant Placement.
+     * @return ListListPlacement
      */
     public List<List<Placement>> getListGrid() {
         return this.listGrid;
     }
     
     /**
-     * 
-     * @param name
-     * @param x la cordonner x dans la listGrid.
-     * @param y la cordonner y dans la listGrid.
-     * @param movingDirection chiffre qui a la direction de l'elements.
-     * @param board ou les modifications doivent etre faites.
+     * Ajoute un element dans Placement.
+     * @param line String[]
      */
     private void addPlacement(String[] line) throws ElementsNotFoundException {
         int x = Integer.parseInt(line[1])+1;
@@ -101,7 +106,11 @@ public class Board {
         listGrid.get(y).get(x).addElement(new Element(TypeElements.fromString(line[0]),Directions.fromString(d)));
     }
     
-    String getAff(){
+    /**
+     * Revois une chaine de charactére du Board.
+     * @return String
+     */
+    String getAffichage(){
         StringBuffer  sb = new StringBuffer();
         
         for(List<Placement> lp:this.listGrid){

@@ -10,24 +10,39 @@ public enum Directions {
     LEFT(2),
     DOWN(3);
     
-    private final int dir;
+    private final int direction;
     
+    /**
+     * 
+     * @param d int
+     */
     Directions(int d){
-        dir = d;
+        direction = d;
     }
     
-    public static Directions fromString(int dir) {
+    /**
+     * Tranforme et revois un int en Directions.
+     * @param direction int
+     * @return Directions
+     */
+    public static Directions fromString(int direction) {
 
         for(Directions type : Directions.values()) {
-            if (type.getDir()==dir) {
+            if (type.getDir()==direction) {
                 return type;
             }
         }
         throw new IllegalArgumentException();
     }
     
+    //Getters
+    
+    /**
+     * Revois la direction.
+     * @return int
+     */
     int getDir(){
-        return dir;
+        return direction;
     }
     
 }

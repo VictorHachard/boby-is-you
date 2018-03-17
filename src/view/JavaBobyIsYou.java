@@ -73,7 +73,7 @@ public class JavaBobyIsYou extends Application {
     /**
      * cree une scene a partir d'un objet map
      * @param map un objet qui a un attribut qui contient board
-     * @return 
+     * @return Scene
      */
     public static Scene initScene(Map map) {
         Pane root =new Pane();

@@ -1,7 +1,7 @@
 package model;
 import exeptions.ElementsNotFoundException;
 
- /*
+/*
  * @author Glaskani
  */
 public enum TypeElements {
@@ -54,14 +54,25 @@ public enum TypeElements {
     IS("IS","I   ")
     ;
 
-    private final String id;
-    private final String letter;
+    private final String fromString;
+    private final String stringConsole;
     
-    TypeElements(String id,String a) {
-		this.id=id;
-                letter = a;
+    /**
+     * 
+     * @param fromString
+     * @param stringConsole 
+     */
+    TypeElements(String fromString,String stringConsole) {
+		this.fromString = fromString;
+                this.stringConsole = stringConsole;
     }
-
+    
+    /**
+     * Tranforme et revois un string en TypeElments.
+     * @param element String
+     * @return type TypeElments
+     * @throws ElementsNotFoundException 
+     */
     static TypeElements fromString(String element) throws ElementsNotFoundException {
 
         for(TypeElements type : TypeElements.values()) {
@@ -73,14 +84,22 @@ public enum TypeElements {
         throw new ElementsNotFoundException();
     }
 
-    //Setters
-    public String getElements() {
-        return id;
+    //Getters
+    
+    /**
+     * Revois l'element sous la forme d'un String.
+     * @return String
+     */
+    String getElements() {
+        return fromString;
     }
     
+    /**
+     * Revois l'element sous la forme d'un String à afficher en console.
+     * @return String
+     */
     String getLetter(){
-        return letter;
+        return stringConsole;
     }
     
-
 }

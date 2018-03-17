@@ -16,7 +16,7 @@ public class javaFxMethodForGames
 {
     /**
      * This method move one image by 64 pixels
-     * @param image 
+     * @param image ImageView
      * @param x the number of case that you move this image 
      * @param y the 
      */

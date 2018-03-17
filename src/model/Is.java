@@ -6,6 +6,11 @@ package model;
  */
 public class Is extends SetupRule {
     
+    /**
+     * 
+     * @param te TypeElements
+     * @param dir Directions
+     */
     public Is(TypeElements te, Directions dir) {
         super(te, dir);
     }

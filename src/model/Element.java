@@ -7,62 +7,103 @@ import java.util.ArrayList;
  * @author Glaskani
  */
 public class Element {
-    protected final TypeElements te; //type de la case (mur)
-    protected ArrayList<Property> ltr; //liste de regle
-    protected final Directions dir;
     
-    Element(TypeElements te) {
-        this.te = te;
+    protected final TypeElements typeElement;
+    protected ArrayList<Property> ltr; //liste de regle
+    protected Directions direction;
+    
+    /**
+     * 
+     * @param typeElement TypeElements
+     */
+    Element(TypeElements typeElement) {
+        this.typeElement = typeElement;
         this.ltr = new ArrayList<>();
-        this.dir = Directions.RIGHT;
+        this.direction = Directions.RIGHT;
     }
     
-    Element(TypeElements te,Property tr) {
-        this.te = te;
+    /**
+     * 
+     * @param typeElement TypeElements
+     * @param tr Property
+     */
+    Element(TypeElements typeElement,Property tr) {
+        this.typeElement = typeElement;
         this.ltr = new ArrayList<>();
-        this.dir = Directions.RIGHT;
+        this.direction = Directions.RIGHT;
         ltr.add(tr);
     }
     
-    protected Element(TypeElements te,Directions dir) {
-        this.te = te;
+    /**
+     * 
+     * @param typeElement TypeElements
+     * @param direction Directions
+     */
+    protected Element(TypeElements typeElement,Directions direction) {
+        this.typeElement = typeElement;
         this.ltr = new ArrayList<>();
-        this.dir = dir;
+        this.direction = direction;
     }
     
+    /**
+     * 
+     * @param e 
+     */
     Element(Element e) {
         this.ltr = new ArrayList<>(e.ltr);
-        this.te = e.te;
-        this.dir = e.dir;
+        this.typeElement = e.typeElement;
+        this.direction = e.direction;
     }
     
     //Getters
+    
+    /**
+     * Revois le type de l'element.
+     * @return TypeElement
+     */
     public TypeElements getTypeElements() {
-        return this.te;
+        return this.typeElement;
     }
     
+    /**
+     * Revois une liste des régles de l'element.
+     * @return ArrayListProperty
+     */
     public ArrayList<Property> getTypeRule() {
         return new ArrayList<>(this.ltr);
     }
     
+    /**
+     * Revois la direction de l'element.
+     * @return Direction
+     */
+    Directions getDirections(){
+        return this.direction;
+    }
+    
+    /**
+     * Supprime la régle tr de la liste des régles de l'element.
+     * @param tr Property
+     */
     void deleteRule(Property tr){
         ltr.remove(tr);
     }
     
+    /**
+     * Ajoute la régle tr de la liste des régles de l'element.
+     * @param tr Property
+     */
     void addRule(Property tr){
         ltr.add(tr);
     }
     
     /**
-     * Verifie si la régle est bien dans l'element.
-     * @param tr liste des regles.
-     * @return True si l'element est dans la liste, False si elle n'y est pas.
+     * revois true si la régle est bien dans l'element.
+     * @param listRule Property
+     * @return true ou false.
      */
-    public boolean isRule(Property tr) {
-        return ltr.contains(tr);
+    boolean isRule(Property listRule) {
+        return ltr.contains(listRule);
     }
     
-    Directions getDirections(){
-        return this.dir;
-    }
 }
