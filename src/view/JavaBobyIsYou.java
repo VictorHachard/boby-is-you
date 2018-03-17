@@ -40,8 +40,8 @@ public class JavaBobyIsYou extends Application {
         primaryStage.show();
     }
     /**
-     * methode qui importe une image et qui l'ajoute a un pane passer en parametre
-     * @param name nom de l'image a importer
+     * importe une image et qui l'ajoute a un pane passer en parametre
+     * @param name nom de l'image à importer
      * @param root object de type Pane
      * @param posx un entier qui indique la position sur l'axe des x
      * @param posy un entier qui indique la position sur l'axe des y 
@@ -58,7 +58,7 @@ public class JavaBobyIsYou extends Application {
         root.getChildren().add(image);
     }
     /**
-     * methode qui va ajouter une image a la un objet Pane a chaque iteration c'est à dire pour chaque objet present dans board
+     * ajoute une image a la un objet Pane a chaque iteration c'est à dire pour chaque objet present dans board
      * @param board un plateau de jeux contenatn les elements du jeux
      * @param root un objet de type Pane
      */

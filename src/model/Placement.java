@@ -15,14 +15,15 @@ public class Placement {
     private ArrayList<Element> listeContenu;
     private Board board;
     
-    /**
-     * 
-     * @param b 
-     */
     public Placement(Board b) {
         listeContenu = new ArrayList<Element>();
         board = b;
                
+    }
+    
+    //Getters
+    public ArrayList<Element> getListeContenu() {
+        return this.listeContenu;
     }
     
     /**

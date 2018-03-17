@@ -5,9 +5,6 @@
  */
 package model;
 
-import model.Placement;
-import model.TypeElements;
-import model.TypeRule;
 import java.util.ArrayList;
 
 /**
@@ -22,6 +19,22 @@ public class Element {
     public Element() {
         
     }
+    
+    //Getters
+    public TypeElements getTypeElements() {
+        return this.tc;
+    }
+    public ArrayList<TypeRule> getTypeRule() {
+        return this.ls;
+    }    
+    
+    //Setters
+    public void setTypeElements(TypeElements element) {
+        this.tc = element;
+    }
+    public void setTypeRule(ArrayList<TypeRule> rule) {
+        this.ls = rule;
+    } 
     
     /**
      * Verifie si la régle est bien dans l'element.
