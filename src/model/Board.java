@@ -100,10 +100,11 @@ public class Board {
         while ((nextLine = buffer.readLine()) != null) {
             String[] parts = nextLine.split(" ");
             String name = toUpperCase(parts[0]);
+            TypeElements name2 = TypeElements.;
             int x = Integer.parseInt(parts[1]);
             int y = Integer.parseInt(parts[2]);
             int movingDirection = Integer.parseInt(parts[3]);
-            board.modify(name, x, y ,movingDirection, board); //convertire name en TypeElements
+            board.modify(name2, x, y ,movingDirection, board); //convertire name en TypeElements
         }
             
         buffer.close(); 
