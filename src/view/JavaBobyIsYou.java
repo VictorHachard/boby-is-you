@@ -2,7 +2,7 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */
+ *
 package view;
 
 
@@ -25,7 +25,7 @@ import static view.javaFxMethodForGames.moveImageByCase;
 /*
  *
  * @author Glaskani
- */
+ *
 public class JavaBobyIsYou extends Application {
     
     @Override
@@ -46,7 +46,7 @@ public class JavaBobyIsYou extends Application {
      * @param posx un entier qui indique la position sur l'axe des x
      * @param posy un entier qui indique la position sur l'axe des y 
      * @return ImageView une image prete a etre affichée
-     */
+     *
     public static void addImage(String name,Pane root,int posx,int posy)
     {
         String imageURI = new File("image/"+name+".png").toURI().toString();
@@ -61,7 +61,7 @@ public class JavaBobyIsYou extends Application {
      * ajoute une image a la un objet Pane a chaque iteration c'est à dire pour chaque objet present dans board
      * @param board un plateau de jeux contenatn les elements du jeux
      * @param root un objet de type Pane
-     */
+     *
     public static void convertBoardToImage(ArrayList[][] board,Pane root)
     {
         String objectName;
@@ -94,7 +94,7 @@ public class JavaBobyIsYou extends Application {
      * cree une scene a partir d'un objet map
      * @param map un objet qui a un attribut qui contient board
      * @return 
-     */
+     *
     // map doit avoir un board , getWidth ,getHeigth
     public static Scene initScene(Map map)
     {
@@ -107,3 +107,4 @@ public class JavaBobyIsYou extends Application {
         launch(args);
     }
 }
+*/

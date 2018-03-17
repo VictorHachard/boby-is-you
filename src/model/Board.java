@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
+import exeptions.ElementsNotFoundException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -13,6 +9,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static jdk.nashorn.internal.objects.NativeString.toUpperCase;
 
 /**
@@ -20,21 +19,45 @@ import static jdk.nashorn.internal.objects.NativeString.toUpperCase;
  * @author Glaskani
  */
 public class Board {
-    private ArrayList<String> listMove;
-    private ArrayList<ArrayList<Placement>> listGrid;
-    private int x;
-    private int y;
+    private List<String> listMove;
+    private List<List<Placement>> listGrid;
+    
+    Board(String fileName){
+        listMove = new ArrayList<>();
+        listGrid = new ArrayList<>();
         
-    public Board(int x, int y) {
-        this.x = x;
-        this.y = y;
-        listMove = new ArrayList<String>();
-        listGrid = new ArrayList<ArrayList<Placement>>();
-        
+        try (BufferedReader buffer = new BufferedReader(new FileReader(fileName))) {
+            String nextLine;
+            //lecture de la premier ligne pour determiner et crée le board.
+            String line = buffer.readLine();
+            String[] size = line.split(" ");
+            generateGrid(Integer.parseInt(size[0]),Integer.parseInt(size[1]));
+            
+            //lecture de toutes les autres lignes pour ajouter les elments dans le board.
+            while ((nextLine = buffer.readLine()) != null) {
+                addPlacement(nextLine.toUpperCase().split(" "));
+            }
+
+            buffer.close(); 
+        } catch (IOException | ElementsNotFoundException ex) {
+            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void generateGrid(int x,int y){        
+            for(int j=0;j<y+2;j++){
+                listGrid.add(new ArrayList<>());
+                for(int i=0;i<x+2;i++)
+                    if(i==0 || j==0 || j==y+1 || i==x+1)
+                        listGrid.get(j).add(new Placement(new Unplayable()));
+                    else
+                        listGrid.get(j).add(new Placement(new Element(TypeElements.EMPTY)));
+            }
+                    
     }
     
     //getters
-
+    
     /**
      * return une liste avec les elments.
      * @param x
@@ -49,7 +72,7 @@ public class Board {
     /**
      * return x la taille du tableau board
      * @return x
-     */
+     *
     public int getSizeX() {
         return this.x;
     }
@@ -57,10 +80,10 @@ public class Board {
     /**
      * return y la taille du tableau board
      * @return y
-     */
+     *
     public int getSizeY() {
         return this.y;
-    }
+    }*/
     
     /**
      * 
@@ -70,55 +93,34 @@ public class Board {
      * @param movingDirection chiffre qui a la direction de l'elements.
      * @param board ou les modifications doivent etre faites.
      */
-    public void modify(TypeElements name, int x, int y, int movingDirection, Board board) {
-        listGrid.get(x).add(y,new Placement(board));
-        int e = listGrid.get(x).get(y).getListeContenu().size();
-        listGrid.get(x).get(y).getListeContenu().get(e).setTypeElements(name);
-
-    }
-      
-    /**
-    *
-    * @param fileName
-    * @return Board
-    * @throws FileNotFoundException
-    * @throws IOException
-    */
-    public static Board load(String fileName) throws FileNotFoundException, IOException {
-
-    String nextLine;
-        
-    try (BufferedReader buffer = new BufferedReader(new FileReader(fileName))) {
-        //lecture de la premier ligne pour determiner et crée le board.
-        String line = buffer.readLine();
-        String[] size = line.split(" ");
-        int sizeX = Integer.parseInt(size[0]);
-        int sizeY = Integer.parseInt(size[1]);
-        Board board = new Board(sizeX,sizeY);
-         
-        //lecture de toutes les autres lignes pour ajouter les elments dans le board.
-        while ((nextLine = buffer.readLine()) != null) {
-            String[] parts = nextLine.split(" ");
-            String name = toUpperCase(parts[0]);
-            TypeElements name2 = TypeElements.;
-            int x = Integer.parseInt(parts[1]);
-            int y = Integer.parseInt(parts[2]);
-            int movingDirection = Integer.parseInt(parts[3]);
-            board.modify(name2, x, y ,movingDirection, board); //convertire name en TypeElements
-        }
-            
-        buffer.close(); 
-        return board;
-    }
+    private void addPlacement(String[] line) throws ElementsNotFoundException {
+        int x = Integer.parseInt(line[1])+1;
+        int y = Integer.parseInt(line[2])+1;
+        int d = line.length > 3  ? Integer.parseInt(line[3]) : 0;
+        listGrid.get(y).get(x).addElement(new Element(TypeElements.fromString(line[0]),Directions.fromString(d)));
     }
     
+    String getAff(){
+        StringBuffer  sb = new StringBuffer();
+        
+        for(List<Placement> lp:this.listGrid){
+            for(Placement p:lp) {
+                sb.append(p.getAllElement().get(p.getAllElement().size()-1).getTypeElements().getLetter());
+                sb.append("|");
+            }
+            sb.append('\n');
+        }
+        
+        return sb.toString();
+    }
+      
     /**
      * 
      * @param fileName
      * @param board
      * @throws IOException 
-     */
-    public void save(String fileName, Board board) throws IOException {
+     *
+    public void save(String fileName) throws IOException {
         
     try {
         BufferedWriter save = new BufferedWriter(new FileWriter(new File(fileName)));
@@ -143,6 +145,6 @@ public class Board {
     catch (IOException e) {
         e.printStackTrace();
     }   
-    }
+    }*/
     
 }

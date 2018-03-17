@@ -1,52 +1,63 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Glaskani
  */
 public class Placement {
-    private ArrayList<Element> listeContenu;
-    private Board board;
+    private List<Element> listeContenu;
     
-    public Placement(Board b) {
-        listeContenu = new ArrayList<Element>();
-        board = b;
-               
+    public Placement(Element e) {
+        listeContenu = new ArrayList<>();
+        listeContenu.add(new Element(e));
     }
     
     //Getters
     public ArrayList<Element> getListeContenu() {
-        return this.listeContenu;
+        return new ArrayList(this.listeContenu);
     }
     
+    void addElement(Element e){
+        if(this.listeContenu.contains(e))
+            return;
+        this.listeContenu.add(e);
+    }
+        
+    Element get(TypeElements te) {
+        for(Element e:this.listeContenu)
+            if(e.getTypeElements()==te)
+                return e;
+        return null;
+    }
+        
+    boolean canPush() {
+        return findRule(Property.PUSH);
+    }
+        
     /**
-     * 
-     * @return 
+     * Dit si l on peut rajouté(metre) un object dans la case
+     * @return ton Q.
      */
-    public boolean add() {
+    boolean canAdd() {
+        return findRule(Property.STOP);        
+    }
+    
+    private boolean findRule(Property tr){
+        for(Element e:this.listeContenu)
+            if(e.getTypeRule().contains(tr))
+                return true;
         return false;
     }
+    
+    List<Element> getAllElement(){
+        List<Element> le = new ArrayList<>();
         
-    public boolean pop() {
-        return false;        
-    }
+        for(Element e:this.listeContenu)
+            le.add(new Element(e));
         
-    public boolean get() {
-        return false;        
-    }
-        
-    public boolean canPush() {
-        return false;        
-    }
-        
-    public boolean canAdd() {
-        return false;        
+        return le;
     }
 }

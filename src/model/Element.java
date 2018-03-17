@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import java.util.ArrayList;
@@ -12,74 +7,62 @@ import java.util.ArrayList;
  * @author Glaskani
  */
 public class Element {
-    private TypeElements tc; //type de la case (mur)
-    private ArrayList<TypeRule> ls; //liste de regle
-    private ArrayList<Placement> pl; // liste case ou la case ce trouve
+    protected final TypeElements te; //type de la case (mur)
+    protected ArrayList<Property> ltr; //liste de regle
+    protected final Directions dir;
     
-    public Element() {
-        
+    Element(TypeElements te) {
+        this.te = te;
+        this.ltr = new ArrayList<>();
+        this.dir = Directions.RIGHT;
+    }
+    
+    Element(TypeElements te,Property tr) {
+        this.te = te;
+        this.ltr = new ArrayList<>();
+        this.dir = Directions.RIGHT;
+        ltr.add(tr);
+    }
+    
+    protected Element(TypeElements te,Directions dir) {
+        this.te = te;
+        this.ltr = new ArrayList<>();
+        this.dir = dir;
+    }
+    
+    Element(Element e) {
+        this.ltr = new ArrayList<>(e.ltr);
+        this.te = e.te;
+        this.dir = e.dir;
     }
     
     //Getters
     public TypeElements getTypeElements() {
-        return this.tc;
+        return this.te;
     }
-    public ArrayList<TypeRule> getTypeRule() {
-        return this.ls;
-    }    
     
-    //Setters
-    public void setTypeElements(TypeElements element) {
-        this.tc = element;
+    public ArrayList<Property> getTypeRule() {
+        return new ArrayList<>(this.ltr);
     }
-    public void setTypeRule(ArrayList<TypeRule> rule) {
-        this.ls = rule;
-    } 
+    
+    void deleteRule(Property tr){
+        ltr.remove(tr);
+    }
+    
+    void addRule(Property tr){
+        ltr.add(tr);
+    }
     
     /**
      * Verifie si la régle est bien dans l'element.
      * @param tr liste des regles.
      * @return True si l'element est dans la liste, False si elle n'y est pas.
      */
-    public boolean isRule(TypeRule tr) {
-        //for(CalssA a : listeDeA) listeA = ArrayList<ClassA>
-        for(TypeRule i:ls) 
-           if (i == tr)
-               return true;
-        
-        return false;
+    public boolean isRule(Property tr) {
+        return ltr.contains(tr);
     }
     
-    /**
-     * 
-     */
-    public void preUpdateCase() {
-        
+    Directions getDirections(){
+        return this.dir;
     }
-    
-        
-    /**
-     * 
-     */
-    public void postUpdateCase() {
-        
-    }
-    
-    
-    
-    
-    /*
-    public static int bidon(){;
-        do return 0; while(true);
-        while(true) return 0;
-        for(..;..;..) return 2;
-        for(...:...) retunr 0;
-    }*/
-    
-    //for(...)
-    //  XXXXX   Block: {.....}
-    //          Code : return treu;
-    //          for
-    //          if
-    //          funrtionBidon(..);
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 /**
@@ -10,5 +5,16 @@ package model;
  * @author Glaskani
  */
 public class Unplayable extends Element {
+    
+    public Unplayable() {
+        super(TypeElements.WALLINJOUABLE,Directions.RIGHT);
+        super.ltr.add(Property.STOP);
+    }
+    
+    @Override
+    void deleteRule(Property tr){}
+    
+    @Override
+    void addRule(Property tr){}
     
 }
