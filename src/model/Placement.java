@@ -1,13 +1,15 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
  *
  * @author Glaskani
  */
-public class Placement {
+public class Placement extends Subject {
     
     private List<Element> listeContenu;
     
@@ -38,6 +40,17 @@ public class Placement {
         if(this.listeContenu.contains(e))
             return;
         this.listeContenu.add(e);
+        
+        Collections.sort(listeContenu, new Comparator<Element>() {
+            @Override
+            public int compare(Element e1, Element e2) {
+                return e1.getTypeElements().getPriority() - e2.getTypeElements().getPriority();
+            }
+        });
+    }
+    
+    void removeElement(TypeElements e){
+            listeContenu.remove(getElements(e));
     }
     
     /**
@@ -65,7 +78,7 @@ public class Placement {
      * @return true ou false
      */
     boolean canAdd() {
-        return findRule(Property.STOP);        
+        return !findRule(Property.STOP) || !findRule(Property.PUSH);
     }
     
     /**
@@ -91,5 +104,29 @@ public class Placement {
             le.add(new Element(e));
         
         return le;
+    }
+    
+    boolean findElements(TypeElements te){
+        for(Element e:this.listeContenu)
+            if(e.getTypeElements()==te)
+                return true;
+        return false;
+    }
+    
+    Element getElements(TypeElements te){
+        for(Element e:this.listeContenu)
+            if(e.getTypeElements()==te)
+                return e;
+        return null;
+    }
+    
+    List<Element> getElementsOf(Property tr){
+        List<Element> ret = new ArrayList<>();
+        
+        for(Element e:this.listeContenu)
+            if(e.getTypeRule().contains(tr))
+                ret.add(e);
+        
+        return ret;
     }
 }

@@ -28,7 +28,7 @@ public class Board {
      * Créé un Board en fonction du fileName.
      * @param fileName String
      */
-    public Board(String fileName){
+    public Board(String fileName) {
         listMove = new ArrayList<>();
         listGrid = new ArrayList<>();
         
@@ -43,7 +43,9 @@ public class Board {
             
             //lecture de toutes les autres lignes pour ajouter les elments dans le board.
             while ((nextLine = buffer.readLine()) != null) {
-                addPlacement(nextLine.toUpperCase().split(" "));
+                String[] parts = nextLine.split(" ");
+                int movingDirection = parts.length > 3  ? Integer.parseInt(parts[3]) : 0;
+                addPlacement(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), movingDirection, toUpperCase(parts[0]));
             }
 
             buffer.close(); 
@@ -51,6 +53,18 @@ public class Board {
             Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    /**
+     * Crée un Board de la taille x, y.
+     * @param x int
+     * @param y int
+     */
+    public Board(int x, int y) {
+        listMove = new ArrayList<>();
+        listGrid = new ArrayList<>();
+
+        generateGrid(x, y);
+    } 
     
     /**
      * Crée un Board de taille x,y et ajoute les elements injouable et EMPTY.
@@ -64,7 +78,7 @@ public class Board {
                     if(i==0 || j==0 || j==y+1 || i==x+1)
                         listGrid.get(j).add(new Placement(new Unplayable()));
                     else
-                        listGrid.get(j).add(new Placement(new Element(TypeElements.EMPTY)));
+                        listGrid.get(j).add(new Placement(new Empty()));
             }
                     
     }
@@ -96,21 +110,22 @@ public class Board {
     }
     
     /**
-     * Ajoute un element dans Placement.
-     * @param line String[]
+     * 
+     * @param x
+     * @param y
+     * @param d
+     * @param object
+     * @throws ElementsNotFoundException 
      */
-    private void addPlacement(String[] line) throws ElementsNotFoundException {
-        int x = Integer.parseInt(line[1])+1;
-        int y = Integer.parseInt(line[2])+1;
-        int d = line.length > 3  ? Integer.parseInt(line[3]) : 0;
-        listGrid.get(y).get(x).addElement(new Element(TypeElements.fromString(line[0]),Directions.fromString(d)));
+    private void addPlacement(int x, int y, int d, String object) throws ElementsNotFoundException {
+        listGrid.get(y+1).get(x+1).addElement(new Element(TypeElements.fromString(object),Directions.fromString(d)));
     }
     
     /**
      * Revois une chaine de charactére du Board.
      * @return String
      */
-    String getAffichage(){
+    public String getAffichage(){
         StringBuffer  sb = new StringBuffer();
         
         for(List<Placement> lp:this.listGrid){
@@ -123,7 +138,56 @@ public class Board {
         
         return sb.toString();
     }
+    
+    private List<Position> getPositionOf(TypeElements te){
+        List<Position> lp = new ArrayList<>();
+        
+        for(int i=0;i<this.y;i++)
+            for(int j=0;j<this.x;j++)
+                if(this.listGrid.get(i).get(j).findElements(te))
+                    lp.add(new Position(j,i));
+        
+        return lp;
+    }
+    
+    private TypeElements getPlayerType(){
+        return TypeElements.PLAYER1;
+    }
+    
+    public void movePlayer(Directions direction){
+        TypeElements player = getPlayerType();
+        List<Position> lp = getPositionOf(player);
+        
+        for(Position pos:lp)
+            if(pos.y+direction.getDirVer() < y && pos.x+direction.getDirHori() < x)
+                if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canAdd()){
+                    listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).addElement(listGrid.get(pos.y).get(pos.x).get(player));
+                    listGrid.get(pos.y).get(pos.x).removeElement(player);
+                } else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canPush()) {
+                    push(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()),direction);
+                    listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).addElement(listGrid.get(pos.y).get(pos.x).get(player));
+                    listGrid.get(pos.y).get(pos.x).removeElement(player);
+                }
+    }
       
+    private boolean push(Position pos,Directions direction) {
+        if(pos.y+direction.getDirVer() < y && pos.x+direction.getDirHori() < x){
+            if (!listGrid.get(pos.y).get(pos.x).canPush()){
+                if(push(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()),direction)){
+                    for(Element e:listGrid.get(pos.y).get(pos.x).getElementsOf(Property.PUSH)){
+                        listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).addElement(listGrid.get(pos.y).get(pos.x).get(e.getTypeElements()));
+                        listGrid.get(pos.y).get(pos.x).removeElement(e.getTypeElements());
+                    }
+                    return true;
+                }
+            }else if (listGrid.get(pos.y).get(pos.x).canAdd()) {
+                return true;
+            }
+        }
+        
+        return false;    
+    }
+    
     /**
      * 
      * @param fileName

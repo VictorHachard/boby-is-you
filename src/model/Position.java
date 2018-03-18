@@ -5,18 +5,19 @@ package model;
  * @author Glaskani
  */
 
-public class Point {
+public class Position {
     
-    public int x, y;
+    public final int x, y;
     
     /**
      * 
      * @param x int
      * @param y int
      */
-    public Point(int x, int y) {
+    public Position(int x, int y) {
         this.x = x;
         this.y = y;
     }
-            
+    
+    
 }

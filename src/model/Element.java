@@ -6,7 +6,7 @@ import java.util.ArrayList;
  *
  * @author Glaskani
  */
-public class Element {
+public class Element implements Observer {
     
     protected final TypeElements typeElement;
     protected ArrayList<Property> ltr; //liste de regle
@@ -105,5 +105,12 @@ public class Element {
     boolean isRule(Property listRule) {
         return ltr.contains(listRule);
     }
+
+    /**
+     * Prout prout prouuuuuuuuuuuuuuuut.
+     * @param subject
+     */
+    @Override
+    public void update(Subject subject) {}
     
 }

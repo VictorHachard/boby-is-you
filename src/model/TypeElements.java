@@ -118,8 +118,16 @@ public enum TypeElements {
      * Revois la valeur priotiter de l'element.
      * @return int
      */
-    int getPriority(){
+    public int getPriority(){
         return intType;
     }
     
+    /**
+     * Revois une liste de toutes les valeurs de TypeElements.
+     * @return TypeElements[]
+     */
+    public static TypeElements[] getAll(){
+        return TypeElements.values();
+    }
+       
 }

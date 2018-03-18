@@ -15,4 +15,6 @@ public class Is extends SetupRule {
         super(te, dir);
     }
     
+    @Override
+    public void update(Subject subject) {}
 }

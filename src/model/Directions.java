@@ -25,7 +25,7 @@ public enum Directions {
      * @param direction int
      * @return Directions
      */
-    public static Directions fromString(int direction) {
+    static Directions fromString(int direction) {
 
         for(Directions type : Directions.values()) {
             if (type.getDir()==direction) {
@@ -43,6 +43,22 @@ public enum Directions {
      */
     int getDir(){
         return direction;
+    }
+    
+    int getDirVer() {
+        if (direction == 1)
+            return -1;
+        else if(direction == 3)
+            return 1;
+        return 0;
+    }
+    
+    int getDirHori(){
+        if(direction ==0)
+            return 1;
+        else if(direction == 2)
+            return -1;
+        return 0;
     }
     
 }
