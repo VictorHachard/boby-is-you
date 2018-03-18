@@ -49,6 +49,10 @@ public class Placement extends Subject {
         });
     }
     
+    /**
+     * 
+     * @param e 
+     */
     void removeElement(TypeElements e){
             listeContenu.remove(getElements(e));
     }
@@ -78,7 +82,7 @@ public class Placement extends Subject {
      * @return true ou false
      */
     boolean canAdd() {
-        return !findRule(Property.STOP) || !findRule(Property.PUSH);
+        return !findRule(Property.STOP) || findRule(Property.PUSH);
     }
     
     /**
@@ -89,7 +93,7 @@ public class Placement extends Subject {
     private boolean findRule(Property tr){
         for(Element e:this.listeContenu)
             if(e.getTypeRule().contains(tr))
-                return true;
+                return true; 
         return false;
     }
     
@@ -106,6 +110,11 @@ public class Placement extends Subject {
         return le;
     }
     
+    /**
+     * 
+     * @param te
+     * @return 
+     */
     boolean findElements(TypeElements te){
         for(Element e:this.listeContenu)
             if(e.getTypeElements()==te)
@@ -113,6 +122,11 @@ public class Placement extends Subject {
         return false;
     }
     
+    /**
+     * 
+     * @param te
+     * @return 
+     */
     Element getElements(TypeElements te){
         for(Element e:this.listeContenu)
             if(e.getTypeElements()==te)
@@ -120,6 +134,11 @@ public class Placement extends Subject {
         return null;
     }
     
+    /**
+     * 
+     * @param tr
+     * @return 
+     */
     List<Element> getElementsOf(Property tr){
         List<Element> ret = new ArrayList<>();
         

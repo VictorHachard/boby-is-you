@@ -45,6 +45,11 @@ public enum Directions {
         return direction;
     }
     
+    /**
+     * Revois 1 ou -1 en focntion de la direction d'axe horizontal.
+     * @return int 1 si la direction est DOWN
+     * -1 si la direction est UP
+     */
     int getDirVer() {
         if (direction == 1)
             return -1;
@@ -53,6 +58,11 @@ public enum Directions {
         return 0;
     }
     
+    /**
+     * Revois 1 ou -1 en focntion de la direction d'axe horizontal.
+     * @return int 1 si la direction est RIGHT
+     * -1 si la direction est LEFT
+     */
     int getDirHori(){
         if(direction ==0)
             return 1;
