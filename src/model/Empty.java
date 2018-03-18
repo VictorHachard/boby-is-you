@@ -10,6 +10,10 @@ package model;
  * @author Glaskani
  */
 public class Empty extends Element{
+    
+    /**
+     * 
+     */
     Empty(){
         super(TypeElements.EMPTY,Directions.RIGHT);
     }

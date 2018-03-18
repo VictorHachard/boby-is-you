@@ -72,15 +72,14 @@ public class Board {
      * @param y int
      */
     private void generateGrid(int x,int y){        
-            for(int j=0;j<y+2;j++){
-                listGrid.add(new ArrayList<>());
-                for(int i=0;i<x+2;i++)
-                    if(i==0 || j==0 || j==y+1 || i==x+1)
-                        listGrid.get(j).add(new Placement(new Unplayable()));
-                    else
-                        listGrid.get(j).add(new Placement(new Empty()));
-            }
-                    
+        for(int j=0;j<y+2;j++){
+            listGrid.add(new ArrayList<>());
+            for(int i=0;i<x+2;i++)
+                if(i==0 || j==0 || j==y+1 || i==x+1)
+                    listGrid.get(j).add(new Placement(new Unplayable()));
+                else
+                    listGrid.get(j).add(new Placement(new Empty()));
+        }           
     }
     
     //getters
@@ -139,6 +138,11 @@ public class Board {
         return sb.toString();
     }
     
+    /**
+     * 
+     * @param te
+     * @return 
+     */
     private List<Position> getPositionOf(TypeElements te){
         List<Position> lp = new ArrayList<>();
         
@@ -150,37 +154,62 @@ public class Board {
         return lp;
     }
     
+    /**
+     * 
+     * @return 
+     */
     private TypeElements getPlayerType(){
         return TypeElements.PLAYER1;
     }
     
+    /**
+     * 
+     * @param pos
+     * @param direction
+     * @param element 
+     */
+    void editPlacement(Position pos, Directions direction, TypeElements element) {
+        listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori())
+                .addElement(listGrid.get(pos.y).get(pos.x).get(element));
+        listGrid.get(pos.y).get(pos.x).removeElement(element);
+    }
+    
+    /**
+     * 
+     * @param direction 
+     */
     public void movePlayer(Directions direction){
         TypeElements player = getPlayerType();
         List<Position> lp = getPositionOf(player);
         
         for(Position pos:lp)
             if(pos.y+direction.getDirVer() < y && pos.x+direction.getDirHori() < x)
-                if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canAdd()){
-                    listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).addElement(listGrid.get(pos.y).get(pos.x).get(player));
-                    listGrid.get(pos.y).get(pos.x).removeElement(player);
-                } else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canPush()) {
+                if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canAdd()){ //verifie si il peut add la case suivante
+                    editPlacement(pos,direction,player);
+                    System.out.println("youpie");
+                } else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canPush()) { //verifie si il peut push la case suivante
                     push(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()),direction);
-                    listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).addElement(listGrid.get(pos.y).get(pos.x).get(player));
-                    listGrid.get(pos.y).get(pos.x).removeElement(player);
+                    editPlacement(pos,direction,player);
                 }
     }
-      
+    
+    /**
+     * Methode recurcive qui deplace un TypeElements d'un Elements dans le sens
+     * de la direction.
+     * @param pos Position, de l'element initial
+     * @param direction Directions, sens du déplacemnt 
+     * @return true ou flase
+     */
     private boolean push(Position pos,Directions direction) {
         if(pos.y+direction.getDirVer() < y && pos.x+direction.getDirHori() < x){
             if (!listGrid.get(pos.y).get(pos.x).canPush()){
                 if(push(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()),direction)){
                     for(Element e:listGrid.get(pos.y).get(pos.x).getElementsOf(Property.PUSH)){
-                        listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).addElement(listGrid.get(pos.y).get(pos.x).get(e.getTypeElements()));
-                        listGrid.get(pos.y).get(pos.x).removeElement(e.getTypeElements());
+                        editPlacement(pos,direction,e.getTypeElements());
                     }
                     return true;
                 }
-            }else if (listGrid.get(pos.y).get(pos.x).canAdd()) {
+            } else if (listGrid.get(pos.y).get(pos.x).canAdd()) {
                 return true;
             }
         }

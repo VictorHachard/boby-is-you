@@ -61,11 +61,11 @@ public class JavaBobyIsYou extends Application {
 //        launch(args);
         Board b = new Board("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\maps\\map1.txt");
         System.out.println( b.getAffichage());
-        b.movePlayer(Directions.RIGHT);
+        b.movePlayer(Directions.LEFT);
         System.out.println( b.getAffichage());
-        b.movePlayer(Directions.RIGHT);
+        b.movePlayer(Directions.LEFT);
         System.out.println( b.getAffichage());
-        b.movePlayer(Directions.RIGHT);
+        b.movePlayer(Directions.LEFT);
         System.out.println( b.getAffichage());
     }
 }
