@@ -28,7 +28,7 @@ public class Board {
      * Créé un Board en fonction du fileName.
      * @param fileName String
      */
-    Board(String fileName){
+    public Board(String fileName){
         listMove = new ArrayList<>();
         listGrid = new ArrayList<>();
         

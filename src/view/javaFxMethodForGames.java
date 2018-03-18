@@ -14,18 +14,6 @@ import javafx.scene.image.ImageView;
  */
 public class javaFxMethodForGames 
 {
-    /**
-     * This method move one image by 64 pixels
-     * @param image ImageView
-     * @param x the number of case that you move this image 
-     * @param y the 
-     */
-    public static void moveImageByCase(ImageView image,int x,int y)
-    {
-        x = x*64;
-        y = y*64;
-        image.setTranslateX(x);
-        image.setTranslateY(y);
-    }
+   
     
 }
