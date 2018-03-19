@@ -21,7 +21,7 @@ public class Display {
      * @param posy un entier qui indique la position sur l'axe des y 
      */
     public static void addImage(TypeElements name,Pane root,int posx,int posy) {
-        ImageView image = new ImageView(new Image(new File("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\images\\"+name+".png").toURI().toString()));
+        ImageView image = new ImageView(new Image(new File("C:\\Users\\Windows\\Documents\\NetBeansProjects\\BobyIsYou\\src\\images\\"+name+".png").toURI().toString()));
         image.setFitHeight(64);
         image.setFitWidth(64);
         moveImageByCase(image,posx,posy);

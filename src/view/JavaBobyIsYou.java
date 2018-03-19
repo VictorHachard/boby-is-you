@@ -36,7 +36,7 @@ public class JavaBobyIsYou extends Application {
 
     public void start(Stage primaryStage) throws IOException {
         
-        Board b = new Board("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\maps\\map1.txt");
+        Board b = new Board("C:\\Users\\Windows\\Documents\\NetBeansProjects\\BobyIsYou\\src\\maps\\map1.txt");
        
         Scene scene = initScene(b);
         primaryStage.setTitle("BabaIsYou");
@@ -58,14 +58,16 @@ public class JavaBobyIsYou extends Application {
     }
     
     public static void main(String[] args) {
-//        launch(args);
-        Board b = new Board("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\maps\\map1.txt");
-        System.out.println( b.getAffichage());
-        b.movePlayer(Directions.LEFT);
-        System.out.println( b.getAffichage());
-        b.movePlayer(Directions.LEFT);
-        System.out.println( b.getAffichage());
-        b.movePlayer(Directions.LEFT);
-        System.out.println( b.getAffichage());
+        launch(args);
+        //Board b = new Board("C:\\Users\\Windows\\Documents\\NetBeansProjects\\BobyIsYou\\src\\maps\\map1.txt");
+        //System.out.println( b.getAffichage());
+        //b.movePlayer(Directions.LEFT);
+        //System.out.println( b.getAffichage());
+        //b.movePlayer(Directions.LEFT);
+        //System.out.println( b.getAffichage());
+        //b.movePlayer(Directions.LEFT);
+        //System.out.println( b.getAffichage());
+        //b.movePlayer(Directions.UP);
+        //System.out.println( b.getAffichage());
     }
 }
