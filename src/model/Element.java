@@ -16,7 +16,7 @@ public class Element implements Observer {
      * 
      * @param typeElement TypeElements
      */
-    Element(TypeElements typeElement) {
+    public Element(TypeElements typeElement) {
         this.typeElement = typeElement;
         this.ltr = new ArrayList<>();
         this.direction = Directions.RIGHT;
@@ -31,6 +31,19 @@ public class Element implements Observer {
         this.typeElement = typeElement;
         this.ltr = new ArrayList<>();
         this.direction = Directions.RIGHT;
+        ltr.add(tr);
+    }
+    
+    /**
+     * 
+     * @param typeElement
+     * @param tr
+     * @param direction 
+     */
+    Element(TypeElements typeElement,Property tr,Directions direction) {
+        this.typeElement = typeElement;
+        this.ltr = new ArrayList<>();
+        this.direction = direction;
         ltr.add(tr);
     }
     
@@ -53,6 +66,15 @@ public class Element implements Observer {
         this.ltr = new ArrayList<>(e.ltr);
         this.typeElement = e.typeElement;
         this.direction = e.direction;
+    }
+    
+    public boolean equals(Object obj){
+        if (obj instanceof Element) {
+            Element e = (Element) obj;
+            return (e.getTypeElements() == this.getTypeElements() && e.getDirections() == this.getDirections());
+        } else {
+            return false;
+        }
     }
     
     //Getters
