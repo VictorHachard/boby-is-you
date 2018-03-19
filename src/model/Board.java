@@ -19,55 +19,55 @@ import static jdk.nashorn.internal.objects.NativeString.toUpperCase;
  * @author Glaskani
  */
 public class Board {
-    private List<String> listMove;
+    private List<Element> listAllElement;
     private List<List<Placement>> listGrid;
     private int x;
     private int y;
     
     /**
-     * Créé un Board en fonction du fileName.
-     * @param fileName String
+     * 
+     * @param map
+     * @throws ElementsNotFoundException 
      */
-    public Board(String fileName) { //regle
-        listMove = new ArrayList<>();
+    public Board(Maps map) throws ElementsNotFoundException {
         listGrid = new ArrayList<>();
+        listAllElement = new ArrayList<>();
         
-        /*try (BufferedReader buffer = new BufferedReader(new FileReader(fileName))) {
-            String nextLine;
-            //lecture de la premier ligne pour determiner et crée le board.
-            String line = buffer.readLine();
-            String[] size = line.split(" ");
-            this.x = Integer.parseInt(size[0])+2;
-            this.y = Integer.parseInt(size[1])+2;
-            generateGrid(Integer.parseInt(size[0]),Integer.parseInt(size[1]));
-            
-            //lecture de toutes les autres lignes pour ajouter les elments dans le board.
-            while ((nextLine = buffer.readLine()) != null) {
-                String[] parts = nextLine.split(" ");
-                int movingDirection = parts.length > 3  ? Integer.parseInt(parts[3]) : 0;
-                addPlacement(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), movingDirection, toUpperCase(parts[0]));
+        this.x = map.getSizeX();
+        this.y = map.getSizeY();
+        
+        generateGrid(x-2,y-2);
+        
+        for(int i=1;i<y-1;i++){
+            for(int j=1;j<x-1;j++){
+                List<Element> te =  map.getListElement(j,i);
+                for(int k=1;k<te.size();k++){
+                    addPlacement(j,i,te.get(te.size()-k));
+                }
             }
+        }
+        
+        //Ajout des regle pour la premier fois
+        ArrayList<Element> listTempsIs = new ArrayList<>();
+        /*
+        for(int i=1;i<y-1;i++){
+            for(int j=1;j<x-1;j++){
+                List<Element> te =  listGrid.get(j).get(i).getListeContenu();
+                for(Element e:te)
+                    if(e.getTypeElements()==TypeElements.IS) 
+                        //makoto
+                        for(Element o:this.listAllElement)
 
-            buffer.close(); 
-        } catch (IOException | ElementsNotFoundException ex) {
-            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+                 
+                    
+            }
         }*/
+        
+        //ajoute les regles
     }
     
     /**
-     * Crée un Board de la taille x, y.
-     * @param x int
-     * @param y int
-     */
-    public Board(int x, int y) {
-        listMove = new ArrayList<>();
-        listGrid = new ArrayList<>();
-
-        generateGrid(x, y);
-    } 
-    
-    /**
-     * Crée un Board de taille x,y et ajoute les elements injouable et EMPTY.
+     * Crée le Board de taille x,y et ajoute les elements injouable et EMPTY.
      * @param x int
      * @param y int
      */
@@ -108,16 +108,15 @@ public class Board {
         return this.listGrid;
     }
     
-    /**
-     * 
-     * @param x
-     * @param y
-     * @param d
-     * @param object
-     * @throws ElementsNotFoundException 
-     */
-    private void addPlacement(int x, int y, int d, String object) throws ElementsNotFoundException {
-        listGrid.get(y+1).get(x+1).addElement(new Element(TypeElements.fromString(object),Directions.fromString(d)));
+    private void addPlacement(int x, int y, Element object) throws ElementsNotFoundException {
+        for(Element e:this.listAllElement) {
+            if(e.equals(object)) {
+                listGrid.get(y).get(x).addElement(e);
+                return;
+            }
+        }
+        listGrid.get(y).get(x).addElement(object);
+        listAllElement.add(object);
     }
     
     /**
@@ -129,12 +128,11 @@ public class Board {
         
         for(List<Placement> lp:this.listGrid){
             for(Placement p:lp) {
-                sb.append(p.getAllElement().get(p.getAllElement().size()-1).getTypeElements().getLetter());
+                sb.append(p.getListeContenu().get(p.getListeContenu().size()-1).getTypeElements().getLetter());
                 sb.append("|");
             }
             sb.append('\n');
         }
-        
         return sb.toString();
     }
     
@@ -150,7 +148,6 @@ public class Board {
             for(int j=0;j<this.x;j++)
                 if(this.listGrid.get(i).get(j).findElements(te))
                     lp.add(new Position(j,i));
-        
         return lp;
     }
     

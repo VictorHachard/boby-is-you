@@ -28,7 +28,7 @@ public class Placement extends Subject {
      * Revois une liste d'Element.
      * @return ArrayListElement
      */
-    public ArrayList<Element> getListeContenu() {
+    public List<Element> getListeContenu() {
         return new ArrayList(this.listeContenu);
     }
     
@@ -95,19 +95,6 @@ public class Placement extends Subject {
             if(e.getTypeRule().contains(tr))
                 return true; 
         return false;
-    }
-    
-    /**
-     * 
-     * @return List<Element>
-     */
-    List<Element> getAllElement(){
-        List<Element> le = new ArrayList<>();
-        
-        for(Element e:this.listeContenu)
-            le.add(new Element(e));
-        
-        return le;
     }
     
     /**

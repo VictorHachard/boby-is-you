@@ -4,8 +4,9 @@ import exeptions.ElementsNotFoundException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import static java.lang.Math.abs;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,11 @@ public class Maps {
     
     private Map<Position, List<Element>> Element = new HashMap<>();
     
+    /**
+     * 
+     * @param fileName
+     * @throws ElementsNotFoundException 
+     */
     public Maps(String fileName) throws ElementsNotFoundException {
         
         try (BufferedReader buffer = new BufferedReader(new FileReader(fileName))) {
@@ -48,10 +54,20 @@ public class Maps {
         }    
     }
     
+    /**
+     * 
+     * @param x int, taille total de la map (aves les mur injouables).
+     * @param y int, taille total de la map (aves les mur injouables).
+     */
     public Maps(int x, int y) {
-        generateMap(x, y);
+        generateMap(x-2, y-2);
     }
 
+    /**
+     * 
+     * @param x
+     * @param y 
+     */
     private void generateMap(int x,int y) {        
         for(int j=0;j<y+2;j++){
             for(int i=0;i<x+2;i++)
@@ -70,7 +86,7 @@ public class Maps {
      * @param object
      * @throws ElementsNotFoundException 
      */
-    public void addMap(int x, int y, Directions directions, TypeElements object) throws ElementsNotFoundException {
+    public void addMap(int x, int y, Directions directions, TypeElements object) throws ElementsNotFoundException {       
         putObjects (Element, new Position(y,x), new Element(object,directions));
     }
     
@@ -98,7 +114,16 @@ public class Maps {
             temps = new ArrayList<>();
             typeElem.put(key, temps);
         }
+        else if (temps.contains(te))
+            return;
         temps.add(te);
+        
+        Collections.sort(temps, new Comparator<Element>() {
+            @Override
+            public int compare(Element e1, Element e2) {
+                return e1.getTypeElements().getPriority() - e2.getTypeElements().getPriority();
+            }
+        });
     }
     
     /**
@@ -153,13 +178,7 @@ public class Maps {
         for(int i=0;i<y;i++){
             for(int j=0;j<x;j++){
                 List<Element> te =  this.Element.get(new Position(i,j));
-                sb.append(te.get(te.size()-1).getTypeElements().getLetter());
-                /*for(int k=0;k<te.size();k++){
-                    sb.append(te.get(k).getTypeElements().getLetter());
-                        //for(int l=0;l<abs(te.size()-4);l++)
-                          //  sb.append("    ");*/
-                //}
-                sb.append("|");
+                sb.append(te.get(te.size()-1).getTypeElements().getLetter()).append("|");
             }
             sb.append('\n');
         }

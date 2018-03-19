@@ -43,11 +43,11 @@ public class JavaBobyIsYou extends Application {
 
     public void start(Stage primaryStage) throws IOException {
         
-        Board b = new Board("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\maps\\map1.txt");
+        //Board b = new Board("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\maps\\map1.txt");
        
-        Scene scene = initScene(b);
+        //Scene scene = initScene(b);
         primaryStage.setTitle("BabaIsYou");
-        primaryStage.setScene(scene);
+        //primaryStage.setScene(scene);
         primaryStage.show();
     }
     
@@ -68,10 +68,15 @@ public class JavaBobyIsYou extends Application {
 //        launch(args);
         //Board b = new Board("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\maps\\map1.txt");
         //System.out.println( b.getAffichage());
-        // b.movePlayer(Directions.RIGHT);
+        //b.movePlayer(Directions.RIGHT);
         
-        /*
+        
         Maps m = new Maps("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\maps\\map1.txt");
+        Board b = new Board(m);
+        System.out.println( b.getAffichage());
+        b.movePlayer(Directions.LEFT);
+        System.out.println( b.getAffichage());
+        /*
         System.out.println(m.getSizeX());
         
         List<Element> te2 =  m.getListElement(2, 6);
