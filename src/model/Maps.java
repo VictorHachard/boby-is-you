@@ -4,6 +4,7 @@ import exeptions.ElementsNotFoundException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import static java.lang.Math.abs;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +39,7 @@ public class Maps {
             while ((nextLine = buffer.readLine()) != null) {
                 String[] parts = nextLine.split(" ");
                 int movingDirection = parts.length > 3  ? Integer.parseInt(parts[3]) : 0;
-                addMap(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), Directions.fromString(movingDirection), TypeElements.fromString(toUpperCase(parts[0])));
+                addMap(Integer.parseInt(parts[1])+1, Integer.parseInt(parts[2])+1, Directions.fromString(movingDirection), TypeElements.fromString(toUpperCase(parts[0])));
             }
 
             buffer.close(); 
@@ -70,7 +71,7 @@ public class Maps {
      * @throws ElementsNotFoundException 
      */
     public void addMap(int x, int y, Directions directions, TypeElements object) throws ElementsNotFoundException {
-        putObjects (Element, new Position(x,y), new Element(object,directions));
+        putObjects (Element, new Position(y,x), new Element(object,directions));
     }
     
     /**
@@ -82,7 +83,7 @@ public class Maps {
      * @throws ElementsNotFoundException 
      */
     public void removeMap(int x, int y, Element elem) throws ElementsNotFoundException {
-        removeObjects (Element, new Position(x,y), elem);
+        removeObjects (Element, new Position(y,x), elem);
     }
     
     /**
@@ -113,17 +114,17 @@ public class Maps {
         }
         temps.remove(te);
     }
-    
+       
     //Getters
 
     /**
-     *
+     * Pour le public
      * @param x
      * @param y
      * @return 
      */
     public List<Element> getListElement(int x, int y) { 
-        return Element.get(new Position(x,y));
+        return Element.get(new Position(y,x));
     }
     
     /**
@@ -140,5 +141,29 @@ public class Maps {
      */
     public int getSizeY() {
         return this.y;
+    }
+    
+    /**
+     * Revois une chaine de charactére du Board.
+     * @return String
+     */
+    public String getAffichage(){
+        StringBuilder  sb = new StringBuilder();
+        
+        for(int i=0;i<y;i++){
+            for(int j=0;j<x;j++){
+                List<Element> te =  this.Element.get(new Position(i,j));
+                sb.append(te.get(te.size()-1).getTypeElements().getLetter());
+                /*for(int k=0;k<te.size();k++){
+                    sb.append(te.get(k).getTypeElements().getLetter());
+                        //for(int l=0;l<abs(te.size()-4);l++)
+                          //  sb.append("    ");*/
+                //}
+                sb.append("|");
+            }
+            sb.append('\n');
+        }
+        
+        return sb.toString();
     }
 }

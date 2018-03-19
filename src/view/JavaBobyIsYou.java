@@ -33,6 +33,7 @@ import javafx.stage.Stage;
 import model.Directions;
 import model.Element;
 import model.Maps;
+import model.Property;
 
 /*
  *
@@ -68,12 +69,23 @@ public class JavaBobyIsYou extends Application {
         //Board b = new Board("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\maps\\map1.txt");
         //System.out.println( b.getAffichage());
         // b.movePlayer(Directions.RIGHT);
-        Maps m = new Maps("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\maps\\map1.txt");
-        List<Element> te =  m.getListElement(2, 4);
-        m.addMap(2, 4, Directions.RIGHT, TypeElements.ICE);
-        m.removeMap(2, 4, te.get(0));
-        for(int i=0;i<te.size();i++)
-            System.out.println(te.get(i).getTypeElements().getElements());
         
+        /*
+        Maps m = new Maps("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\maps\\map1.txt");
+        System.out.println(m.getSizeX());
+        
+        List<Element> te2 =  m.getListElement(2, 6);
+        for(int i=0;i<te2.size();i++)
+            System.out.println("3 3 " + te2.get(i).getTypeElements().getElements());
+        m.addMap(2, 6, Directions.DOWN, TypeElements.ANNI);
+        te2 =  m.getListElement(2, 6);
+        for(int i=0;i<te2.size();i++)
+            System.out.println("3 3 " + te2.get(i).getTypeElements().getElements());
+                  m.removeMap(2,6, te2.get(2));
+        te2 =  m.getListElement(2, 6);
+        for(int i=0;i<te2.size();i++)
+            System.out.println("3 3 " + te2.get(i).getTypeElements().getElements());
+          
+        System.out.println(m.getAffichage());*/
     }
 }

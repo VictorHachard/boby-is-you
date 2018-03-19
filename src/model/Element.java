@@ -16,7 +16,7 @@ public class Element implements Observer {
      * 
      * @param typeElement TypeElements
      */
-    Element(TypeElements typeElement) {
+    public Element(TypeElements typeElement) {
         this.typeElement = typeElement;
         this.ltr = new ArrayList<>();
         this.direction = Directions.RIGHT;
