@@ -82,11 +82,7 @@ public class Placement extends Subject {
      * @return true ou false
      */
     boolean canAdd() {
-<<<<<<< HEAD
-        return !findRule(Property.STOP) || findRule(Property.PUSH); //demander makoto si le PUSH et utile
-=======
         return !findRule(Property.STOP) && !findRule(Property.PUSH);
->>>>>>> 5918d435494464f1f460897a45525efd0f90e6d3
     }
     
     /**
