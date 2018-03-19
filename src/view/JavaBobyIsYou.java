@@ -64,18 +64,19 @@ public class JavaBobyIsYou extends Application {
         return scene;
     }
     
-    public static void main(String[] args) throws ElementsNotFoundException {
+    public static void main(String[] args) throws ElementsNotFoundException, IOException {
 //        launch(args);
         //Board b = new Board("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\maps\\map1.txt");
         //System.out.println( b.getAffichage());
         //b.movePlayer(Directions.RIGHT);
         
-        
+        /*
         Maps m = new Maps("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\maps\\map1.txt");
         Board b = new Board(m);
         System.out.println( b.getAffichage());
         b.movePlayer(Directions.LEFT);
         System.out.println( b.getAffichage());
+        b.save("map4.txt");*/
         /*
         System.out.println(m.getSizeX());
         

@@ -1,24 +1,20 @@
 package model;
 
 import exeptions.ElementsNotFoundException;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import static jdk.nashorn.internal.objects.NativeString.toUpperCase;
 
 /**
  *
  * @author Glaskani
  */
 public class Board {
+    
     private List<Element> listAllElement;
     private List<List<Placement>> listGrid;
     private int x;
@@ -183,7 +179,6 @@ public class Board {
             if(pos.y+direction.getDirVer() < y && pos.x+direction.getDirHori() < x)
                 if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canAdd()){ //verifie si il peut add la case suivante
                     editPlacement(pos,direction,player);
-                    System.out.println("youpie");
                 } else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canPush()) { //verifie si il peut push la case suivante
                     push(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()),direction);
                     editPlacement(pos,direction,player);
@@ -215,36 +210,50 @@ public class Board {
     }
     
     /**
+     * Sauvegarde la partie actuel.
+     * @throws IOException 
+     */
+    public void save() throws IOException {
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("HH:mm");
+        String date = sdf.format(new Date());
+        save(date);
+    }
+    
+    /**
      * 
      * @param fileName
-     * @param board
      * @throws IOException 
-     *
-    public void save(String fileName) throws IOException {
-        
+     */
+    public void save(String fileName) throws IOException {   
     try {
         BufferedWriter save = new BufferedWriter(new FileWriter(new File(fileName)));
         //si le fichier n'existe pas, il est crée à la racine du projet.
         //save la taille du Board.
-        save.write(x + " " + y);
+        int x1 = this.x-2;
+        int y1 = this.y-2;
+        save.write(x1 + " " + y1);
         
         //save chaque element.
-        for (int i=0;i==x;i++) {
-            for (int j=0;j==y;j++) {
-               // board.read(i,j);  
-                int e = listGrid.get(i).get(j).getListeContenu().size();
-                for (int p=0;p==e;p++) {
-                    TypeElements name = listGrid.get(i).get(j).getListeContenu().get(e).getTypeElements();
-                    //movingDirection =
-                    //save.write(name + " " + i + " " + j + " " + movingDirection);
-                }           
-        }}
+        for(int i=1;i<y-1;i++){
+            for(int j=1;j<x-1;j++){
+                List<Element> te =  listGrid.get(i).get(j).getListeContenu();
+                for(int k=1;k<te.size();k++){
+                    save.newLine();
+                    int j1 = j-1;
+                    int i1 = i-1;
+                    String name = te.get(te.size()-k).getTypeElements().getElements().toLowerCase();
+                    int dir = te.get(te.size()-k).getDirections().getDir();
+                    if (dir == 0)
+                        save.write(name + " " + j1 + " " + i1);
+                    else save.write(name + " " + j1 + " " + i1 + " " + dir);
+                }
+            }
+        }
             
         save.close();
     }
     catch (IOException e) {
-        e.printStackTrace();
     }   
-    }*/
+    }
     
 }
