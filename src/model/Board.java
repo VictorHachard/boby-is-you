@@ -28,11 +28,11 @@ public class Board {
      * Créé un Board en fonction du fileName.
      * @param fileName String
      */
-    public Board(String fileName) {
+    public Board(String fileName) { //regle
         listMove = new ArrayList<>();
         listGrid = new ArrayList<>();
         
-        try (BufferedReader buffer = new BufferedReader(new FileReader(fileName))) {
+        /*try (BufferedReader buffer = new BufferedReader(new FileReader(fileName))) {
             String nextLine;
             //lecture de la premier ligne pour determiner et crée le board.
             String line = buffer.readLine();
@@ -51,7 +51,7 @@ public class Board {
             buffer.close(); 
         } catch (IOException | ElementsNotFoundException ex) {
             Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
     }
     
     /**

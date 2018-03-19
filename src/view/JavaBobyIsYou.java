@@ -1,7 +1,11 @@
 package view;
 
+import com.sun.javafx.scene.traversal.Direction;
+import exeptions.ElementsNotFoundException;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.event.ActionEvent;
@@ -27,6 +31,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.Directions;
+import model.Element;
+import model.Maps;
 
 /*
  *
@@ -57,15 +63,17 @@ public class JavaBobyIsYou extends Application {
         return scene;
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ElementsNotFoundException {
 //        launch(args);
-        Board b = new Board("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\maps\\map1.txt");
-        System.out.println( b.getAffichage());
-        b.movePlayer(Directions.LEFT);
-        System.out.println( b.getAffichage());
-        b.movePlayer(Directions.LEFT);
-        System.out.println( b.getAffichage());
-        b.movePlayer(Directions.LEFT);
-        System.out.println( b.getAffichage());
+        //Board b = new Board("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\maps\\map1.txt");
+        //System.out.println( b.getAffichage());
+        // b.movePlayer(Directions.RIGHT);
+        Maps m = new Maps("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\maps\\map1.txt");
+        List<Element> te =  m.getListElement(2, 4);
+        m.addMap(2, 4, Directions.RIGHT, TypeElements.ICE);
+        m.removeMap(2, 4, te.get(0));
+        for(int i=0;i<te.size();i++)
+            System.out.println(te.get(i).getTypeElements().getElements());
+        
     }
 }

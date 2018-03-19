@@ -102,7 +102,7 @@ public enum TypeElements {
      * Revois l'element sous la forme d'un String.
      * @return String
      */
-    String getElements() {
+    public String getElements() {
         return fromString;
     }
     
@@ -110,7 +110,7 @@ public enum TypeElements {
      * Revois l'element sous la forme d'un String à afficher en console.
      * @return String
      */
-    String getLetter(){
+    public String getLetter(){
         return stringConsole;
     }
     
