@@ -192,6 +192,41 @@ public class Maps {
         
         return sb.toString();
     }
+
+    /**
+     * Revois une liste vide ou avec des elements.
+     * @return ListTypeElements, les type elements obligatoires,
+     * si la liste est vide c'est qu'il ne manque rien,
+     * si il y a des type elments cela veut dire qu'il manque ces type elements.
+     * Element possible : PLAYER1, IS, WIN, TEXT_PLAYER1, TEXT_YOU.
+     */
+    public List<TypeElements> getForget() {
+        List<TypeElements> find = new ArrayList<>();
+        List<TypeElements> need = new ArrayList<>();
+        need.add(TypeElements.PLAYER1);
+        need.add(TypeElements.IS);
+        need.add(TypeElements.WIN);
+        need.add(TypeElements.TEXT_YOU);
+        need.add(TypeElements.TEXT_PLAYER1);
+        
+        //parcourire tout la map pour cree la liste find
+        for(int i=0;i<y;i++){
+            for(int j=0;j<x;j++){
+                List<Element> te =  this.Element.get(new Position(i,j));
+                for(int k=0;k<te.size();k++){
+                    for(TypeElements e:need)
+                        if (te.get(k).getTypeElements()==e)
+                            find.add(te.get(k).getTypeElements());
+                }
+            }
+        }
+        //supprimer des type element de find si ils sont dans need
+        for(TypeElements e:find)
+            if (need.contains(e))
+                find.remove(e);
+        //return liste de ce qui manque
+        return find; 
+    }
     
     /**
      * Sauvegarde la partie actuel, le nomde fichier sera la date et l'heure actuel.

@@ -82,7 +82,7 @@ public class JavaBobyIsYou extends Application {
         System.out.println( b.getAffichage());
         b.movePlayer(Directions.LEFT);
         System.out.println( b.getAffichage());
-        b.save("map4.txt");
+       // b.save("map4.txt");
         /*
         System.out.println(m.getSizeX());
         

@@ -53,15 +53,11 @@ public class Board {
                 List<Element> te =  listGrid.get(j).get(i).getListeContenu();
                 for(Element e:te)
                     if(e.getTypeElements()==TypeElements.IS) 
-                        //makoto
                         for(Element o:this.listAllElement)
-
-                 
-                    
+ 
             }
         }*/
-        
-        //ajoute les regles
+
     }
     
     /**
