@@ -8,10 +8,10 @@ public class SetupRule extends Element {
     
     /**
      * 
-     * @param te TypeElements
+     * @param te TypeElement
      * @param dir Directions
      */
-    public SetupRule(TypeElements te, Directions dir) {
+    public SetupRule(TypeElement te, Directions dir) {
         super(te, dir);
     }
     

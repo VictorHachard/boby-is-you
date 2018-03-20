@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import model.Board;
-import model.TypeElements;
+import model.TypeElement;
 
 /**
  *
@@ -20,7 +20,7 @@ public class Display {
      * @param posx un entier qui indique la position sur l'axe des x
      * @param posy un entier qui indique la position sur l'axe des y 
      */
-    public static void addImage(TypeElements name,Pane root,int posx,int posy) {
+    public static void addImage(TypeElement name,Pane root,int posx,int posy) {
         ImageView image = new ImageView(new Image(new File("C:\\Users\\Windows\\Documents\\NetBeansProjects\\BobyIsYou\\src\\images\\"+name+".png").toURI().toString()));
         //error clear les images plus utile
         image.setFitHeight(64);
@@ -51,7 +51,7 @@ public class Display {
         for(int i=0;i<board.getSizeX();i++) {
             for(int j=0;j<board.getSizeY();j++) {
                 for(int k=0;k<board.getListGrid().get(j).get(i).getListeContenu().size();k++) {   
-                    TypeElements objectName = board.getListGrid().get(j).get(i).getListeContenu().get(k).getTypeElements();
+                    TypeElement objectName = board.getListGrid().get(j).get(i).getListeContenu().get(k).getTypeElements();
                     addImage(objectName,root,i+1,j+1);
                 }
             }

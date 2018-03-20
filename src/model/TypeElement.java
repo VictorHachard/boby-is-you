@@ -1,10 +1,10 @@
 package model;
-import exeptions.ElementsNotFoundException;
+import exeptions.TypeElementNotFoundException;
 
 /*
  * @author Glaskani
  */
-public enum TypeElements {
+public enum TypeElement {
     
     /*
      * Convention 0 : fond,
@@ -73,7 +73,7 @@ public enum TypeElements {
      * @param stringConsole 
      * @param intType
      */
-    TypeElements(String fromString,String stringConsole, int intType) {
+    TypeElement(String fromString,String stringConsole, int intType) {
 		this.fromString = fromString;
                 this.stringConsole = stringConsole;
                 this.intType = intType;
@@ -83,17 +83,25 @@ public enum TypeElements {
      * Tranforme et revois un string en TypeElments.
      * @param element String
      * @return TypeElments
-     * @throws ElementsNotFoundException 
+     * @throws TypeElementNotFoundException Si l'erreur est throw cela return TypeElement EMPTY.
      */
-    static TypeElements fromString(String element) throws ElementsNotFoundException {
+    static TypeElement fromString(String element) throws TypeElementNotFoundException {
 
-        for(TypeElements type : TypeElements.values()) {
-            if (type.getElements().equals(element)) {
-                return type;
+        try {
+            for(TypeElement type : TypeElement.values()) {
+                if (type.getElements().equals(element)) {
+                    return type;
+                }
             }
+
+            throw new TypeElementNotFoundException();
         }
-        
-        throw new ElementsNotFoundException();
+        catch(TypeElementNotFoundException ex) {
+            System.out.println("NonFatalError : fromString in class TypeElements");
+            System.out.println("    TypeElements " + element + " was not found");
+            System.out.println("    " + element + " replaced by EMPTY");
+            return TypeElement.EMPTY; 
+        }
     }
 
     //Getters
@@ -123,11 +131,11 @@ public enum TypeElements {
     }
     
     /**
-     * Revois une liste de toutes les valeurs de TypeElements.
-     * @return TypeElements[]
+     * Revois une liste de toutes les valeurs de TypeElement.
+     * @return TypeElement[]
      */
-    public static TypeElements[] getAll(){
-        return TypeElements.values();
+    public static TypeElement[] getAll(){
+        return TypeElement.values();
     }
        
 }

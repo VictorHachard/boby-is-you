@@ -26,13 +26,20 @@ public enum Directions {
      * @return Directions, la direction en fonction de direction. 
      */
     static Directions fromString(int direction) {
-
-        for(Directions type : Directions.values()) {
-            if (type.getDir()==direction) {
-                return type;
+        try {
+            for(Directions type : Directions.values()) {
+                if (type.getDir()==direction) {
+                    return type;
+                }
             }
+            throw new IllegalArgumentException();
         }
-        throw new IllegalArgumentException();
+        catch (IllegalArgumentException e) {
+            System.out.println("NonFatalError : fromString in class Directions");
+            System.out.println("    int " + direction + " cannot be convert into a Directions");
+            System.out.println("    " + direction + " convert into RIGHT");
+            return Directions.RIGHT;
+        }
     }
     
     /**

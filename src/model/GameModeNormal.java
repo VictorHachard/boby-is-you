@@ -5,7 +5,7 @@
  */
 package model;
 
-import exeptions.ElementsNotFoundException;
+import exeptions.TypeElementNotFoundException;
 
 /**
  *
@@ -13,13 +13,11 @@ import exeptions.ElementsNotFoundException;
  */
 public class GameModeNormal extends GameMode {
     
-    public GameModeNormal(Maps map) throws ElementsNotFoundException {
+    public GameModeNormal(Maps map) throws TypeElementNotFoundException {
         super(map);
     }
 
     @Override
-    void lose() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    void lose() {}
     
 }

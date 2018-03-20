@@ -1,12 +1,14 @@
 package model;
 
-import exeptions.ElementsNotFoundException;
+import exeptions.TypeElementNotFoundException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -32,9 +34,9 @@ public class Maps {
     /**
      * Charge un fichier (fileName) et crée une Maps.
      * @param fileName String, nom du fichier à charger.
-     * @throws ElementsNotFoundException 
+     * @throws TypeElementNotFoundException 
      */
-    public Maps(String fileName) throws ElementsNotFoundException {
+    public Maps(String fileName) throws TypeElementNotFoundException {
         
         try (BufferedReader buffer = new BufferedReader(new FileReader(fileName))) {
             String nextLine;
@@ -49,7 +51,7 @@ public class Maps {
             while ((nextLine = buffer.readLine()) != null) {
                 String[] parts = nextLine.split(" ");
                 int movingDirection = parts.length > 3  ? Integer.parseInt(parts[3]) : 0;
-                addMap(Integer.parseInt(parts[1])+1, Integer.parseInt(parts[2])+1, Directions.fromString(movingDirection), TypeElements.fromString(toUpperCase(parts[0])));
+                addMap(Integer.parseInt(parts[1])+1, Integer.parseInt(parts[2])+1, Directions.fromString(movingDirection), TypeElement.fromString(toUpperCase(parts[0])));
             }
 
             buffer.close(); 
@@ -78,9 +80,9 @@ public class Maps {
         for(int j=0;j<y+2;j++){
             for(int i=0;i<x+2;i++)
                 if(i==0 || j==0 || j==y+1 || i==x+1)
-                    putObjects (Element, new Position(j,i), new Element(TypeElements.WALLINJOUABLE,Directions.RIGHT));
+                    putObjects (Element, new Position(j,i), new Element(TypeElement.WALLINJOUABLE,Directions.RIGHT));
                 else
-                    putObjects (Element, new Position(j,i), new Element(TypeElements.EMPTY,Directions.RIGHT));
+                    putObjects (Element, new Position(j,i), new Element(TypeElement.EMPTY,Directions.RIGHT));
         }           
     }
     
@@ -90,10 +92,10 @@ public class Maps {
      * @param x int, la case en abssice ou on ajoute l'object.
      * @param y int, la case en ordonnée ou on ajoute l'object.
      * @param directions Directions, la direction de l'object à ajouter.
-     * @param object TypeElements, object à ajouter.
-     * @throws ElementsNotFoundException 
+     * @param object TypeElement, object à ajouter.
+     * @throws TypeElementNotFoundException 
      */
-    public void addMap(int x, int y, Directions directions, TypeElements object) throws ElementsNotFoundException {       
+    public void addMap(int x, int y, Directions directions, TypeElement object) throws TypeElementNotFoundException {       
         putObjects (Element, new Position(y,x), new Element(object,directions));
     }
     
@@ -103,9 +105,9 @@ public class Maps {
      * @param x int, la case en abssice ou on supprime l'object.
      * @param y int, la case en ordonnée ou on supprime l'object.
      * @param elem Element, elme à supprimer.
-     * @throws ElementsNotFoundException 
+     * @throws TypeElementNotFoundException 
      */
-    public void removeMap(int x, int y, Element elem) throws ElementsNotFoundException {
+    public void removeMap(int x, int y, Element elem) throws TypeElementNotFoundException {
         removeObjects (Element, new Position(y,x), elem);
     }
     
@@ -151,13 +153,25 @@ public class Maps {
 
     /**
      * Revois une liste d'element en position demander.
-     * @param x int, la case en abssice ou se trouve la liste.
-     * @param y int, la case en ordonnée ou se trouve la liste.
+     * @param x int, la case en abssice ou se trouve la liste, en commensant par 0.
+     * @param y int, la case en ordonnée ou se trouve la liste, en commensant par 0.
      * @return ListElement, liste de tout les element de cette position.
      */
     public List<Element> getListElement(int x, int y) { 
-        return Element.get(new Position(y,x));
-    }
+        try {
+            if (x < 0 || x > this.x-1 || y < 0 || y > this.y-1) {
+                throw new ArithmeticException();
+            }
+            else return Element.get(new Position(y,x));
+        }
+        catch (ArithmeticException e) {
+            System.out.println("Error : getListElement in class Maps");
+            if (x < 0 || x > this.x-1)
+                System.out.println("    int " + x + " is out of the hashMap");
+            else System.out.println("    int " + y + " is out of the hashMap");
+            throw new RuntimeException();
+        }
+        }
     
     /**
      * Revois la taille du tableau board en abscisse.
@@ -200,28 +214,28 @@ public class Maps {
      * si il y a des type elments cela veut dire qu'il manque ces type elements.
      * Element possible : PLAYER1, IS, WIN, TEXT_PLAYER1, TEXT_YOU.
      */
-    public List<TypeElements> getForget() {
-        List<TypeElements> find = new ArrayList<>();
-        List<TypeElements> need = new ArrayList<>();
-        need.add(TypeElements.PLAYER1);
-        need.add(TypeElements.IS);
-        need.add(TypeElements.WIN);
-        need.add(TypeElements.TEXT_YOU);
-        need.add(TypeElements.TEXT_PLAYER1);
+    public List<TypeElement> getForget() {
+        List<TypeElement> find = new ArrayList<>();
+        List<TypeElement> need = new ArrayList<>();
+        need.add(TypeElement.PLAYER1);
+        need.add(TypeElement.IS);
+        need.add(TypeElement.WIN);
+        need.add(TypeElement.TEXT_YOU);
+        need.add(TypeElement.TEXT_PLAYER1);
         
         //parcourire tout la map pour cree la liste find
         for(int i=0;i<y;i++){
             for(int j=0;j<x;j++){
                 List<Element> te =  this.Element.get(new Position(i,j));
                 for(int k=0;k<te.size();k++){
-                    for(TypeElements e:need)
+                    for(TypeElement e:need)
                         if (te.get(k).getTypeElements()==e)
                             find.add(te.get(k).getTypeElements());
                 }
             }
         }
         //supprimer des type element de find si ils sont dans need
-        for(TypeElements e:find)
+        for(TypeElement e:find)
             if (need.contains(e))
                 find.remove(e);
         //return liste de ce qui manque
@@ -233,9 +247,8 @@ public class Maps {
      * @throws IOException 
      */
     public void save() throws IOException {
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("HH:mm");
-        String date = sdf.format(new Date());
-        save(date);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        save(dateFormat.format(new Date()) +".txt");
     }
     
     /**
@@ -258,8 +271,8 @@ public class Maps {
                 List<Element> te =  this.Element.get(new Position(i,j));
                 for(int k=0;k<te.size();k++){
                     //ne save pas les EMPTY
-                    if (!(te.get(k).getTypeElements()==TypeElements.EMPTY ||
-                          te.get(k).getTypeElements()==TypeElements.WALLINJOUABLE)) {
+                    if (!(te.get(k).getTypeElements()==TypeElement.EMPTY ||
+                          te.get(k).getTypeElements()==TypeElement.WALLINJOUABLE)) {
                         save.newLine();
                         int j1 = j-1;
                         int i1 = i-1;

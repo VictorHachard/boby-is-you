@@ -8,10 +8,10 @@ public class State extends SetupRule {
     
     /**
      * 
-     * @param te TypeElements
+     * @param te TypeElement
      * @param dir Directions
      */
-    public State(TypeElements te, Directions dir) {
+    public State(TypeElement te, Directions dir) {
         super(te, dir);
     }
     

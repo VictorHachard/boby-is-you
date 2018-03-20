@@ -1,16 +1,19 @@
 package exeptions;
 
+import model.TypeElement;
+
 /**
  *
  * @author Glaskani
  */
-public class ElementsNotFoundException extends Exception {
+public class TypeElementNotFoundException extends Exception {
 
     /**
      * Creates a new instance of <code>ExceptionsElements</code> without detail
      * message.
      */
-    public ElementsNotFoundException() {
+    public TypeElementNotFoundException() {
+                
     }
 
     /**
@@ -19,7 +22,7 @@ public class ElementsNotFoundException extends Exception {
      *
      * @param msg the detail message.
      */
-    public ElementsNotFoundException(String msg) {
+    public TypeElementNotFoundException(String msg) {
         super(msg);
     }
 }

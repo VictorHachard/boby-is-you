@@ -10,7 +10,7 @@ public class Unplayable extends Element {
      * 
      */
     public Unplayable() {
-        super(TypeElements.WALLINJOUABLE,Directions.RIGHT);
+        super(TypeElement.WALLINJOUABLE,Directions.RIGHT);
         super.ltr.add(Property.STOP);
     }
     

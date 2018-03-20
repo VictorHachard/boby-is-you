@@ -8,10 +8,10 @@ public class Is extends SetupRule {
     
     /**
      * 
-     * @param te TypeElements
+     * @param te TypeElement
      * @param dir Directions
      */
-    public Is(TypeElements te, Directions dir) {
+    public Is(TypeElement te, Directions dir) {
         super(te, dir);
     }
     

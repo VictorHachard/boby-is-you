@@ -5,7 +5,7 @@
  */
 package view;
 
-import model.TypeElements;
+import model.TypeElement;
 
 /**
  *
@@ -23,7 +23,7 @@ public class Editor {
         // pour avoir tout la liste des elment       
         //pour avjouter une elme board.addMaps( int x, int y, Element elem); retier board.removeMaps( int x, int y, Element elem);
         // pour avoir un element board.getListElement(int x ,int y); et apres tu joue avec les indice d'une liste pour avoir un elme de la liste
-        // pour avour une liste de tout les elments et bloc disponible board TypeElements[] all = TypeElements.getAll();
+        // pour avour une liste de tout les elments et bloc disponible board TypeElement[] all = TypeElement.getAll();
     }
     
 }

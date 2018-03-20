@@ -5,7 +5,7 @@
  */
 package model;
 
-import exeptions.ElementsNotFoundException;
+import exeptions.TypeElementNotFoundException;
 
 /**
  *
@@ -18,9 +18,9 @@ public abstract class GameMode {
     /**
      * 
      * @param map 
-     * @throws exeptions.ElementsNotFoundException 
+     * @throws exeptions.TypeElementNotFoundException 
      */
-    public GameMode(Maps map) throws ElementsNotFoundException {
+    public GameMode(Maps map) throws TypeElementNotFoundException {
         this.board = new Board(map);
     }
     

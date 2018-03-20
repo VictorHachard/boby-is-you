@@ -1,12 +1,13 @@
 package model;
 
-import exeptions.ElementsNotFoundException;
+import exeptions.TypeElementNotFoundException;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -24,9 +25,9 @@ public class Board {
     /**
      * 
      * @param map
-     * @throws ElementsNotFoundException 
+     * @throws TypeElementNotFoundException 
      */
-    public Board(Maps map) throws ElementsNotFoundException {
+    public Board(Maps map) throws TypeElementNotFoundException {
         listGrid = new ArrayList<>();
         listAllElement = new ArrayList<>();
         
@@ -40,7 +41,7 @@ public class Board {
                 List<Element> te =  map.getListElement(j,i);
                 //ne re load pas les EMPTY
                 for(int k=0;k<te.size();k++){
-                if (!(te.get(k).getTypeElements()==TypeElements.EMPTY))
+                if (!(te.get(k).getTypeElements()==TypeElement.EMPTY))
                     addPlacement(j,i,te.get(te.size()-k));
                 }
             }
@@ -53,7 +54,7 @@ public class Board {
             for(int j=1;j<x-1;j++){
                 List<Element> te =  listGrid.get(j).get(i).getListeContenu();
                 for(Element e:te)
-                    if(e.getTypeElements()==TypeElements.IS) 
+                    if(e.getTypeElements()==TypeElement.IS) 
                         for(Element o:this.listAllElement)
  
             }
@@ -103,7 +104,7 @@ public class Board {
         return this.listGrid;
     }
     
-    private void addPlacement(int x, int y, Element object) throws ElementsNotFoundException {
+    private void addPlacement(int x, int y, Element object) throws TypeElementNotFoundException {
         for(Element e:this.listAllElement) {
             if(e.equals(object)) {
                 listGrid.get(y).get(x).addElement(e);
@@ -136,7 +137,7 @@ public class Board {
      * @param te
      * @return 
      */
-    private List<Position> getPositionOf(TypeElements te){
+    private List<Position> getPositionOf(TypeElement te){
         List<Position> lp = new ArrayList<>();
         
         for(int i=0;i<this.y;i++)
@@ -150,8 +151,8 @@ public class Board {
      * 
      * @return 
      */
-    private TypeElements getPlayerType(){
-        return TypeElements.PLAYER1;
+    private TypeElement getPlayerType(){
+        return TypeElement.PLAYER1;
     }
     
     /**
@@ -160,9 +161,9 @@ public class Board {
      * @param direction
      * @param element 
      */
-    void editPlacement(Position pos, Directions direction, TypeElements element) {
+    void editPlacement(Position pos, Directions direction, TypeElement element) {
         listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori())
-                .addElement(listGrid.get(pos.y).get(pos.x).get(element));
+                .addElement(listGrid.get(pos.y).get(pos.x).getElements(element));
         listGrid.get(pos.y).get(pos.x).removeElement(element);
     }
     
@@ -171,7 +172,7 @@ public class Board {
      * @param direction 
      */
     public void movePlayer(Directions direction){
-        TypeElements player = getPlayerType();
+        TypeElement player = getPlayerType();
         List<Position> lp = getPositionOf(player);
         
         for(Position pos:lp)
@@ -185,8 +186,8 @@ public class Board {
     }
     
     /**
-     * Methode recurcive qui deplace un TypeElements d'un Elements dans le sens
-     * de la direction.
+     * Methode recurcive qui deplace un TypeElement d'un Elements dans le sens
+ de la direction.
      * @param pos Position, de l'element initial
      * @param direction Directions, sens du déplacemnt 
      * @return true ou flase
@@ -213,13 +214,8 @@ public class Board {
      * @throws IOException 
      */
     public void save() throws IOException {
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("HH:mm");
-        String date = sdf.format(new Date());
-        String[] dateSplit = date.split(":");
-        save(dateSplit[0] + "_" + dateSplit[1] +".txt");
-        System.out.println(date+".txt");
-        
-        
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        save(dateFormat.format(new Date()) +".txt");     
     }
     
     /**
@@ -242,7 +238,7 @@ public class Board {
                 List<Element> te =  listGrid.get(i).get(j).getListeContenu();
                 for(int k=0;k<te.size();k++){
                     //ne save pas les EMPTY
-                    if (!(te.get(k).getTypeElements()==TypeElements.EMPTY)) {
+                    if (!(te.get(k).getTypeElements()==TypeElement.EMPTY)) {
                         save.newLine();
                         int j1 = j-1;
                         int i1 = i-1;

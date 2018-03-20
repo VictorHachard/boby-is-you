@@ -15,6 +15,6 @@ public class Empty extends Element{
      * 
      */
     Empty(){
-        super(TypeElements.EMPTY,Directions.RIGHT);
+        super(TypeElement.EMPTY,Directions.RIGHT);
     }
 }
