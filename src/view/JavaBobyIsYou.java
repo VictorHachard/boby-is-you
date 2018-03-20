@@ -32,6 +32,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.Directions;
 import model.Element;
+import model.GameModeNormal;
 import model.Maps;
 import model.Property;
 
@@ -42,13 +43,15 @@ import model.Property;
 public class JavaBobyIsYou extends Application {
     
     static Board b;
+    private GameModeNormal g;
 
     public void start(Stage primaryStage) throws IOException, ElementsNotFoundException {
         
         Maps m = new Maps("C:\\Users\\Windows\\Documents\\NetBeansProjects\\BobyIsYou\\src\\maps\\map1.txt");
-        b = new Board(m);
+        g = new GameModeNormal(m);
+        //b = new Board(m);
        
-        Scene scene = initScene(b);
+        Scene scene = initScene(g.getBoard());
         primaryStage.setTitle("BabaIsYou");
         primaryStage.setScene(scene);
         primaryStage.show();
