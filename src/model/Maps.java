@@ -67,6 +67,8 @@ public class Maps {
      * @param y int, taille total de la map (aves les mur injouables).
      */
     public Maps(int x, int y) {
+        this.x = x;
+        this.y = y;
         generateMap(x-2, y-2);
     }
 
@@ -210,7 +212,7 @@ public class Maps {
                 List<Element> te =  this.Element.get(new Position(i,j));
                 sb.append(te.get(te.size()-1).getTypeElements().getLetter()).append("|");
             }
-            sb.append('\n');
+            sb.append("\n");
         }
         
         return sb.toString();
