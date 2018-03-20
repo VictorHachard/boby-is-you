@@ -27,7 +27,7 @@ public class Board {
      * @param map
      * @throws TypeElementNotFoundException 
      */
-    public Board(Maps map) throws TypeElementNotFoundException {
+    Board(Maps map) throws TypeElementNotFoundException {
         listGrid = new ArrayList<>();
         listAllElement = new ArrayList<>();
         
@@ -105,14 +105,31 @@ public class Board {
     }
     
     private void addPlacement(int x, int y, Element object) throws TypeElementNotFoundException {
-        for(Element e:this.listAllElement) {
-            if(e.equals(object)) {
-                listGrid.get(y).get(x).addElement(e);
-                return;
+        /*try {
+            if (x < 2 || x > this.x-3 || y < 2 || y > this.y-3) {
+                throw new ArithmeticException();
             }
+            else {*/
+                for(Element e:this.listAllElement) {
+                    if(e.equals(object)) {
+                        listGrid.get(y).get(x).addElement(e);
+                        return;
+                    }
+                }
+                listGrid.get(y).get(x).addElement(object);
+                listAllElement.add(object);
+            /*}
         }
-        listGrid.get(y).get(x).addElement(object);
-        listAllElement.add(object);
+        catch (ArithmeticException e) {
+            System.out.println("FatalError : addPlacement in class Board");
+            if ((x < 2 || x > this.x-3) && (y < 1 || y > this.y-3))
+                System.out.println("    int x,y " + x + "," + y + " are out of the Board (play zone)");
+            else if (y < 2 || y > this.y-3)
+                System.out.println("    int y " + y + " is out of the Board (play zone)");
+            else
+                System.out.println("    int x " + x + " is out of the Board (play zone)");
+            throw new ArithmeticException();
+        }*/
     }
     
     /**

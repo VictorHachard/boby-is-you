@@ -25,7 +25,7 @@ public class JavaBobyIsYou extends Application {
     public void start(Stage primaryStage) throws IOException, TypeElementNotFoundException {
         
         Maps m = new Maps("C:\\Users\\Windows\\Documents\\NetBeansProjects\\BobyIsYou\\src\\maps\\map1.txt");
-        System.out.println(m.getListElement(10, 0));
+        System.out.println(m.getListElement(0, 0));
         g = new GameModeNormal(m);
         this.b = g.getBoard();
         Scene scene = initScene(b);

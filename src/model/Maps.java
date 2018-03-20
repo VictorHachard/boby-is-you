@@ -165,13 +165,16 @@ public class Maps {
             else return Element.get(new Position(y,x));
         }
         catch (ArithmeticException e) {
-            System.out.println("Error : getListElement in class Maps");
-            if (x < 0 || x > this.x-1)
-                System.out.println("    int " + x + " is out of the hashMap");
-            else System.out.println("    int " + y + " is out of the hashMap");
-            throw new RuntimeException();
+            System.out.println("FatalError : getListElement in class Maps");
+            if ((x < 0 || x > this.x-1) && (y < 0 || y > this.y-1))
+                System.out.println("    int x,y " + x + "," + y + " are out of the hashMap");
+            else if (y < 0 || y > this.y-1)
+                System.out.println("    int y " + y + " is out of the hashMap");
+            else
+                System.out.println("    int x " + x + " is out of the hashMap");
+            throw new ArithmeticException();
         }
-        }
+    }
     
     /**
      * Revois la taille du tableau board en abscisse.

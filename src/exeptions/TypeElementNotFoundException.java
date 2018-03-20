@@ -1,7 +1,5 @@
 package exeptions;
 
-import model.TypeElement;
-
 /**
  *
  * @author Glaskani
