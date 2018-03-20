@@ -33,11 +33,13 @@ public class Board {
         this.y = map.getSizeY();
         
         generateGrid(x-2,y-2);
-        
+
         for(int i=1;i<y-1;i++){
             for(int j=1;j<x-1;j++){
                 List<Element> te =  map.getListElement(j,i);
-                for(int k=1;k<te.size();k++){
+                //ne re load pas les EMPTY
+                for(int k=0;k<te.size();k++){
+                if (!(te.get(k).getTypeElements()==TypeElements.EMPTY))
                     addPlacement(j,i,te.get(te.size()-k));
                 }
             }
@@ -237,15 +239,18 @@ public class Board {
         for(int i=1;i<y-1;i++){
             for(int j=1;j<x-1;j++){
                 List<Element> te =  listGrid.get(i).get(j).getListeContenu();
-                for(int k=1;k<te.size();k++){
-                    save.newLine();
-                    int j1 = j-1;
-                    int i1 = i-1;
-                    String name = te.get(te.size()-k).getTypeElements().getElements().toLowerCase();
-                    int dir = te.get(te.size()-k).getDirections().getDir();
-                    if (dir == 0)
-                        save.write(name + " " + j1 + " " + i1);
-                    else save.write(name + " " + j1 + " " + i1 + " " + dir);
+                for(int k=0;k<te.size();k++){
+                    //ne save pas les EMPTY
+                    if (!(te.get(k).getTypeElements()==TypeElements.EMPTY)) {
+                        save.newLine();
+                        int j1 = j-1;
+                        int i1 = i-1;
+                        String name = te.get(te.size()-k).getTypeElements().getElements().toLowerCase();
+                        int dir = te.get(te.size()-k).getDirections().getDir();
+                        if (dir == 0)
+                            save.write(name + " " + j1 + " " + i1);
+                        else save.write(name + " " + j1 + " " + i1 + " " + dir);
+                    }
                 }
             }
         }

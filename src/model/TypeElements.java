@@ -14,18 +14,18 @@ public enum TypeElements {
      */
     
     ROCK("ROCK","E_R ",2),
-    LAVA("LAVA","E_L ",0),
+    LAVA("LAVA","E_L ",1),
     WALL("WALL","E_W ",1),
     WALLINJOUABLE("WALLINJOUABLE","E_WI",0),
     ICE("ICE","E_I ",1),
     SPIKE("SPIKE","E_S ",1),
-    WATER("WATER","E_WA",0),
+    WATER("WATER","E_WA",1),
     ERROR("ERROR","E_ER",1),
     SKULL("SKULL","E_S ",2),
     GRASS("GRASS","E_G ",1),
     FLAG("FLAG","E_F ",2),
     EMPTY("EMPTY","    ",0),
-    METAL("METAL","E_M ",0),
+    METAL("METAL","E_M ",1),
     HEART("HEART","E_H ",2),
     
     PLAYER1("BABA","E_P ",3),

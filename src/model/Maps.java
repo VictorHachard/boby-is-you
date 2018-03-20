@@ -2,11 +2,15 @@ package model;
 
 import exeptions.ElementsNotFoundException;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -184,5 +188,56 @@ public class Maps {
         }
         
         return sb.toString();
+    }
+    
+    /**
+     * Sauvegarde la partie actuel.
+     * @throws IOException 
+     */
+    public void save() throws IOException {
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("HH:mm");
+        String date = sdf.format(new Date());
+        save(date);
+    }
+    
+    /**
+     * 
+     * @param fileName
+     * @throws IOException 
+     */
+    public void save(String fileName) throws IOException {   
+    try {
+        BufferedWriter save = new BufferedWriter(new FileWriter(new File(fileName)));
+        //si le fichier n'existe pas, il est crée à la racine du projet.
+        //save la taille du Board.
+        int x1 = this.x-2;
+        int y1 = this.y-2;
+        save.write(x1 + " " + y1);
+        
+        //save chaque element.
+        for(int i=0;i<y;i++){
+            for(int j=0;j<x;j++){
+                List<Element> te =  this.Element.get(new Position(i,j));
+                for(int k=0;k<te.size();k++){
+                    //ne save pas les EMPTY
+                    if (!(te.get(k).getTypeElements()==TypeElements.EMPTY ||
+                          te.get(k).getTypeElements()==TypeElements.WALLINJOUABLE)) {
+                        save.newLine();
+                        int j1 = j-1;
+                        int i1 = i-1;
+                        String name = te.get(te.size()-k).getTypeElements().getElements().toLowerCase();
+                        int dir = te.get(te.size()-k).getDirections().getDir();
+                        if (dir == 0)
+                            save.write(name + " " + j1 + " " + i1);
+                        else save.write(name + " " + j1 + " " + i1 + " " + dir);
+                    }
+                }
+            }
+        }
+            
+        save.close();
+    }
+    catch (IOException e) {
+    }   
     }
 }
