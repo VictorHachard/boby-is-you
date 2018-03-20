@@ -22,8 +22,8 @@ public enum Directions {
     
     /**
      * Tranforme et revois un int en Directions.
-     * @param direction int
-     * @return Directions
+     * @param direction int, 0,1,2 ou 3.
+     * @return Directions, la direction en fonction de direction. 
      */
     static Directions fromString(int direction) {
 
@@ -35,11 +35,9 @@ public enum Directions {
         throw new IllegalArgumentException();
     }
     
-    //Getters
-    
     /**
      * Revois la direction.
-     * @return int
+     * @return int, 0,1,2 ou 3.
      */
     int getDir(){
         return direction;

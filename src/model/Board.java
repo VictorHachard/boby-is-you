@@ -6,11 +6,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 /**
- *
+ * //TODO ergerister le dernier deplacment pour la save direction
  * @author Glaskani
  */
 public class Board {
@@ -214,7 +215,11 @@ public class Board {
     public void save() throws IOException {
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("HH:mm");
         String date = sdf.format(new Date());
-        save(date);
+        String[] dateSplit = date.split(":");
+        save(dateSplit[0] + "_" + dateSplit[1] +".txt");
+        System.out.println(date+".txt");
+        
+        
     }
     
     /**

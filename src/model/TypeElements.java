@@ -62,7 +62,7 @@ public enum TypeElements {
     
     IS("IS","I   ",3)
     ;
-
+    
     private final String fromString;
     private final String stringConsole;
     private final int intType;

@@ -22,6 +22,7 @@ public class Display {
      */
     public static void addImage(TypeElements name,Pane root,int posx,int posy) {
         ImageView image = new ImageView(new Image(new File("C:\\Users\\Windows\\Documents\\NetBeansProjects\\BobyIsYou\\src\\images\\"+name+".png").toURI().toString()));
+        //error clear les images plus utile
         image.setFitHeight(64);
         image.setFitWidth(64);
         moveImageByCase(image,posx,posy);
@@ -51,7 +52,7 @@ public class Display {
             for(int j=0;j<board.getSizeY();j++) {
                 for(int k=0;k<board.getListGrid().get(j).get(i).getListeContenu().size();k++) {   
                     TypeElements objectName = board.getListGrid().get(j).get(i).getListeContenu().get(k).getTypeElements();
-                    addImage(objectName,root,i+1,j+1);     
+                    addImage(objectName,root,i+1,j+1);
                 }
             }
         }
