@@ -30,8 +30,8 @@ public class Maps {
     private Map<Position, List<Element>> Element = new HashMap<>();
     
     /**
-     * 
-     * @param fileName
+     * Charge un fichier (fileName) et crée une Maps.
+     * @param fileName String, nom du fichier à charger.
      * @throws ElementsNotFoundException 
      */
     public Maps(String fileName) throws ElementsNotFoundException {
@@ -59,7 +59,8 @@ public class Maps {
     }
     
     /**
-     * 
+     * Crée une Maps de taille total x, y,
+     * et génere de base les MURINJOUABLE et les EMPTY. 
      * @param x int, taille total de la map (aves les mur injouables).
      * @param y int, taille total de la map (aves les mur injouables).
      */
@@ -68,7 +69,8 @@ public class Maps {
     }
 
     /**
-     * 
+     * Genére le dictionaire en fonction de x, y,
+     * et place de base les MURINJOUABLE et les EMPTY. 
      * @param x
      * @param y 
      */
@@ -83,11 +85,12 @@ public class Maps {
     }
     
     /**
-     * 
-     * @param x
-     * @param y
-     * @param directions
-     * @param object
+     * Ajoute un object à la map,
+     * prend en compte la prioriter de l'object avec les autres dans la liste.
+     * @param x int, la case en abssice ou on ajoute l'object.
+     * @param y int, la case en ordonnée ou on ajoute l'object.
+     * @param directions Directions, la direction de l'object à ajouter.
+     * @param object TypeElements, object à ajouter.
      * @throws ElementsNotFoundException 
      */
     public void addMap(int x, int y, Directions directions, TypeElements object) throws ElementsNotFoundException {       
@@ -96,10 +99,10 @@ public class Maps {
     
     /**
      * 
-     * @param x
-     * @param y
-     * @param directions
-     * @param object
+     * Supprimer un elem à la map,
+     * @param x int, la case en abssice ou on supprime l'object.
+     * @param y int, la case en ordonnée ou on supprime l'object.
+     * @param elem Element, elme à supprimer.
      * @throws ElementsNotFoundException 
      */
     public void removeMap(int x, int y, Element elem) throws ElementsNotFoundException {
@@ -107,10 +110,10 @@ public class Maps {
     }
     
     /**
-     * 
-     * @param typeElem
-     * @param key
-     * @param te 
+     * Ajoute un te à la MultiMaps.
+     * @param typeElem MapPosition, ListElement, la map pour ajouter te.
+     * @param key Position, la position ou on ajoute te. 
+     * @param te Elemnt, l'element que l'on veut ajouter.
      */
     private void putObjects(Map<Position, List<Element>> typeElem, Position key, Element te) {
         List<Element> temps = typeElem.get(key);
@@ -131,10 +134,10 @@ public class Maps {
     }
     
     /**
-     * 
-     * @param typeElem
-     * @param key
-     * @param te 
+     * Supprime un te à la MultiMaps.
+     * @param typeElem MapPosition, ListElement, la map pour supprime te.
+     * @param key Position, la position ou on supprime te. 
+     * @param te Elemnt, l'element que l'on veut supprime.
      */
     private void removeObjects(Map<Position, List<Element>> typeElem, Position key, Element te) {
         List<Element> temps = typeElem.get(key);
@@ -147,10 +150,10 @@ public class Maps {
     //Getters
 
     /**
-     * Pour le public
-     * @param x
-     * @param y
-     * @return 
+     * Revois une liste d'element en position demander.
+     * @param x int, la case en abssice ou se trouve la liste.
+     * @param y int, la case en ordonnée ou se trouve la liste.
+     * @return ListElement, liste de tout les element de cette position.
      */
     public List<Element> getListElement(int x, int y) { 
         return Element.get(new Position(y,x));
@@ -158,7 +161,7 @@ public class Maps {
     
     /**
      * Revois la taille du tableau board en abscisse.
-     * @return int
+     * @return int, taille du tableau en x.
      */
     public int getSizeX() {
         return this.x;
@@ -166,14 +169,14 @@ public class Maps {
     
     /**
      * Revois la taille du tableau board en ordonnée.
-     * @return int
+     * @return int, taille du tableau en y.
      */
     public int getSizeY() {
         return this.y;
     }
     
     /**
-     * Revois une chaine de charactére du Board.
+     * Revois une chaine de charactére de la Maps pour afficher la map en console.
      * @return String
      */
     public String getAffichage(){
@@ -191,7 +194,7 @@ public class Maps {
     }
     
     /**
-     * Sauvegarde la partie actuel.
+     * Sauvegarde la partie actuel, le nomde fichier sera la date et l'heure actuel.
      * @throws IOException 
      */
     public void save() throws IOException {
@@ -201,8 +204,8 @@ public class Maps {
     }
     
     /**
-     * 
-     * @param fileName
+     * Sauvegarde la partie actuel, le nomde fichier sera fileName.
+     * @param fileName String, le nom de fichier desirée.
      * @throws IOException 
      */
     public void save(String fileName) throws IOException {   
