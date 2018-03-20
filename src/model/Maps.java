@@ -95,7 +95,8 @@ public class Maps {
      * @param object TypeElement, object à ajouter.
      * @throws TypeElementNotFoundException 
      */
-    public void addMap(int x, int y, Directions directions, TypeElement object) throws TypeElementNotFoundException {       
+    public void addMap(int x, int y, Directions directions, TypeElement object) throws TypeElementNotFoundException {   
+        checkIfPosIsInMap(x,y,"addMap");
         putObjects (Element, new Position(y,x), new Element(object,directions));
     }
     
@@ -108,6 +109,7 @@ public class Maps {
      * @throws TypeElementNotFoundException 
      */
     public void removeMap(int x, int y, Element elem) throws TypeElementNotFoundException {
+        checkIfPosIsInMap(x,y,"removeMap");
         removeObjects (Element, new Position(y,x), elem);
     }
     
@@ -158,14 +160,18 @@ public class Maps {
      * @return ListElement, liste de tout les element de cette position.
      */
     public List<Element> getListElement(int x, int y) { 
+        checkIfPosIsInMap(x,y,"getListElement");
+        return Element.get(new Position(y,x));
+    }
+    
+    private void checkIfPosIsInMap(int x, int y, String name) {
         try {
             if (x < 0 || x > this.x-1 || y < 0 || y > this.y-1) {
                 throw new ArithmeticException();
             }
-            else return Element.get(new Position(y,x));
         }
         catch (ArithmeticException e) {
-            System.out.println("FatalError : getListElement in class Maps");
+            System.out.println("FatalError : " + name + " in class Maps");
             if ((x < 0 || x > this.x-1) && (y < 0 || y > this.y-1))
                 System.out.println("    int x,y " + x + "," + y + " are out of the hashMap");
             else if (y < 0 || y > this.y-1)
