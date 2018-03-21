@@ -5,9 +5,9 @@ import java.io.IOException;
 import static javafx.application.Application.launch;
 import javafx.scene.layout.Pane;
 import model.Board;
-import static view.Display.convertBoardToImage;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import model.Directions;
 import model.GameModeNormal;
@@ -21,54 +21,27 @@ public class JavaBobyIsYou extends Application {
     
     static Board b;
     private GameModeNormal g;
+    Scene scene;
 
+    @Override
     public void start(Stage primaryStage) throws IOException, TypeElementNotFoundException {
         
+        MenuInit d = new MenuInit(500, 500);
+        scene = d.scene;
+        
+        primaryStage.setTitle("BobyIsYou");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+    
+    
+    void test() throws TypeElementNotFoundException, IOException {
         Maps m = new Maps("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\maps\\map1.txt");
         g = new GameModeNormal(m);
         this.b = g.getBoard();
-        System.out.println(m.getAffichageAdresse());
-        System.out.println();
-        System.out.println(b.getAffichageAdresse());
-        /*Scene scene = initScene(b);
-        primaryStage.setTitle("BabaIsYou");
-        primaryStage.setScene(scene);
-        primaryStage.show();*/
+        Display d = new Display(b);
+        Scene scene = d.scene;
     }
-    
-    
-    /**
-     * cree une scene a partir d'un objet map
-     * @param board
-     * @return Scene
-     */
-    public static Scene initScene(Board board) {
-        Pane root =new Pane();
-        convertBoardToImage(board,root);  
-        Scene scene = new Scene(root, (board.getSizeX())*64, (board.getSizeY())*64);
-        scene.setOnKeyPressed(e -> {
-            switch (e.getCode()) {
-                case UP:
-                    b.movePlayer(Directions.UP);
-                    break;
-                case DOWN:
-                    b.movePlayer(Directions.DOWN);
-                    break;
-                case RIGHT:
-                    b.movePlayer(Directions.RIGHT);
-                    break;
-                case LEFT:
-                    b.movePlayer(Directions.LEFT);
-                    break;
-                default :
-                    //NE RIEN FAIRE
-            }
-            convertBoardToImage(board,root);
-            e.consume();
-        });
-        return scene;
-    }
-    
     
     /**
      *
@@ -77,10 +50,6 @@ public class JavaBobyIsYou extends Application {
      * @throws IOException
      */
     public static void main(String[] args) throws TypeElementNotFoundException, IOException {
-        
-        
         launch(args);
-        //Maps m = new Maps("C:\\Users\\Windows\\Documents\\NetBeansProjects\\BobyIsYou\\src\\maps\\map1.txt");
-        //System.out.println(m.getAffichage());
     }
 }

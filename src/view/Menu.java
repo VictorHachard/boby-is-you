@@ -5,13 +5,21 @@
  */
 package view;
 
+import java.util.Arrays;
 import java.util.List;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 /**
  *
  * @author Glaskani
  */
-class Action {
+public abstract class Menu {
+
+   
     
+    
+ 
     
 }
