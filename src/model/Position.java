@@ -19,6 +19,11 @@ public class Position {
         this.y = y;
     }
     
+    /**
+     * 
+     * @return 
+     */
+    @Override
     public int hashCode(){
         int hashcode = 0;
         hashcode = x;
@@ -26,6 +31,14 @@ public class Position {
         return hashcode;
     }
      
+    /**
+     * Compare deux Positions en fonction de x et y,
+     * return true si x et y sont égeaux,
+     * return false si x et y ne sont pas egeaux.
+     * @param obj Position à comparer.
+     * @return boolean
+     */
+    @Override
     public boolean equals(Object obj){
         if (obj instanceof Position) {
             Position p = (Position) obj;

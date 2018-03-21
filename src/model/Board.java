@@ -1,16 +1,25 @@
 package model;
 
-import exeptions.ElementsNotFoundException;
+import exeptions.TypeElementNotFoundException;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import logs.Log;
+import static logs.Log.log;
+import view.JavaBobyIsYou;
 
 /**
- *
+ * //TODO ergerister le dernier deplacment pour la save direction
  * @author Glaskani
  */
 public class Board {
@@ -19,25 +28,29 @@ public class Board {
     private List<List<Placement>> listGrid;
     private int x;
     private int y;
+    private static final Logger log = Logger.getLogger(JavaBobyIsYou.class.getName());
     
     /**
      * 
      * @param map
-     * @throws ElementsNotFoundException 
+     * @throws TypeElementNotFoundException 
      */
-    public Board(Maps map) throws ElementsNotFoundException {
+    Board(Maps map) throws TypeElementNotFoundException, IOException {
         listGrid = new ArrayList<>();
-        listAllElement = new ArrayList<>();
+        listAllElement = new ArrayList<>();      
         
         this.x = map.getSizeX();
         this.y = map.getSizeY();
         
+        log.log(Level.INFO, "Message d'information");
         generateGrid(x-2,y-2);
-        
+
         for(int i=1;i<y-1;i++){
             for(int j=1;j<x-1;j++){
                 List<Element> te =  map.getListElement(j,i);
-                for(int k=1;k<te.size();k++){
+                //ne re load pas les EMPTY
+                for(int k=0;k<te.size();k++){
+                if (!(te.get(k).getTypeElements()==TypeElement.EMPTY))
                     addPlacement(j,i,te.get(te.size()-k));
                 }
             }
@@ -50,16 +63,12 @@ public class Board {
             for(int j=1;j<x-1;j++){
                 List<Element> te =  listGrid.get(j).get(i).getListeContenu();
                 for(Element e:te)
-                    if(e.getTypeElements()==TypeElements.IS) 
-                        //makoto
+                    if(e.getTypeElements()==TypeElement.IS) 
                         for(Element o:this.listAllElement)
-
-                 
-                    
+ 
             }
         }*/
-        
-        //ajoute les regles
+
     }
     
     /**
@@ -104,15 +113,40 @@ public class Board {
         return this.listGrid;
     }
     
-    private void addPlacement(int x, int y, Element object) throws ElementsNotFoundException {
-        for(Element e:this.listAllElement) {
-            if(e.equals(object)) {
-                listGrid.get(y).get(x).addElement(e);
-                return;
+    /**
+     * Revois la liste contenant Placement.
+     * @return ListListPlacement
+     */
+    List<Element> getListAllElement() {
+        return this.listAllElement;
+    }
+    
+    private void addPlacement(int x, int y, Element object) throws TypeElementNotFoundException {
+        /*try {
+            if (x < 2 || x > this.x-3 || y < 2 || y > this.y-3) {
+                throw new ArithmeticException();
             }
+            else {*/
+                for(Element e:this.listAllElement) {
+                    if(e.equals(object)) {
+                        listGrid.get(y).get(x).addElement(e);
+                        return;
+                    }
+                }
+                listGrid.get(y).get(x).addElement(object);
+                listAllElement.add(object);
+            /*}
         }
-        listGrid.get(y).get(x).addElement(object);
-        listAllElement.add(object);
+        catch (ArithmeticException e) {
+            System.out.println("FatalError : addPlacement in class Board");
+            if ((x < 2 || x > this.x-3) && (y < 1 || y > this.y-3))
+                System.out.println("    int x,y " + x + "," + y + " are out of the Board (play zone)");
+            else if (y < 2 || y > this.y-3)
+                System.out.println("    int y " + y + " is out of the Board (play zone)");
+            else
+                System.out.println("    int x " + x + " is out of the Board (play zone)");
+            throw new ArithmeticException();
+        }*/
     }
     
     /**
@@ -137,7 +171,7 @@ public class Board {
      * @param te
      * @return 
      */
-    private List<Position> getPositionOf(TypeElements te){
+    private List<Position> getPositionOf(TypeElement te){
         List<Position> lp = new ArrayList<>();
         
         for(int i=0;i<this.y;i++)
@@ -151,8 +185,8 @@ public class Board {
      * 
      * @return 
      */
-    private TypeElements getPlayerType(){
-        return TypeElements.PLAYER1;
+    private TypeElement getPlayerType(){
+        return TypeElement.PLAYER1;
     }
     
     /**
@@ -161,9 +195,9 @@ public class Board {
      * @param direction
      * @param element 
      */
-    void editPlacement(Position pos, Directions direction, TypeElements element) {
+    void editPlacement(Position pos, Directions direction, TypeElement element) {
         listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori())
-                .addElement(listGrid.get(pos.y).get(pos.x).get(element));
+                .addElement(listGrid.get(pos.y).get(pos.x).getElements(element));
         listGrid.get(pos.y).get(pos.x).removeElement(element);
     }
     
@@ -172,7 +206,7 @@ public class Board {
      * @param direction 
      */
     public void movePlayer(Directions direction){
-        TypeElements player = getPlayerType();
+        TypeElement player = getPlayerType();
         List<Position> lp = getPositionOf(player);
         
         for(Position pos:lp)
@@ -186,8 +220,8 @@ public class Board {
     }
     
     /**
-     * Methode recurcive qui deplace un TypeElements d'un Elements dans le sens
-     * de la direction.
+     * Methode recurcive qui deplace un TypeElement d'un Elements dans le sens
+ de la direction.
      * @param pos Position, de l'element initial
      * @param direction Directions, sens du déplacemnt 
      * @return true ou flase
@@ -214,9 +248,8 @@ public class Board {
      * @throws IOException 
      */
     public void save() throws IOException {
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("HH:mm");
-        String date = sdf.format(new Date());
-        save(date);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        save(dateFormat.format(new Date()) +".txt");     
     }
     
     /**
@@ -237,15 +270,18 @@ public class Board {
         for(int i=1;i<y-1;i++){
             for(int j=1;j<x-1;j++){
                 List<Element> te =  listGrid.get(i).get(j).getListeContenu();
-                for(int k=1;k<te.size();k++){
-                    save.newLine();
-                    int j1 = j-1;
-                    int i1 = i-1;
-                    String name = te.get(te.size()-k).getTypeElements().getElements().toLowerCase();
-                    int dir = te.get(te.size()-k).getDirections().getDir();
-                    if (dir == 0)
-                        save.write(name + " " + j1 + " " + i1);
-                    else save.write(name + " " + j1 + " " + i1 + " " + dir);
+                for(int k=0;k<te.size();k++){
+                    //ne save pas les EMPTY
+                    if (!(te.get(k).getTypeElements()==TypeElement.EMPTY)) {
+                        save.newLine();
+                        int j1 = j-1;
+                        int i1 = i-1;
+                        String name = te.get(te.size()-k).getTypeElements().getElements().toLowerCase();
+                        int dir = te.get(te.size()-k).getDirections().getDir();
+                        if (dir == 0)
+                            save.write(name + " " + j1 + " " + i1);
+                        else save.write(name + " " + j1 + " " + i1 + " " + dir);
+                    }
                 }
             }
         }

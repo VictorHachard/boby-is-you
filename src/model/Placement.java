@@ -53,22 +53,10 @@ public class Placement extends Subject {
      * 
      * @param e 
      */
-    void removeElement(TypeElements e){
+    void removeElement(TypeElement e){
             listeContenu.remove(getElements(e));
     }
-    
-    /**
-     * Revois l'Element ??
-     * @param te TypeElements
-     * @return Element ou null
-     */
-    Element get(TypeElements te) {
-        for(Element e:this.listeContenu)
-            if(e.getTypeElements()==te)
-                return e;
-        return null;
-    }
-    
+       
     /**
      * Revois true si on peux push un element.
      * @return true ou false
@@ -102,7 +90,7 @@ public class Placement extends Subject {
      * @param te
      * @return 
      */
-    boolean findElements(TypeElements te){
+    boolean findElements(TypeElement te){
         for(Element e:this.listeContenu)
             if(e.getTypeElements()==te)
                 return true;
@@ -114,7 +102,7 @@ public class Placement extends Subject {
      * @param te
      * @return 
      */
-    Element getElements(TypeElements te){
+    Element getElements(TypeElement te){
         for(Element e:this.listeContenu)
             if(e.getTypeElements()==te)
                 return e;

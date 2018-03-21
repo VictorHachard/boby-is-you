@@ -8,15 +8,15 @@ import java.util.ArrayList;
  */
 public class Element implements Observer {
     
-    protected final TypeElements typeElement;
+    protected final TypeElement typeElement;
     protected ArrayList<Property> ltr; //liste de regle
     protected Directions direction;
     
     /**
      * 
-     * @param typeElement TypeElements
+     * @param typeElement TypeElement
      */
-    public Element(TypeElements typeElement) {
+    public Element(TypeElement typeElement) {
         this.typeElement = typeElement;
         this.ltr = new ArrayList<>();
         this.direction = Directions.RIGHT;
@@ -24,10 +24,10 @@ public class Element implements Observer {
     
     /**
      * 
-     * @param typeElement TypeElements
+     * @param typeElement TypeElement
      * @param tr Property
      */
-    Element(TypeElements typeElement,Property tr) {
+    Element(TypeElement typeElement,Property tr) {
         this.typeElement = typeElement;
         this.ltr = new ArrayList<>();
         this.direction = Directions.RIGHT;
@@ -40,7 +40,7 @@ public class Element implements Observer {
      * @param tr
      * @param direction 
      */
-    Element(TypeElements typeElement,Property tr,Directions direction) {
+    Element(TypeElement typeElement,Property tr,Directions direction) {
         this.typeElement = typeElement;
         this.ltr = new ArrayList<>();
         this.direction = direction;
@@ -49,10 +49,10 @@ public class Element implements Observer {
     
     /**
      * 
-     * @param typeElement TypeElements
+     * @param typeElement TypeElement
      * @param direction Directions
      */
-    protected Element(TypeElements typeElement,Directions direction) {
+    protected Element(TypeElement typeElement,Directions direction) {
         this.typeElement = typeElement;
         this.ltr = new ArrayList<>();
         this.direction = direction;
@@ -83,7 +83,7 @@ public class Element implements Observer {
      * Revois le type de l'element.
      * @return TypeElement
      */
-    public TypeElements getTypeElements() {
+    public TypeElement getTypeElements() {
         return this.typeElement;
     }
     

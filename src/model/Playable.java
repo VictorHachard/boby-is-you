@@ -8,10 +8,10 @@ public class Playable extends Element {
     
     /**
      * 
-     * @param te TypeElements
+     * @param te TypeElement
      * @param dir Directions
      */
-    public Playable(TypeElements te, Directions dir) {
+    public Playable(TypeElement te, Directions dir) {
         super(te, dir);
     }
     

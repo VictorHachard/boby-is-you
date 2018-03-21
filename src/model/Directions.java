@@ -22,24 +22,29 @@ public enum Directions {
     
     /**
      * Tranforme et revois un int en Directions.
-     * @param direction int
-     * @return Directions
+     * @param direction int, 0,1,2 ou 3.
+     * @return Directions, la direction en fonction de direction. 
      */
     static Directions fromString(int direction) {
-
-        for(Directions type : Directions.values()) {
-            if (type.getDir()==direction) {
-                return type;
+        try {
+            for(Directions type : Directions.values()) {
+                if (type.getDir()==direction) {
+                    return type;
+                }
             }
+            throw new IllegalArgumentException();
         }
-        throw new IllegalArgumentException();
+        catch (IllegalArgumentException e) {
+            System.out.println("NonFatalError : fromString in class Directions");
+            System.out.println("    int " + direction + " cannot be convert into a Directions");
+            System.out.println("    " + direction + " convert into RIGHT");
+            return Directions.RIGHT;
+        }
     }
-    
-    //Getters
     
     /**
      * Revois la direction.
-     * @return int
+     * @return int, 0,1,2 ou 3.
      */
     int getDir(){
         return direction;
