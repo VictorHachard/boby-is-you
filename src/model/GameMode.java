@@ -1,6 +1,7 @@
 package model;
 
 import exeptions.TypeElementNotFoundException;
+import java.io.IOException;
 
 /**
  *
@@ -15,7 +16,7 @@ public abstract class GameMode {
      * @param map 
      * @throws exeptions.TypeElementNotFoundException 
      */
-    public GameMode(Maps map) throws TypeElementNotFoundException {
+    public GameMode(Maps map) throws TypeElementNotFoundException, IOException {
         this.board = new Board(map);
     }
     

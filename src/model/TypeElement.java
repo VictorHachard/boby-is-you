@@ -1,5 +1,6 @@
 package model;
 import exeptions.TypeElementNotFoundException;
+import java.util.logging.Logger;
 
 /*
  * @author Glaskani
@@ -62,7 +63,7 @@ public enum TypeElement {
     
     IS("IS","I   ",3)
     ;
-    
+
     private final String fromString;
     private final String stringConsole;
     private final int intType;
@@ -74,9 +75,9 @@ public enum TypeElement {
      * @param intType
      */
     TypeElement(String fromString,String stringConsole, int intType) {
-		this.fromString = fromString;
-                this.stringConsole = stringConsole;
-                this.intType = intType;
+	this.fromString = fromString;
+        this.stringConsole = stringConsole;
+        this.intType = intType;
     }
     
     /**

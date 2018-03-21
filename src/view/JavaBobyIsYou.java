@@ -2,6 +2,7 @@ package view;
 
 import exeptions.TypeElementNotFoundException;
 import java.io.IOException;
+import java.util.logging.*;
 import static javafx.application.Application.launch;
 import javafx.scene.layout.Pane;
 import model.Board;
@@ -67,6 +68,7 @@ public class JavaBobyIsYou extends Application {
         return scene;
     }
     
+    
     /**
      *
      * @param args
@@ -74,8 +76,10 @@ public class JavaBobyIsYou extends Application {
      * @throws IOException
      */
     public static void main(String[] args) throws TypeElementNotFoundException, IOException {
-        //launch(args);
-        Maps m = new Maps("C:\\Users\\Windows\\Documents\\NetBeansProjects\\BobyIsYou\\src\\maps\\map1.txt");
-        System.out.println(m.getAffichage());
+        
+        
+        launch(args);
+        //Maps m = new Maps("C:\\Users\\Windows\\Documents\\NetBeansProjects\\BobyIsYou\\src\\maps\\map1.txt");
+        //System.out.println(m.getAffichage());
     }
 }

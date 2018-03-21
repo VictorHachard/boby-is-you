@@ -1,6 +1,7 @@
 package model;
 
 import exeptions.TypeElementNotFoundException;
+import java.io.IOException;
 
 /**
  *
@@ -8,7 +9,7 @@ import exeptions.TypeElementNotFoundException;
  */
 public class GameModeNormal extends GameMode {
     
-    public GameModeNormal(Maps map) throws TypeElementNotFoundException {
+    public GameModeNormal(Maps map) throws TypeElementNotFoundException, IOException {
         super(map);
     }
 

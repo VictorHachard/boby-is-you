@@ -10,6 +10,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import logs.Log;
+import static logs.Log.log;
+import view.JavaBobyIsYou;
 
 /**
  * //TODO ergerister le dernier deplacment pour la save direction
@@ -21,15 +28,22 @@ public class Board {
     private List<List<Placement>> listGrid;
     private int x;
     private int y;
+    private Logger log;
     
     /**
      * 
      * @param map
      * @throws TypeElementNotFoundException 
      */
-    Board(Maps map) throws TypeElementNotFoundException {
+    Board(Maps map) throws TypeElementNotFoundException, IOException {
         listGrid = new ArrayList<>();
         listAllElement = new ArrayList<>();
+        
+        log = Logger.getLogger(JavaBobyIsYou.class.getName());
+        FileHandler fh = new FileHandler("myLog.txt");
+        fh.setFormatter(new SimpleFormatter());
+        log.addHandler(fh);
+        
         
         this.x = map.getSizeX();
         this.y = map.getSizeY();
@@ -75,6 +89,7 @@ public class Board {
                     listGrid.get(j).add(new Placement(new Unplayable()));
                 else
                     listGrid.get(j).add(new Placement(new Empty()));
+            log.log(Level.WARNING," le message ");
         }           
     }
     
@@ -102,6 +117,14 @@ public class Board {
      */
     public List<List<Placement>> getListGrid() {
         return this.listGrid;
+    }
+    
+    /**
+     * Revois la liste contenant Placement.
+     * @return ListListPlacement
+     */
+    List<Element> getListAllElement() {
+        return this.listAllElement;
     }
     
     private void addPlacement(int x, int y, Element object) throws TypeElementNotFoundException {

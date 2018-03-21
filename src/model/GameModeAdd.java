@@ -1,6 +1,7 @@
 package model;
 
 import exeptions.TypeElementNotFoundException;
+import java.io.IOException;
 
 /**
  *
@@ -17,7 +18,7 @@ public class GameModeAdd extends GameMode {
      * @param time
      * @throws TypeElementNotFoundException 
      */
-    public GameModeAdd(Maps map,double time) throws TypeElementNotFoundException {
+    public GameModeAdd(Maps map,double time) throws TypeElementNotFoundException, IOException {
         super(map);
         this.time = time;
         lose();
@@ -29,7 +30,7 @@ public class GameModeAdd extends GameMode {
      * @param limitedDeplacement
      * @throws TypeElementNotFoundException 
      */
-    public GameModeAdd(Maps map,int limitedDeplacement) throws TypeElementNotFoundException {
+    public GameModeAdd(Maps map,int limitedDeplacement) throws TypeElementNotFoundException, IOException {
         super(map);
         this.limitedDeplacement = limitedDeplacement;
         lose();
