@@ -16,8 +16,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static jdk.nashorn.internal.objects.NativeString.toUpperCase;
 
 /**
@@ -30,6 +28,9 @@ public class Maps {
     private int y;
     
     private Map<Position, List<Element>> Element = new HashMap<>();
+    private ArrayList<Element> listAllElement;
+    private Element unplayable = new Element(TypeElement.WALLINJOUABLE,Directions.RIGHT);
+    private Element empty = new Element(TypeElement.EMPTY,Directions.RIGHT);
     
     /**
      * Charge un fichier (fileName) et crée une Maps.
@@ -37,6 +38,7 @@ public class Maps {
      * @throws TypeElementNotFoundException 
      */
     public Maps(String fileName) throws TypeElementNotFoundException {
+        listAllElement = new ArrayList<>();
         
         try (BufferedReader buffer = new BufferedReader(new FileReader(fileName))) {
             String nextLine;
@@ -51,12 +53,16 @@ public class Maps {
             while ((nextLine = buffer.readLine()) != null) {
                 String[] parts = nextLine.split(" ");
                 int movingDirection = parts.length > 3  ? Integer.parseInt(parts[3]) : 0;
-                addMap(Integer.parseInt(parts[1])+1, Integer.parseInt(parts[2])+1, Directions.fromString(movingDirection), TypeElement.fromString(toUpperCase(parts[0])));
+                addMap(Integer.parseInt(parts[1])+1,
+                        Integer.parseInt(parts[2])+1,
+                        new Element(TypeElement.fromString(
+                                toUpperCase(parts[0])),
+                                Directions.fromString(movingDirection)));
             }
 
             buffer.close(); 
         } catch (IOException ex) {
-            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IllegalArgumentException("Unable to load " + fileName, ex);
         }    
     }
     
@@ -82,9 +88,9 @@ public class Maps {
         for(int j=0;j<y+2;j++){
             for(int i=0;i<x+2;i++)
                 if(i==0 || j==0 || j==y+1 || i==x+1)
-                    putObjects (Element, new Position(j,i), new Element(TypeElement.WALLINJOUABLE,Directions.RIGHT));
+                    putObjects (Element, new Position(j,i), this.unplayable);
                 else
-                    putObjects (Element, new Position(j,i), new Element(TypeElement.EMPTY,Directions.RIGHT));
+                    putObjects (Element, new Position(j,i), this.empty);
         }           
     }
     
@@ -93,13 +99,27 @@ public class Maps {
      * prend en compte la prioriter de l'object avec les autres dans la liste.
      * @param x int, la case en abssice ou on ajoute l'object.
      * @param y int, la case en ordonnée ou on ajoute l'object.
-     * @param directions Directions, la direction de l'object à ajouter.
-     * @param object TypeElement, object à ajouter.
+     * @param object Element, object à ajouter.
      * @throws TypeElementNotFoundException 
      */
-    public void addMap(int x, int y, Directions directions, TypeElement object) throws TypeElementNotFoundException {   
-        checkIfPosIsInMap(x,y,"addMap");
-        putObjects (Element, new Position(y,x), new Element(object,directions));
+    public void addMap(int x, int y, Element object) throws TypeElementNotFoundException {   
+        checkIfPosIsInMap(x,y);
+        for(Element e:this.listAllElement) {
+            if(e.equals(object)) {
+                putObjects (Element, new Position(y,x), e);
+                return;
+            }
+        }
+        listAllElement.add(object);
+        putObjects (Element, new Position(y,x), object);
+    }
+    
+    /**
+     * Revois la liste contenant Placement.
+     * @return ListListPlacement
+     */
+    public List<Element> getListAllElement() {
+        return this.listAllElement;
     }
     
     /**
@@ -111,7 +131,7 @@ public class Maps {
      * @throws TypeElementNotFoundException 
      */
     public void removeMap(int x, int y, Element elem) throws TypeElementNotFoundException {
-        checkIfPosIsInMap(x,y,"removeMap");
+        checkIfPosIsInMap(x,y);
         removeObjects (Element, new Position(y,x), elem);
     }
     
@@ -162,25 +182,23 @@ public class Maps {
      * @return ListElement, liste de tout les element de cette position.
      */
     public List<Element> getListElement(int x, int y) { 
-        checkIfPosIsInMap(x,y,"getListElement");
+        checkIfPosIsInMap(x,y);
         return Element.get(new Position(y,x));
     }
     
-    private void checkIfPosIsInMap(int x, int y, String name) {
+    private void checkIfPosIsInMap(int x, int y) {
         try {
             if (x < 0 || x > this.x-1 || y < 0 || y > this.y-1) {
                 throw new ArithmeticException();
             }
         }
         catch (ArithmeticException e) {
-            System.out.println("FatalError : " + name + " in class Maps");
             if ((x < 0 || x > this.x-1) && (y < 0 || y > this.y-1))
-                System.out.println("    int x,y " + x + "," + y + " are out of the hashMap");
+                throw new ArithmeticException("int x,y " + x + "," + y + " are out of the hashMap");
             else if (y < 0 || y > this.y-1)
-                System.out.println("    int y " + y + " is out of the hashMap");
+                throw new ArithmeticException("int y " + y + " is out of the hashMap");
             else
-                System.out.println("    int x " + x + " is out of the hashMap");
-            throw new ArithmeticException();
+                throw new ArithmeticException("int x " + x + " is out of the hashMap");
         }
     }
     
@@ -211,6 +229,24 @@ public class Maps {
             for(int j=0;j<x;j++){
                 List<Element> te =  this.Element.get(new Position(i,j));
                 sb.append(te.get(te.size()-1).getTypeElements().getLetter()).append("|");
+            }
+            sb.append("\n");
+        }
+        
+        return sb.toString();
+    }
+    
+    /**
+     * Revois une chaine de charactére du Board en adresse memoire.
+     * @return String
+     */
+    public String getAffichageAdresse(){
+        StringBuilder  sb = new StringBuilder();
+        
+        for(int i=0;i<y;i++){
+            for(int j=0;j<x;j++){
+                List<Element> te =  this.Element.get(new Position(i,j));
+                sb.append(te.get(te.size()-1)).append("|");
             }
             sb.append("\n");
         }

@@ -2,7 +2,6 @@ package view;
 
 import exeptions.TypeElementNotFoundException;
 import java.io.IOException;
-import java.util.logging.*;
 import static javafx.application.Application.launch;
 import javafx.scene.layout.Pane;
 import model.Board;
@@ -25,14 +24,16 @@ public class JavaBobyIsYou extends Application {
 
     public void start(Stage primaryStage) throws IOException, TypeElementNotFoundException {
         
-        Maps m = new Maps("C:\\Users\\Windows\\Documents\\NetBeansProjects\\BobyIsYou\\src\\maps\\map1.txt");
-        m.getAffichage();
+        Maps m = new Maps("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\maps\\map1.txt");
         g = new GameModeNormal(m);
         this.b = g.getBoard();
-        Scene scene = initScene(b);
+        System.out.println(m.getAffichageAdresse());
+        System.out.println();
+        System.out.println(b.getAffichageAdresse());
+        /*Scene scene = initScene(b);
         primaryStage.setTitle("BabaIsYou");
         primaryStage.setScene(scene);
-        primaryStage.show();
+        primaryStage.show();*/
     }
     
     

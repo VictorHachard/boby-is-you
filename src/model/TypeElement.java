@@ -1,6 +1,5 @@
 package model;
 import exeptions.TypeElementNotFoundException;
-import java.util.logging.Logger;
 
 /*
  * @author Glaskani
