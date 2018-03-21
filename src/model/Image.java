@@ -22,11 +22,10 @@ public class Image {
     public Image(Board board) {
         List<Element> listAllElement = board.getListAllElement();
         
-        for(Element e:listAllElement)
-            for(int i=0;0<1;i++) {
-                TypeElement te = e.getTypeElements();
-                map.put(te, new ImageView(new javafx.scene.image.Image(new File("C:\\Users\\Windows\\Documents\\NetBeansProjects\\BobyIsYou\\src\\images\\"+ te +".png").toURI().toString())));
-            }
+        for(Element e:listAllElement) {
+            TypeElement te = e.getTypeElements();
+            map.put(te, new ImageView(new javafx.scene.image.Image(new File("JavaBobyIsYou.images"+te+"png").toURI().toString())));
+        }
     }
     
 }

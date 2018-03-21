@@ -28,7 +28,7 @@ public class Board {
     private List<List<Placement>> listGrid;
     private int x;
     private int y;
-    private Logger log;
+    private static final Logger log = Logger.getLogger(JavaBobyIsYou.class.getName());
     
     /**
      * 
@@ -37,17 +37,12 @@ public class Board {
      */
     Board(Maps map) throws TypeElementNotFoundException, IOException {
         listGrid = new ArrayList<>();
-        listAllElement = new ArrayList<>();
-        
-        log = Logger.getLogger(JavaBobyIsYou.class.getName());
-        FileHandler fh = new FileHandler("myLog.txt");
-        fh.setFormatter(new SimpleFormatter());
-        log.addHandler(fh);
-        
+        listAllElement = new ArrayList<>();      
         
         this.x = map.getSizeX();
         this.y = map.getSizeY();
         
+        log.log(Level.INFO, "Message d'information");
         generateGrid(x-2,y-2);
 
         for(int i=1;i<y-1;i++){
@@ -89,7 +84,6 @@ public class Board {
                     listGrid.get(j).add(new Placement(new Unplayable()));
                 else
                     listGrid.get(j).add(new Placement(new Empty()));
-            log.log(Level.WARNING," le message ");
         }           
     }
     
