@@ -22,8 +22,9 @@ public class LoadGame {
         try {
                 Maps m = new Maps(f);
                 GameModeNormal g = new GameModeNormal(m);
-                Display d = new Display(g.getBoard());
+                Display d = new Display(g.getBoard(),primaryStage);
                 this.primaryStage.setScene(d.scene);
+                
             } catch (TypeElementNotFoundException ex) {
                 Logger.getLogger(MenuInit.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {

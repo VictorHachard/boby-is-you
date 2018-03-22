@@ -58,8 +58,8 @@ public class MenuInit extends Menu {
         Button buttonEditor = new Button("Editeur");
             buttonEditor.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
                 
-	vbox.setTranslateX(100);
-	vbox.setTranslateY(300);
+	vbox.setTranslateX(0);
+	vbox.setTranslateY(0);
 	
         vbox.getChildren().addAll(title,
                 buttonContinue,

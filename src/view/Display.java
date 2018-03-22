@@ -5,7 +5,9 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import model.Board;
 import model.Directions;
 import model.TypeElement;
@@ -17,7 +19,7 @@ import model.TypeElement;
 public class Display {
        
     Scene scene;
-    private Pane root;
+    private GridPane root;
     private Board board;
     private ImageHashMap map;
     private int imageSize;
@@ -26,12 +28,14 @@ public class Display {
      * 
      * @param board
      */
-    Display(Board board) {
+    Display(Board board, Stage primaryStage) {
         this.board = board;
-        root =new Pane();
+        root = new GridPane();
+
+        MenuEsc menuEsc = new MenuEsc(primaryStage);
         this.map = new ImageHashMap(board);
         
-        
+        //changement de la taille des image en fonction de la taille de la fenetre
         int imageSizeX = 1280/this.board.getSizeX();
         int imageSizeY = 720/this.board.getSizeY();
         if (imageSizeX < imageSizeY)
@@ -57,9 +61,10 @@ public class Display {
                 //case r:
                     //reload
                     //break;
-                //case escap:
-                    //menu du board
-                    //break;
+                case ESCAPE:
+                    Pane menuEscRoot = new Pane();
+                    
+                    break;
                 //case Win:
                     //niveau suivant + save
                     //break;
@@ -93,8 +98,8 @@ public class Display {
      * @param y the 
      */
     private void moveImageByCase(ImageView image,int x,int y) {
-        x = x*64;
-        y = y*64;
+        x = x*imageSize;
+        y = y*imageSize;
         image.setTranslateX(x);
         image.setTranslateY(y);
     }
@@ -110,7 +115,7 @@ public class Display {
                         .getListeContenu().size();k++) {   
                     TypeElement objectName = this.board.getListGrid().get(j)
                             .get(i).getListeContenu().get(k).getTypeElements();
-                    addImage(objectName,i+1,j+1);
+                    addImage(objectName,i,j);
                 }
             }
         }
