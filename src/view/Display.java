@@ -68,7 +68,9 @@ public class Display {
      * @param posy un entier qui indique la position sur l'axe des y 
      */
     private void addImage(TypeElement name,int posx,int posy) {
-        ImageView image = new ImageView(new Image(new File("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\images\\"+name+".png").toURI().toString()));
+        ImageView image = new ImageView(new Image(new File("src" +
+                File.separator + "images" + File.separator + name + ".png")
+                .toURI().toString()));
         //error clear les images plus utile
         image.setFitHeight(64);
         image.setFitWidth(64);

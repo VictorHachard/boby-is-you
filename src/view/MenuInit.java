@@ -1,5 +1,6 @@
 package view;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -27,8 +28,8 @@ public class MenuInit extends Menu {
         root = new Pane();
         scene = new Scene(root, x, y);
         
-        try(InputStream is = Files.newInputStream(Paths.get("images.WALL.png"))){
-            ImageView img = new ImageView(new Image("JavaBobyIsYou.images.WALL.png"));
+        try(InputStream is = Files.newInputStream(Paths.get("WALL.png"))){
+            ImageView img = new ImageView(new Image("src" + File.separator + "maps" + File.separator + "WALL.png"));
             img.setFitWidth(1050);
             img.setFitHeight(600);
             root.getChildren().add(img);
@@ -50,7 +51,8 @@ public class MenuInit extends Menu {
                 menuItem1 = new Button();
                 menuItem1.setText("haha");
                 menuItem1.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-                menuItem2 = new MenuItem("Option 2");
+                menuItem2 = new MenuItem();
+                menuItem2.setText("Exit");
                 menuItem3 = new MenuItem("Option 3");
 	vbox.setTranslateX(100);
 	vbox.setTranslateY(300);
@@ -59,6 +61,12 @@ public class MenuInit extends Menu {
 	root.getChildren().addAll(vbox);
 	
         menuItem1.setOnAction(event -> {
+                System.out.println("Option 3 selected via Lambda");
+        });
+        menuItem2.setOnAction(event -> {
+                System.out.println("Option 3 selected via Lambda");
+        });
+        menuItem3.setOnAction(event -> {
                 System.out.println("Option 3 selected via Lambda");
         });
     }        

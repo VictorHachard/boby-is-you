@@ -37,7 +37,7 @@ public class Maps {
      * @param fileName String, nom du fichier à charger.
      * @throws TypeElementNotFoundException 
      */
-    public Maps(String fileName) throws TypeElementNotFoundException {
+    public Maps(File fileName) throws TypeElementNotFoundException {
         listAllElement = new ArrayList<>();
         
         try (BufferedReader buffer = new BufferedReader(new FileReader(fileName))) {
@@ -102,7 +102,7 @@ public class Maps {
      * @param object Element, object à ajouter.
      * @throws TypeElementNotFoundException 
      */
-    public void addMap(int x, int y, Element object) throws TypeElementNotFoundException {   
+    public void addMap(int x, int y, Element object)throws TypeElementNotFoundException {   
         checkIfPosIsInMap(x,y);
         for(Element e:this.listAllElement) {
             if(e.equals(object)) {
@@ -187,12 +187,7 @@ public class Maps {
     }
     
     private void checkIfPosIsInMap(int x, int y) {
-        try {
-            if (x < 0 || x > this.x-1 || y < 0 || y > this.y-1) {
-                throw new ArithmeticException();
-            }
-        }
-        catch (ArithmeticException e) {
+        if ((x < 0 || x > this.x-1) || (y < 0 || y > this.y-1)) {
             if ((x < 0 || x > this.x-1) && (y < 0 || y > this.y-1))
                 throw new ArithmeticException("int x,y " + x + "," + y + " are out of the hashMap");
             else if (y < 0 || y > this.y-1)

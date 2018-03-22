@@ -1,7 +1,9 @@
 package view;
 
 import exeptions.TypeElementNotFoundException;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import static javafx.application.Application.launch;
 import javafx.scene.layout.Pane;
 import model.Board;
@@ -26,8 +28,19 @@ public class JavaBobyIsYou extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException, TypeElementNotFoundException {
         
-        MenuInit d = new MenuInit(500, 500);
-        scene = d.scene;
+        File f = new File("src" + File.separator + "maps" + File.separator + "map1.txt");
+        f.getAbsolutePath();
+        System.out.println(f.getAbsolutePath());
+        
+        Maps m = new Maps(f);
+        g = new GameModeNormal(m);
+        System.out.println(m.getAffichageAdresse());
+        this.b = g.getBoard();
+        Display d = new Display(b);
+        Scene scene = d.scene;
+        
+        /*MenuInit d = new MenuInit(500, 500);
+        scene = d.scene;*/
         
         primaryStage.setTitle("BobyIsYou");
         primaryStage.setScene(scene);
@@ -36,11 +49,6 @@ public class JavaBobyIsYou extends Application {
     
     
     void test() throws TypeElementNotFoundException, IOException {
-        Maps m = new Maps("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\maps\\map1.txt");
-        g = new GameModeNormal(m);
-        this.b = g.getBoard();
-        Display d = new Display(b);
-        Scene scene = d.scene;
     }
     
     /**
