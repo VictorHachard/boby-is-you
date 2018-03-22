@@ -22,7 +22,7 @@ public class Board {
     private int x;
     private int y;
     private Unplayable unplayable = new Unplayable();
-    private Empty empty = new Empty();;
+    private Empty empty = new Empty();
     
     /**
      * 
@@ -45,10 +45,10 @@ public class Board {
                 for(int k=0;k<te.size();k++){
                 if (!(te.get(k).getTypeElements()==TypeElement.EMPTY))
                     addPlacement(j,i,te.get(te.size()-k));
-                /*if (te.get(k).getTypeElements()==TypeElement.WALL) {
+                if (te.get(k).getTypeElements()==TypeElement.WALL) {
                     System.out.println("salut");
                     System.out.println(listGrid.get(i).get(j).getListeContenu().get(1).getTypeElements().getElements());
-                    listGrid.get(i).get(j).getListeContenu().get(1).addRule(Property.STOP);}*/
+                    listGrid.get(i).get(j).getListeContenu().get(1).addRule(Property.STOP);}
                 if (te.get(k).getTypeElements()==TypeElement.ROCK) {
                     
                     System.out.println(listGrid.get(i).get(j).getListeContenu().get(2).getTypeElements().getElements());

@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -17,14 +18,16 @@ import javafx.stage.Stage;
 public class MenuEsc extends Menu {
 
     private Stage primaryStage;
-    private final Panel root;
+    private Pane root;
+    Scene scene;
     
     MenuEsc(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        root = new Panel();
+        root = new Pane();
         
+        scene = new Scene(root, 1280, 720);
         
-        Text title = new Text ("C A M P A I G N");
+        Text title = new Text ("Parametre");
 	title.setTranslateX(1280/2);
 	title.setTranslateY(720/3);
                
@@ -44,7 +47,7 @@ public class MenuEsc extends Menu {
                 buttonContinue,
                 buttonSave,
                 buttonExit);
-	//root.getChildren().addAll(vbox);
+	root.getChildren().addAll(vbox);
 	
         buttonContinue.setOnAction(event -> {
             

@@ -23,6 +23,7 @@ public class Display {
     private Board board;
     private ImageHashMap map;
     private int imageSize;
+    private Stage primaryStage;
     
     /**
      * 
@@ -33,6 +34,7 @@ public class Display {
         root = new GridPane();
 
         MenuEsc menuEsc = new MenuEsc(primaryStage);
+        
         this.map = new ImageHashMap(board);
         
         //changement de la taille des image en fonction de la taille de la fenetre
@@ -62,7 +64,9 @@ public class Display {
                     //reload
                     //break;
                 case ESCAPE:
-                    Pane menuEscRoot = new Pane();
+                    System.out.println("salut12");
+                    this.primaryStage.setScene(menuEsc.scene);
+                    
                     
                     break;
                 //case Win:
