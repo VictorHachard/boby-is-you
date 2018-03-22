@@ -216,7 +216,6 @@ public class Board {
                 if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canAdd()){ //verifie si il peut add la case suivante
                     editPlacement(pos,direction,player);
                 } else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canPush()) { //verifie si il peut push la case suivante
-                    System.out.println("^push");
                     if (push(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()),direction))
                         editPlacement(pos,direction,player);
                 }
@@ -231,9 +230,7 @@ public class Board {
      */
     private boolean push(Position pos,Directions direction) {
         if(pos.y+direction.getDirVer() < y && pos.x+direction.getDirHori() < x){
-            System.out.println("fjksdskufksldgfkdshgkjdshgh");
             if (listGrid.get(pos.y).get(pos.x).canPush()){
-                
                 if(push(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()),direction)){
                     for(Element e:listGrid.get(pos.y).get(pos.x).getElementsOf(Property.PUSH)){
                         editPlacement(pos,direction,e.getTypeElements());
@@ -241,11 +238,9 @@ public class Board {
                     return true;
                 }
             } else if (listGrid.get(pos.y).get(pos.x).canAdd()) {
-                System.out.println("fjksgh");
                 return true;
             }
         }
-        System.out.println("fjksgh111");
         return false;    
     }
     
