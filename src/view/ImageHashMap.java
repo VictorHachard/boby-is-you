@@ -5,8 +5,9 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
 import model.Board;
+import model.Directions;
 import model.Element;
 import model.Maps;
 import model.TypeElement;
@@ -15,22 +16,25 @@ import model.TypeElement;
  *
  * @author Glaskani
  */
-public class Image {
+public class ImageHashMap {
     
-    private Map<TypeElement, ImageView> imageMap = new HashMap<>();
+    private Map<TypeElement, Image> imageMap = new HashMap<>();
     
     /**
      * Charge toute le image du board dans une map,
      * revois une map avec comme key le TypeElement et comme value l'image.
      * @param board Board
      */
-    Image(Board board) {
+    ImageHashMap(Board board) {
         List<Element> listAllElement = board.getListAllElement();
+        listAllElement.add(new Element(TypeElement.EMPTY));
+        listAllElement.add(new Element(TypeElement.WALLINJOUABLE));
         
         for(Element e:listAllElement) {
             TypeElement te = e.getTypeElements();
-            this.imageMap.put(te, new ImageView(new javafx.scene.image.Image(new File
-                    ("JavaBobyIsYou.images"+te+"png").toURI().toString())));
+            this.imageMap.put(te, new Image(new File("src" +
+                File.separator + "images" + File.separator + te + ".png")
+                .toURI().toString()));  
         }
     }
     
@@ -39,21 +43,23 @@ public class Image {
      * revois une map avec comme key le TypeElement et comme value l'image.
      * @param map Maps
      */
-    Image(Maps map) {
+    ImageHashMap(Maps map) {
         List<Element> listAllElement = map.getListAllElement();
+        listAllElement.add(new Element(TypeElement.EMPTY));
+        listAllElement.add(new Element(TypeElement.WALLINJOUABLE));
         
         for(Element e:listAllElement) {
             TypeElement te = e.getTypeElements();
-            this.imageMap.put(te, new ImageView(new javafx.scene.image.Image(new File
-                    ("JavaBobyIsYou.images"+te+"png").toURI().toString())));
+            this.imageMap.put(te, new Image(new File
+                    ("JavaBobyIsYou.images"+te+"png").toURI().toString()));
         }
     }
 
-    Image(InputStream is) {
+    ImageHashMap(InputStream is) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    Map<TypeElement, ImageView> getImageMap() {
+    Map<TypeElement, Image> getImageMap() {
         return this.imageMap;
     }
 }

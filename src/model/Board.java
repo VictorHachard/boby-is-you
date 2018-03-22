@@ -29,7 +29,7 @@ public class Board {
      * @param map
      * @throws TypeElementNotFoundException 
      */
-    Board(Maps map) throws TypeElementNotFoundException, IOException {
+    public Board(Maps map) throws TypeElementNotFoundException, IOException {
         this.listGrid = new ArrayList<>();
         this.listAllElement = map.getListAllElement();  
         

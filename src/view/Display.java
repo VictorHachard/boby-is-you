@@ -1,6 +1,7 @@
 package view;
 
 import java.io.File;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -8,7 +9,6 @@ import javafx.scene.layout.Pane;
 import model.Board;
 import model.Directions;
 import model.TypeElement;
-import static view.JavaBobyIsYou.b;
 
 /**
  *
@@ -19,6 +19,8 @@ public class Display {
     Scene scene;
     private Pane root;
     private Board board;
+    private ImageHashMap map;
+    private int imageSize;
     
     /**
      * 
@@ -27,21 +29,30 @@ public class Display {
     Display(Board board) {
         this.board = board;
         root =new Pane();
+        this.map = new ImageHashMap(board);
+        
+        
+        int imageSizeX = 1280/this.board.getSizeX();
+        int imageSizeY = 720/this.board.getSizeY();
+        if (imageSizeX < imageSizeY)
+            imageSize = imageSizeX;
+        else imageSize = imageSizeY;
+        
+        scene = new Scene(root, (this.board.getSizeX())*imageSizeX, (this.board.getSizeY())*imageSizeY);
         convertBoardToImage();  
-        scene = new Scene(root, (this.board.getSizeX())*64, (this.board.getSizeY())*64);
         scene.setOnKeyPressed(e -> {
             switch (e.getCode()) {
                 case UP:
-                    b.movePlayer(Directions.UP);
+                    this.board.movePlayer(Directions.UP);
                     break;
                 case DOWN:
-                    b.movePlayer(Directions.DOWN);
+                    this.board.movePlayer(Directions.DOWN);
                     break;
                 case RIGHT:
-                    b.movePlayer(Directions.RIGHT);
+                    this.board.movePlayer(Directions.RIGHT);
                     break;
                 case LEFT:
-                    b.movePlayer(Directions.LEFT);
+                    this.board.movePlayer(Directions.LEFT);
                     break;
                 //case r:
                     //reload
@@ -68,12 +79,9 @@ public class Display {
      * @param posy un entier qui indique la position sur l'axe des y 
      */
     private void addImage(TypeElement name,int posx,int posy) {
-        ImageView image = new ImageView(new Image(new File("src" +
-                File.separator + "images" + File.separator + name + ".png")
-                .toURI().toString()));
-        //error clear les images plus utile
-        image.setFitHeight(64);
-        image.setFitWidth(64);
+        ImageView image = new ImageView(this.map.getImageMap().get(name));
+        image.setFitHeight(imageSize);
+        image.setFitWidth(imageSize);
         moveImageByCase(image,posx,posy);
         root.getChildren().add(image);
     }
