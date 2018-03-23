@@ -21,8 +21,8 @@ public class Board {
     private List<List<Placement>> listGrid;
     private int x;
     private int y;
-    private Unplayable unplayable = new Unplayable();
-    private Empty empty = new Empty();
+    private Placement unplayable;
+    private Element empty = new Empty();
     private MusicHashMap music;
     
     /**
@@ -31,6 +31,7 @@ public class Board {
      * @throws TypeElementNotFoundException 
      */
     public Board(Maps map) throws TypeElementNotFoundException, IOException {
+        unplayable = new Placement(new Unplayable());
         this.listGrid = new ArrayList<>();
         this.listAllElement = map.getListAllElement();  
         music = new MusicHashMap();
@@ -47,18 +48,18 @@ public class Board {
                 for(int k=0;k<te.size();k++){
                 if (!(te.get(k).getTypeElements()==TypeElement.EMPTY))
                     addPlacement(j,i,te.get(te.size()-k));
-                if (te.get(k).getTypeElements()==TypeElement.WALL) {
-                    System.out.println("salut");
-                    System.out.println(listGrid.get(i).get(j).getListeContenu().get(1).getTypeElements().getElements());
-                    listGrid.get(i).get(j).getListeContenu().get(1).addRule(Property.STOP);}
-                if (te.get(k).getTypeElements()==TypeElement.ROCK) {
+                
+                                if (te.get(k).getTypeElements()==TypeElement.ROCK) {
                     
                     System.out.println(listGrid.get(i).get(j).getListeContenu().get(2).getTypeElements().getElements());
-                    listGrid.get(i).get(j).getListeContenu().get(2).addRule(Property.PUSH);
-                System.out.println(listGrid.get(i).get(j).getListeContenu().get(2).ltr.get(0));}
+                    listGrid.get(i).get(j).getListeContenu().get(2).addRule(Property.PUSH); }
+                
+                
+                
                 }
             }
         }
+        
         
         //Ajout des regle pour la premier fois
         ArrayList<Element> listTempsIs = new ArrayList<>();
@@ -85,9 +86,9 @@ public class Board {
             listGrid.add(new ArrayList<>());
             for(int i=0;i<x+2;i++)
                 if(i==0 || j==0 || j==y+1 || i==x+1)
-                    listGrid.get(j).add(new Placement(this.unplayable));
+                    listGrid.get(j).add(this.unplayable);
                 else
-                    listGrid.get(j).add(new Placement(this.empty));
+                    listGrid.get(j).add(new Placement (this.empty));
         }           
     }
        

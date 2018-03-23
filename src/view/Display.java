@@ -29,11 +29,12 @@ public class Display {
      * 
      * @param board
      */
-    Display(Board board, Stage primaryStage) {
+    Display(Board board, Stage primaryStage, File f) {
         this.board = board;
         root = new GridPane();
+        this.primaryStage = primaryStage;
 
-        MenuEsc menuEsc = new MenuEsc(primaryStage);
+        MenuEsc menuEsc = new MenuEsc(primaryStage,this);
         
         this.map = new ImageHashMap(board);
         
@@ -60,14 +61,11 @@ public class Display {
                 case LEFT:
                     this.board.movePlayer(Directions.LEFT);
                     break;
-                //case r:
-                    //reload
-                    //break;
+                case R:
+                    new LoadGame(f,this.primaryStage);
+                    break;
                 case ESCAPE:
-                    System.out.println("salut12");
-                    this.primaryStage.setScene(menuEsc.scene);
-                    
-                    
+                    Display.this.primaryStage.setScene(menuEsc.scene);
                     break;
                 //case Win:
                     //niveau suivant + save

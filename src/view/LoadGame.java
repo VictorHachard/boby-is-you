@@ -16,24 +16,19 @@ import model.Maps;
 public class LoadGame {
     
     private Stage primaryStage;
+    private Display d;
  
     LoadGame(File f, Stage primaryStage) {
         this.primaryStage = primaryStage;
         try {
                 Maps m = new Maps(f);
                 GameModeNormal g = new GameModeNormal(m);
-                Display d = new Display(g.getBoard(),primaryStage);
-                this.primaryStage.setScene(d.scene);
-                
+                Display d = new Display(g.getBoard(),primaryStage,f);
+                this.primaryStage.setScene(d.scene);                
             } catch (TypeElementNotFoundException ex) {
                 Logger.getLogger(MenuInit.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(MenuInit.class.getName()).log(Level.SEVERE, null, ex);
             }
-    }
-    
-    void setStage(Stage stage) {
-        this.primaryStage = stage;
-    }
-    
+    }    
 }

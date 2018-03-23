@@ -1,5 +1,8 @@
 package model;
 import exeptions.TypeElementNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import logs.MyLogger;
 
 /*
  * @author Glaskani
@@ -65,6 +68,7 @@ public enum TypeElement {
 
     private final String fromString;
     private final String stringConsole;
+    private static final Logger LOGGER = Logger.getGlobal();
     private final int intType;
     
     /**
@@ -97,6 +101,7 @@ public enum TypeElement {
             throw new TypeElementNotFoundException();
         }
         catch(TypeElementNotFoundException ex) {
+            LOGGER.log( Level.INFO, "coucou" );
             System.out.println("NonFatalError : fromString in class TypeElements");
             System.out.println("    TypeElements " + element + " was not found");
             System.out.println("    " + element + " replaced by EMPTY");

@@ -1,25 +1,16 @@
 package view;
 
-import exeptions.TypeElementNotFoundException;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
 import model.Board;
-import model.GameModeNormal;
-import model.Maps;
+
 /**
  *
  * @author Glaskani
@@ -31,7 +22,7 @@ public class MenuInit extends Menu {
     private Pane root;
     private Board b;
     
-    public MenuInit(int x, int y) {
+    public MenuInit(double x, double y) {
         root = new Pane();
         scene = new Scene(root, x, y);
         
@@ -70,7 +61,7 @@ public class MenuInit extends Menu {
 	root.getChildren().addAll(vbox);
 	
         buttonContinue.setOnAction(event -> {
-            File f = new File("src" + File.separator + "maps" + File.separator + "map1.txt"); //get last save
+            File f = new File("." + File.separator + "maps" + File.separator + "map1.txt"); //get last save
             f.getAbsolutePath();
             LoadGame l = new LoadGame(f, primaryStage);
         });
