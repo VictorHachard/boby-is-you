@@ -23,6 +23,7 @@ public class Board {
     private int y;
     private Unplayable unplayable = new Unplayable();
     private Empty empty = new Empty();
+    private MusicHashMap music;
     
     /**
      * 
@@ -32,6 +33,7 @@ public class Board {
     public Board(Maps map) throws TypeElementNotFoundException, IOException {
         this.listGrid = new ArrayList<>();
         this.listAllElement = map.getListAllElement();  
+        music = new MusicHashMap();
         
         this.x = map.getSizeX();
         this.y = map.getSizeY();
@@ -88,8 +90,6 @@ public class Board {
                     listGrid.get(j).add(new Placement(this.empty));
         }           
     }
-    
-    //getters
        
     /**
      * Revois la taille du tableau board en abscisse.
@@ -138,7 +138,7 @@ public class Board {
      * Revois une chaine de charactére du Board.
      * @return String
      */
-    public String getAffichage(){
+    public String Affichage(){
         StringBuilder  sb = new StringBuilder();
         
         for(List<Placement> lp:this.listGrid){
@@ -155,7 +155,7 @@ public class Board {
      * Revois une chaine de charactére du Board en adresse memoire.
      * @return String
      */
-    public String getAffichageAdresse(){
+    public String AffichageAdresse(){
         StringBuilder  sb = new StringBuilder();
         
         for(List<Placement> lp:this.listGrid){
@@ -215,6 +215,7 @@ public class Board {
             if(pos.y+direction.getDirVer() < y && pos.x+direction.getDirHori() < x)
                 if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canAdd()){ //verifie si il peut add la case suivante
                     editPlacement(pos,direction,player);
+                    this.music.play(Music.ADD);
                 } else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canPush()) { //verifie si il peut push la case suivante
                     if (push(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()),direction))
                         editPlacement(pos,direction,player);

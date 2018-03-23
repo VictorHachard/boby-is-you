@@ -217,7 +217,7 @@ public class Maps {
      * Revois une chaine de charactére de la Maps pour afficher la map en console.
      * @return String
      */
-    public String getAffichage(){
+    public String Affichage(){
         StringBuilder  sb = new StringBuilder();
         
         for(int i=0;i<y;i++){
@@ -235,7 +235,7 @@ public class Maps {
      * Revois une chaine de charactére du Board en adresse memoire.
      * @return String
      */
-    public String getAffichageAdresse(){
+    public String AffichageAdresse(){
         StringBuilder  sb = new StringBuilder();
         
         for(int i=0;i<y;i++){

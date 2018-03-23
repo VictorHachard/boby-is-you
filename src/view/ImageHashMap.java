@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import javafx.scene.image.Image;
 import model.Board;
-import model.Directions;
 import model.Element;
 import model.Maps;
 import model.TypeElement;
