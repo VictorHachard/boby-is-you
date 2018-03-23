@@ -101,10 +101,7 @@ public enum TypeElement {
             throw new TypeElementNotFoundException();
         }
         catch(TypeElementNotFoundException ex) {
-            LOGGER.log( Level.INFO, "coucou" );
-            System.out.println("NonFatalError : fromString in class TypeElements");
-            System.out.println("    TypeElements " + element + " was not found");
-            System.out.println("    " + element + " replaced by EMPTY");
+            LOGGER.log( Level.WARNING, "TypeElements " + element + " was not found \n" + element + " replaced by EMPTY",ex);
             return TypeElement.EMPTY; 
         }
     }

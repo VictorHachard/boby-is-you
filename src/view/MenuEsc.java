@@ -66,6 +66,17 @@ public class MenuEsc extends Menu {
             Logger.getLogger(MenuInit.class.getName()).log(Level.INFO, "Exit of the application");
             primaryStage.close();
         });
+        scene.setOnKeyPressed(e -> {
+            switch (e.getCode()) {
+                case ESCAPE:
+                    this.primaryStage.setScene(continuer.scene);
+                    break;
+                    default :
+                    //NE RIEN FAIRE
+            }
+            e.consume();
+        });
+        
         
     }
     

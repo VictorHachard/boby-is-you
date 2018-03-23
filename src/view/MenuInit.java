@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
 import model.Board;
+import model.Directions;
 
 /**
  *
@@ -77,6 +78,17 @@ public class MenuInit extends Menu {
         buttonExit.setOnAction(event -> {
             Logger.getLogger(MenuInit.class.getName()).log(Level.INFO, "Exit of the application");
             primaryStage.close();
+        });
+        scene.setOnKeyPressed(e -> {
+            switch (e.getCode()) {
+                case ESCAPE:
+                    Logger.getLogger(MenuInit.class.getName()).log(Level.INFO, "Exit of the application");
+                    primaryStage.close();
+                    break;
+                    default :
+                    //NE RIEN FAIRE
+            }
+            e.consume();
         });
     }
     

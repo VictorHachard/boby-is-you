@@ -1,5 +1,8 @@
 package model;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Glaskani
@@ -11,6 +14,7 @@ public enum Directions {
     DOWN(3);
     
     private final int direction;
+    private static final Logger LOGGER = Logger.getGlobal();
     
     /**
      * 
@@ -35,9 +39,7 @@ public enum Directions {
             throw new IllegalArgumentException();
         }
         catch (IllegalArgumentException e) {
-            System.out.println("NonFatalError : fromString in class Directions");
-            System.out.println("    int " + direction + " cannot be convert into a Directions");
-            System.out.println("    " + direction + " convert into RIGHT");
+            LOGGER.log( Level.WARNING, "int " + direction + " cannot be convert into a Directions \n" + direction + " convert into RIGHT",e);
             return Directions.RIGHT;
         }
     }
