@@ -23,13 +23,12 @@ public class MusicHashMap {
      */
     MusicHashMap() {
         Music[] listAllMusic = Music.values();
-        
         for(Music m:listAllMusic) {
             try {
-                this.musicMap.put(m, new MediaPlayer(new Media(new File("C:\\Users\\Windows\\Documents\\NetBeansProjects\\BobyIsYou\\src\\music\\"+m+".mp3").toURI().toString())));
+                this.musicMap.put(m, new MediaPlayer(new Media(new File("C:\\Users\\Windows\\Documents\\NetBeansProjects\\BobyIsYou\\src\\music\\"+m.toString().toLowerCase()+".mp3").toURI().toString())));
             }
             catch (MediaException ex) {
-           // System.out.println("Unable to load"+ ,ex);
+                System.out.println("Unable to load");
             }
         }
     }

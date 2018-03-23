@@ -1,23 +1,21 @@
 package model;
 
-import java.util.List;
-
 /**
  *
- * @author Windows
+ * @author Glaskani
  */
 public enum Music {
     ADD();
     //PUSH(),
     //WIN(),
+    //ICE(),
+    //MELT(),
+    //SINK(),
     //LOSE();
- 
-    Music() {
-        
-    }
+     
+    Music() {}
     
     Music[] getMusicAll() {
         return Music.values();
-    }
-    
+    }    
 }
