@@ -10,7 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import static javafx.application.Application.launch;
@@ -37,9 +36,8 @@ public class JavaBobyIsYou extends Application {
      */
     public void start(Stage primaryStage) throws IOException, TypeElementNotFoundException {     
         
-        Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
-        System.out.println(visualBounds.getWidth() + " x " + visualBounds.getHeight());
-        
+        //recupere la taille de l'ecran
+        Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();       
         
         MenuInit d = new MenuInit(visualBounds.getWidth(), visualBounds.getHeight());
         d.setStage(primaryStage);

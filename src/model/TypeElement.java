@@ -101,7 +101,7 @@ public enum TypeElement {
         }
         catch(TypeElementNotFoundException ex) {
             LOGGER.log( Level.WARNING, "TypeElements " + element + " was not found \n" + element + " replaced by EMPTY",ex);
-            return TypeElement.EMPTY; 
+            return TypeElement.EMPTY;
         }
     }
 

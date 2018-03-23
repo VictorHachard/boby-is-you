@@ -190,14 +190,25 @@ public class Maps {
         return Element.get(new Position(y,x));
     }
     
+    /**
+     * 
+     * @param x
+     * @param y 
+     */
     private void checkIfPosIsInMap(int x, int y) {
         if ((x < 0 || x > this.x-1) || (y < 0 || y > this.y-1)) {
-            if ((x < 0 || x > this.x-1) && (y < 0 || y > this.y-1))
+            if ((x < 0 || x > this.x-1) && (y < 0 || y > this.y-1)) {
+                LOGGER.log(Level.SEVERE, "int x,y " + x + "," + y + " are out of the hashMap");
                 throw new ArithmeticException("int x,y " + x + "," + y + " are out of the hashMap");
-            else if (y < 0 || y > this.y-1)
+            }
+            else if (y < 0 || y > this.y-1) {
+                LOGGER.log(Level.SEVERE, "int y " + y + " is out of the hashMap");
                 throw new ArithmeticException("int y " + y + " is out of the hashMap");
-            else
+            }
+            else {
+                LOGGER.log(Level.SEVERE, "int x " + x + " is out of the hashMap");
                 throw new ArithmeticException("int x " + x + " is out of the hashMap");
+            }
         }
     }
     

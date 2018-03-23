@@ -3,6 +3,8 @@ package model;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
@@ -14,7 +16,8 @@ import javafx.scene.media.MediaPlayer;
 public class MusicHashMap {
     
     private Map<Music, MediaPlayer> musicMap = new HashMap<>();
-    private boolean isPlaying= false;
+    private static final Logger LOGGER = Logger.getGlobal();
+    private HashMap<Music, Boolean> isPlaying;
     
     /**
      * Charge toute le image du board dans une map,
@@ -22,13 +25,16 @@ public class MusicHashMap {
      * @param map Maps
      */
     MusicHashMap() {
+        this.isPlaying = new HashMap<>();
+        
         Music[] listAllMusic = Music.values();
         for(Music m:listAllMusic) {
             try {
+                this.isPlaying.put(m, Boolean.FALSE);
                 this.musicMap.put(m, new MediaPlayer(new Media(new File("C:\\Users\\Windows\\Documents\\NetBeansProjects\\BobyIsYou\\src\\music\\"+m.toString().toLowerCase()+".mp3").toURI().toString())));
             }
             catch (MediaException ex) {
-                System.out.println("Unable to load");
+                LOGGER.log( Level.WARNING, "Unable to load " + m,ex);
             }
         }
     }
@@ -39,12 +45,12 @@ public class MusicHashMap {
      */
     void play(Music music) {
         MediaPlayer mediaPlayer = musicMap.get(music);
-        if(isPlaying){
+        if(isPlaying.get(music)){
             mediaPlayer.stop();
-            isPlaying = false;
+            isPlaying.replace(music, Boolean.FALSE);
         }
-            mediaPlayer.play();
-            isPlaying = true;
+        mediaPlayer.play();
+        isPlaying.replace(music, Boolean.TRUE);
     }   
 }
 

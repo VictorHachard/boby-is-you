@@ -7,7 +7,7 @@ package model;
 
 public class Position {
     
-    public final int x, y;
+    final int x, y;
     
     /**
      * 
