@@ -32,6 +32,9 @@ public class JavaBobyIsYou extends Application {
     private static final Logger LOGGER = Logger.getGlobal();
 
     @Override
+    /**
+     * 
+     */
     public void start(Stage primaryStage) throws IOException, TypeElementNotFoundException {     
         
         Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();

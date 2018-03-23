@@ -34,7 +34,7 @@ public class Display {
         root = new GridPane();
         this.primaryStage = primaryStage;
 
-        MenuEsc menuEsc = new MenuEsc(primaryStage,this);
+        MenuEsc menuEsc = new MenuEsc(primaryStage,this,board);
         
         this.map = new ImageHashMap(board);
         

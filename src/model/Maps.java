@@ -16,6 +16,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static jdk.nashorn.internal.objects.NativeString.toUpperCase;
 
 /**
@@ -31,13 +33,14 @@ public class Maps {
     private ArrayList<Element> listAllElement;
     private Element unplayable = new Element(TypeElement.WALLINJOUABLE,Directions.RIGHT);
     private Element empty = new Element(TypeElement.EMPTY,Directions.RIGHT);
+    private static final Logger LOGGER = Logger.getGlobal();
     
     /**
      * Charge un fichier (fileName) et crée une Maps.
      * @param fileName String, nom du fichier à charger.
      * @throws TypeElementNotFoundException 
      */
-    public Maps(File fileName) throws TypeElementNotFoundException {
+    public Maps(File fileName) throws TypeElementNotFoundException, IOException {
         listAllElement = new ArrayList<>();
         
         try (BufferedReader buffer = new BufferedReader(new FileReader(fileName))) {
@@ -62,7 +65,8 @@ public class Maps {
 
             buffer.close(); 
         } catch (IOException ex) {
-            throw new IllegalArgumentException("Unable to load " + fileName, ex);
+            LOGGER.log( Level.SEVERE, "Unable to load "+ fileName, ex);
+            throw new IOException("Unable to load " + fileName, ex);
         }    
     }
     

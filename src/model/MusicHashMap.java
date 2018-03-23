@@ -33,6 +33,10 @@ public class MusicHashMap {
         }
     }
     
+    /**
+     * 
+     * @param music 
+     */
     void play(Music music) {
         MediaPlayer mediaPlayer = musicMap.get(music);
         if(isPlaying){

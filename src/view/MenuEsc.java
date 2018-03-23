@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Panel;
 import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.Scene;
@@ -11,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.Board;
 
 /**
  *
@@ -22,7 +24,13 @@ public class MenuEsc extends Menu {
     private Pane root;
     Scene scene;
     
-    MenuEsc(Stage primaryStage,Display continuer) {
+    /**
+     * 
+     * @param primaryStage
+     * @param continuer
+     * @param board 
+     */
+    MenuEsc(Stage primaryStage,Display continuer,Board board) {
         this.primaryStage = primaryStage;
         root = new Pane();
         
@@ -57,7 +65,11 @@ public class MenuEsc extends Menu {
             this.primaryStage.setScene(continuer.scene);
         });
         buttonSave.setOnAction(event -> {
-                System.out.println("Save");
+            try {
+                board.save();
+            } catch (IOException ex) {
+                Logger.getLogger(MenuEsc.class.getName()).log(Level.SEVERE, null, ex);//Pas le global log 
+            }
         });
         buttonMenu.setOnAction(event -> {
             //this.primaryStage.setScene(.scene);
@@ -80,6 +92,10 @@ public class MenuEsc extends Menu {
         
     }
     
+    /**
+     * 
+     * @param stage 
+     */
     void setStage(Stage stage) {
         primaryStage = stage;
     }

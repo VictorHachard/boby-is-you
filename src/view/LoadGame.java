@@ -11,13 +11,18 @@ import model.Maps;
 
 /**
  *
- * @author Windows
+ * @author Glaskani
  */
 public class LoadGame {
     
     private Stage primaryStage;
     private Display d;
  
+    /**
+     * 
+     * @param f
+     * @param primaryStage 
+     */
     LoadGame(File f, Stage primaryStage) {
         this.primaryStage = primaryStage;
         try {
@@ -26,7 +31,7 @@ public class LoadGame {
                 Display d = new Display(g.getBoard(),primaryStage,f);
                 this.primaryStage.setScene(d.scene);                
             } catch (TypeElementNotFoundException ex) {
-                Logger.getLogger(MenuInit.class.getName()).log(Level.SEVERE, null, ex);
+                //RIEN Erreur deja traiter en amont
             } catch (IOException ex) {
                 Logger.getLogger(MenuInit.class.getName()).log(Level.SEVERE, null, ex);
             }

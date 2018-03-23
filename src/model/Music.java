@@ -13,8 +13,15 @@ public enum Music {
     //SINK(),
     //LOSE();
      
+    /**
+     * 
+     */
     Music() {}
     
+    /**
+     * 
+     * @return 
+     */
     Music[] getMusicAll() {
         return Music.values();
     }    

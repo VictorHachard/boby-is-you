@@ -23,6 +23,11 @@ public class MenuInit extends Menu {
     private Pane root;
     private Board b;
     
+    /**
+     * 
+     * @param x
+     * @param y 
+     */
     public MenuInit(double x, double y) {
         root = new Pane();
         scene = new Scene(root, x, y);
@@ -92,9 +97,11 @@ public class MenuInit extends Menu {
         });
     }
     
+    /**
+     * 
+     * @param stage 
+     */
     void setStage(Stage stage) {
         primaryStage = stage;
-    }
-    
-    
+    }    
 }

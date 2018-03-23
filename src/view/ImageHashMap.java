@@ -54,10 +54,18 @@ public class ImageHashMap {
         }
     }
 
+    /**
+     * 
+     * @param is 
+     */
     ImageHashMap(InputStream is) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    /**
+     * 
+     * @return Map<TypeElement, Image>,
+     */
     Map<TypeElement, Image> getImageMap() {
         return this.imageMap;
     }
