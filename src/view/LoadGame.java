@@ -23,12 +23,12 @@ public class LoadGame {
      * @param f
      * @param primaryStage 
      */
-    LoadGame(File f, Stage primaryStage) {
+    LoadGame(File f, Stage primaryStage,double x, double y) {
         this.primaryStage = primaryStage;
         try {
                 Maps m = new Maps(f);
                 GameModeNormal g = new GameModeNormal(m);
-                Display d = new Display(g.getBoard(),primaryStage,f);
+                Display d = new Display(g.getBoard(),primaryStage,f,x,y);
                 this.primaryStage.setScene(d.scene);                
             } catch (TypeElementNotFoundException ex) {
                 //RIEN Erreur deja traiter en amont

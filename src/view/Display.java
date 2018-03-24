@@ -1,6 +1,9 @@
 package view;
 
+import exeptions.TypeElementNotFoundException;
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -29,7 +32,7 @@ public class Display {
      * 
      * @param board
      */
-    Display(Board board, Stage primaryStage, File f) {
+    Display(Board board, Stage primaryStage, File f, double x, double y) {
         this.board = board;
         root = new GridPane();
         this.primaryStage = primaryStage;
@@ -50,19 +53,43 @@ public class Display {
         scene.setOnKeyPressed(e -> {
             switch (e.getCode()) {
                 case UP:
+            {
+                try {
                     this.board.movePlayer(Directions.UP);
+                } catch (TypeElementNotFoundException ex) {
+                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
                     break;
                 case DOWN:
+            {
+                try {
                     this.board.movePlayer(Directions.DOWN);
+                } catch (TypeElementNotFoundException ex) {
+                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
                     break;
                 case RIGHT:
+            {
+                try {
                     this.board.movePlayer(Directions.RIGHT);
+                } catch (TypeElementNotFoundException ex) {
+                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
                     break;
                 case LEFT:
+            {
+                try {
                     this.board.movePlayer(Directions.LEFT);
+                } catch (TypeElementNotFoundException ex) {
+                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
                     break;
                 case R:
-                    new LoadGame(f,this.primaryStage);
+                    new LoadGame(f,this.primaryStage,x,y);
                     break;
                 case ESCAPE:
                     Display.this.primaryStage.setScene(menuEsc.scene);

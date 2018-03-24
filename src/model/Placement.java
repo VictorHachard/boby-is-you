@@ -9,10 +9,10 @@ import java.util.List;
  *
  * @author Glaskani
  */
-public class Placement extends Subject {
+public class Placement {
     
     private List<Element> listeContenu;
-    
+
     /**
      * 
      * @param e Element
@@ -46,7 +46,7 @@ public class Placement extends Subject {
             public int compare(Element e1, Element e2) {
                 return e1.getTypeElements().getPriority() - e2.getTypeElements().getPriority();
             }
-        });
+        });        
     }
     
     /**
@@ -54,7 +54,7 @@ public class Placement extends Subject {
      * @param e 
      */
     void removeElement(TypeElement e){
-            listeContenu.remove(getElements(e));
+        listeContenu.remove(getElements(e));
     }
        
     /**
@@ -95,6 +95,30 @@ public class Placement extends Subject {
             if(e.getTypeElements()==te)
                 return true;
         return false;
+    }
+    
+    /**
+     * 
+     * @param ty
+     * @return 
+     */
+    boolean findTypeType(TypeTypeElement ty) {
+        for(Element e:this.listeContenu)
+            if(e.getTypeTypeElements()==ty)
+                return true;
+        return false;
+    }
+    
+    /**
+     * 
+     * @param ty
+     * @return 
+     */
+    TypeElement findTypeElement(TypeTypeElement ty) {
+        for(Element e:this.listeContenu)
+            if(e.getTypeTypeElements()==ty)
+                return e.getTypeElements();
+        return null;
     }
     
     /**

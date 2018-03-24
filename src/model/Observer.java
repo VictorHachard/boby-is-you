@@ -10,5 +10,5 @@ public interface Observer {
      * 
      * @param obsarvebel 
      */
-    public void update(Subject obsarvebel);
+    void update(Subject obsarvebel,TypeTypeElement te1,TypeTypeElement te2);
 }

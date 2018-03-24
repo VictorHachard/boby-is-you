@@ -14,7 +14,5 @@ public class Is extends SetupRule {
     public Is(TypeElement te, Directions dir) {
         super(te, dir);
     }
-    
-    @Override
-    public void update(Subject subject) {}
+
 }

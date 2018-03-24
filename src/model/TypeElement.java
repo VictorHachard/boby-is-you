@@ -15,60 +15,62 @@ public enum TypeElement {
      * 3 : joueurs, ia(s), régles et defintions.
      */
     
-    ROCK("ROCK","E_R ",2),
-    LAVA("LAVA","E_L ",1),
-    WALL("WALL","E_W ",1),
-    WALLINJOUABLE("WALLINJOUABLE","E_WI",0),
-    ICE("ICE","E_I ",1),
-    SPIKE("SPIKE","E_S ",1),
-    WATER("WATER","E_WA",1),
-    ERROR("ERROR","E_ER",1),
-    SKULL("SKULL","E_S ",2),
-    GRASS("GRASS","E_G ",1),
-    FLAG("FLAG","E_F ",2),
-    EMPTY("EMPTY","    ",0),
-    METAL("METAL","E_M ",1),
-    HEART("HEART","E_H ",2),
+    ROCK("ROCK","E_R ",2,null,null,TypeTypeElement.BLOCK),
+    LAVA("LAVA","E_L ",1,null,null,TypeTypeElement.BLOCK),
+    WALL("WALL","E_W ",1,null,null,TypeTypeElement.BLOCK),
+    WALLINJOUABLE("WALLINJOUABLE","E_WI",0,null,null,TypeTypeElement.BLOCK),
+    ICE("ICE","E_I ",1,null,null,TypeTypeElement.BLOCK),
+    SPIKE("SPIKE","E_S ",1,null,null,TypeTypeElement.BLOCK),
+    WATER("WATER","E_WA",1,null,null,TypeTypeElement.BLOCK),
+    ERROR("ERROR","E_ER",1,null,null,TypeTypeElement.BLOCK),
+    SKULL("SKULL","E_S ",2,null,null,TypeTypeElement.BLOCK),
+    GRASS("GRASS","E_G ",1,null,null,TypeTypeElement.BLOCK),
+    FLAG("FLAG","E_F ",2,null,null,TypeTypeElement.BLOCK),
+    EMPTY("EMPTY","    ",0,null,null,TypeTypeElement.BLOCK),
+    METAL("METAL","E_M ",1,null,null,TypeTypeElement.BLOCK),
+    HEART("HEART","E_H ",2,null,null,TypeTypeElement.BLOCK),
     
-    PLAYER1("BABA","E_P ",3),
-    MONSTER("MONSTER","E_M ",3),
-    ANNI("ANNI","E_A ",3),
+    PLAYER1("BABA","E_P ",3,null,null,TypeTypeElement.PLAYER),
+    MONSTER("MONSTER","E_M ",3,null,null,TypeTypeElement.PLAYER),
+    ANNI("ANNI","E_A ",3,null,null,TypeTypeElement.PLAYER),
     
-    TEXT_ROCK("TEXT_ROCK","T_R ",3),
-    TEXT_WALL("TEXT_WALL","T_W ",3),
-    TEXT_YOU("TEXT_YOU","T_Y ",3),
-    TEXT_PLAYER1("TEXT_BABA","T_P ",3),
-    TEXT_GRASS("TEXT_GRASS","T_G ",3),
-    TEXT_FLAG("TEXT_FLAG","T_F ",3),
-    TEXT_ERROR("TEXT_ERROR","T_ER",3),
-    TEXT_EMPTY("TEXT_EMPTY","T_EM",3),
-    TEXT_HEART("TEXT_HEART","T_H ",3),
-    TEXT_WATER("TEXT_WATER","T_WA",3),
-    TEXT_ANNI("TEXT_ROCK","T_A ",3),
-    TEXT_SKULL("TEXT_SKULL","T_S ",3),
-    TEXT_ICE("TEXT_ICE","T_I ",3),
-    TEXT_MONSTER("TEXT_MONSTER","T_M ",3),
+    TEXT_ROCK("TEXT_ROCK","T_R ",3,TypeElement.ROCK,null,TypeTypeElement.TEXT),
+    TEXT_WALL("TEXT_WALL","T_W ",3,TypeElement.WALL,null,TypeTypeElement.TEXT),
+    TEXT_YOU("TEXT_YOU","T_Y ",3,null,null,TypeTypeElement.TEXT),
+    TEXT_PLAYER1("TEXT_BABA","T_P ",3,TypeElement.PLAYER1,null,TypeTypeElement.TEXT),
+    TEXT_GRASS("TEXT_GRASS","T_G ",3,TypeElement.GRASS,null,TypeTypeElement.TEXT),
+    TEXT_FLAG("TEXT_FLAG","T_F ",3,TypeElement.FLAG,null,TypeTypeElement.TEXT),
+    TEXT_ERROR("TEXT_ERROR","T_ER",3,TypeElement.ERROR,null,TypeTypeElement.TEXT),
+    TEXT_EMPTY("TEXT_EMPTY","T_EM",3,TypeElement.EMPTY,null,TypeTypeElement.TEXT),
+    TEXT_HEART("TEXT_HEART","T_H ",3,TypeElement.HEART,null,TypeTypeElement.TEXT),
+    TEXT_WATER("TEXT_WATER","T_WA",3,TypeElement.WATER,null,TypeTypeElement.TEXT),
+    TEXT_ANNI("TEXT_ROCK","T_A ",3,TypeElement.ANNI,null,TypeTypeElement.TEXT),
+    TEXT_SKULL("TEXT_SKULL","T_S ",3,TypeElement.SKULL,null,TypeTypeElement.TEXT),
+    TEXT_ICE("TEXT_ICE","T_I ",3,TypeElement.ICE,null,TypeTypeElement.TEXT),
+    TEXT_MONSTER("TEXT_MONSTER","T_M ",3,TypeElement.MONSTER,null,TypeTypeElement.TEXT),
     
-    SLIP("SLIP","R_SL",3),
-    WIN("WIN","R_W ",3),
-    PUSH("PUSH","R_P ",3),
-    STOP("STOP","R_ST",3),
-    SINK("SINK","R_SI",3),
-    MOVE("MOVE","R_M ",3),
-    BEST("BEST","R_B ",3),
-    MELT("MELT","R_M ",3),
-    HOT("HOT","R_H ",3),
-    YOU("YOU","R_Y ",3),
-    GRAB("GRAB","R_G ",3),
-    KILL("KILL","R_K ",3),
+    SLIP("SLIP","R_SL",3,null,Property.SLIP,TypeTypeElement.RULE),
+    WIN("WIN","R_W ",3,null,Property.WIN,TypeTypeElement.RULE),
+    PUSH("PUSH","R_P ",3,null,Property.PUSH,TypeTypeElement.RULE),
+    STOP("STOP","R_ST",3,null,Property.STOP,TypeTypeElement.RULE),
+    SINK("SINK","R_SI",3,null,Property.SINK,TypeTypeElement.RULE),
+    MOVE("MOVE","R_M ",3,null,Property.MOVE,TypeTypeElement.RULE),
+    BEST("BEST","R_B ",3,null,Property.BEST,TypeTypeElement.RULE),
+    MELT("MELT","R_M ",3,null,Property.MELT,TypeTypeElement.RULE),
+    HOT("HOT","R_H ",3,null,Property.HOT,TypeTypeElement.RULE),
+    YOU("YOU","R_Y ",3,null,Property.YOU,TypeTypeElement.RULE),
+    GRAB("GRAB","R_G ",3,null,Property.GRAB,TypeTypeElement.RULE),
+    KILL("KILL","R_K ",3,null,Property.KILL,TypeTypeElement.RULE),
     
-    IS("IS","I   ",3)
-    ;
+    IS("IS","I   ",3,null,null,TypeTypeElement.IS);
 
     private final String fromString;
+    private final TypeElement te;
     private final String stringConsole;
     private static final Logger LOGGER = Logger.getGlobal();
     private final int intType;
+    private final Property rule;
+    private final TypeTypeElement type;
     
     /**
      * 
@@ -76,10 +78,13 @@ public enum TypeElement {
      * @param stringConsole 
      * @param intType
      */
-    TypeElement(String fromString,String stringConsole, int intType) {
+    TypeElement(String fromString,String stringConsole, int intType, TypeElement te,Property rule,TypeTypeElement type) {
 	this.fromString = fromString;
         this.stringConsole = stringConsole;
         this.intType = intType;
+        this.te = te;
+        this.rule = rule;
+        this.type = type;
     }
     
     /**
@@ -106,6 +111,30 @@ public enum TypeElement {
     }
 
     //Getters
+    
+    /**
+     * 
+     * @return 
+     */
+    public TypeTypeElement getType() {
+        return type;
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public Property getRule() {
+        return rule;
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public TypeElement getText() {
+        return te;
+    }
     
     /**
      * Revois l'element sous la forme d'un String.

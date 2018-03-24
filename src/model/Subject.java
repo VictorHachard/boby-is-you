@@ -1,25 +1,38 @@
 package model;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
  * @author Glaskani
  */
 public class Subject {
-    protected List<Observer> obs;
+    
+    /*private static Subject INSTANCE = null;
+    
+    public static Subject getInstance() {           
+        if (INSTANCE == null)
+            INSTANCE = new Subject();
+        return INSTANCE;
+    }
 
-    public void registerObserver(Observer obs){
+    Subject() {
+        obs = new ArrayList<>();
+    }*/
+    
+    protected ArrayList<Observer> obs = new ArrayList<>();
+
+    void registerObserver(Observer obs){
         if(!this.obs.contains(obs))
             this.obs.add(obs);
     }
 
-    public void removeObserver(Observer obs){
+    void removeObserver(Observer obs){
         this.obs.remove(obs);
     }
 
-    public void notifyObservers(){
+    void notifyObservers(TypeTypeElement te1,TypeTypeElement te2){
         for(Observer o: obs)
-            o.update(this);
+            o.update(this,te1,te2);
     }
 }

@@ -1,13 +1,7 @@
 package view;
 
 import exeptions.TypeElementNotFoundException;
-import java.awt.Label;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +12,6 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import model.TypeElement;
 
 /*
  *
@@ -39,7 +32,7 @@ public class JavaBobyIsYou extends Application {
         //recupere la taille de l'ecran
         Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();       
         
-        MenuInit d = new MenuInit(visualBounds.getWidth(), visualBounds.getHeight());
+        MenuInit d = MenuInit.getInstance(visualBounds.getWidth(), visualBounds.getHeight());
         d.setStage(primaryStage);
         scene = d.scene;
       

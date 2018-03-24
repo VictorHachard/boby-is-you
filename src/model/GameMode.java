@@ -17,7 +17,8 @@ public abstract class GameMode {
      * @throws exeptions.TypeElementNotFoundException 
      */
     public GameMode(Maps map) throws TypeElementNotFoundException, IOException {
-        this.board = new Board(map);
+        Board.ReloadInstance();
+        this.board = Board.getInstance(map);
     }
     
     /**

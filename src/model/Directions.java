@@ -11,7 +11,8 @@ public enum Directions {
     RIGHT(0),
     UP(1),
     LEFT(2),
-    DOWN(3);
+    DOWN(3),
+    NONE(-100);
     
     private final int direction;
     private static final Logger LOGGER = Logger.getGlobal();

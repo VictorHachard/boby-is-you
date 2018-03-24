@@ -13,7 +13,7 @@ import model.Board;
 import model.Directions;
 
 /**
- *
+ * //singleton
  * @author Glaskani
  */
 public class MenuInit extends Menu {
@@ -22,20 +22,27 @@ public class MenuInit extends Menu {
     private Stage primaryStage;
     private Pane root;
     private Board b;
+    private static MenuInit INSTANCE = null;
+    
+    public static MenuInit getInstance(double x, double y) {           
+        if (INSTANCE == null)  
+            INSTANCE = new MenuInit(x,y);
+        return INSTANCE;
+    }
     
     /**
      * 
      * @param x
      * @param y 
      */
-    public MenuInit(double x, double y) {
+    private MenuInit(double x, double y) {
         root = new Pane();
         scene = new Scene(root, x, y);
         
-            /*File fi = new File("src" + File.separator + "images" + File.separator + "WALL.png"); //get last save
+            /*File fi = new File("." + File.separator + "images" + File.separator + "WALL.png"); //get last save
             ImageView img = new ImageView(new Image(fi.getAbsolutePath()));
-            img.setFitWidth(1050);
-            img.setFitHeight(600);
+            img.setFitWidth(x);
+            img.setFitHeight(y);
             root.getChildren().add(img);*/
             
 	Text title = new Text ("C A M P A I G N");
@@ -55,8 +62,8 @@ public class MenuInit extends Menu {
         Button buttonEditor = new Button("Editeur");
             buttonEditor.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
                 
-	vbox.setTranslateX(0);
-	vbox.setTranslateY(0);
+	vbox.setTranslateX(x/2);
+	vbox.setTranslateY(y/2);
 	
         vbox.getChildren().addAll(title,
                 buttonContinue,
@@ -69,7 +76,7 @@ public class MenuInit extends Menu {
         buttonContinue.setOnAction(event -> {
             File f = new File("." + File.separator + "maps" + File.separator + "map1.txt"); //get last save
             f.getAbsolutePath();
-            LoadGame l = new LoadGame(f, primaryStage);
+            LoadGame l = new LoadGame(f, primaryStage,x,y);
         });
         buttonNew.setOnAction(event -> {
                 System.out.println("Option 3 selected via Lambda");
