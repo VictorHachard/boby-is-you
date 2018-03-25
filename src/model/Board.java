@@ -1,6 +1,5 @@
 package model;
 
-import com.sun.javafx.scene.traversal.Direction;
 import exeptions.TypeElementNotFoundException;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -52,7 +51,6 @@ public class Board extends Subject {
     private Board(Maps map) throws TypeElementNotFoundException, IOException {
         this.listGrid = new ArrayList<>();
         this.listRule = new ArrayList<>();
-        this.is = new ArrayList<>();
         this.listAllElement = map.getListAllElement();  
         music = new MusicHashMap();
         unplayable = new Placement(new Unplayable());
@@ -104,6 +102,7 @@ public class Board extends Subject {
      */
     private void getIs() {
         List<Position> lp = getPositionOf(TypeElement.IS);
+        is = new ArrayList<>();
         for (Position p:lp) {
             this.is.add(p);
         }
@@ -115,6 +114,19 @@ public class Board extends Subject {
      */
     void notifierObservateurs(Position pos, Directions dir, TypeTypeElement ty) throws TypeElementNotFoundException {       
         Position posDelete = new Position(pos.x+dir.getDirHori(),pos.y+dir.getDirVer());
+        
+        for(Element e4:listAllElement)
+            for(ElementRule le :listRule) {
+                if ((e4.getTypeElements().getType()==TypeTypeElement.RULE))
+                if ((e4.getTypeElements().getType()==TypeTypeElement.TEXT))
+                if ((e4.getTypeElements().getType()==TypeTypeElement.IS))
+                if (e4.ltr.contains(le)) {
+                    
+                    e4.deleteRule(le.getProperty());
+                    System.out.println("deleting");
+                    System.out.println("");
+                }
+            }
         //si c'est un IS
         if (ty==TypeTypeElement.IS) {
             //removeObs(pos);
@@ -138,17 +150,14 @@ public class Board extends Subject {
         }
         
         if (listGrid.get(pos.y).get(pos.x-1).findTypeType(TypeTypeElement.TEXT)
-                && listGrid.get(pos.y).get(pos.x+1).findTypeType(TypeTypeElement.RULE)) {
+                && listGrid.get(pos.y).get(pos.x+1).findTypeType(TypeTypeElement.RULE)) 
             addRule(listGrid.get(pos.y).get(pos.x-1).findTypeElement(TypeTypeElement.TEXT),
                     listGrid.get(pos.y).get(pos.x+1).findTypeElement(TypeTypeElement.RULE));
-            System.out.println("debug");
-        }
         
         else if (listGrid.get(pos.y-1).get(pos.x).findTypeType(TypeTypeElement.TEXT)
-                && listGrid.get(pos.y+1).get(pos.x).findTypeType(TypeTypeElement.RULE)) {
+                && listGrid.get(pos.y+1).get(pos.x).findTypeType(TypeTypeElement.RULE)) 
             addRule(listGrid.get(pos.y-1).get(pos.x).findTypeElement(TypeTypeElement.TEXT),
                     listGrid.get(pos.y+1).get(pos.x).findTypeElement(TypeTypeElement.RULE));
-                    System.out.println("debug");}
         
         else if (listGrid.get(pos.y-1).get(pos.x).findTypeType(TypeTypeElement.TEXT)
                 && listGrid.get(pos.y+1).get(pos.x).findTypeType(TypeTypeElement.TEXT)) {
@@ -164,8 +173,10 @@ public class Board extends Subject {
         
         
         //si accun des cas notifier obs pour delet rule
-        else { deleteRule(ty,posDelete);
-                    System.out.println("debugdelet");}
+        //else { deleteRule(ty,posDelete);
+                    //System.out.println("debugdelet");}
+                    
+        //delete all rule
         
     }
         
@@ -415,6 +426,11 @@ public class Board extends Subject {
                     if (push(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()),direction))
                         editPlacement(pos,direction,player);
                 }
+        getIs();
+        for (Position p:is) {
+            notifierObservateurs(p,Directions.NONE,TypeTypeElement.IS);
+            System.out.println("coucou");
+        }
     }
     
     /**
@@ -430,7 +446,7 @@ public class Board extends Subject {
                 if(push(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()),direction)){
                     for(Element e:listGrid.get(pos.y).get(pos.x).getElementsOf(Property.PUSH)){
                         editPlacement(pos,direction,e.getTypeElements());
-                        if (e.getTypeTypeElements()==TypeTypeElement.IS) {
+                        /*if (e.getTypeTypeElements()==TypeTypeElement.IS) {
                                                         System.out.println("enter IS");
                             notifierObservateurs(pos,direction,TypeTypeElement.IS);
 
@@ -442,7 +458,7 @@ public class Board extends Subject {
                         if (e.getTypeTypeElements()==TypeTypeElement.RULE) {
                             System.out.println("enter RULE");
                             notifierObservateurs(pos,direction,TypeTypeElement.RULE);
-                        }
+                        }*/
                     }
                     return true;
                 }

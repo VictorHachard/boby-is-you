@@ -1,10 +1,10 @@
 package view;
 
 import exeptions.TypeElementNotFoundException;
+import java.awt.Panel;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -25,31 +25,41 @@ public class Display {
     private GridPane root;
     private Board board;
     private ImageHashMap map;
-    private int imageSize;
+    private double imageSize;
     private Stage primaryStage;
+    private Pane rootImage;
     
     /**
      * 
      * @param board
      */
-    Display(Board board, Stage primaryStage, File f, double x, double y) {
+    Display(Board board, Stage primaryStage, File f) {
         this.board = board;
         root = new GridPane();
+        rootImage = new Pane();
         this.primaryStage = primaryStage;
-
         MenuEsc menuEsc = new MenuEsc(primaryStage,this,board);
-        
         this.map = new ImageHashMap(board);
         
         //changement de la taille des image en fonction de la taille de la fenetre
-        int imageSizeX = 1280/this.board.getSizeX();
-        int imageSizeY = 720/this.board.getSizeY();
+        double imageSizeX = JavaBobyIsYou.WIDTH/this.board.getSizeX();
+        double imageSizeY = JavaBobyIsYou.HEIGHT/this.board.getSizeY();
+        //recuperation du plus grand ImageSize
         if (imageSizeX < imageSizeY)
             imageSize = imageSizeX;
         else imageSize = imageSizeY;
+        //ajout du backGroude dans rootImage
+        addBackground();
+        //Centrement de la Grid
+        root.setTranslateX((JavaBobyIsYou.WIDTH/2)-((board.getSizeX()*imageSizeX)/4));
+        //ajout de la grid dans rooImage
+        rootImage.getChildren().addAll(root);
         
-        scene = new Scene(root, (this.board.getSizeX())*imageSizeX, (this.board.getSizeY())*imageSizeY);
+        scene = new Scene(rootImage, JavaBobyIsYou.WIDTH, JavaBobyIsYou.HEIGHT);
         convertBoardToImage();  
+        
+        
+        
         scene.setOnKeyPressed(e -> {
             switch (e.getCode()) {
                 case UP:
@@ -57,6 +67,7 @@ public class Display {
                 try {
                     this.board.movePlayer(Directions.UP);
                 } catch (TypeElementNotFoundException ex) {
+                    //Erreur deja traiter en amont
                     Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -66,6 +77,7 @@ public class Display {
                 try {
                     this.board.movePlayer(Directions.DOWN);
                 } catch (TypeElementNotFoundException ex) {
+                    //Erreur deja traiter en amont
                     Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -75,6 +87,7 @@ public class Display {
                 try {
                     this.board.movePlayer(Directions.RIGHT);
                 } catch (TypeElementNotFoundException ex) {
+                    //Erreur deja traiter en amont
                     Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -84,12 +97,13 @@ public class Display {
                 try {
                     this.board.movePlayer(Directions.LEFT);
                 } catch (TypeElementNotFoundException ex) {
+                    //Erreur deja traiter en amont
                     Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
                     break;
                 case R:
-                    new LoadGame(f,this.primaryStage,x,y);
+                    new LoadGame(f,this.primaryStage);
                     break;
                 case ESCAPE:
                     Display.this.primaryStage.setScene(menuEsc.scene);
@@ -105,7 +119,18 @@ public class Display {
             e.consume();
         });
     }
-        
+    
+    /**
+     * 
+     */
+    private void addBackground() {
+        Image file = new Image (new File("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\images\\EMPTY.png").toURI().toString());
+        ImageView imageView = new ImageView(file);
+        imageView.setFitWidth(JavaBobyIsYou.WIDTH);
+        imageView.setFitHeight(JavaBobyIsYou.HEIGHT);
+        rootImage.getChildren().add(imageView);
+    }
+    
     /**
      * importe une image et qui l'ajoute a un pane passer en parametre
      * @param name nom de l'image à importer
@@ -126,7 +151,7 @@ public class Display {
      * @param x the number of case that you move this image 
      * @param y the 
      */
-    private void moveImageByCase(ImageView image,int x,int y) {
+    private void moveImageByCase(ImageView image,double x,double y) {
         x = x*imageSize;
         y = y*imageSize;
         image.setTranslateX(x);

@@ -19,8 +19,11 @@ import javafx.stage.Stage;
  */
 public class JavaBobyIsYou extends Application {
     
+    static Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();   
     Stage primaryStage;
     Scene scene;
+    static double WIDTH = visualBounds.getWidth()-40;
+    static double HEIGHT = visualBounds.getHeight()-40;
     private static final Logger LOGGER = Logger.getGlobal();
 
     @Override
@@ -28,11 +31,9 @@ public class JavaBobyIsYou extends Application {
      * 
      */
     public void start(Stage primaryStage) throws IOException, TypeElementNotFoundException {     
-        
-        //recupere la taille de l'ecran
-        Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();       
-        
-        MenuInit d = MenuInit.getInstance(visualBounds.getWidth(), visualBounds.getHeight());
+        System.out.println(WIDTH);
+        System.out.println(HEIGHT);
+        MenuInit d = MenuInit.getInstance();
         d.setStage(primaryStage);
         scene = d.scene;
       
@@ -48,32 +49,32 @@ public class JavaBobyIsYou extends Application {
      * @throws IOException
      */
     public static void main(String[] args) throws TypeElementNotFoundException, IOException {
+        //Looger
         FileHandler hdl = new FileHandler("BIS.log");
         hdl.setFormatter(new SimpleFormatter());
         LOGGER.addHandler(hdl);
-        LOGGER.log( Level.INFO, "coucoumain" );
         /*Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-    @Override
-    public void uncaughtException(Thread t, Throwable e) {
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        @Override
+        public void uncaughtException(Thread t, Throwable e) {
+            Calendar cal = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
 
-        String filename = "crashlogs/"+sdf.format(cal.getTime())+".txt";
+            String filename = "crashlogs/"+sdf.format(cal.getTime())+".txt";
 
-        PrintStream writer;
-        try {
-            writer = new PrintStream(filename, "UTF-8");
-            writer.println(e.getClass() + ": " + e.getMessage());
-            for (int i = 0; i < e.getStackTrace().length; i++) {
-                writer.println(e.getStackTrace()[i].toString());
+            PrintStream writer;
+            try {
+                writer = new PrintStream(filename, "UTF-8");
+                writer.println(e.getClass() + ": " + e.getMessage());
+                for (int i = 0; i < e.getStackTrace().length; i++) {
+                    writer.println(e.getStackTrace()[i].toString());
+                }
+
+            } catch (FileNotFoundException | UnsupportedEncodingException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
             }
 
-        } catch (FileNotFoundException | UnsupportedEncodingException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
         }
-
-    }
 });*/
         
         

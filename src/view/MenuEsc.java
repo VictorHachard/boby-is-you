@@ -58,6 +58,7 @@ public class MenuEsc extends Menu {
         vbox.getChildren().addAll(title,
                 buttonContinue,
                 buttonSave,
+                buttonMenu,
                 buttonExit);
 	root.getChildren().addAll(vbox);
 	
@@ -72,7 +73,7 @@ public class MenuEsc extends Menu {
             }
         });
         buttonMenu.setOnAction(event -> {
-            //this.primaryStage.setScene(.scene);
+           // this.primaryStage.setScene(MenuInit.getInstance().scene);
         });
         buttonExit.setOnAction(event -> {
             Logger.getLogger(MenuInit.class.getName()).log(Level.INFO, "Exit of the application");

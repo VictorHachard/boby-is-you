@@ -49,8 +49,9 @@ public class ImageHashMap {
         
         for(Element e:listAllElement) {
             TypeElement te = e.getTypeElements();
-            this.imageMap.put(te, new Image(new File
-                    ("JavaBobyIsYou.images"+te+"png").toURI().toString()));
+            this.imageMap.put(te, new Image(new File("src" +
+                File.separator + "images" + File.separator + te + ".png")
+                .toURI().toString()));  
         }
     }
 
