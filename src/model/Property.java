@@ -16,7 +16,8 @@ public enum Property {
     HOT,
     YOU,
     GRAB,
-    KILL
+    KILL,
+    TP
     ;
 
 }

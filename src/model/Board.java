@@ -9,7 +9,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * //TODO ergerister le dernier deplacment pour la save direction
@@ -22,6 +25,9 @@ public class Board extends Subject {
     private List<List<Placement>> listGrid;
     private int x;
     private int y;
+    private Position portalPos;
+    private boolean isPortal = false;
+    private boolean removePortal = false;
     private Placement unplayable;
     private Element empty = new Empty();
     private MusicHashMap music;
@@ -63,39 +69,45 @@ public class Board extends Subject {
         for(int i=1;i<y-1;i++){
             for(int j=1;j<x-1;j++){
                 List<Element> te =  map.getListElement(j,i);
-                //ne re load pas les EMPTY
                 for(int k=0;k<te.size();k++){
+                    //ne re load pas les EMPTY
                 if (!(te.get(k).getTypeElements()==TypeElement.EMPTY)) {
                     addPlacement(j,i,te.get(te.size()-k));    
                     //Ajoute les pushs sur les texte et les texte regles.
                     if (te.get(k).getTypeTypeElements()==TypeTypeElement.IS ||
                             te.get(k).getTypeTypeElements()==TypeTypeElement.TEXT ||
                             te.get(k).getTypeTypeElements()==TypeTypeElement.RULE)
-                    listGrid.get(i).get(j).getListeContenu().get(k).addRule(Property.PUSH);
+                    listGrid.get(i).get(j).getListeContenu().get(k).addRule(Property.PUSH);                        
                 }
                 }
             }
         }       
         
+        getPortal();
         getIs();
         for (Position p:is)
             notifierObservateurs(p,Directions.NONE,TypeTypeElement.IS);
-        
-        //listGrid.get(2).get(3).check();
-        //Ajout des regle pour la premier fois
-        ArrayList<Element> listTempsIs = new ArrayList<>();
-        /*
-        for(int i=1;i<y-1;i++){
-            for(int j=1;j<x-1;j++){
-                List<Element> te =  listGrid.get(j).get(i).getListeContenu();
-                for(Element e:te)
-                    if(e.getTypeElements()==TypeElement.IS) 
-                        for(Element o:this.listAllElement)
- 
-            }
-        }*/
+
 
     }
+    
+    /**
+     * 
+     */
+    private void getPortal() {
+        List<Position> lp = getPositionOf(TypeElement.PORTAL_IN);
+        List<Position> lp2 = getPositionOf(TypeElement.PORTAL_OUT);
+        if (!(lp==null)) {
+            int i = lp2.size()-1;
+            if (i>0)
+                i = (int)(Math.random() * (i+1)); 
+            this.portalPos = lp2.get(i);
+            this.isPortal = true;
+            for (Element e:listGrid.get(lp.get(0).y).get(lp.get(0).x).getListeContenu())
+                if (e.getTypeElements()==TypeElement.PORTAL_IN)
+                    e.addRule(Property.TP);
+        }
+    }    
     
     /**
      * Ajout a obsMap les observer et les Positions
@@ -414,23 +426,44 @@ public class Board extends Subject {
      * @param direction 
      */
     public void movePlayer(Directions direction) throws TypeElementNotFoundException{
+        
         TypeElement player = getPlayerType();
         List<Position> lp = getPositionOf(player);
         
         for(Position pos:lp)
-            if(pos.y+direction.getDirVer() < y && pos.x+direction.getDirHori() < x)
-                if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canAdd()){ //verifie si il peut add la case suivante
+            if(pos.y+direction.getDirVer() < y && pos.x+direction.getDirHori() < x) {
+                if (removePortal) {
+                    listGrid.get(this.portalPos.y).get(this.portalPos.x).removeElement(TypeElement.PORTAL_IN);
+                    listGrid.get(this.portalPos.y).get(this.portalPos.x).removeElement(TypeElement.PORTAL_OUT);
+                }
+                if (isPortal && listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canTp()) { //verifie si portal and isTp
+                    //ajoute player
+                    listGrid.get(this.portalPos.y+direction.getOpp().getDirVer()).get(this.portalPos.x+direction.getOpp().getDirHori())
+                        .addElement(listGrid.get(pos.y).get(pos.x).getElements(player));
+                    //ajoute portail in
+                    listGrid.get(this.portalPos.y).get(this.portalPos.x)
+                        .addElement(listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).getElements(TypeElement.PORTAL_IN));
+                    //supprimer player et portal in
+                    listGrid.get(pos.y).get(pos.x).removeElement(player);
+                    listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(TypeElement.PORTAL_IN);
+                    //changement true false
+                    isPortal = false;
+                    this.removePortal = true;                   
+                }
+                else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canAdd()){ //verifie si il peut add la case suivante
+                    //verifier si on peut kill ou sur ice
                     editPlacement(pos,direction,player);
                     this.music.play(Music.ADD);
                 } else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canPush()) { //verifie si il peut push la case suivante
                     if (push(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()),direction))
                         editPlacement(pos,direction,player);
                 }
-        getIs();
+            }
+        /*getIs();
         for (Position p:is) {
             notifierObservateurs(p,Directions.NONE,TypeTypeElement.IS);
             System.out.println("coucou");
-        }
+        }*/
     }
     
     /**

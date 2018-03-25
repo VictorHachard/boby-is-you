@@ -79,4 +79,15 @@ public enum Directions {
         return 0;
     }
     
+    Directions getOpp() {
+        if (this==Directions.DOWN)
+            return Directions.UP;
+        else if (this==Directions.UP)
+            return Directions.DOWN;
+        else if (this==Directions.LEFT)
+            return Directions.RIGHT;
+        if (this==Directions.RIGHT)
+            return Directions.LEFT;
+        return Directions.NONE; //genere une erreur
+    }
 }

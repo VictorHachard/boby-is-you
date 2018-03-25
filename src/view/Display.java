@@ -1,7 +1,6 @@
 package view;
 
 import exeptions.TypeElementNotFoundException;
-import java.awt.Panel;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,6 +27,7 @@ public class Display {
     private double imageSize;
     private Stage primaryStage;
     private Pane rootImage;
+    private double imageSizeX;
     
     /**
      * 
@@ -42,7 +42,7 @@ public class Display {
         this.map = new ImageHashMap(board);
         
         //changement de la taille des image en fonction de la taille de la fenetre
-        double imageSizeX = JavaBobyIsYou.WIDTH/this.board.getSizeX();
+        imageSizeX = JavaBobyIsYou.WIDTH/this.board.getSizeX();
         double imageSizeY = JavaBobyIsYou.HEIGHT/this.board.getSizeY();
         //recuperation du plus grand ImageSize
         if (imageSizeX < imageSizeY)
@@ -50,8 +50,7 @@ public class Display {
         else imageSize = imageSizeY;
         //ajout du backGroude dans rootImage
         addBackground();
-        //Centrement de la Grid
-        root.setTranslateX((JavaBobyIsYou.WIDTH/2)-((board.getSizeX()*imageSizeX)/4));
+        
         //ajout de la grid dans rooImage
         rootImage.getChildren().addAll(root);
         
@@ -162,7 +161,13 @@ public class Display {
      * ajoute une image a la un objet Pane à chaque iteration c'est à dire pour
      * chaque objet present dans board
      */
-    private void convertBoardToImage() {       
+    private void convertBoardToImage() {      
+        //temporaire supprimer le root pour le rempalcer cela evite d'avoir tout les root en memoir
+        rootImage.getChildren().remove(root);
+        this.root = new GridPane();
+        //Centrement de la Grid
+        root.setTranslateX((JavaBobyIsYou.WIDTH/2)-((board.getSizeX()*imageSizeX)/4));
+        rootImage.getChildren().addAll(root);
         for(int i=0;i<this.board.getSizeX();i++) {
             for(int j=0;j<this.board.getSizeY();j++) {
                 for(int k=0;k<this.board.getListGrid().get(j).get(i)

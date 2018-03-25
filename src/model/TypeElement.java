@@ -29,6 +29,8 @@ public enum TypeElement {
     EMPTY("EMPTY","    ",0,null,null,TypeTypeElement.BLOCK),
     METAL("METAL","E_M ",1,null,null,TypeTypeElement.BLOCK),
     HEART("HEART","E_H ",2,null,null,TypeTypeElement.BLOCK),
+    PORTAL_IN("PORTAL_IN","E_PI",1,null,null,TypeTypeElement.BLOCK),
+    PORTAL_OUT("PORTAL_OUT","E_PO",1,null,null,TypeTypeElement.BLOCK),
     
     PLAYER1("BABA","E_P ",3,null,null,TypeTypeElement.PLAYER),
     MONSTER("MONSTER","E_M ",3,null,null,TypeTypeElement.PLAYER),
