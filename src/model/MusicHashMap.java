@@ -31,7 +31,7 @@ public class MusicHashMap {
         for(Music m:listAllMusic) {
             try {
                 this.isPlaying.put(m, Boolean.FALSE);
-                this.musicMap.put(m, new MediaPlayer(new Media(new File("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\music\\"+m.toString().toLowerCase()+".mp3").toURI().toString())));
+                this.musicMap.put(m, new MediaPlayer(new Media(new File("C:\\Users\\Windows\\Documents\\NetBeansProjects\\BobyIsYou\\src\\music\\"+m.toString().toLowerCase()+".mp3").toURI().toString())));
             }
             catch (MediaException ex) {
                 LOGGER.log( Level.WARNING, "Unable to load " + m,ex);

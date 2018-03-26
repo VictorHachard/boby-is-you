@@ -74,19 +74,11 @@ public class Placement {
     }
     
     /**
-     * Revois true si on peux add un element.
-     * @return true ou false
-     */
-    boolean canTp() {
-        return findRule(Property.TP);
-    }
-    
-    /**
      * Revois true si tr est bien dans la liste des régles de l'element.
      * @param tr Property
      * @return true ou false
      */
-    private boolean findRule(Property tr){
+    boolean findRule(Property tr){
         for(Element e:this.listeContenu)
             if(e.getTypeRule().contains(tr))
                 return true; 

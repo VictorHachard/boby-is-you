@@ -1,5 +1,6 @@
 package model;
 
+import com.sun.javafx.scene.traversal.Direction;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -89,5 +90,18 @@ public enum Directions {
         if (this==Directions.RIGHT)
             return Directions.LEFT;
         return Directions.NONE; //genere une erreur
+    }
+    
+    /**
+     * 
+     * @param dir, direction a verifier
+     * @return 
+     */
+    boolean getSide(Directions dir) {
+        if (this==Directions.DOWN || this==Directions.UP)
+            return (dir==Directions.LEFT || dir==Directions.RIGHT);
+        else if (this==Directions.RIGHT || this==Directions.LEFT)
+            return (dir==Directions.DOWN || dir==Directions.DOWN);
+        return false;
     }
 }

@@ -73,7 +73,7 @@ public class MenuEsc extends Menu {
             }
         });
         buttonMenu.setOnAction(event -> {
-           // this.primaryStage.setScene(MenuInit.getInstance().scene);
+           this.primaryStage.setScene(MenuInit.getInstance().scene);
         });
         buttonExit.setOnAction(event -> {
             Logger.getLogger(MenuInit.class.getName()).log(Level.INFO, "Exit of the application");
