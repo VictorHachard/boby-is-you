@@ -9,10 +9,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 /**
  * //TODO ergerister le dernier deplacment pour la save direction
@@ -27,6 +24,8 @@ public class Board extends Subject {
     private int y;
     private Position portalPos;
     private boolean isPortal = false;
+    private boolean isSlip = false;
+    private Directions dirSlip;
     private boolean removePortal = false;
     private Placement unplayable;
     private Element empty = new Empty();
@@ -185,7 +184,7 @@ public class Board extends Subject {
         
         
         //si accun des cas notifier obs pour delet rule
-        //else { deleteRule(ty,posDelete);
+        //else  deleteRule(ty,posDelete);
                     //System.out.println("debugdelet");}
                     
         //delete all rule
@@ -436,7 +435,7 @@ public class Board extends Subject {
                     listGrid.get(this.portalPos.y).get(this.portalPos.x).removeElement(TypeElement.PORTAL_IN);
                     listGrid.get(this.portalPos.y).get(this.portalPos.x).removeElement(TypeElement.PORTAL_OUT);
                 }
-                if (isPortal && listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canTp()) { //verifie si portal and isTp
+                if (isPortal && listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.TP)) { //verifie si portal and isTp
                     //ajoute player
                     listGrid.get(this.portalPos.y+direction.getOpp().getDirVer()).get(this.portalPos.x+direction.getOpp().getDirHori())
                         .addElement(listGrid.get(pos.y).get(pos.x).getElements(player));
@@ -450,14 +449,68 @@ public class Board extends Subject {
                     isPortal = false;
                     this.removePortal = true;                   
                 }
-                else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canAdd()){ //verifie si il peut add la case suivante
-                    //verifier si on peut kill ou sur ice
-                    editPlacement(pos,direction,player);
-                    this.music.play(Music.ADD);
+                else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canAdd() || isSlip){ //verifie si il peut add la case suivante
+                    //ICE
+                    if (isSlip) {
+                        //si c est pas de l ice
+                        if (!(listGrid.get(pos.y+this.dirSlip.getDirVer()).get(pos.x+this.dirSlip.getDirHori()).findRule(Property.SLIP))) {
+                            //isSlip=false;
+                            //si on peut pas add return le player opp
+                            System.out.println("1 "+listGrid.get(pos.y+dirSlip.getDirVer()).get(pos.x+dirSlip.getDirHori()).canAdd());
+                            System.out.println("2"+listGrid.get(pos.y+this.dirSlip.getDirVer()).get(pos.x+this.dirSlip.getDirHori()).findRule(Property.PUSH));
+                            if ((listGrid.get(pos.y+dirSlip.getDirVer()).get(pos.x+dirSlip.getDirHori()).canAdd())) { //si stop return false
+                                editPlacement(pos,dirSlip,player);
+                                isSlip=false;
+                            }
+                            
+                            else if (listGrid.get(pos.y+this.dirSlip.getDirVer()).get(pos.x+this.dirSlip.getDirHori()).findRule(Property.PUSH)) { //verifie si il peut push la case suivante
+                                if (push(new Position(pos.x+dirSlip.getDirHori(),pos.y+dirSlip.getDirVer()),dirSlip))       {                    
+                                    editPlacement(pos,dirSlip,player);
+                                    isSlip=false;
+                                } 
+                            }
+                            else if (!(listGrid.get(pos.y+dirSlip.getDirVer()).get(pos.x+dirSlip.getDirHori()).canAdd())) { //si stop return false
+                                System.out.println("enter the mother fucking methode");
+                                dirSlip = direction;
+                                
+                                
+                                
+                                if (listGrid.get(pos.y+this.dirSlip.getDirVer()).get(pos.x+this.dirSlip.getDirHori()).findRule(Property.PUSH)) { //verifie si il peut push la case suivante
+                                if (push(new Position(pos.x+dirSlip.getDirHori(),pos.y+dirSlip.getDirVer()),dirSlip))       {                    
+                                    editPlacement(pos,dirSlip,player);
+                                    isSlip=false;
+                                }
+                            }
+                            else editPlacement(pos,dirSlip,player);
+                            }
+                        }
+                        else if (listGrid.get(pos.y+this.dirSlip.getDirVer()).get(pos.x+this.dirSlip.getDirHori()).findRule(Property.PUSH)) { //verifie si il peut push la case suivante
+                            if (push(new Position(pos.x+dirSlip.getDirHori(),pos.y+dirSlip.getDirVer()),dirSlip))       {                    
+                                editPlacement(pos,dirSlip,player);
+                            }
+                        }
+                    else editPlacement(pos,dirSlip,player);
+                    }
+                    
+                    else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.SLIP)) {
+                        isSlip = true;
+                        dirSlip = direction;
+                        editPlacement(pos,dirSlip,player);
+                    } 
+                    
+                    //KILL or SKINK
+                    else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.KILL) || listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.SINK)) {
+                        listGrid.get(pos.y).get(pos.x).removeElement(player);
+                    }
+                    else {
+                        editPlacement(pos,direction,player);
+                        this.music.play(Music.ADD);
+                    }                    
                 } else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canPush()) { //verifie si il peut push la case suivante
                     if (push(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()),direction))
                         editPlacement(pos,direction,player);
                 }
+                //PUSH on ice
             }
         /*getIs();
         for (Position p:is) {
@@ -548,7 +601,6 @@ public class Board extends Subject {
         save.close();
     }
     catch (IOException e) {
-        
     }   
     }
 

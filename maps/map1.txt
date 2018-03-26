@@ -2,6 +2,9 @@
 portal_in 2 2
 portal_out 8 2
 portal_out 8 1
+text_ice 4 3
+is 5 3
+slip 6 3
 text_wall 4 4
 is 5 4
 stop 6 4
@@ -14,13 +17,34 @@ wall 5 6
 wall 6 6
 wall 7 6
 wall 8 6
+ice 9 7
+ice 3 7
+ice 4 7
+ice 5 7
+ice 6 7
+ice 7 7
+ice 8 7
+ice 9 7
+ice 3 8
+ice 4 8
+ice 5 8
+ice 6 8
+ice 7 8
+ice 8 8
+ice 9 8
+ice 3 9
+ice 4 9
+ice 5 9
+ice 6 9
+ice 7 9
+ice 8 9
 wall 9 6
 wall 10 6
 wall 11 6
 wall 12 6
 wall 13 6
 wall 14 6
-baba 5 8 3
+baba 1 8 3
 flag 12 8 1
 rock 8 7 0
 rock 8 8 2

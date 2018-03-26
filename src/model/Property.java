@@ -5,7 +5,7 @@ package model;
  * @author Glaskani
  */
 public enum Property {
-    SLIP,
+    SLIP, //glisser
     WIN,
     PUSH,
     STOP,
