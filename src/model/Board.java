@@ -22,31 +22,45 @@ public class Board extends Subject {
     private List<List<Placement>> listGrid;
     private int x;
     private int y;
-    private Position portalPos;
-    private boolean isPortal = false;
-    private boolean isSlip = false;
-    private Directions dirSlip;
-    private boolean removePortal = false;
-    private Placement unplayable;
+    private Placement unplayable = new Placement(new Unplayable());
     private Element empty = new Empty();
     private MusicHashMap music;
     private List<ElementRule> listRule;
     
     private static Board INSTANCE = null;
     
+    /**
+     * 
+     * @param map
+     * @return
+     * @throws TypeElementNotFoundException
+     * @throws IOException 
+     */
     public static Board getInstance(Maps map) throws TypeElementNotFoundException, IOException {           
         if (INSTANCE == null)
             INSTANCE = new Board(map);
         return INSTANCE;
     }
     
+    /**
+     * 
+     * @return 
+     */
     public static Board getInstance() {           
         return INSTANCE;
     }
     
+    /**
+     * 
+     */
     public static void ReloadInstance() {           
         INSTANCE = null;
     }
+    
+    private Tp tp;
+    private Ice ice;
+    private Kill kill;
+    private Sink sink;
     
     /**
      * 
@@ -58,7 +72,6 @@ public class Board extends Subject {
         this.listRule = new ArrayList<>();
         this.listAllElement = map.getListAllElement();  
         music = new MusicHashMap();
-        unplayable = new Placement(new Unplayable());
         
         this.x = map.getSizeX();
         this.y = map.getSizeY();
@@ -81,32 +94,17 @@ public class Board extends Subject {
                 }
             }
         }       
-        
-        getPortal();
+                
+        tp = new Tp(this);
+        ice = new Ice(this);
+        kill = new Kill(this);
+        sink = new Sink(this);
         getIs();
         for (Position p:is)
             notifierObservateurs(p,Directions.NONE,TypeTypeElement.IS);
 
 
-    }
-    
-    /**
-     * 
-     */
-    private void getPortal() {
-        List<Position> lp = getPositionOf(TypeElement.PORTAL_IN);
-        List<Position> lp2 = getPositionOf(TypeElement.PORTAL_OUT);
-        if (!(lp==null)) {
-            int i = lp2.size()-1;
-            if (i>0)
-                i = (int)(Math.random() * (i+1)); 
-            this.portalPos = lp2.get(i);
-            this.isPortal = true;
-            for (Element e:listGrid.get(lp.get(0).y).get(lp.get(0).x).getListeContenu())
-                if (e.getTypeElements()==TypeElement.PORTAL_IN)
-                    e.addRule(Property.TP);
-        }
-    }    
+    }   
     
     /**
      * Ajout a obsMap les observer et les Positions
@@ -308,6 +306,10 @@ public class Board extends Subject {
         }
     }
        
+    List<ElementRule> getElementRule() {
+        return this.listRule;
+    }
+    
     /**
      * Revois la taille du tableau board en abscisse.
      * @return int
@@ -390,7 +392,7 @@ public class Board extends Subject {
      * @param te
      * @return 
      */
-    private List<Position> getPositionOf(TypeElement te){
+    List<Position> getPositionOf(TypeElement te){
         List<Position> lp = new ArrayList<>();
         
         for(int i=0;i<this.y;i++)
@@ -431,93 +433,34 @@ public class Board extends Subject {
         
         for(Position pos:lp)
             if(pos.y+direction.getDirVer() < y && pos.x+direction.getDirHori() < x) {
-                if (removePortal) {
-                    listGrid.get(this.portalPos.y).get(this.portalPos.x).removeElement(TypeElement.PORTAL_IN);
-                    listGrid.get(this.portalPos.y).get(this.portalPos.x).removeElement(TypeElement.PORTAL_OUT);
+                
+                //regle a la con
+                if (this.tp.check(pos, direction, player))
+                    return;
+                if (this.kill.check(pos, direction, player))
+                    return;
+                if (this.sink.check(pos, direction, player)) //ajouter sink a push
+                    return;
+                //else if (this.ice.check(pos, direction, player))
+                 //   return;
+                
+                //Depalcement ADD
+                else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canAdd()){ //verifie si il peut add la case suivante
+                    //Depalcement ADD
+                    editPlacement(pos,direction,player);
+                    this.music.play(Music.ADD);
                 }
-                if (isPortal && listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.TP)) { //verifie si portal and isTp
-                    //ajoute player
-                    listGrid.get(this.portalPos.y+direction.getOpp().getDirVer()).get(this.portalPos.x+direction.getOpp().getDirHori())
-                        .addElement(listGrid.get(pos.y).get(pos.x).getElements(player));
-                    //ajoute portail in
-                    listGrid.get(this.portalPos.y).get(this.portalPos.x)
-                        .addElement(listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).getElements(TypeElement.PORTAL_IN));
-                    //supprimer player et portal in
-                    listGrid.get(pos.y).get(pos.x).removeElement(player);
-                    listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(TypeElement.PORTAL_IN);
-                    //changement true false
-                    isPortal = false;
-                    this.removePortal = true;                   
-                }
-                else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canAdd() || isSlip){ //verifie si il peut add la case suivante
-                    //ICE
-                    if (isSlip) {
-                        //si c est pas de l ice
-                        if (!(listGrid.get(pos.y+this.dirSlip.getDirVer()).get(pos.x+this.dirSlip.getDirHori()).findRule(Property.SLIP))) {
-                            //isSlip=false;
-                            //si on peut pas add return le player opp
-                            System.out.println("1 "+listGrid.get(pos.y+dirSlip.getDirVer()).get(pos.x+dirSlip.getDirHori()).canAdd());
-                            System.out.println("2"+listGrid.get(pos.y+this.dirSlip.getDirVer()).get(pos.x+this.dirSlip.getDirHori()).findRule(Property.PUSH));
-                            if ((listGrid.get(pos.y+dirSlip.getDirVer()).get(pos.x+dirSlip.getDirHori()).canAdd())) { //si stop return false
-                                editPlacement(pos,dirSlip,player);
-                                isSlip=false;
-                            }
-                            
-                            else if (listGrid.get(pos.y+this.dirSlip.getDirVer()).get(pos.x+this.dirSlip.getDirHori()).findRule(Property.PUSH)) { //verifie si il peut push la case suivante
-                                if (push(new Position(pos.x+dirSlip.getDirHori(),pos.y+dirSlip.getDirVer()),dirSlip))       {                    
-                                    editPlacement(pos,dirSlip,player);
-                                    isSlip=false;
-                                } 
-                            }
-                            else if (!(listGrid.get(pos.y+dirSlip.getDirVer()).get(pos.x+dirSlip.getDirHori()).canAdd())) { //si stop return false
-                                System.out.println("enter the mother fucking methode");
-                                dirSlip = direction;
-                                
-                                
-                                
-                                if (listGrid.get(pos.y+this.dirSlip.getDirVer()).get(pos.x+this.dirSlip.getDirHori()).findRule(Property.PUSH)) { //verifie si il peut push la case suivante
-                                if (push(new Position(pos.x+dirSlip.getDirHori(),pos.y+dirSlip.getDirVer()),dirSlip))       {                    
-                                    editPlacement(pos,dirSlip,player);
-                                    isSlip=false;
-                                }
-                            }
-                            else editPlacement(pos,dirSlip,player);
-                            }
-                        }
-                        else if (listGrid.get(pos.y+this.dirSlip.getDirVer()).get(pos.x+this.dirSlip.getDirHori()).findRule(Property.PUSH)) { //verifie si il peut push la case suivante
-                            if (push(new Position(pos.x+dirSlip.getDirHori(),pos.y+dirSlip.getDirVer()),dirSlip))       {                    
-                                editPlacement(pos,dirSlip,player);
-                            }
-                        }
-                    else editPlacement(pos,dirSlip,player);
-                    }
-                    
-                    else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.SLIP)) {
-                        isSlip = true;
-                        dirSlip = direction;
-                        editPlacement(pos,dirSlip,player);
-                    } 
-                    
-                    //KILL or SKINK
-                    else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.KILL) || listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.SINK)) {
-                        listGrid.get(pos.y).get(pos.x).removeElement(player);
-                    }
-                    else {
-                        editPlacement(pos,direction,player);
-                        this.music.play(Music.ADD);
-                    }                    
-                } else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canPush()) { //verifie si il peut push la case suivante
+                //Depalcement PUSH
+                else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canPush()) { //verifie si il peut push la case suivante
                     if (push(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()),direction))
                         editPlacement(pos,direction,player);
-                }
-                //PUSH on ice
-            }
+                }}}
+            
         /*getIs();
         for (Position p:is) {
             notifierObservateurs(p,Directions.NONE,TypeTypeElement.IS);
             System.out.println("coucou");
         }*/
-    }
     
     /**
      * Methode recurcive qui deplace un TypeElement d'un Elements dans le sens
@@ -526,7 +469,7 @@ public class Board extends Subject {
      * @param direction Directions, sens du déplacemnt 
      * @return true ou flase
      */
-    private boolean push(Position pos,Directions direction) throws TypeElementNotFoundException {
+    boolean push(Position pos,Directions direction) throws TypeElementNotFoundException {
         if(pos.y+direction.getDirVer() < y && pos.x+direction.getDirHori() < x){
             if (listGrid.get(pos.y).get(pos.x).canPush()){
                 if(push(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()),direction)){
