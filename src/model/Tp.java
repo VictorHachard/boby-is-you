@@ -54,7 +54,7 @@ public class Tp implements Rule {
             System.out.println(lp2.size());
             int i = lp2.size()-1;
             if (i>0)
-                i = (int)(Math.random() * (i+1)); 
+                i = (int)(Math.random() * (i+1));
             this.portalPos = lp2.get(i);
             this.isPortal = true;
             for (Element e:listGrid.get(lp.get(0).y).get(lp.get(0).x).getListeContenu())

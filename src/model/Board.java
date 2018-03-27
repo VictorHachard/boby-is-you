@@ -9,6 +9,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -18,6 +19,7 @@ import java.util.List;
 public class Board extends Subject {
     
     private List<Element> listAllElement;
+    private TypeElement player;
     private List<Position> is;
     private List<List<Placement>> listGrid;
     private int x;
@@ -26,6 +28,7 @@ public class Board extends Subject {
     private Element empty = new Empty();
     private MusicHashMap music;
     private List<ElementRule> listRule;
+    private HashMap<Property, Rule> rule;
     
     private static Board INSTANCE = null;
     
@@ -99,7 +102,7 @@ public class Board extends Subject {
                 }
             }
         }       
-                
+               
         tp = new Tp(this);
         ice = new Ice(this);
         kill = new Kill(this);
@@ -107,12 +110,19 @@ public class Board extends Subject {
         move = new Move(this);
         melt = new Melt(this);
         win = new Win(this);
+        
         getIs();
         for (Position p:is)
-            notifierObservateurs(p,Directions.NONE,TypeTypeElement.IS);
-
-
+            rule(p,Directions.NONE,TypeTypeElement.IS);
     }   
+    
+    private void deleteAllRule() {
+        for (Element e:this.listAllElement)
+            if (!(e.getTypeTypeElements()==TypeTypeElement.IS||e.getTypeTypeElements()==TypeTypeElement.RULE||e.getTypeTypeElements()==TypeTypeElement.TEXT))
+                if (!(e.getTypeRule().isEmpty()))
+                    for (int i=0;i<e.getTypeRule().size();i++)
+                        e.deleteRule(e.getTypeRule().get(i));       
+    }
     
     /**
      * Ajout a obsMap les observer et les Positions
@@ -125,78 +135,41 @@ public class Board extends Subject {
         }
     }
     
-    /**
-     * Verifie si il y a bien un TypeTypeElement TEXT en haut ou a droite et si
-     * il y a bien un TypeTypeElement Rule en bas ou gauche, si c'est bien le cas notifie les observers
-     */
-    void notifierObservateurs(Position pos, Directions dir, TypeTypeElement ty) throws TypeElementNotFoundException {       
-        Position posDelete = new Position(pos.x+dir.getDirHori(),pos.y+dir.getDirVer());
-        
-        for(Element e4:listAllElement)
-            for(ElementRule le :listRule) {
-                if ((e4.getTypeElements().getType()==TypeTypeElement.RULE))
-                if ((e4.getTypeElements().getType()==TypeTypeElement.TEXT))
-                if ((e4.getTypeElements().getType()==TypeTypeElement.IS))
-                if (e4.ltr.contains(le)) {
-                    
-                    e4.deleteRule(le.getProperty());
-                    System.out.println("deleting");
-                    System.out.println("");
-                }
-            }
-        //si c'est un IS
-        if (ty==TypeTypeElement.IS) {
+    private void rule(Position pos, Directions dir, TypeTypeElement ty) throws TypeElementNotFoundException {
+        /*if (ty==TypeTypeElement.IS) {
             //removeObs(pos);
             pos = new Position(pos.x+dir.getDirHori(),pos.y+dir.getDirVer());
             //Rule r = new Rule();
             //addObs(pos,r);
-        }
-        //si c'est un text avoir is en bas ou a droite
-        else if (ty==TypeTypeElement.TEXT) {
-            if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()+1).findElements(TypeElement.IS)) // +1 a doite verifi IS
-                pos = new Position(pos.x+dir.getDirHori()+1,pos.y+dir.getDirVer()); 
-            else if (listGrid.get(pos.y+dir.getDirVer()+1).get(pos.x+dir.getDirHori()).findElements(TypeElement.IS)) //+1 bas
-                pos = new Position(pos.x+dir.getDirHori(),pos.y+dir.getDirVer()+1);
-        }
-        //si c'est un RULE avoir un is gauche ou haut
-        else if (ty==TypeTypeElement.RULE) {
-            if (listGrid.get(pos.y+dir.getDirVer()-1).get(pos.x+dir.getDirHori()).findElements(TypeElement.IS)) // +1 a gauche verifi IS
-                pos = new Position(pos.x+dir.getDirHori(),pos.y+dir.getDirVer()-1); 
-            else if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()-1).findElements(TypeElement.IS)) //+1 haut
-                pos = new Position(pos.x+dir.getDirHori()-1,pos.y+dir.getDirVer());
-        }
-        
+        }*/
         if (listGrid.get(pos.y).get(pos.x-1).findTypeType(TypeTypeElement.TEXT)
                 && listGrid.get(pos.y).get(pos.x+1).findTypeType(TypeTypeElement.RULE)) 
             addRule(listGrid.get(pos.y).get(pos.x-1).findTypeElement(TypeTypeElement.TEXT),
                     listGrid.get(pos.y).get(pos.x+1).findTypeElement(TypeTypeElement.RULE));
         
         else if (listGrid.get(pos.y-1).get(pos.x).findTypeType(TypeTypeElement.TEXT)
-                && listGrid.get(pos.y+1).get(pos.x).findTypeType(TypeTypeElement.RULE)) 
+                && listGrid.get(pos.y+1).get(pos.x).findTypeType(TypeTypeElement.RULE)) {
             addRule(listGrid.get(pos.y-1).get(pos.x).findTypeElement(TypeTypeElement.TEXT),
                     listGrid.get(pos.y+1).get(pos.x).findTypeElement(TypeTypeElement.RULE));
-        
+            
+        }
         else if (listGrid.get(pos.y-1).get(pos.x).findTypeType(TypeTypeElement.TEXT)
                 && listGrid.get(pos.y+1).get(pos.x).findTypeType(TypeTypeElement.TEXT)) {
             changeType(listGrid.get(pos.y-1).get(pos.x).findTypeElement(TypeTypeElement.TEXT),
-                    listGrid.get(pos.y+1).get(pos.x).findTypeElement(TypeTypeElement.TEXT));
-            System.out.println("coucou");}
+                    listGrid.get(pos.y+1).get(pos.x).findTypeElement(TypeTypeElement.TEXT));}
                 
         else if (listGrid.get(pos.y).get(pos.x-1).findTypeType(TypeTypeElement.TEXT)
                 && listGrid.get(pos.y).get(pos.x+1).findTypeType(TypeTypeElement.TEXT)) {
             changeType(listGrid.get(pos.y).get(pos.x-1).findTypeElement(TypeTypeElement.TEXT),
-                    listGrid.get(pos.y).get(pos.x+1).findTypeElement(TypeTypeElement.TEXT));
-                        System.out.println("coucou1");}
-        
-        
-        //si accun des cas notifier obs pour delet rule
-        //else  deleteRule(ty,posDelete);
-                    //System.out.println("debugdelet");}
-                    
-        //delete all rule
-        
+                    listGrid.get(pos.y).get(pos.x+1).findTypeElement(TypeTypeElement.TEXT));}
     }
-        
+    
+    /**
+     * BUGGER
+     * @param text
+     * @param text2
+     * @throws TypeElementNotFoundException 
+     */
     private void changeType(TypeElement text,TypeElement text2) throws TypeElementNotFoundException { //e1 a mettre e a enlever
         List<Element> listAllElement2 = new ArrayList(listAllElement);
         List<Element> listDelete = new ArrayList<>();
@@ -225,74 +198,12 @@ public class Board extends Subject {
                 listAllElement.remove(e5);
     }
     
-    private void deleteRule(TypeTypeElement ty,Position pos) {
-        //TEXT
-        if (ty==TypeTypeElement.TEXT) {
-            //pour tout les element de emplacement
-            for(Element e:listGrid.get(pos.y).get(pos.x).getListeContenu()) {
-                //si un des element a TEXT comme propriéter
-                if (e.getTypeElements().getType()==TypeTypeElement.TEXT) { //TypeElement trouver
-                    //pour tout les TypeElement de la listRule
-                    for (int i=0;i<listRule.size();i++) {
-                        //si un des TypeElement de la listRule 
-                        if (listRule.get(i).getTypeElement()==e.getTypeElements().getText()) { //recupere le TypeElement de la listRule
-                            //pour tout les element dans la listAll
-                            for(Element k:listAllElement) {
-                                //si un des TypeElement == TypeElement de la liste de placement
-                                if (k.getTypeElements()==e.getTypeElements().getText())
-                                    System.out.println("Text list regle avant " + k.ltr.toString());
-                                    k.deleteRule(listRule.get(i).getProperty());
-                                    System.out.println("Text list regle apres " + k.ltr.toString());
-                                    System.out.println("Text list regle apres " + k.ltr.toString());
-                                    System.out.println();
-                            }
-                            listRule.remove(i);
-                        }
-                    }
-                }
-            }
-        }                        
-        //RULE
-        else if (ty==TypeTypeElement.RULE) {
-            //pour tout les element de emplacement
-            for(Element e:listGrid.get(pos.y).get(pos.x).getListeContenu()) {
-                //si un des element a TEXT comme propriéter
-                if (e.getTypeElements().getType()==TypeTypeElement.RULE) { //TypeElement trouver
-                    //pour tout les TypeElement de la listRule
-                    for (int j=0;j<listRule.size();j++) {
-                        //si un des TypeElement de la listRule 
-                        if (listRule.get(j).getProperty()==e.getTypeElements().getRule()) { //recupere le TypeElement de la listRule
-                            //pour tout les element dans la listAll
-                            for(Element k:listAllElement) {
-                                //si un des TypeElement == TypeElement de la liste de placement
-                                if (k.ltr.contains(e.getTypeElements().getRule()))
-                                    if (!(k.getTypeElements().getType()==TypeTypeElement.RULE))
-                                    if (!(    k.getTypeElements().getType()==TypeTypeElement.TEXT))
-                                    if (!(    k.getTypeElements().getType()==TypeTypeElement.IS)) {//editer sur des TypeType RULE ou TEXE
-                                    System.out.println("elment a editer " + k.typeElement.toString());
-                                    System.out.println("RULE list regle avant " + k.ltr.toString());
-                                    k.deleteRule(listRule.get(j).getProperty());
-                                    System.out.println("RULE a delete " + listRule.get(j).getProperty().toString());
-                                    System.out.println("RULE list regle apres " + k.ltr.toString());
-                                    System.out.println();
-                            }
-                                if (!(k.getTypeElements().getType()==TypeTypeElement.RULE))
-                                    if (!(    k.getTypeElements().getType()==TypeTypeElement.TEXT))
-                                    if (!(    k.getTypeElements().getType()==TypeTypeElement.IS))
-                            listRule.remove(j);
-                        }
-                    }
-                }
-            }
-        }}
-        //IS
-        //else
-            //merde
-            
-    }
-    
     private void addRule(TypeElement text,TypeElement rule) {
         listRule.add(new ElementRule(text.getText(), rule.getRule()));
+        /*if (text.getText()==TypeElement.PLAYER1) {
+            System.out.println(text.getText());
+            player = text.getText();
+        }*/
         for(Element e:listAllElement)
             if (e.getTypeElements()==text.getText())
                 e.addRule(rule.getRule());
@@ -469,13 +380,13 @@ public class Board extends Subject {
                 else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canPush()) { //verifie si il peut push la case suivante
                     if (push(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()),direction))
                         editPlacement(pos,direction,player);
-                }}}
-            
-        /*getIs();
-        for (Position p:is) {
-            notifierObservateurs(p,Directions.NONE,TypeTypeElement.IS);
-            System.out.println("coucou");
-        }*/
+                }
+            }
+        deleteAllRule();
+        getIs();
+        for (Position p:is)
+            rule(p,Directions.NONE,TypeTypeElement.IS);
+    }
     
     /**
      * Methode recurcive qui deplace un TypeElement d'un Elements dans le sens

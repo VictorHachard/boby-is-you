@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -23,7 +22,7 @@ import model.Maps;
  */
 public class MenuInit extends Menu {
     
-    Scene scene;
+    public Scene scene;
     private Stage primaryStage;
     private Pane root = new Pane();
     private static MenuInit INSTANCE = null;
@@ -33,6 +32,11 @@ public class MenuInit extends Menu {
             INSTANCE = new MenuInit();
         return INSTANCE;
     }
+    
+        public Stage getStage() {
+        return this.primaryStage;
+    }
+    
     /*
     private List<Pair<String, Runnable>> menuData = Arrays.asList(
             new Pair<String, Runnable>("Single Player", () -> {}),

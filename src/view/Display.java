@@ -13,6 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.Board;
 import model.Directions;
+import model.Levels;
 import model.TypeElement;
 
 /**
@@ -111,7 +112,15 @@ public class Display {
             }
                     break;
                 case R:
-                    /*new LoadGame(f,this.primaryStage);*/
+            {
+                try {
+                    Levels.getInstance().loadDisplay();
+                } catch (TypeElementNotFoundException ex) {
+                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
                     break;
                 case ESCAPE:
                     Display.this.primaryStage.setScene(menuEsc.scene);
