@@ -2,6 +2,7 @@ package view;
 
 import exeptions.TypeElementNotFoundException;
 import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.Scene;
@@ -20,7 +21,7 @@ import model.TypeElement;
  */
 public class Display {
        
-    Scene scene;
+    public Scene scene;
     private GridPane root;
     private Board board;
     private ImageHashMap map;
@@ -33,7 +34,7 @@ public class Display {
      * 
      * @param board
      */
-    Display(Board board, Stage primaryStage, File f) {
+    public Display(Board board, Stage primaryStage) {
         this.board = board;
         root = new GridPane();
         rootImage = new Pane();
@@ -68,6 +69,8 @@ public class Display {
                 } catch (TypeElementNotFoundException ex) {
                     //Erreur deja traiter en amont
                     Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
                     break;
@@ -77,6 +80,8 @@ public class Display {
                     this.board.movePlayer(Directions.DOWN);
                 } catch (TypeElementNotFoundException ex) {
                     //Erreur deja traiter en amont
+                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
                     Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -88,6 +93,8 @@ public class Display {
                 } catch (TypeElementNotFoundException ex) {
                     //Erreur deja traiter en amont
                     Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
                     break;
@@ -98,11 +105,13 @@ public class Display {
                 } catch (TypeElementNotFoundException ex) {
                     //Erreur deja traiter en amont
                     Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
                     break;
                 case R:
-                    new LoadGame(f,this.primaryStage);
+                    /*new LoadGame(f,this.primaryStage);*/
                     break;
                 case ESCAPE:
                     Display.this.primaryStage.setScene(menuEsc.scene);

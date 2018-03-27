@@ -28,12 +28,16 @@ public class LoadGame {
         try {
                 Maps m = new Maps(f);
                 GameModeNormal g = new GameModeNormal(m);
-                Display d = new Display(g.getBoard(),primaryStage,f);
+                Display d = new Display(g.getBoard(),primaryStage);
                 this.primaryStage.setScene(d.scene);                
             } catch (TypeElementNotFoundException ex) {
                 //RIEN Erreur deja traiter en amont
             } catch (IOException ex) {
                 Logger.getLogger(MenuInit.class.getName()).log(Level.SEVERE, null, ex);
             }
+    }    
+    
+    LoadGame(Maps m, Stage primaryStage) {
+        this.primaryStage = primaryStage;
     }    
 }

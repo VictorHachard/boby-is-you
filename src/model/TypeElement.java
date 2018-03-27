@@ -37,6 +37,7 @@ public enum TypeElement {
     ANNI("ANNI","E_A ",3,null,null,TypeTypeElement.PLAYER),
     
     TEXT_ROCK("TEXT_ROCK","T_R ",3,TypeElement.ROCK,null,TypeTypeElement.TEXT),
+    TEXT_LAVA("TEXT_LAVA","T_LA",3,TypeElement.LAVA,null,TypeTypeElement.TEXT),
     TEXT_WALL("TEXT_WALL","T_W ",3,TypeElement.WALL,null,TypeTypeElement.TEXT),
     TEXT_YOU("TEXT_YOU","T_Y ",3,null,null,TypeTypeElement.TEXT),
     TEXT_PLAYER1("TEXT_BABA","T_P ",3,TypeElement.PLAYER1,null,TypeTypeElement.TEXT),

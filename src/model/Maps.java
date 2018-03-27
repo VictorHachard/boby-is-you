@@ -108,12 +108,13 @@ public class Maps {
      */
     public void addMap(int x, int y, Element object)throws TypeElementNotFoundException {   
         checkIfPosIsInMap(x,y);
-        for(Element e:this.listAllElement) {
-            if(e.equals(object)) {
-                putObjects (Element, new Position(y,x), e);
-                return;
+        if (!(object.getTypeTypeElements()==TypeTypeElement.PLAYER || object.getTypeElements()==TypeElement.ROCK))
+            for(Element e:this.listAllElement) {
+                if(e.equals(object)) {
+                    putObjects (Element, new Position(y,x), e);
+                    return;
+                }
             }
-        }
         listAllElement.add(object);
         putObjects (Element, new Position(y,x), object);
     }

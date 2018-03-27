@@ -14,6 +14,7 @@ public enum TypeTypeElement {
     RULE(),
     TEXT(),
     IS(),
+    MOVEABLE(),
     PLAYER();
     
     

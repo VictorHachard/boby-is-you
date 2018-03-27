@@ -1,4 +1,17 @@
 18 18
+text_water 1 12
+is 2 12
+sink 3 12
+water 2 14
+water 3 14
+text_lava 1 11
+is 2 11
+melt 3 11
+lava 2 16
+lava 3 16
+monster 0 0 0
+rock 5 0
+monster 1 1 0
 portal_in 2 2
 portal_out 8 2
 portal_out 8 1

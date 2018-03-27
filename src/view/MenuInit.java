@@ -14,6 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.GameModeNormal;
+import model.Levels;
 import model.Maps;
 
 /**
@@ -50,8 +51,6 @@ public class MenuInit extends Menu {
         addBackground();
         addTitle();
         addMenu();
-        
-        
     }
 
     private void addBackground() {
@@ -102,9 +101,14 @@ public class MenuInit extends Menu {
 	vbox.setTranslateY((JavaBobyIsYou.HEIGHT/2)-70);
 	
         buttonContinue.setOnAction(event -> {
-            File f = new File("." + File.separator + "maps" + File.separator + "map1.txt"); //get last save
-            f.getAbsolutePath();
-            LoadGame(f);
+            try {
+                Levels lev = Levels.getInstance();
+            } catch (TypeElementNotFoundException ex) {
+                Logger.getLogger(MenuInit.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(MenuInit.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         });
         buttonNew.setOnAction(event -> {
                 System.out.println("Option 3 selected via Lambda");
@@ -144,7 +148,6 @@ public class MenuInit extends Menu {
         });
     }        
         
-        
     /**
      * 
      * @param stage 
@@ -153,12 +156,10 @@ public class MenuInit extends Menu {
         primaryStage = stage;
     }    
     
-    void LoadGame(File f) {
-        this.primaryStage = primaryStage;
-        try {
-                Maps m = new Maps(f);
+    public void LoadGame(Maps m) {
+        try { System.out.println("coucou");
                 GameModeNormal g = new GameModeNormal(m);
-                Display d = new Display(g.getBoard(),primaryStage,f);
+                Display d = new Display(g.getBoard(),primaryStage);
                 this.primaryStage.setScene(d.scene);                
             } catch (TypeElementNotFoundException ex) {
                 //RIEN Erreur deja traiter en amont

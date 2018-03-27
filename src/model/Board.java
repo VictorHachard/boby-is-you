@@ -61,6 +61,9 @@ public class Board extends Subject {
     private Ice ice;
     private Kill kill;
     private Sink sink;
+    private Move move;
+    private Melt melt;
+    private Win win;
     
     /**
      * 
@@ -86,6 +89,8 @@ public class Board extends Subject {
                 if (!(te.get(k).getTypeElements()==TypeElement.EMPTY)) {
                     addPlacement(j,i,te.get(te.size()-k));    
                     //Ajoute les pushs sur les texte et les texte regles.
+                    if (te.get(k).typeElement==TypeElement.MONSTER)
+                        listGrid.get(i).get(j).getListeContenu().get(k).addRule(Property.MOVE);
                     if (te.get(k).getTypeTypeElements()==TypeTypeElement.IS ||
                             te.get(k).getTypeTypeElements()==TypeTypeElement.TEXT ||
                             te.get(k).getTypeTypeElements()==TypeTypeElement.RULE)
@@ -99,6 +104,9 @@ public class Board extends Subject {
         ice = new Ice(this);
         kill = new Kill(this);
         sink = new Sink(this);
+        move = new Move(this);
+        melt = new Melt(this);
+        win = new Win(this);
         getIs();
         for (Position p:is)
             notifierObservateurs(p,Directions.NONE,TypeTypeElement.IS);
@@ -426,7 +434,7 @@ public class Board extends Subject {
      * 
      * @param direction 
      */
-    public void movePlayer(Directions direction) throws TypeElementNotFoundException{
+    public void movePlayer(Directions direction) throws TypeElementNotFoundException, IOException{
         
         TypeElement player = getPlayerType();
         List<Position> lp = getPositionOf(player);
@@ -435,12 +443,19 @@ public class Board extends Subject {
             if(pos.y+direction.getDirVer() < y && pos.x+direction.getDirHori() < x) {
                 
                 //regle a la con
+                if (this.win.check(pos, direction, player))
+                    return;
                 if (this.tp.check(pos, direction, player))
+                    return;
+                if (this.melt.check(pos, direction, player))
                     return;
                 if (this.kill.check(pos, direction, player))
                     return;
-                if (this.sink.check(pos, direction, player)) //ajouter sink a push
+                if (this.sink.check(pos, direction, player))
                     return;
+                if (this.move.check(pos, direction, player))
+                    return;
+                
                 //else if (this.ice.check(pos, direction, player))
                  //   return;
                 
@@ -475,6 +490,10 @@ public class Board extends Subject {
                 if(push(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()),direction)){
                     for(Element e:listGrid.get(pos.y).get(pos.x).getElementsOf(Property.PUSH)){
                         editPlacement(pos,direction,e.getTypeElements());
+                            if (this.sink.checkPush(pos, direction, TypeElement.ANNI)) { //ajouter sink a push
+                                listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(e.getTypeElements());
+                                                    return true;
+                                    }
                         /*if (e.getTypeTypeElements()==TypeTypeElement.IS) {
                                                         System.out.println("enter IS");
                             notifierObservateurs(pos,direction,TypeTypeElement.IS);
