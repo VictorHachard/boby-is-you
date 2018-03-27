@@ -3,8 +3,11 @@ package view;
 import exeptions.TypeElementNotFoundException;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import model.GameModeNormal;
 import model.Levels;
 import model.Maps;
@@ -37,18 +41,14 @@ public class MenuInit extends Menu {
         return this.primaryStage;
     }
     
-    /*
+    
     private List<Pair<String, Runnable>> menuData = Arrays.asList(
-            new Pair<String, Runnable>("Single Player", () -> {}),
-            new Pair<String, Runnable>("Multiplayer", () -> {}),
-            new Pair<String, Runnable>("Game Options", () -> {}),
-            new Pair<String, Runnable>("Additional Content", () -> {}),
-            new Pair<String, Runnable>("Tutorial", () -> {}),
-            new Pair<String, Runnable>("Benchmark", () -> {}),
-            new Pair<String, Runnable>("Credits", () -> {}),
+            new Pair<String, Runnable>("Continue", () -> {}),
+            new Pair<String, Runnable>("Nouveau", () -> {}),
+            new Pair<String, Runnable>("Parametre", () -> {}),
+            new Pair<String, Runnable>("Editeur", () -> {}),
             new Pair<String, Runnable>("Exit to Desktop", Platform::exit)
     );
-    */
 
     MenuInit() {
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
@@ -57,6 +57,13 @@ public class MenuInit extends Menu {
         addMenu();
     }
 
+    private void addButton() {
+        for (Pair p:menuData) {
+            
+        }
+            
+    }
+    
     private void addBackground() {
         Image file = new Image (new File("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\images\\EMPTY.png").toURI().toString());
         ImageView imageView = new ImageView(file);
@@ -161,7 +168,7 @@ public class MenuInit extends Menu {
     }    
     
     public void LoadGame(Maps m) {
-        try { System.out.println("coucou");
+        try {
                 GameModeNormal g = new GameModeNormal(m);
                 Display d = new Display(g.getBoard(),primaryStage);
                 this.primaryStage.setScene(d.scene);                

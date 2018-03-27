@@ -117,6 +117,7 @@ public class Board extends Subject {
     }   
     
     private void deleteAllRule() {
+        listRule.clear();
         for (Element e:this.listAllElement)
             if (!(e.getTypeTypeElements()==TypeTypeElement.IS||e.getTypeTypeElements()==TypeTypeElement.RULE||e.getTypeTypeElements()==TypeTypeElement.TEXT))
                 if (!(e.getTypeRule().isEmpty()))
@@ -136,12 +137,6 @@ public class Board extends Subject {
     }
     
     private void rule(Position pos, Directions dir, TypeTypeElement ty) throws TypeElementNotFoundException {
-        /*if (ty==TypeTypeElement.IS) {
-            //removeObs(pos);
-            pos = new Position(pos.x+dir.getDirHori(),pos.y+dir.getDirVer());
-            //Rule r = new Rule();
-            //addObs(pos,r);
-        }*/
         if (listGrid.get(pos.y).get(pos.x-1).findTypeType(TypeTypeElement.TEXT)
                 && listGrid.get(pos.y).get(pos.x+1).findTypeType(TypeTypeElement.RULE)) 
             addRule(listGrid.get(pos.y).get(pos.x-1).findTypeElement(TypeTypeElement.TEXT),
@@ -171,39 +166,35 @@ public class Board extends Subject {
      * @throws TypeElementNotFoundException 
      */
     private void changeType(TypeElement text,TypeElement text2) throws TypeElementNotFoundException { //e1 a mettre e a enlever
-        List<Element> listAllElement2 = new ArrayList(listAllElement);
-        List<Element> listDelete = new ArrayList<>();
-        for(Element e4:listAllElement)
-            listDelete.add(e4);
-        for(Element e1:listAllElement) {
-            if (e1.getTypeElements()==text2.getText()) {
-                for(Element e:listAllElement2) {
-                    if (e.getTypeElements()==text.getText()) {
-                        for(int i=1;i<this.y-1;i++){
-                            for(int j=1;j<this.x-1;j++){
-                                for(int k=0;k<listGrid.get(i).get(j).getListeContenu().size();k++){
-                                    if (listGrid.get(i).get(j).getListeContenu().get(k).getTypeElements()==e.getTypeElements()) {
-                                        addPlacement(j,i,e1);  
-                                        listGrid.get(i).get(j).removeElement(e.getTypeElements());  
-                                    }
-                                }
-                            }
-                        }
+        System.out.println("coucou22");
+        TypeElement bef=text.getText();
+        Element aft=null;
+        List<Element> listAllElementDelete = new ArrayList<>();
+        //trouve text
+        for(Element e:this.listAllElement)
+            if (e.getTypeElements()==text.getText())
+                listAllElementDelete.add(e);
+                 
+        //trouve text2
+        for(Element e:this.listAllElement)
+            if (e.getTypeElements()==text2.getText())
+                 aft = e;
+                
+        for(int i=1;i<y-1;i++)
+            for(int j=1;j<x-1;j++)
+                for(int k=0;k<listGrid.get(i).get(j).getListeContenu().size();k++)
+                    if (listGrid.get(i).get(j).getListeContenu().get(k).getTypeElements()==bef) {
+                        listGrid.get(i).get(j).removeElement(bef);
+                        addPlacement(j,i,aft);  
                     }
-                }
-            }
-        }
-        for(Element e5:listAllElement2)
-            if (listDelete.contains(e5))
-                listAllElement.remove(e5);
+        //supprimer tout les text
+        for(Element e:listAllElementDelete)
+            if (this.listAllElement.contains(e))
+                 this.listAllElement.remove(e);
     }
     
     private void addRule(TypeElement text,TypeElement rule) {
         listRule.add(new ElementRule(text.getText(), rule.getRule()));
-        /*if (text.getText()==TypeElement.PLAYER1) {
-            System.out.println(text.getText());
-            player = text.getText();
-        }*/
         for(Element e:listAllElement)
             if (e.getTypeElements()==text.getText())
                 e.addRule(rule.getRule());
@@ -326,7 +317,10 @@ public class Board extends Subject {
      * @return 
      */
     private TypeElement getPlayerType(){
-        return TypeElement.PLAYER1;
+        for (ElementRule er:this.listRule)
+            if (er.getProperty()==Property.YOU)
+                return er.getTypeElement();
+        return null;
     }
     
     /**
@@ -346,9 +340,10 @@ public class Board extends Subject {
      * @param direction 
      */
     public void movePlayer(Directions direction) throws TypeElementNotFoundException, IOException{
-        
         TypeElement player = getPlayerType();
         List<Position> lp = getPositionOf(player);
+        if (player==null)
+            return;
         
         for(Position pos:lp)
             if(pos.y+direction.getDirVer() < y && pos.x+direction.getDirHori() < x) {
@@ -383,7 +378,6 @@ public class Board extends Subject {
                 }
             }
         deleteAllRule();
-        getIs();
         for (Position p:is)
             rule(p,Directions.NONE,TypeTypeElement.IS);
     }
@@ -401,23 +395,17 @@ public class Board extends Subject {
                 if(push(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()),direction)){
                     for(Element e:listGrid.get(pos.y).get(pos.x).getElementsOf(Property.PUSH)){
                         editPlacement(pos,direction,e.getTypeElements());
-                            if (this.sink.checkPush(pos, direction, TypeElement.ANNI)) { //ajouter sink a push
-                                listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(e.getTypeElements());
-                                                    return true;
-                                    }
-                        /*if (e.getTypeTypeElements()==TypeTypeElement.IS) {
-                                                        System.out.println("enter IS");
-                            notifierObservateurs(pos,direction,TypeTypeElement.IS);
+                        if (e.getTypeTypeElements()==TypeTypeElement.IS) {
+                            for (int i=0;i<this.is.size();i++)
+                                if (pos.equals(this.is.get(i)))
+                                    this.is.remove(i);
+                                    this.is.add(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()));
 
                         }
-                        if (e.getTypeTypeElements()==TypeTypeElement.TEXT) {
-                                                        System.out.println("enter TEXT");
-                            notifierObservateurs(pos,direction,TypeTypeElement.TEXT);
-                        }
-                        if (e.getTypeTypeElements()==TypeTypeElement.RULE) {
-                            System.out.println("enter RULE");
-                            notifierObservateurs(pos,direction,TypeTypeElement.RULE);
-                        }*/
+                            if (this.sink.checkPush(pos, direction, TypeElement.ANNI)) { //ajouter sink a push
+                                listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(e.getTypeElements());
+                                return true;
+                            }
                     }
                     return true;
                 }
