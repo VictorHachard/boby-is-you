@@ -15,7 +15,7 @@ public class Sink implements Rule {
     public Sink(Board board) {
         this.board=board;
         this.listGrid=board.getListGrid();
-        this.te = TypeElement.WATER;
+        checkRule(Property.SINK);
     }
     
     boolean check(Position pos,Directions direction,TypeElement player) {
@@ -34,6 +34,15 @@ public class Sink implements Rule {
                 listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(e.getTypeElements());
             return true;
         }
+        return false;
+    }
+    
+    boolean checkRule(Property pro) {
+        for (ElementRule e:board.getElementRule())
+            if (e.getProperty()==pro) {
+                this.te = e.getTypeElement();
+                return true;
+            }
         return false;
     }
 }

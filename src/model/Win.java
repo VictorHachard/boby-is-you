@@ -12,12 +12,10 @@ public class Win implements Rule {
     
     private List<List<Placement>> listGrid;
     private Board board;
-    private TypeElement te;
     
     public Win(Board board) {
         this.board=board;
         this.listGrid=board.getListGrid();
-        this.te = TypeElement.WATER;
     }
     
     boolean check(Position pos,Directions direction,TypeElement player) throws TypeElementNotFoundException, IOException {

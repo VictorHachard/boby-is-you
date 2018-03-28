@@ -1,6 +1,5 @@
 package model;
 
-import com.sun.javafx.scene.traversal.Direction;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

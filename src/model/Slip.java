@@ -7,14 +7,14 @@ import java.util.List;
  *
  * @author Glaskani
  */
-public class Ice {
+public class Slip {
     
     private boolean isSlip = false;
     private Directions dirSlip;
     private List<List<Placement>> listGrid;
     private Board board;
     
-    public Ice(Board board) {
+    public Slip(Board board) {
         this.board=board;
         this.listGrid=board.getListGrid();
     }

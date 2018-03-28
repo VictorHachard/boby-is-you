@@ -1,5 +1,6 @@
 package model;
 
+import com.sun.javafx.scene.traversal.Direction;
 import exeptions.TypeElementNotFoundException;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -8,6 +9,8 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -61,7 +64,7 @@ public class Board extends Subject {
     }
     
     private Tp tp;
-    private Ice ice;
+    private Slip ice;
     private Kill kill;
     private Sink sink;
     private Move move;
@@ -102,18 +105,17 @@ public class Board extends Subject {
                 }
             }
         }       
-               
+              
+        getIs();
+        for (Position p:is)
+            rule(p);
         tp = new Tp(this);
-        ice = new Ice(this);
+        ice = new Slip(this);
         kill = new Kill(this);
         sink = new Sink(this);
         move = new Move(this);
         melt = new Melt(this);
         win = new Win(this);
-        
-        getIs();
-        for (Position p:is)
-            rule(p,Directions.NONE,TypeTypeElement.IS);
     }   
     
     private void deleteAllRule() {
@@ -136,13 +138,13 @@ public class Board extends Subject {
         }
     }
     
-    private void rule(Position pos, Directions dir, TypeTypeElement ty) throws TypeElementNotFoundException {
+    private void rule(Position pos) throws TypeElementNotFoundException {
         if (listGrid.get(pos.y).get(pos.x-1).findTypeType(TypeTypeElement.TEXT)
                 && listGrid.get(pos.y).get(pos.x+1).findTypeType(TypeTypeElement.RULE)) 
             addRule(listGrid.get(pos.y).get(pos.x-1).findTypeElement(TypeTypeElement.TEXT),
                     listGrid.get(pos.y).get(pos.x+1).findTypeElement(TypeTypeElement.RULE));
         
-        else if (listGrid.get(pos.y-1).get(pos.x).findTypeType(TypeTypeElement.TEXT)
+        if (listGrid.get(pos.y-1).get(pos.x).findTypeType(TypeTypeElement.TEXT)
                 && listGrid.get(pos.y+1).get(pos.x).findTypeType(TypeTypeElement.RULE)) {
             addRule(listGrid.get(pos.y-1).get(pos.x).findTypeElement(TypeTypeElement.TEXT),
                     listGrid.get(pos.y+1).get(pos.x).findTypeElement(TypeTypeElement.RULE));
@@ -344,10 +346,23 @@ public class Board extends Subject {
         List<Position> lp = getPositionOf(player);
         if (player==null)
             return;
+        //trie pour ne pas addi les player
+        Collections.sort(lp, new Comparator<Position>() {
+            @Override
+            public int compare(Position o1, Position o2) {
+                if (direction==Directions.RIGHT)
+                    return o2.x - o1.x;
+                else if (direction==Directions.LEFT)
+                    return o1.x - o2.x;
+                else if (direction==Directions.UP)
+                    return o1.y - o2.y;
+                return o2.y - o1.y;
+            }
+        });     
         
         for(Position pos:lp)
             if(pos.y+direction.getDirVer() < y && pos.x+direction.getDirHori() < x) {
-                
+                boolean coucou =true;
                 //regle a la con
                 if (this.win.check(pos, direction, player))
                     return;
@@ -355,13 +370,13 @@ public class Board extends Subject {
                     return;
                 if (this.melt.check(pos, direction, player))
                     return;
-                if (this.kill.check(pos, direction, player))
-                    return;
+                
                 if (this.sink.check(pos, direction, player))
                     return;
                 if (this.move.check(pos, direction, player))
                     return;
-                
+                if (this.kill.check(pos, direction, player))
+                    coucou=false;
                 //else if (this.ice.check(pos, direction, player))
                  //   return;
                 
@@ -379,7 +394,7 @@ public class Board extends Subject {
             }
         deleteAllRule();
         for (Position p:is)
-            rule(p,Directions.NONE,TypeTypeElement.IS);
+            rule(p);
     }
     
     /**

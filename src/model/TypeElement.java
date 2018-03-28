@@ -28,7 +28,7 @@ public enum TypeElement {
     FLAG("FLAG","E_F ",2,null,null,TypeTypeElement.BLOCK),
     EMPTY("EMPTY","    ",0,null,null,TypeTypeElement.BLOCK),
     METAL("METAL","E_M ",1,null,null,TypeTypeElement.BLOCK),
-    HEART("HEART","E_H ",2,null,null,TypeTypeElement.BLOCK),
+    LOVE("LOVE","E_L ",2,null,null,TypeTypeElement.BLOCK),
     PORTAL_IN("PORTAL_IN","E_PI",1,null,null,TypeTypeElement.BLOCK),
     PORTAL_OUT("PORTAL_OUT","E_PO",1,null,null,TypeTypeElement.BLOCK),
     
@@ -45,7 +45,7 @@ public enum TypeElement {
     TEXT_FLAG("TEXT_FLAG","T_F ",3,TypeElement.FLAG,null,TypeTypeElement.TEXT),
     TEXT_ERROR("TEXT_ERROR","T_ER",3,TypeElement.ERROR,null,TypeTypeElement.TEXT),
     TEXT_EMPTY("TEXT_EMPTY","T_EM",3,TypeElement.EMPTY,null,TypeTypeElement.TEXT),
-    TEXT_HEART("TEXT_HEART","T_H ",3,TypeElement.HEART,null,TypeTypeElement.TEXT),
+    TEXT_LOVE("TEXT_LOVE","T_L ",3,TypeElement.LOVE,null,TypeTypeElement.TEXT),
     TEXT_WATER("TEXT_WATER","T_WA",3,TypeElement.WATER,null,TypeTypeElement.TEXT),
     TEXT_ANNI("TEXT_ROCK","T_A ",3,TypeElement.ANNI,null,TypeTypeElement.TEXT),
     TEXT_SKULL("TEXT_SKULL","T_S ",3,TypeElement.SKULL,null,TypeTypeElement.TEXT),
