@@ -1,6 +1,5 @@
 package model;
 
-import com.sun.javafx.scene.traversal.Direction;
 import exeptions.TypeElementNotFoundException;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -22,7 +21,6 @@ import java.util.List;
 public class Board extends Subject {
     
     private List<Element> listAllElement;
-    private TypeElement player;
     private List<Position> is;
     private List<List<Placement>> listGrid;
     private int x;
@@ -32,7 +30,6 @@ public class Board extends Subject {
     private MusicHashMap music;
     private List<ElementRule> listRule;
     private HashMap<Property, Rule> rule;
-    
     private static Board INSTANCE = null;
     
     /**
@@ -59,7 +56,7 @@ public class Board extends Subject {
     /**
      * 
      */
-    public static void ReloadInstance() {           
+    public static void reloadInstance() {           
         INSTANCE = null;
     }
     
@@ -318,11 +315,12 @@ public class Board extends Subject {
      * 
      * @return 
      */
-    private List<TypeElement> getPlayerType(){
-        List<TypeElement> tempsList = new ArrayList<>();
+    private List<AllPlayer> getPlayerType(){        
+        List<AllPlayer> tempsList = new ArrayList<>();
         for (ElementRule er:this.listRule)
             if (er.getProperty()==Property.YOU)
-                tempsList.add(er.getTypeElement());
+                for (Position p:getPositionOf(er.getTypeElement()))
+                    tempsList.add(new AllPlayer(p,er.getTypeElement()));
         if (tempsList.isEmpty())
             return null;
         return tempsList;
@@ -345,15 +343,11 @@ public class Board extends Subject {
      * @param direction 
      */
     public void movePlayer(Directions direction) throws TypeElementNotFoundException, IOException{
-        List<TypeElement> player = getPlayerType();
-        List<AllPlayer> lp = new ArrayList<>();
-        for (TypeElement te:player)
-            for (Position p:getPositionOf(te))
-                lp.add(new AllPlayer(p,te));
-        if (player==null)
+        List<AllPlayer> player = getPlayerType();   
+        if (player.isEmpty())
             return;
         //trie pour ne pas addi les player
-        Collections.sort(lp, new Comparator<AllPlayer>() {
+        Collections.sort(player, new Comparator<AllPlayer>() {
             @Override
             public int compare(AllPlayer o1, AllPlayer o2) {
                 if (direction==Directions.RIGHT)
@@ -367,34 +361,30 @@ public class Board extends Subject {
         });     
         Position pos;
         TypeElement te;
-        for(AllPlayer all:lp) {
+        for(AllPlayer all:player) {
             pos = all.pos;
             te = all.te;
             if(pos.y+direction.getDirVer() < y && pos.x+direction.getDirHori() < x) {
-                boolean coucou =true;
-                //regle a la con
                 if (this.win.check(pos, direction, te))
                     return;
                 if (this.tp.check(pos, direction, te))
                     return;
                 if (this.melt.check(pos, direction, te))
                     return;
-                
                 if (this.sink.check(pos, direction, te))
                     return;
                 if (this.move.check(pos, direction, te))
                     return;
                 if (this.kill.check(pos, direction, te))
-                    coucou=false;
+                    continue;
                 //else if (this.ice.check(pos, direction, player))
                  //   return;
-                
                 //Depalcement ADD
-                else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canAdd()){ //verifie si il peut add la case suivante
+                if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canAdd()){ //verifie si il peut add la case suivante
                     //Depalcement ADD
                     editPlacement(pos,direction,te);
                     this.music.play(Music.ADD);
-                }
+                } 
                 //Depalcement PUSH
                 else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canPush()) { //verifie si il peut push la case suivante
                     if (push(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()),direction))
@@ -405,6 +395,8 @@ public class Board extends Subject {
         deleteAllRule();
         for (Position p:is)
             rule(p);
+        player = getPlayerType();
+        checkKill(player);
     }
     
     /**
@@ -489,4 +481,18 @@ public class Board extends Subject {
     catch (IOException e) {
     }   
     }
+
+    private void checkKill(List<AllPlayer> player) throws TypeElementNotFoundException, IOException {
+        loop: for (AllPlayer p:player) {
+            if (this.win.check(p.pos, Directions.NONE, p.te))
+                continue loop;
+            else if (this.melt.check(p.pos, Directions.NONE, p.te))
+                continue loop;
+            else if (this.sink.check(p.pos, Directions.NONE, p.te))
+                continue loop;
+            else this.kill.check(p.pos, Directions.NONE, p.te);
+        }
+            
+    }
+        
 }

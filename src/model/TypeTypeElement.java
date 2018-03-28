@@ -16,6 +16,4 @@ public enum TypeTypeElement {
     IS(),
     MOVEABLE(),
     PLAYER();
-    
-    
 }

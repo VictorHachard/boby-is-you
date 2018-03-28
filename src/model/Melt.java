@@ -21,6 +21,7 @@ public class Melt implements Rule {
     boolean check(Position pos,Directions direction,TypeElement player) {
         if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.MELT)) {
             listGrid.get(pos.y).get(pos.x).removeElement(player);
+            System.out.println("delete "+player);
             return true;
         }
         return false;

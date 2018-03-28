@@ -49,7 +49,7 @@ public class Levels {
         loadDisplay();
     }
     
-    public void loadDisplay() throws TypeElementNotFoundException, IOException {
+     public void loadDisplay() throws TypeElementNotFoundException, IOException {
         MenuInit.getInstance().LoadGame(this.listMap.get(indice));
     }
     
