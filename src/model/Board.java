@@ -23,10 +23,10 @@ public class Board extends Subject {
     private List<Element> listAllElement;
     private List<Position> is;
     private List<List<Placement>> listGrid;
-    private int x;
-    private int y;
-    private Placement unplayable = new Placement(new Unplayable());
-    private Element empty = new Empty();
+    private final int x;
+    private final int y;
+    private final Placement unplayable = new Placement(new Unplayable());
+    private final Element empty = new Empty();
     private MusicHashMap music;
     private List<ElementRule> listRule;
     private HashMap<Property, Rule> rule;
@@ -89,21 +89,22 @@ public class Board extends Subject {
                 List<Element> te =  map.getListElement(j,i);
                 for(int k=0;k<te.size();k++){
                     //ne re load pas les EMPTY
-                if (!(te.get(k).getTypeElements()==TypeElement.EMPTY)) {
-                    addPlacement(j,i,te.get(te.size()-k));    
+                    if (!(te.get(k).getTypeElements()==TypeElement.EMPTY)) {
+                        addPlacement(j,i,te.get(te.size()-k));    
                     //Ajoute les pushs sur les texte et les texte regles.
-                    if (te.get(k).typeElement==TypeElement.MONSTER)
-                        listGrid.get(i).get(j).getListeContenu().get(k).addRule(Property.MOVE);
                     if (te.get(k).getTypeTypeElements()==TypeTypeElement.IS ||
                             te.get(k).getTypeTypeElements()==TypeTypeElement.TEXT ||
-                            te.get(k).getTypeTypeElements()==TypeTypeElement.RULE)
-                    listGrid.get(i).get(j).getListeContenu().get(k).addRule(Property.PUSH);                        
-                }
+                            te.get(k).getTypeTypeElements()==TypeTypeElement.RULE) {
+                        listGrid.get(i).get(j).getListeContenu().get(k).addRule(Property.PUSH); 
+                        /*if (te.get(k).getTypeTypeElements()==TypeTypeElement.RULE)
+                            this.rule.put(te.get(k).getTypeElements().getRule(), );*/
+                    }
+                    }
                 }
             }
         }       
               
-        getIs();
+        is = getAllPos(TypeElement.IS);
         for (Position p:is)
             rule(p);
         tp = new Tp(this);
@@ -127,12 +128,11 @@ public class Board extends Subject {
     /**
      * Ajout a obsMap les observer et les Positions
      */
-    private void getIs() {
-        List<Position> lp = getPositionOf(TypeElement.IS);
-        is = new ArrayList<>();
-        for (Position p:lp) {
-            this.is.add(p);
-        }
+    private List<Position> getAllPos(TypeElement te) {
+        List<Position> lp = new ArrayList<>();
+        for (Position p:getPositionOf(te))
+            lp.add(p);
+        return lp;
     }
     
     private void rule(Position pos) throws TypeElementNotFoundException {
@@ -344,7 +344,7 @@ public class Board extends Subject {
      */
     public void movePlayer(Directions direction) throws TypeElementNotFoundException, IOException{
         List<AllPlayer> player = getPlayerType();   
-        if (player.isEmpty())
+        if (player==null)
             return;
         //trie pour ne pas addi les player
         Collections.sort(player, new Comparator<AllPlayer>() {
@@ -368,17 +368,17 @@ public class Board extends Subject {
                 if (this.win.check(pos, direction, te))
                     return;
                 if (this.tp.check(pos, direction, te))
-                    return;
+                    continue;
                 if (this.melt.check(pos, direction, te))
-                    return;
+                    continue;
                 if (this.sink.check(pos, direction, te))
-                    return;
+                    continue;
                 if (this.move.check(pos, direction, te))
-                    return;
+                    continue;
                 if (this.kill.check(pos, direction, te))
                     continue;
-                //else if (this.ice.check(pos, direction, player))
-                 //   return;
+                /*if (this.ice.check(pos, direction, te))
+                    continue;*/
                 //Depalcement ADD
                 if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canAdd()){ //verifie si il peut add la case suivante
                     //Depalcement ADD
@@ -396,6 +396,8 @@ public class Board extends Subject {
         for (Position p:is)
             rule(p);
         player = getPlayerType();
+        if (player==null)
+            return;
         checkKill(player);
     }
     
