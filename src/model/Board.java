@@ -318,11 +318,14 @@ public class Board extends Subject {
      * 
      * @return 
      */
-    private TypeElement getPlayerType(){
+    private List<TypeElement> getPlayerType(){
+        List<TypeElement> tempsList = new ArrayList<>();
         for (ElementRule er:this.listRule)
             if (er.getProperty()==Property.YOU)
-                return er.getTypeElement();
-        return null;
+                tempsList.add(er.getTypeElement());
+        if (tempsList.isEmpty())
+            return null;
+        return tempsList;
     }
     
     /**
@@ -342,40 +345,46 @@ public class Board extends Subject {
      * @param direction 
      */
     public void movePlayer(Directions direction) throws TypeElementNotFoundException, IOException{
-        TypeElement player = getPlayerType();
-        List<Position> lp = getPositionOf(player);
+        List<TypeElement> player = getPlayerType();
+        List<AllPlayer> lp = new ArrayList<>();
+        for (TypeElement te:player)
+            for (Position p:getPositionOf(te))
+                lp.add(new AllPlayer(p,te));
         if (player==null)
             return;
         //trie pour ne pas addi les player
-        Collections.sort(lp, new Comparator<Position>() {
+        Collections.sort(lp, new Comparator<AllPlayer>() {
             @Override
-            public int compare(Position o1, Position o2) {
+            public int compare(AllPlayer o1, AllPlayer o2) {
                 if (direction==Directions.RIGHT)
-                    return o2.x - o1.x;
+                    return o2.pos.x - o1.pos.x;
                 else if (direction==Directions.LEFT)
-                    return o1.x - o2.x;
+                    return o1.pos.x - o2.pos.x;
                 else if (direction==Directions.UP)
-                    return o1.y - o2.y;
-                return o2.y - o1.y;
+                    return o1.pos.y - o2.pos.y;
+                return o2.pos.y - o1.pos.y;
             }
         });     
-        
-        for(Position pos:lp)
+        Position pos;
+        TypeElement te;
+        for(AllPlayer all:lp) {
+            pos = all.pos;
+            te = all.te;
             if(pos.y+direction.getDirVer() < y && pos.x+direction.getDirHori() < x) {
                 boolean coucou =true;
                 //regle a la con
-                if (this.win.check(pos, direction, player))
+                if (this.win.check(pos, direction, te))
                     return;
-                if (this.tp.check(pos, direction, player))
+                if (this.tp.check(pos, direction, te))
                     return;
-                if (this.melt.check(pos, direction, player))
+                if (this.melt.check(pos, direction, te))
                     return;
                 
-                if (this.sink.check(pos, direction, player))
+                if (this.sink.check(pos, direction, te))
                     return;
-                if (this.move.check(pos, direction, player))
+                if (this.move.check(pos, direction, te))
                     return;
-                if (this.kill.check(pos, direction, player))
+                if (this.kill.check(pos, direction, te))
                     coucou=false;
                 //else if (this.ice.check(pos, direction, player))
                  //   return;
@@ -383,15 +392,16 @@ public class Board extends Subject {
                 //Depalcement ADD
                 else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canAdd()){ //verifie si il peut add la case suivante
                     //Depalcement ADD
-                    editPlacement(pos,direction,player);
+                    editPlacement(pos,direction,te);
                     this.music.play(Music.ADD);
                 }
                 //Depalcement PUSH
                 else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canPush()) { //verifie si il peut push la case suivante
                     if (push(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()),direction))
-                        editPlacement(pos,direction,player);
+                        editPlacement(pos,direction,te);
                 }
             }
+        }
         deleteAllRule();
         for (Position p:is)
             rule(p);
@@ -479,5 +489,4 @@ public class Board extends Subject {
     catch (IOException e) {
     }   
     }
-
 }
