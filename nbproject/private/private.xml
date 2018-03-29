@@ -4,8 +4,9 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Glaskani/OneDrive/BobyIsYou/src/model/Board.java</file>
-            <file>file:/C:/Users/Glaskani/OneDrive/BobyIsYou/src/model/RandomMap.java</file>
-            <file>file:/C:/Users/Glaskani/OneDrive/BobyIsYou/src/model/Maps.java</file>
+            <file>file:/C:/Users/Glaskani/OneDrive/BobyIsYou/src/model/ElementRule.java</file>
+            <file>file:/C:/Users/Glaskani/OneDrive/BobyIsYou/src/model/Move.java</file>
+            <file>file:/C:/Users/Glaskani/OneDrive/BobyIsYou/src/model/Property.java</file>
         </group>
     </open-files>
 </project-private>
