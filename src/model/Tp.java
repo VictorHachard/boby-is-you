@@ -50,12 +50,11 @@ public class Tp implements Rule {
     void getPortal() {
         List<Position> lp = board.getPositionOf(TypeElement.PORTAL_IN);
         List<Position> lp2 = board.getPositionOf(TypeElement.PORTAL_OUT);
-        if (!(lp==null)) {
+        if (!(lp.isEmpty())) {
             System.out.println(lp2.size());
             int i = lp2.size()-1;
             if (i>0)
-                i = (int)(Math.random() * (i+1)); 
-            System.out.println(i);
+                i = (int)(Math.random() * (i+1));
             this.portalPos = lp2.get(i);
             this.isPortal = true;
             for (Element e:listGrid.get(lp.get(0).y).get(lp.get(0).x).getListeContenu())

@@ -3,7 +3,6 @@ package view;
 import exeptions.TypeElementNotFoundException;
 import java.io.IOException;
 import java.util.logging.FileHandler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import static javafx.application.Application.launch;

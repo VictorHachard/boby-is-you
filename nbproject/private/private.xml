@@ -3,10 +3,19 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/Glaskani/OneDrive/BobyIsYou/src/model/Board.java</file>
             <file>file:/C:/Users/Glaskani/OneDrive/BobyIsYou/src/model/ElementRule.java</file>
             <file>file:/C:/Users/Glaskani/OneDrive/BobyIsYou/src/model/Move.java</file>
             <file>file:/C:/Users/Glaskani/OneDrive/BobyIsYou/src/model/Property.java</file>
+=======
+            <file>file:/C:/Users/Windows/Documents/NetBeansProjects/BobyIsYou/src/model/Board.java</file>
+            <file>file:/C:/Users/Windows/Documents/NetBeansProjects/BobyIsYou/src/model/TypeElement.java</file>
+            <file>file:/C:/Users/Windows/Documents/NetBeansProjects/BobyIsYou/src/model/Move.java</file>
+            <file>file:/C:/Users/Windows/Documents/NetBeansProjects/BobyIsYou/src/model/Maps.java</file>
+            <file>file:/C:/Users/Windows/Documents/NetBeansProjects/BobyIsYou/src/model/MusicHashMap.java</file>
+            <file>file:/C:/Users/Windows/Documents/NetBeansProjects/BobyIsYou/src/model/Element.java</file>
+>>>>>>> de44c1a4276e9f2b3117cb0e84f5714f0315c8a3
         </group>
     </open-files>
 </project-private>

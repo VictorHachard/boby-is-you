@@ -120,6 +120,14 @@ public class Element {
     }
     
     /**
+     * Revois la direction de l'element.
+     * @return Direction
+     */
+    void setDirections(Directions dir){
+        this.direction = dir;
+    }
+    
+    /**
      * Supprime la régle tr de la liste des régles de l'element.
      * @param tr Property
      */

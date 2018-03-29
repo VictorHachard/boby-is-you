@@ -7,14 +7,14 @@ import java.util.List;
  *
  * @author Glaskani
  */
-public class Ice {
+public class Slip {
     
     private boolean isSlip = false;
     private Directions dirSlip;
     private List<List<Placement>> listGrid;
     private Board board;
     
-    public Ice(Board board) {
+    public Slip(Board board) {
         this.board=board;
         this.listGrid=board.getListGrid();
     }
@@ -102,12 +102,12 @@ public class Ice {
                     else board.editPlacement(pos,dirSlip,player);
                 }
             }
-            /*
+            
                         else if (listGrid.get(pos.y+this.dirSlip.getDirVer()).get(pos.x+this.dirSlip.getDirHori()).canPush()) { //verifie si il peut push la case suivante
-                            if (push(new Position(pos.x+dirSlip.getDirHori(),pos.y+dirSlip.getDirVer()),dirSlip))       {                    
-                                editPlacement(pos,dirSlip,player);
+                            if (board.push(new Position(pos.x+dirSlip.getDirHori(),pos.y+dirSlip.getDirVer()),dirSlip))       {                    
+                                board.editPlacement(pos,dirSlip,player);
                             }
-                        }*/
+                        }
             else board.editPlacement(pos,dirSlip,player);
             return ret;
         }

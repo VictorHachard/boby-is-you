@@ -62,7 +62,7 @@ public class Placement {
      * @return true ou false
      */
     boolean canPush() {
-        return findRule(Property.PUSH);
+        return findRule(Property.PUSH) && !findRule(Property.STOP);
     }
         
     /**

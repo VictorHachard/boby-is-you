@@ -3,17 +3,21 @@ package view;
 import exeptions.TypeElementNotFoundException;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import model.GameModeNormal;
+import model.Levels;
 import model.Maps;
 
 /**
@@ -22,7 +26,7 @@ import model.Maps;
  */
 public class MenuInit extends Menu {
     
-    Scene scene;
+    public Scene scene;
     private Stage primaryStage;
     private Pane root = new Pane();
     private static MenuInit INSTANCE = null;
@@ -32,28 +36,34 @@ public class MenuInit extends Menu {
             INSTANCE = new MenuInit();
         return INSTANCE;
     }
-    /*
+    
+        public Stage getStage() {
+        return this.primaryStage;
+    }
+    
+    
     private List<Pair<String, Runnable>> menuData = Arrays.asList(
-            new Pair<String, Runnable>("Single Player", () -> {}),
-            new Pair<String, Runnable>("Multiplayer", () -> {}),
-            new Pair<String, Runnable>("Game Options", () -> {}),
-            new Pair<String, Runnable>("Additional Content", () -> {}),
-            new Pair<String, Runnable>("Tutorial", () -> {}),
-            new Pair<String, Runnable>("Benchmark", () -> {}),
-            new Pair<String, Runnable>("Credits", () -> {}),
+            new Pair<String, Runnable>("Continue", () -> {}),
+            new Pair<String, Runnable>("Nouveau", () -> {}),
+            new Pair<String, Runnable>("Parametre", () -> {}),
+            new Pair<String, Runnable>("Editeur", () -> {}),
             new Pair<String, Runnable>("Exit to Desktop", Platform::exit)
     );
-    */
 
     MenuInit() {
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
         addBackground();
         addTitle();
         addMenu();
-        
-        
     }
 
+    private void addButton() {
+        for (Pair p:menuData) {
+            
+        }
+            
+    }
+    
     private void addBackground() {
         Image file = new Image (new File("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\images\\EMPTY.png").toURI().toString());
         ImageView imageView = new ImageView(file);
@@ -102,9 +112,14 @@ public class MenuInit extends Menu {
 	vbox.setTranslateY((JavaBobyIsYou.HEIGHT/2)-70);
 	
         buttonContinue.setOnAction(event -> {
-            File f = new File("." + File.separator + "maps" + File.separator + "map1.txt"); //get last save
-            f.getAbsolutePath();
-            LoadGame(f);
+            try {
+                Levels lev = Levels.getInstance();
+            } catch (TypeElementNotFoundException ex) {
+                Logger.getLogger(MenuInit.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(MenuInit.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         });
         buttonNew.setOnAction(event -> {
                 System.out.println("Option 3 selected via Lambda");
@@ -144,7 +159,6 @@ public class MenuInit extends Menu {
         });
     }        
         
-        
     /**
      * 
      * @param stage 
@@ -153,12 +167,10 @@ public class MenuInit extends Menu {
         primaryStage = stage;
     }    
     
-    void LoadGame(File f) {
-        this.primaryStage = primaryStage;
+    public void LoadGame(Maps m) {
         try {
-                Maps m = new Maps(f);
                 GameModeNormal g = new GameModeNormal(m);
-                Display d = new Display(g.getBoard(),primaryStage,f);
+                Display d = new Display(g.getBoard(),primaryStage);
                 this.primaryStage.setScene(d.scene);                
             } catch (TypeElementNotFoundException ex) {
                 //RIEN Erreur deja traiter en amont
