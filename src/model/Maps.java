@@ -124,7 +124,7 @@ public class Maps {
      * @return ListListPlacement
      */
     public List<Element> getListAllElement() {
-        return this.listAllElement;
+        return new ArrayList(this.listAllElement);
     }
     
     /**

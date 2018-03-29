@@ -154,18 +154,24 @@ public class Board extends Subject {
             listGrid.get(x).get(y+3).findTypeElement(te1));
     }
     
-    private boolean checkRule(int x,int y,TypeTypeElement te, TypeTypeElement te1) {
+    private boolean checkRule(int x,int y,TypeTypeElement te, TypeTypeElement te1) throws TypeElementNotFoundException {
         boolean check = false;
         if (listGrid.get(x).get(y-1).findTypeType(te)
                 && listGrid.get(x).get(y+1).findTypeType(te1)) {
-            addRule(listGrid.get(x).get(y-1).findTypeElement(te),
+            if (listGrid.get(x).get(y+1).findTypeType(TypeTypeElement.TEXT))
+                changeType(listGrid.get(x).get(y-1).findTypeElement(te),
                     listGrid.get(x).get(y+1).findTypeElement(te1));
-            checkAnd(x,y,te,te1);
+            else addRule(listGrid.get(x).get(y-1).findTypeElement(te),
+                    listGrid.get(x).get(y+1).findTypeElement(te1));
+            //checkAnd(x,y,te,te1);
             check = true;
         }
         if (listGrid.get(x-1).get(y).findTypeType(te)
                 && listGrid.get(x+1).get(y).findTypeType(te1)) {
-            addRule(listGrid.get(x-1).get(y).findTypeElement(te),
+            if (listGrid.get(x+1).get(y).findTypeType(TypeTypeElement.TEXT))
+                changeType(listGrid.get(x-1).get(y).findTypeElement(te),
+                    listGrid.get(x+1).get(y).findTypeElement(te1));
+            else addRule(listGrid.get(x-1).get(y).findTypeElement(te),
                     listGrid.get(x+1).get(y).findTypeElement(te1));
             check = true;
         }
@@ -185,7 +191,6 @@ public class Board extends Subject {
      * @throws TypeElementNotFoundException 
      */
     private void changeType(TypeElement text,TypeElement text2) throws TypeElementNotFoundException { //e1 a mettre e a enlever
-        System.out.println("coucou22");
         TypeElement bef=text.getText();
         Element aft=null;
         List<Element> listAllElementDelete = new ArrayList<>();

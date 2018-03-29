@@ -28,14 +28,6 @@ public class Levels {
     
     /**
      * 
-     * @return 
-     *//*
-    public static Level getInstance() {           
-        return INSTANCE;
-    }*/
-    
-    /**
-     * 
      */
     public static void ReloadInstance() {           
         INSTANCE = null;
