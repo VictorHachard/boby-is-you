@@ -121,7 +121,6 @@ public class Element {
     
     /**
      * Revois la direction de l'element.
-     * @return Direction
      */
     void setDirections(Directions dir){
         this.direction = dir;

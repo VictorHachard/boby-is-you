@@ -51,7 +51,7 @@ public class Display {
             imageSize = imageSizeX;
         else imageSize = imageSizeY;
         //ajout du backGroude dans rootImage
-        addBackground();
+        //addBackground();
         
         //ajout de la grid dans rooImage
         rootImage.getChildren().addAll(root);

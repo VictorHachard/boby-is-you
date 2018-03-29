@@ -3,6 +3,8 @@ package view;
 import exeptions.TypeElementNotFoundException;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
@@ -65,7 +67,7 @@ public class MenuInit extends Menu {
     }
     
     private void addBackground() {
-        Image file = new Image (new File("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\images\\EMPTY.png").toURI().toString());
+        Image file = new Image ("images/empty.png");
         ImageView imageView = new ImageView(file);
         imageView.setFitWidth(JavaBobyIsYou.WIDTH);
         imageView.setFitHeight(JavaBobyIsYou.HEIGHT);
@@ -74,7 +76,7 @@ public class MenuInit extends Menu {
     }
 
     private void addTitle() {
-        Title title = new Title("CIVILIZATION VI");
+        Title title = new Title("BOBY IS YOU");
         title.setTranslateX(JavaBobyIsYou.WIDTH / 2 - title.getTitleWidth() / 2);
         title.setTranslateY(JavaBobyIsYou.HEIGHT / 3);
 
@@ -128,7 +130,7 @@ public class MenuInit extends Menu {
                 System.out.println("Option 3 selected via Lambda");
         });
         buttonEditor.setOnAction(event -> {
-            File f = new File("." + File.separator + "maps" + File.separator + "map1.txt"); //get last save
+           /* File f = new File("." + File.separator + "maps" + File.separator + "map1.txt"); //get last save
             f.getAbsolutePath();
             Maps m;
             try {
@@ -139,7 +141,7 @@ public class MenuInit extends Menu {
                 Logger.getLogger(MenuInit.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(MenuInit.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }*/
                 
         });
         buttonExit.setOnAction(event -> {

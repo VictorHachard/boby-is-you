@@ -29,9 +29,7 @@ public class MusicHashMap {
     }
     
     /**
-     * Charge toute le image du board dans une map,
-     * revois une map avec comme key le TypeElement et comme value l'image.
-     * @param map Maps
+     * Charge toute les musiques du board dans une map,
      */
     MusicHashMap() {
         this.isPlaying = new HashMap<>();
@@ -40,7 +38,7 @@ public class MusicHashMap {
         for(Music m:listAllMusic) {
             try {
                 this.isPlaying.put(m, Boolean.FALSE);
-                this.musicMap.put(m, new MediaPlayer(new Media(new File("src"+File.separator+"music"+File.separator+m.toString().toLowerCase()+".mp3").toURI().toString())));
+                //this.musicMap.put(m, new MediaPlayer(new Media(new File("src"+File.separator+"music"+File.separator+m.toString().toLowerCase()+".mp3").toURI().toString())));
             }
             catch (MediaException ex) {
                 LOGGER.log( Level.WARNING, "Unable to load " + m,ex);
@@ -53,13 +51,13 @@ public class MusicHashMap {
      * @param music 
      */
     void play(Music music) {
-        MediaPlayer mediaPlayer = musicMap.get(music);
+        /*MediaPlayer mediaPlayer = musicMap.get(music);
         if(isPlaying.get(music)){
             mediaPlayer.stop();
             isPlaying.replace(music, Boolean.FALSE);
         }
         mediaPlayer.play();
-        isPlaying.replace(music, Boolean.TRUE);
+        isPlaying.replace(music, Boolean.TRUE);*/
     }   
 }
 
