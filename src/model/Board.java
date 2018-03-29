@@ -77,7 +77,7 @@ public class Board extends Subject {
         this.listGrid = new ArrayList<>();
         this.listRule = new ArrayList<>();
         this.listAllElement = map.getListAllElement();  
-        music = new MusicHashMap();
+        music = MusicHashMap.getInstance();
         
         this.x = map.getSizeX();
         this.y = map.getSizeY();
@@ -92,7 +92,7 @@ public class Board extends Subject {
                     if (!(te.get(k).getTypeElements()==TypeElement.EMPTY)) {
                         addPlacement(j,i,te.get(te.size()-k));    
                     //Ajoute les pushs sur les texte et les texte regles.
-                    if (te.get(k).getTypeTypeElements()==TypeTypeElement.IS ||
+                    if (te.get(k).getTypeTypeElements()==TypeTypeElement.CONNECTER ||
                             te.get(k).getTypeTypeElements()==TypeTypeElement.TEXT ||
                             te.get(k).getTypeTypeElements()==TypeTypeElement.RULE) {
                         listGrid.get(i).get(j).getListeContenu().get(k).addRule(Property.PUSH); 
@@ -119,7 +119,7 @@ public class Board extends Subject {
     private void deleteAllRule() {
         listRule.clear();
         for (Element e:this.listAllElement)
-            if (!(e.getTypeTypeElements()==TypeTypeElement.IS||e.getTypeTypeElements()==TypeTypeElement.RULE||e.getTypeTypeElements()==TypeTypeElement.TEXT))
+            if (!(e.getTypeTypeElements()==TypeTypeElement.CONNECTER||e.getTypeTypeElements()==TypeTypeElement.RULE||e.getTypeTypeElements()==TypeTypeElement.TEXT))
                 if (!(e.getTypeRule().isEmpty()))
                     for (int i=0;i<e.getTypeRule().size();i++)
                         e.deleteRule(e.getTypeRule().get(i));       
@@ -135,27 +135,47 @@ public class Board extends Subject {
         return lp;
     }
     
-    private void rule(Position pos) throws TypeElementNotFoundException {
-        if (listGrid.get(pos.y).get(pos.x-1).findTypeType(TypeTypeElement.TEXT)
-                && listGrid.get(pos.y).get(pos.x+1).findTypeType(TypeTypeElement.RULE)) 
-            addRule(listGrid.get(pos.y).get(pos.x-1).findTypeElement(TypeTypeElement.TEXT),
-                    listGrid.get(pos.y).get(pos.x+1).findTypeElement(TypeTypeElement.RULE));
-        
-        if (listGrid.get(pos.y-1).get(pos.x).findTypeType(TypeTypeElement.TEXT)
-                && listGrid.get(pos.y+1).get(pos.x).findTypeType(TypeTypeElement.RULE)) {
-            addRule(listGrid.get(pos.y-1).get(pos.x).findTypeElement(TypeTypeElement.TEXT),
-                    listGrid.get(pos.y+1).get(pos.x).findTypeElement(TypeTypeElement.RULE));
-            
+    private void checkAnd(int x,int y,TypeTypeElement te, TypeTypeElement te1) {
+        int i=0;
+        if (listGrid.get(x).get(y-2).findElements(TypeElement.AND))
+            if (listGrid.get(x).get(y-3).findTypeType(te)) {
+                addRule(listGrid.get(x).get(y-3).findTypeElement(te),
+                listGrid.get(x).get(y+1).findTypeElement(te1));
+        i++;
+            }
+        if (listGrid.get(x).get(y+2).findElements(TypeElement.AND))
+            if (listGrid.get(x).get(y+3).findTypeType(te1)) {
+                addRule(listGrid.get(x).get(y-1).findTypeElement(te),
+                listGrid.get(x).get(y+3).findTypeElement(te1));
+                i++;
+            }
+        if (i==2)
+            addRule(listGrid.get(x).get(y-3).findTypeElement(te),
+            listGrid.get(x).get(y+3).findTypeElement(te1));
+    }
+    
+    private boolean checkRule(int x,int y,TypeTypeElement te, TypeTypeElement te1) {
+        boolean check = false;
+        if (listGrid.get(x).get(y-1).findTypeType(te)
+                && listGrid.get(x).get(y+1).findTypeType(te1)) {
+            addRule(listGrid.get(x).get(y-1).findTypeElement(te),
+                    listGrid.get(x).get(y+1).findTypeElement(te1));
+            checkAnd(x,y,te,te1);
+            check = true;
         }
-        else if (listGrid.get(pos.y-1).get(pos.x).findTypeType(TypeTypeElement.TEXT)
-                && listGrid.get(pos.y+1).get(pos.x).findTypeType(TypeTypeElement.TEXT)) {
-            changeType(listGrid.get(pos.y-1).get(pos.x).findTypeElement(TypeTypeElement.TEXT),
-                    listGrid.get(pos.y+1).get(pos.x).findTypeElement(TypeTypeElement.TEXT));}
-                
-        else if (listGrid.get(pos.y).get(pos.x-1).findTypeType(TypeTypeElement.TEXT)
-                && listGrid.get(pos.y).get(pos.x+1).findTypeType(TypeTypeElement.TEXT)) {
-            changeType(listGrid.get(pos.y).get(pos.x-1).findTypeElement(TypeTypeElement.TEXT),
-                    listGrid.get(pos.y).get(pos.x+1).findTypeElement(TypeTypeElement.TEXT));}
+        if (listGrid.get(x-1).get(y).findTypeType(te)
+                && listGrid.get(x+1).get(y).findTypeType(te1)) {
+            addRule(listGrid.get(x-1).get(y).findTypeElement(te),
+                    listGrid.get(x+1).get(y).findTypeElement(te1));
+            check = true;
+        }
+        return check;
+    }
+    
+    private void rule(Position pos) throws TypeElementNotFoundException {
+        if (checkRule(pos.y,pos.x,TypeTypeElement.TEXT,TypeTypeElement.RULE))
+            return;
+        checkRule(pos.y,pos.x,TypeTypeElement.TEXT,TypeTypeElement.TEXT);
     }
     
     /**
@@ -414,7 +434,7 @@ public class Board extends Subject {
                 if(push(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()),direction)){
                     for(Element e:listGrid.get(pos.y).get(pos.x).getElementsOf(Property.PUSH)){
                         editPlacement(pos,direction,e.getTypeElements());
-                        if (e.getTypeTypeElements()==TypeTypeElement.IS) {
+                        if (e.getTypeElements()==TypeElement.IS) {
                             for (int i=0;i<this.is.size();i++)
                                 if (pos.equals(this.is.get(i)))
                                     this.is.remove(i);

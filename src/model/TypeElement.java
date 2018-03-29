@@ -65,7 +65,8 @@ public enum TypeElement {
     GRAB("GRAB","R_G ",3,null,Property.GRAB,TypeTypeElement.RULE),
     KILL("KILL","R_K ",3,null,Property.KILL,TypeTypeElement.RULE),
     
-    IS("IS","I   ",3,null,null,TypeTypeElement.IS);
+    IS("IS","IS  ",3,null,null,TypeTypeElement.CONNECTER),
+    AND("AND","AND ",3,null,null,TypeTypeElement.CONNECTER);
 
     private final String fromString;
     private final TypeElement te;

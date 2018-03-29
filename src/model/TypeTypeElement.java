@@ -13,7 +13,7 @@ public enum TypeTypeElement {
     BLOCK(),
     RULE(),
     TEXT(),
-    IS(),
+    CONNECTER(),
     MOVEABLE(),
     PLAYER();
 }

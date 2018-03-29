@@ -28,7 +28,7 @@ public class Sink implements Rule {
     
     boolean checkPush(Position pos,Directions direction,TypeElement player) {
         if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.SINK)
-                && (!listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findTypeType(TypeTypeElement.IS))
+                && (!listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findTypeType(TypeTypeElement.CONNECTER))
                 && (!listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findTypeType(TypeTypeElement.RULE))
                 && (!listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findTypeType(TypeTypeElement.TEXT))) {
             listGrid.get(pos.y).get(pos.x).removeElement(player);

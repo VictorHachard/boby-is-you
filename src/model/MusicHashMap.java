@@ -1,6 +1,8 @@
 package model;
 
+import exeptions.TypeElementNotFoundException;
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -18,6 +20,13 @@ public class MusicHashMap {
     private Map<Music, MediaPlayer> musicMap = new HashMap<>();
     private static final Logger LOGGER = Logger.getGlobal();
     private HashMap<Music, Boolean> isPlaying;
+    private static MusicHashMap INSTANCE = null;
+    
+    public static MusicHashMap getInstance() throws TypeElementNotFoundException, IOException {           
+        if (INSTANCE == null)
+            INSTANCE = new MusicHashMap();
+        return INSTANCE;
+    }
     
     /**
      * Charge toute le image du board dans une map,
