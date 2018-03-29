@@ -490,7 +490,7 @@ public class Board extends Subject {
                 }
             }
         }
-        test(make.get(0).x,make.get(0).y,TypeTypeElement.TEXT,TypeTypeElement.TEXT);
+        //test(make.get(0).x,make.get(0).y,TypeTypeElement.TEXT,TypeTypeElement.TEXT);
         deleteAllRule();
         for (Position p:is)
             rule(p,TypeElement.IS);
