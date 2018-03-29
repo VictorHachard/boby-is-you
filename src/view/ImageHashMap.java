@@ -31,9 +31,7 @@ public class ImageHashMap {
         
         for(Element e:listAllElement) {
             TypeElement te = e.getTypeElements();
-            this.imageMap.put(te, new Image(new File("src" +
-                File.separator + "images" + File.separator + te + ".png")
-                .toURI().toString()));  
+            this.imageMap.put(te, new Image("images/"+te.toString().toLowerCase()+".png"));  
         }
     }
     
@@ -49,9 +47,7 @@ public class ImageHashMap {
         
         for(Element e:listAllElement) {
             TypeElement te = e.getTypeElements();
-            this.imageMap.put(te, new Image(new File("src" +
-                File.separator + "images" + File.separator + te + ".png")
-                .toURI().toString()));  
+            this.imageMap.put(te, new Image("images" + File.separator + te.toString() + ".png"));  
         }
     }
 
@@ -65,7 +61,7 @@ public class ImageHashMap {
     
     /**
      * 
-     * @return Map<TypeElement, Image>,
+     * @return Map TypeElement, Image,
      */
     Map<TypeElement, Image> getImageMap() {
         return this.imageMap;

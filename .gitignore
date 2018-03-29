@@ -22,3 +22,7 @@
 hs_err_pid*
 /dist/
 *.db
+<<<<<<< HEAD
+=======
+*.db
+>>>>>>> 6fdc2ce5c9468ec2093e5fbd142f31c5fd0e170b
