@@ -17,21 +17,33 @@ public enum Property {
     YOU,
     GRAB,
     KILL,
-    TP
+    TP,
+    DOWN,
+    LEFT,
+    RIGHT,
+    UP,
     ;
 
-    private Tp tp;
-    private Slip ice;
-    private Kill kill;
-    private Sink sink;
-    private Move move;
-    private Melt melt;
-    private Win win;
+    Directions getDirFromProperty(Property pro) {
+        if (pro==Property.DOWN)
+            return Directions.DOWN;
+        else if (pro==Property.UP)
+            return Directions.UP;
+        else if (pro==Property.LEFT)
+            return Directions.LEFT;
+        else if (pro==Property.RIGHT)
+            return Directions.RIGHT;
+        else return Directions.NONE;
+    }
+    
    /* private final Rule rule;
     
     Property(Rule rule) {
         this.rule=rule;
     }*/
+    
+    
+    
 }
     
 

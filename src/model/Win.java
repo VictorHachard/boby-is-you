@@ -3,6 +3,15 @@ package model;
 import exeptions.TypeElementNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import model.Board;
+
+import model.Directions;
+import model.Levels;
+import model.Placement;
+import model.Position;
+import model.Property;
+import model.Rule;
+import model.TypeElement;
 
 /**
  *

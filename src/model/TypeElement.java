@@ -65,8 +65,14 @@ public enum TypeElement {
     GRAB("GRAB","R_G ",3,null,Property.GRAB,TypeTypeElement.RULE),
     KILL("KILL","R_K ",3,null,Property.KILL,TypeTypeElement.RULE),
     
+    UP("UP","UP  ",3,null,Property.UP,TypeTypeElement.RULE),
+    DOWN("DOWN","DOWN",3,null,Property.DOWN,TypeTypeElement.RULE),
+    LEFT("LEFT","LEFT",3,null,Property.LEFT,TypeTypeElement.RULE),
+    RIGHT("RIGHT","RIGH",3,null,Property.RIGHT,TypeTypeElement.RULE),
+    
     IS("IS","IS  ",3,null,null,TypeTypeElement.CONNECTER),
-    AND("AND","AND ",3,null,null,TypeTypeElement.CONNECTER);
+    AND("AND","AND ",3,null,null,TypeTypeElement.CONNECTER),
+    MAKE("MAKE","MAKE",3,null,null,TypeTypeElement.CONNECTER);
 
     private final String fromString;
     private final TypeElement te;

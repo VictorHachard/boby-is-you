@@ -1,5 +1,7 @@
 18 18
 baba 5 11
+left 4 4
+is 5 5
 monster 5 1 0
 monster 2 3 2
 monster 14 5 1
