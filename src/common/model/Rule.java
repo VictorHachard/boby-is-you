@@ -3,7 +3,9 @@ package common.model;
 import common.exeptions.TypeElementNotFoundException;
 import common.exeptions.WinException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -14,24 +16,34 @@ public abstract class Rule {
     public static boolean isActive(Property name){
         return activeMap.getOrDefault(name,false);
     }
-    public static void desactivateAll() {
+    static void desactivateAll() {
         activeMap = new HashMap<>();
         //System.out.println("desactivating all rules");
     }
-    public static void setActivity(Property k, Boolean v){
-        System.out.println("rule"+k+"->"+v);
+    static void setActivity(Property k, Boolean v){
+       // System.out.println("rule"+k+"->"+v);
         activeMap.put(k, v);
     }
 
-    static boolean getBoolean(Property property) {
-        if (activeMap.get(property)==null)
-            return true;
-        return false;
+    static List<Property> desactivatePlayerList(Property ... pro) {
+        List<Property> temps = new ArrayList<>();
+        for (Property p : pro)
+            if (activeMap.containsKey(p)) {
+                activeMap.put(p, false);
+                temps.add(p);
+            }
+        return temps;
+    }
+    
+    static void activatePlayerList(List<Property> list) {
+        for (Property p : list)
+            if (activeMap.containsKey(p))
+                activeMap.put(p, true);
     }
     
     Rule nextRule = null;
     
-    public void addRule(Rule next){
+    void addRule(Rule next){
         if (nextRule == null){
             nextRule = next;
         }else{

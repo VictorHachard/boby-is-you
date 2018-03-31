@@ -10,6 +10,9 @@ grass 16 14
 grass 15 15
 grass 15 16
 grass 14 16
+ice 7 7
+ice 7 8
+ice 7 9
 wall 7 3
 wall 8 3
 wall 9 3
@@ -54,6 +57,13 @@ text_baba 4 12
 text_wall 7 12
 flag 9 8
 you 4 14
+and 4 15
+hot 4 16
 win 12 6
 stop 7 14
+text_ice 10 12
+is 10 13
+melt 10 14
+and 10 15
+stop 10 16
 baba 12 8

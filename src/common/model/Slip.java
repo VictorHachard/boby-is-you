@@ -22,9 +22,9 @@ public class Slip extends Rule {
     
     @Override
     boolean work(Position pos,Directions direction,TypeElement player) throws TypeElementNotFoundException, IOException {
-        //ICE
-       /* boolean ret = true;
+        boolean ret = true;
         if (isSlip) {
+            System.out.println("coucou enter isslip");
             //si c est pas de l ice
             if (!(listGrid.get(pos.y+this.dirSlip.getDirVer()).get(pos.x+this.dirSlip.getDirHori()).findRule(Property.SLIP))) {
                 //pour sortire de la ICCE
@@ -68,13 +68,13 @@ public class Slip extends Rule {
         
         //1ere fois q'un rentre dans ICE
         else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.SLIP)) {
+            System.out.println("coucou enter thirst");
             isSlip = true;
             dirSlip = direction;
             board.editPlacement(pos,dirSlip,player);
-            return true;
+            return false;
         } 
-        else return false;*/
-       return false;
+        else return true;
     }
 
     @Override

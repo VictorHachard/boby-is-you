@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -31,7 +30,6 @@ public class Board extends Subject {
     private final Element empty = new Empty();
     private MusicHashMap music;
     private Rule listRule;
-    private HashMap<Property, Rule> rule;
     private static Board INSTANCE = null;
     
     /**
@@ -137,7 +135,7 @@ public class Board extends Subject {
      * @param te
      * @param te1 
      */
-    private void checkAnd(int x,int y,TypeTypeElement te, TypeTypeElement te1) {
+    private void checkAndHori(int x,int y,TypeTypeElement te, TypeTypeElement te1) {
         int i=0;
         if (listGrid.get(x).get(y-2).findElements(TypeElement.AND))
             if (listGrid.get(x).get(y-3).findTypeType(te)) {
@@ -154,6 +152,32 @@ public class Board extends Subject {
         if (i==2)
             addRule(listGrid.get(x).get(y-3).findTypeElement(te),
             listGrid.get(x).get(y+3).findTypeElement(te1));
+    }
+    
+    /**
+     * 
+     * @param x
+     * @param y
+     * @param te
+     * @param te1 
+     */
+    private void checkAndVer(int x,int y,TypeTypeElement te, TypeTypeElement te1) {
+        int i=0;
+        if (listGrid.get(x-2).get(y).findElements(TypeElement.AND))
+            if (listGrid.get(x-3).get(y).findTypeType(te)) {
+                addRule(listGrid.get(x-3).get(y).findTypeElement(te),
+                listGrid.get(x+1).get(y).findTypeElement(te1));
+        i++;
+            }
+        if (listGrid.get(x+2).get(y).findElements(TypeElement.AND))
+            if (listGrid.get(x+3).get(y).findTypeType(te1)) {
+                addRule(listGrid.get(x-1).get(y).findTypeElement(te),
+                listGrid.get(x+3).get(y).findTypeElement(te1));
+                i++;
+            }
+        if (i==2)
+            addRule(listGrid.get(x-3).get(y).findTypeElement(te),
+            listGrid.get(x+3).get(y).findTypeElement(te1));
     }
     
     /**
@@ -183,7 +207,7 @@ public class Board extends Subject {
                 else addRule(listGrid.get(x).get(y-1).findTypeElement(te),
                     listGrid.get(x).get(y+1).findTypeElement(te1));
             }
-            //checkAnd(x,y,te,te1);
+            checkAndHori(x,y,te,te1);
             check = true;
         }
         if (listGrid.get(x-1).get(y).findTypeType(te)
@@ -201,6 +225,7 @@ public class Board extends Subject {
                 else addRule(listGrid.get(x-1).get(y).findTypeElement(te),
                     listGrid.get(x+1).get(y).findTypeElement(te1));
             }
+            checkAndVer(x,y,te,te1);
             check = true;
         }
         return check;
@@ -275,7 +300,7 @@ public class Board extends Subject {
      * @param rule 
      */
     private void addRule(TypeElement text,TypeElement rule) {
-        if (!(rule.getRule()==Property.STOP||rule.getRule()==Property.PUSH||rule.getRule()==Property.SLIP))
+        if (!(rule.getRule()==Property.STOP||rule.getRule()==Property.PUSH||rule.getRule()==Property.YOU))
             Rule.setActivity(rule.getRule(), true);
         for(Element e:listAllElement)
             if (e.getTypeElements()==text.getText())
@@ -473,13 +498,13 @@ public class Board extends Subject {
         });     
         Position pos;
         TypeElement te;
-        for(AllPlayer all:player) {
+        loop: for(AllPlayer all:player) {
             pos = all.pos;
             te = all.te;
             if(pos.y+direction.getDirVer() < y && pos.x+direction.getDirHori() < x) {
                 try {
                 if (!this.listRule.check(pos, direction, te))
-                    continue;
+                    continue loop;
                 } catch (WinException e) {
                     return;
                 }
@@ -506,14 +531,16 @@ public class Board extends Subject {
         if (player==null)
             return;
         
-        loop: for (AllPlayer p:player)
-            if (Rule.getBoolean(Property.MOVE) || Rule.getBoolean(Property.TP))
+        //desactiver les regle a pas checker 
+        List<Property> temps = Rule.desactivatePlayerList(Property.MOVE,Property.TP,Property.SLIP);
+        loop2: for (AllPlayer p:player)
                 try {
                     if (this.listRule.check(p.pos, Directions.NONE, p.te))
-                        continue loop;
-        } catch (WinException ex) {
-            return;
-        }
+                        continue loop2;
+                } catch (WinException ex) {
+                    return;
+                }
+        Rule.activatePlayerList(temps);
     }
     
     /**
