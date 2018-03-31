@@ -49,10 +49,10 @@ public class Maps {
      * @param fileName String, nom du fichier à charger.
      * @throws TypeElementNotFoundException 
      */
-    public Maps(File fileName) throws TypeElementNotFoundException, IOException {
+    public Maps(BufferedReader buffer) throws TypeElementNotFoundException, IOException {
         listAllElement = new ArrayList<>();
         
-        try (BufferedReader buffer = new BufferedReader(new FileReader(fileName))) {
+
             String nextLine;
             //lecture de la premier ligne pour determiner et crée le board.
             String line = buffer.readLine();
@@ -73,10 +73,7 @@ public class Maps {
             }
 
             buffer.close(); 
-        } catch (IOException ex) {
-            LOGGER.log( Level.SEVERE, "Unable to load "+ fileName, ex);
-            throw new IOException("Unable to load " + fileName, ex);
-        }    
+           
     }
     
     /**

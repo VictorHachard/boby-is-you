@@ -25,7 +25,7 @@ public class LoadGame {
      * @param f
      * @param primaryStage 
      */
-    LoadGame(File f, Stage primaryStage) {
+    LoadGame(BufferedReader f, Stage primaryStage) {
         this.primaryStage = primaryStage;
         try {
                 Maps m = new Maps(f);

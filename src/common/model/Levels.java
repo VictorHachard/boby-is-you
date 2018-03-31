@@ -1,7 +1,6 @@
 package common.model;
 
 import common.exeptions.TypeElementNotFoundException;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -22,13 +21,17 @@ import java.util.stream.Stream;
 import javafx.stage.Stage;
 import common.view.JavaBobyIsYou;
 import common.view.MenuInit;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  *
  * @author Windows
  */
 public class Levels {
-    
+
     private List<Maps> listMap;
     private int indice;
     private static Levels INSTANCE = null;
@@ -75,44 +78,19 @@ public class Levels {
         loadDisplay();
     }
     
-    private static File[] getResourceFolderFiles (String folders) {
-        
-    URL url = JavaBobyIsYou.class.getResource(folders);
-    String path = url.getPath();
-    LOGGER.log( Level.INFO, " "+ path);
-    File folder = new File(path);
-    LOGGER.log(Level.INFO, "folder:"+ folder.toString());
-    LOGGER.log(Level.INFO, "folder:"+ folder.isDirectory());
-    LOGGER.log(Level.INFO, "folderSize:"+ folder.listFiles());
-    File[] file = folder.listFiles();
-    LOGGER.log(Level.INFO, file.toString());
-    LOGGER.log(Level.INFO, Integer.toString(file.length));
-    for (File f:file)
-    LOGGER.log( Level.INFO, " "+ f);
-    return file;
-  }
-    
     void loadMap() throws TypeElementNotFoundException, IOException, URISyntaxException {
-        URI uri = JavaBobyIsYou.class.getResource("/common/maps")
-                .toURI();
-        Path myPath;
-        if (uri.getScheme().equals("jar")) {
-            FileSystem fileSystem = FileSystems.newFileSystem(uri, Collections.<String, Object>emptyMap());
-            myPath = fileSystem.getPath("/common/maps");
-        } else {
-            myPath = Paths.get(uri);
-        }
-        Stream<Path> walk = Files.walk(myPath, 1);
-        for (Iterator<Path> it = walk.iterator(); it.hasNext();){
-            File current = it.next().toFile();
-            if (current.isFile()) {
-                this.listMap.add(new Maps(current));
+        char[] listchar = {'a','b','c','d','e','f','g','h','i','j'};
+        for (char a:listchar) {
+            try {
+                URL uri = JavaBobyIsYou.class.getResource("/common/maps/map"+a+".txt");
+                InputStream is = uri.openStream();
+                InputStreamReader ipsr = new InputStreamReader(is);
+                BufferedReader br = new BufferedReader(ipsr);
+                this.listMap.add(new Maps(br));
+                br.close();
+            } catch (Exception e) {
+                System.out.println(e.toString());
             }
-        }/*
-        for (File f : getResourceFolderFiles("/maps")) {
-            this.listMap.add(new Maps(f));
-        //LOGGER.log( Level.INFO, " "+ f);
-        }*/
-
+        }
     }
 }
