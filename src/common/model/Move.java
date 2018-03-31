@@ -76,8 +76,10 @@ public class Move extends Rule {
                         }
                 }
                 else {
-                    listGrid.get(pos.y).get(pos.x).getElements(this.te).setDirections(direction.getOpp());
-                    board.editPlacement(pos,direction.getOpp(),this.te);
+                    if (listGrid.get(pos.y+direction.getOpp().getDirVer()).get(pos.x+direction.getOpp().getDirHori()).canAdd()) {
+                        listGrid.get(pos.y).get(pos.x).getElements(this.te).setDirections(direction.getOpp());
+                        board.editPlacement(pos,direction.getOpp(),this.te);
+                    }
                 }
             }
         }

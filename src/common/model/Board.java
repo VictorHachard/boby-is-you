@@ -499,13 +499,14 @@ public class Board {
         
         Position pos;
         TypeElement te;
+        boolean thirstTime = false;
         int i = 0;
         loop: for(AllPlayer all:player) {
             pos = all.pos;
             te = all.te;
             if(pos.y+direction.getDirVer() < y && pos.x+direction.getDirHori() < x) {
                 List<Property> temps1 = null;
-                if (i<1)
+                if (thirstTime)
                     temps1 = Rule.desactivatePlayerList(Property.MOVE);
                 try {
                 if (!this.listRule.check(pos, direction, te))
@@ -513,7 +514,9 @@ public class Board {
                 } catch (WinException e) {
                     return;
                 }
-                Rule.activatePlayerList(temps1);
+                if (thirstTime)
+                    Rule.activatePlayerList(temps1);
+                thirstTime = true;
                 //Depalcement ADD
                 if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canAdd()){ //verifie si il peut add la case suivante
                     editPlacement(pos,direction,te);

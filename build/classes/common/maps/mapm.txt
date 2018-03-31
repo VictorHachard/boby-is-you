@@ -28,7 +28,7 @@ win 17 17
 text_baba 17 8
 is 17 9
 melt 17 10
-water 17 2
+text_water 17 2
 is 17 3
 sink 17 4
 wall 15 8
