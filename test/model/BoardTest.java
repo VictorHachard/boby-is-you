@@ -5,8 +5,14 @@
  */
 package model;
 
+import common.model.Maps;
+import common.model.Directions;
+import common.model.Board;
+import common.model.Position;
+import common.model.Placement;
+import common.model.TypeElement;
 import com.sun.javafx.scene.traversal.Direction;
-import exeptions.TypeElementNotFoundException;
+import common.exeptions.TypeElementNotFoundException;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
