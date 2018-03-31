@@ -17,9 +17,9 @@ sink 9 1
 text_rock 8 4
 is 9 4
 push 10 4
-baba 7 6
-rock 9 6
-rock 10 6
+baba 7 6 0
+rock 9 6 2
+rock 10 6 2
 water 7 8
 water 8 8
 water 9 8

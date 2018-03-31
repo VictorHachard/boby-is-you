@@ -139,6 +139,9 @@ public class Element {
      * @param tr Property
      */
     void addRule(Property tr){
+        for (Property p:ltr)
+            if (p==tr)
+                return;
         ltr.add(tr);
     }
     

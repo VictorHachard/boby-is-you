@@ -6,7 +6,7 @@ import java.util.List;
  *
  * @author Glaskani
  */
-public class Kill {
+public class Kill extends Rule {
     
     private List<List<Placement>> listGrid;
     private Board board;
@@ -16,11 +16,18 @@ public class Kill {
         this.listGrid=board.getListGrid();
     }
     
-    boolean check(Position pos,Directions direction,TypeElement player) {
+    @Override
+    public boolean work(Position pos,Directions direction,TypeElement player) {
         if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.KILL)) {
             listGrid.get(pos.y).get(pos.x).removeElement(player);
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
+
+    @Override
+    Property getProperty() {
+        return Property.KILL;
+    }
+       
 }

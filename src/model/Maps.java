@@ -35,6 +35,15 @@ public class Maps {
     private Element empty = new Element(TypeElement.EMPTY,Directions.RIGHT);
     private static final Logger LOGGER = Logger.getGlobal();
     
+    public Maps(Maps map){
+    this.Element = map.Element;
+    this.empty = map.empty;
+    this.listAllElement = map.listAllElement;
+    this.x = map.x;
+    this.y =map.y;
+    this.unplayable=map.unplayable;
+            }
+    
     /**
      * Charge un fichier (fileName) et crée une Maps.
      * @param fileName String, nom du fichier à charger.
@@ -188,7 +197,10 @@ public class Maps {
      */
     public List<Element> getListElement(int x, int y) { 
         checkIfPosIsInMap(x,y);
-        return Element.get(new Position(y,x));
+        List<Element> copy = new ArrayList<>();
+        for (Element e:Element.get(new Position(y,x)))
+            copy.add(e);
+        return copy;
     }
     
     /**

@@ -6,7 +6,7 @@ import java.util.List;
  *
  * @author Glaskani
  */
-public class Sink implements Rule {
+public class Sink extends Rule {
     
     private List<List<Placement>> listGrid;
     private Board board;
@@ -15,18 +15,20 @@ public class Sink implements Rule {
     public Sink(Board board) {
         this.board=board;
         this.listGrid=board.getListGrid();
-        checkRule(Property.SINK);
     }
     
-    boolean check(Position pos,Directions direction,TypeElement player) {
+    @Override
+    public boolean work(Position pos,Directions direction,TypeElement player) {
         if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.SINK)) {
             listGrid.get(pos.y).get(pos.x).removeElement(player);
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
     
-    boolean checkPush(Position pos,Directions direction,TypeElement player) {
+    @Override
+    boolean workPush(Position pos,Directions direction,TypeElement player) {
+        this.te = checkRule(Property.SINK);
         if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.SINK)
                 && (!listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findTypeType(TypeTypeElement.CONNECTER))
                 && (!listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findTypeType(TypeTypeElement.RULE))
@@ -35,18 +37,22 @@ public class Sink implements Rule {
             for (Element e:board.getListGrid().get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).getListeContenu())
             if (e.getTypeElements()==te)
                 listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(e.getTypeElements());
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
     
-    boolean checkRule(Property pro) {
-        for (ElementRule e:board.getElementRule())
-            if (e.getProperty()==pro) {
-                this.te = e.getTypeElement();
-                return true;
-            }
-        return false;
+    private TypeElement checkRule(Property pro) {
+        for (Element e:this.board.getListAllElement())
+            for (Property p:e.getTypeRule())
+            if (p==pro)
+                return e.getTypeElements();
+        return null;
+    }
+
+    @Override
+    Property getProperty() {
+        return Property.SINK;
     }
 }
 

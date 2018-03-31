@@ -1,6 +1,7 @@
 package model;
 
 import exeptions.TypeElementNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  *
  * @author Glaskani
  */
-public class Move {
+public class Move extends Rule {
     
     private boolean isMonster = false;
     private List<List<Placement>> listGrid;
@@ -20,20 +21,21 @@ public class Move {
         this.board=board;
         this.listGrid=board.getListGrid();
         checkRule(Property.MOVE);
-        getMonster();
     }
     
-    boolean check(Position pos,Directions direction,TypeElement player) throws TypeElementNotFoundException {
+    
+    @Override
+    public boolean work(Position pos,Directions direction,TypeElement player) throws TypeElementNotFoundException, IOException {
         if (isMonster) {
             if (checkRule(Property.MOVE)) {
                 getMonster();
                 moveMonster();
             }
         }
-        return false;
+        return true;
     }
     
-    void moveMonster() throws TypeElementNotFoundException {
+    void moveMonster() throws TypeElementNotFoundException, IOException {
         Directions direction;
         for(Position pos:this.listMonster) {
             direction = listGrid.get(pos.y).get(pos.x).getElements(this.te).getDirections();
@@ -58,9 +60,9 @@ public class Move {
     }
     
     boolean checkRule(Property pro) {
-        for (ElementRule e:board.getElementRule())
-            if (e.getProperty()==pro) {
-                this.te = e.getTypeElement();
+        for (Element e:board.getListAllElement())
+            if (e.getTypeRule().contains(pro)) {
+                this.te = e.getTypeElements();
                 this.isMonster=true;
                 return true;
             }
@@ -68,11 +70,14 @@ public class Move {
     }
     
     void getMonster() {
-        /*if (!(this.listMonster.isEmpty()))
-            this.listMonster.clear();*/
         this.listMonster = board.getPositionOf(this.te);
         if (!(listMonster.isEmpty())) {
             this.isMonster = true;
         }
     } 
+    
+    @Override
+    Property getProperty() {
+        return Property.MOVE;
+    }
 }

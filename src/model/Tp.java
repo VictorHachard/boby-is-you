@@ -6,7 +6,7 @@ import java.util.List;
  *
  * @author Glaskani
  */
-public class Tp implements Rule {
+public class Tp extends Rule {
     
     private Position portalPos;
     private boolean isPortal = false;
@@ -20,15 +20,16 @@ public class Tp implements Rule {
         getPortal();
     }
     
-    boolean check(Position pos,Directions direction,TypeElement player) {
+    @Override
+    public boolean work(Position pos,Directions direction,TypeElement player) {
+        getPortal();
         if (removePortal) {
             listGrid.get(this.portalPos.y).get(this.portalPos.x).removeElement(TypeElement.PORTAL_IN);
             listGrid.get(this.portalPos.y).get(this.portalPos.x).removeElement(TypeElement.PORTAL_OUT);
-            return false;
-        }
-        else if (isPortal && listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.TP)) {
+            return true;
+        } else if (isPortal && listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.TP)) {
             //ajoute player
-            listGrid.get(this.portalPos.y+direction.getOpp().getDirVer()).get(this.portalPos.x+direction.getOpp().getDirHori())
+            listGrid.get(this.portalPos.y+direction.getDirVer()).get(this.portalPos.x+direction.getDirHori())
             .addElement(listGrid.get(pos.y).get(pos.x).getElements(player));
             //ajoute portail in
             listGrid.get(this.portalPos.y).get(this.portalPos.x)
@@ -39,9 +40,8 @@ public class Tp implements Rule {
             //changement true false
             isPortal = false;
             this.removePortal = true;         
-            return true;
-        }
-        else return false;
+            return false;
+        } else return true;
     }
     
     /**
@@ -50,8 +50,7 @@ public class Tp implements Rule {
     void getPortal() {
         List<Position> lp = board.getPositionOf(TypeElement.PORTAL_IN);
         List<Position> lp2 = board.getPositionOf(TypeElement.PORTAL_OUT);
-        if (!(lp.isEmpty())) {
-            System.out.println(lp2.size());
+        if (!(lp==null && lp==null)) {
             int i = lp2.size()-1;
             if (i>0)
                 i = (int)(Math.random() * (i+1));
@@ -61,6 +60,10 @@ public class Tp implements Rule {
                 if (e.getTypeElements()==TypeElement.PORTAL_IN)
                     e.addRule(Property.TP);
         }
-    } 
-    
+    }
+
+    @Override
+    Property getProperty() {
+        return Property.TP;
+    }
 }

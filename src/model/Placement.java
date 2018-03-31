@@ -91,9 +91,10 @@ public class Placement {
      * @return 
      */
     boolean findElements(TypeElement te){
-        for(Element e:this.listeContenu)
+        for(Element e:this.listeContenu){
             if(e.getTypeElements()==te)
                 return true;
+        }
         return false;
     }
     

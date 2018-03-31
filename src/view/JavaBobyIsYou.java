@@ -2,7 +2,9 @@ package view;
 
 import exeptions.TypeElementNotFoundException;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.logging.FileHandler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import static javafx.application.Application.launch;
@@ -54,8 +56,14 @@ public class JavaBobyIsYou extends Application {
         LOGGER.addHandler(hdl);
         /*Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
         @Override
-        public void uncaughtException(Thread t, Throwable e) {
-            Calendar cal = Calendar.getInstance();
+        /*public void uncaughtException(Thread t, Throwable e) {
+            String str = "";
+            for (StackTraceElement el : e.getStackTrace()){
+                str += el.getClassName() + " " + el.getFileName() + " " + el.getMethodName()+ " " + el.getLineNumber()+"--";
+            }
+                
+            LOGGER.log(Level.SEVERE,e.toString() + " " + str);
+           /* Calendar cal = Calendar.getInstance();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
 
             String filename = "crashlogs/"+sdf.format(cal.getTime())+".txt";
@@ -71,7 +79,7 @@ public class JavaBobyIsYou extends Application {
             } catch (FileNotFoundException | UnsupportedEncodingException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
-            }
+            
 
         }
 });*/

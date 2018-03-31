@@ -1,6 +1,7 @@
 package model;
 
 import exeptions.TypeElementNotFoundException;
+import exeptions.WinException;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -13,6 +14,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * //TODO ergerister le dernier deplacment pour la save direction
@@ -20,16 +23,16 @@ import java.util.List;
  */
 public class Board extends Subject {
     
-    private List<Element> listAllElement;
+    private List<Element> listAllElement = new ArrayList<>();
     private List<Position> is;
     private List<Position> make;
-    private List<List<Placement>> listGrid;
+    private List<List<Placement>> listGrid = new ArrayList<>();;
     private final int x;
     private final int y;
     private final Placement unplayable = new Placement(new Unplayable());
     private final Element empty = new Empty();
     private MusicHashMap music;
-    private List<ElementRule> listRule;
+    private Rule listRule;
     private HashMap<Property, Rule> rule;
     private static Board INSTANCE = null;
     
@@ -57,17 +60,9 @@ public class Board extends Subject {
     /**
      * 
      */
-    public static void reloadInstance() {           
+    public static void reloadInstance() {
         INSTANCE = null;
     }
-    
-    private Tp tp;
-    private Slip ice;
-    private Kill kill;
-    private Sink sink;
-    private Move move;
-    private MeltHot melt;
-    private Win win;
     
     /**
      * 
@@ -75,20 +70,17 @@ public class Board extends Subject {
      * @throws TypeElementNotFoundException 
      */
     private Board(Maps map) throws TypeElementNotFoundException, IOException {
-        this.listGrid = new ArrayList<>();
-        this.listRule = new ArrayList<>();
-        this.listAllElement = map.getListAllElement();  
         music = MusicHashMap.getInstance();
-        
         this.x = map.getSizeX();
         this.y = map.getSizeY();
+        this.listAllElement=map.getListAllElement();
         
         generateGrid(x-2,y-2);
 
         for(int i=1;i<y-1;i++){
             for(int j=1;j<x-1;j++){
                 List<Element> te =  map.getListElement(j,i);
-                for(int k=0;k<te.size();k++){
+                for(int k=1;k<te.size();k++){
                     //ne re load pas les EMPTY
                     if (!(te.get(k).getTypeElements()==TypeElement.EMPTY)) {
                         addPlacement(j,i,te.get(te.size()-k));    
@@ -97,32 +89,32 @@ public class Board extends Subject {
                             te.get(k).getTypeTypeElements()==TypeTypeElement.TEXT ||
                             te.get(k).getTypeTypeElements()==TypeTypeElement.RULE) {
                         listGrid.get(i).get(j).getListeContenu().get(k).addRule(Property.PUSH); 
-                        /*if (te.get(k).getTypeTypeElements()==TypeTypeElement.RULE)
-                            this.rule.put(te.get(k).getTypeElements().getRule(), );*/
                     }
                     }
                 }
             }
-        }       
-              
+        }    
         is = getAllPos(TypeElement.IS);
-        make = getAllPos(TypeElement.MAKE);
+        deleteAllRule();
         for (Position p:is)
             rule(p,TypeElement.IS);
-        tp = new Tp(this);
-        ice = new Slip(this);
-        kill = new Kill(this);
-        sink = new Sink(this);
-        move = new Move(this);
-        melt = new MeltHot(this);
-        win = new Win(this);
+        
+        listRule = new Tp(this);
+        listRule.addRule(new Slip(this));
+        listRule.addRule(new Kill(this));
+        listRule.addRule(new Sink(this));
+        listRule.addRule(new Move(this));
+        listRule.addRule(new Melt(this));
+        listRule.addRule(new Win(this));
+
+        //make = getAllPos(TypeElement.MAKE);
     }   
     
     /**
      * 
      */
     private void deleteAllRule() {
-        listRule.clear();
+        Rule.desactivateAll();
         for (Element e:this.listAllElement)
             if (!(e.getTypeTypeElements()==TypeTypeElement.CONNECTER||e.getTypeTypeElements()==TypeTypeElement.RULE||e.getTypeTypeElements()==TypeTypeElement.TEXT))
                 if (!(e.getTypeRule().isEmpty()))
@@ -189,7 +181,6 @@ public class Board extends Subject {
                         listGrid.get(x).get(y+1).findElements(TypeElement.RIGHT)) {
                     changeDirections(listGrid.get(x).get(y-1).findTypeElement(te),
                     listGrid.get(x).get(y+1).findTypeElement(te1));
-                    System.out.println("coucou");
                 }
                 else addRule(listGrid.get(x).get(y-1).findTypeElement(te),
                     listGrid.get(x).get(y+1).findTypeElement(te1));
@@ -224,15 +215,19 @@ public class Board extends Subject {
                     addElementOnElement(listGrid.get(x-1).get(y).findTypeElement(te).getText(), new Element(listGrid.get(x+1).get(y).findTypeElement(te1).getText()));
         }
     
+    /**
+     * 
+     * @param e1
+     * @param e2
+     * @throws TypeElementNotFoundException 
+     */
     private void addElementOnElement(TypeElement e1, Element e2) throws TypeElementNotFoundException {
         //e2 a faire poper sur e1
         for(int i=1;i<y-1;i++)
             for(int j=1;j<x-1;j++)
                 for(int k=0;k<listGrid.get(i).get(j).getListeContenu().size();k++)
-                    if (listGrid.get(i).get(j).getListeContenu().get(k).getTypeElements()==e1) {
-                        System.out.println("enter add "+e2.toString()+ " "+e1.name());
+                    if (listGrid.get(i).get(j).getListeContenu().get(k).getTypeElements()==e1)
                         addPlacement(j,i,e2);
-                    }
     }
     
     /**
@@ -253,19 +248,16 @@ public class Board extends Subject {
      */
     private void changeType(TypeElement text,TypeElement text2) throws TypeElementNotFoundException { //e1 a mettre e a enlever
         TypeElement bef=text.getText();
-        Element aft=null;
+        Element aft=new Element(text2.getText());
         List<Element> listAllElementDelete = new ArrayList<>();
         //trouve text
         for(Element e:this.listAllElement)
             if (e.getTypeElements()==text.getText())
                 listAllElementDelete.add(e);
-                 
         //trouve text2
         for(Element e:this.listAllElement)
             if (e.getTypeElements()==text2.getText())
                  aft = e;
-        if (aft==null)
-                aft = new Element(text2.getText());
         for(int i=1;i<y-1;i++)
             for(int j=1;j<x-1;j++)
                 for(int k=0;k<listGrid.get(i).get(j).getListeContenu().size();k++)
@@ -285,7 +277,8 @@ public class Board extends Subject {
      * @param rule 
      */
     private void addRule(TypeElement text,TypeElement rule) {
-        listRule.add(new ElementRule(text.getText(), rule.getRule()));
+        if (!(rule.getRule()==Property.STOP||rule.getRule()==Property.PUSH||rule.getRule()==Property.SLIP))
+            Rule.setActivity(rule.getRule(), true);
         for(Element e:listAllElement)
             if (e.getTypeElements()==text.getText())
                 e.addRule(rule.getRule());
@@ -306,8 +299,12 @@ public class Board extends Subject {
                     listGrid.get(j).add(new Placement (this.empty));
         }
     }
-       
-    List<ElementRule> getElementRule() {
+      
+    /**
+     * 
+     * @return 
+     */
+    Rule getElementRule() {
         return this.listRule;
     }
     
@@ -351,6 +348,7 @@ public class Board extends Subject {
      * @throws TypeElementNotFoundException 
      */
     private void addPlacement(int x, int y, Element object) throws TypeElementNotFoundException {
+        if (!this.listAllElement.isEmpty())
         for(Element e:this.listAllElement)
                 if(e.equals(object)) {
                     listGrid.get(y).get(x).addElement(object);
@@ -401,11 +399,13 @@ public class Board extends Subject {
      */
     List<Position> getPositionOf(TypeElement te){
         List<Position> lp = new ArrayList<>();
-        
         for(int i=0;i<this.y;i++)
-            for(int j=0;j<this.x;j++)
+            for(int j=0;j<this.x;j++) {
                 if(this.listGrid.get(i).get(j).findElements(te))
                     lp.add(new Position(j,i));
+            }
+        if (lp.isEmpty())
+            return null;
         return lp;
     }
     
@@ -415,10 +415,19 @@ public class Board extends Subject {
      */
     private List<AllPlayer> getPlayerType(){        
         List<AllPlayer> tempsList = new ArrayList<>();
-        for (ElementRule er:this.listRule)
-            if (er.getProperty()==Property.YOU)
-                for (Position p:getPositionOf(er.getTypeElement()))
-                    tempsList.add(new AllPlayer(p,er.getTypeElement()));
+        List<Position> temp;
+        List<TypeElement> alredycheck = new ArrayList<>();
+        for (Element e:this.listAllElement) {
+            for (Property p:e.getTypeRule()) {
+                if (p==Property.YOU && (!(alredycheck.contains(e.typeElement)))) {
+                    alredycheck.add(e.typeElement);
+                    temp = getPositionOf(e.getTypeElements());
+                    if (!(temp==null))
+                        for (Position pos:temp)
+                            tempsList.add(new AllPlayer(pos,e.getTypeElements()));
+                }
+            }
+        }
         if (tempsList.isEmpty())
             return null;
         return tempsList;
@@ -439,6 +448,8 @@ public class Board extends Subject {
     /**
      * 
      * @param direction 
+     * @throws exeptions.TypeElementNotFoundException 
+     * @throws java.io.IOException 
      */
     public void movePlayer(Directions direction) throws TypeElementNotFoundException, IOException{
         List<AllPlayer> player = getPlayerType();   
@@ -448,12 +459,17 @@ public class Board extends Subject {
         Collections.sort(player, new Comparator<AllPlayer>() {
             @Override
             public int compare(AllPlayer o1, AllPlayer o2) {
-                if (direction==Directions.RIGHT)
-                    return o2.pos.x - o1.pos.x;
-                else if (direction==Directions.LEFT)
-                    return o1.pos.x - o2.pos.x;
-                else if (direction==Directions.UP)
-                    return o1.pos.y - o2.pos.y;
+                if (null!=direction)
+                    switch (direction) {
+                    case RIGHT:
+                        return o2.pos.x - o1.pos.x;
+                    case LEFT:
+                        return o1.pos.x - o2.pos.x;
+                    case UP:
+                        return o1.pos.y - o2.pos.y;
+                    default:
+                        break;
+                }
                 return o2.pos.y - o1.pos.y;
             }
         });     
@@ -463,42 +479,43 @@ public class Board extends Subject {
             pos = all.pos;
             te = all.te;
             if(pos.y+direction.getDirVer() < y && pos.x+direction.getDirHori() < x) {
-                if (this.win.check(pos, direction, te))
+                try {
+                if (!this.listRule.check(pos, direction, te))
+                    continue;
+                } catch (WinException e) {
                     return;
-                if (this.tp.check(pos, direction, te))
-                    continue;
-                if (this.melt.check(pos, direction, te))
-                    continue;
-                if (this.sink.check(pos, direction, te))
-                    continue;
-                if (this.move.check(pos, direction, te))
-                    continue;
-                if (this.kill.check(pos, direction, te))
-                    continue;
-                /*if (this.ice.check(pos, direction, te))
-                    continue;*/
+                }
                 //Depalcement ADD
                 if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canAdd()){ //verifie si il peut add la case suivante
-                    //Depalcement ADD
                     editPlacement(pos,direction,te);
-                    this.music.play(Music.ADD);
+                    //this.music.play(Music.ADD);
                 } 
                 //Depalcement PUSH
                 else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canPush()) { //verifie si il peut push la case suivante
                     if (push(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()),direction))
                         editPlacement(pos,direction,te);
                 }
+            
             }
         }
-        //test(make.get(0).x,make.get(0).y,TypeTypeElement.TEXT,TypeTypeElement.TEXT);
         deleteAllRule();
         for (Position p:is)
             rule(p,TypeElement.IS);
+        System.out.println("---------------------------");
+        Rule.setActivity(Property.TP, true);
         player = getPlayerType();
         
         if (player==null)
             return;
-        checkKill(player);
+        
+        loop: for (AllPlayer p:player)
+            if (Rule.getBoolean(Property.MOVE) || Rule.getBoolean(Property.TP))
+                try {
+                    if (this.listRule.check(p.pos, Directions.NONE, p.te))
+                        continue loop;
+        } catch (WinException ex) {
+            return;
+        }
     }
     
     /**
@@ -508,7 +525,7 @@ public class Board extends Subject {
      * @param direction Directions, sens du déplacemnt 
      * @return true ou flase
      */
-    boolean push(Position pos,Directions direction) throws TypeElementNotFoundException {
+    boolean push(Position pos,Directions direction) throws TypeElementNotFoundException, IOException {
         if(pos.y+direction.getDirVer() < y && pos.x+direction.getDirHori() < x){
             if (listGrid.get(pos.y).get(pos.x).canPush()){
                 if(push(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()),direction)){
@@ -519,12 +536,10 @@ public class Board extends Subject {
                                 if (pos.equals(this.is.get(i)))
                                     this.is.remove(i);
                                     this.is.add(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()));
-
                         }
-                            if (this.sink.checkPush(pos, direction, TypeElement.ANNI)) { //ajouter sink a push
+                        if (!this.listRule.checkPush(pos, direction, TypeElement.ANNI)){
                                 listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(e.getTypeElements());
-                                return true;
-                            }
+                                return true;}
                     }
                     return true;
                 }
@@ -582,25 +597,6 @@ public class Board extends Subject {
     }
     catch (IOException e) {
     }   
-    }
-
-    /**
-     * 
-     * @param player
-     * @throws TypeElementNotFoundException
-     * @throws IOException 
-     */
-    private void checkKill(List<AllPlayer> player) throws TypeElementNotFoundException, IOException {
-        loop: for (AllPlayer p:player) {
-            if (this.win.check(p.pos, Directions.NONE, p.te))
-                continue loop;
-            else if (this.melt.check(p.pos, Directions.NONE, p.te))
-                continue loop;
-            else if (this.sink.check(p.pos, Directions.NONE, p.te))
-                continue loop;
-            else this.kill.check(p.pos, Directions.NONE, p.te);
-        }
-            
     }
 
     /**

@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.image.Image;
 import model.Board;
 import model.Element;
@@ -18,6 +20,7 @@ import model.TypeElement;
 public class ImageHashMap {
     
     private Map<TypeElement, Image> imageMap = new HashMap<>();
+    private static final Logger LOGGER = Logger.getGlobal();
     
     /**
      * Charge toute le image du board dans une map,
@@ -30,8 +33,12 @@ public class ImageHashMap {
         listAllElement.add(new Element(TypeElement.WALLINJOUABLE));
         
         for(Element e:listAllElement) {
+            try {
             TypeElement te = e.getTypeElements();
-            this.imageMap.put(te, new Image("images/"+te.toString().toLowerCase()+".png"));  
+            this.imageMap.put(te, new Image("images/"+te.toString().toLowerCase()+".png"));
+            } catch (IllegalArgumentException ex) {
+            LOGGER.log( Level.WARNING, "Image not fond");
+            }
         }
     }
     
@@ -46,8 +53,12 @@ public class ImageHashMap {
         listAllElement.add(new Element(TypeElement.WALLINJOUABLE));
         
         for(Element e:listAllElement) {
+            try {
             TypeElement te = e.getTypeElements();
-            this.imageMap.put(te, new Image("images" + File.separator + te.toString() + ".png"));  
+            this.imageMap.put(te, new Image("images/"+te.toString().toLowerCase()+".png"));
+            } catch (IllegalArgumentException ex) {
+            LOGGER.log( Level.WARNING, "Image not fond");
+            }
         }
     }
 

@@ -1,24 +1,18 @@
 package model;
 
+
+
+import exeptions.WinException;
 import exeptions.TypeElementNotFoundException;
 import java.io.IOException;
 import java.util.List;
-import model.Board;
-
-import model.Directions;
-import model.Levels;
-import model.Placement;
-import model.Position;
-import model.Property;
-import model.Rule;
-import model.TypeElement;
 
 /**
  *
  * @author Windows
  */
-public class Win implements Rule {
-    
+public class Win extends Rule {
+
     private List<List<Placement>> listGrid;
     private Board board;
     
@@ -27,12 +21,18 @@ public class Win implements Rule {
         this.listGrid=board.getListGrid();
     }
     
-    boolean check(Position pos,Directions direction,TypeElement player) throws TypeElementNotFoundException, IOException {
+    
+    @Override
+    public boolean work(Position pos,Directions direction,TypeElement player) throws WinException, TypeElementNotFoundException, IOException {
         if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.WIN)) {
             Levels.getInstance().nextLevel();
-            return true;
+            throw new WinException();
         }
-        return false;
+        return true;
     }
-    
+
+    @Override
+    Property getProperty() {
+        return Property.WIN;
+    }
 }
