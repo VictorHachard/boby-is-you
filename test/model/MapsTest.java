@@ -5,7 +5,12 @@
  */
 package model;
 
-import exeptions.TypeElementNotFoundException;
+import common.model.Maps;
+import common.model.Directions;
+import common.model.Board;
+import common.model.Element;
+import common.model.TypeElement;
+import common.exeptions.TypeElementNotFoundException;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
