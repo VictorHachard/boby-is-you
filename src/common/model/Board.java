@@ -18,7 +18,7 @@ import java.util.List;
  * //TODO ergerister le dernier deplacment pour la save direction
  * @author Glaskani
  */
-public class Board extends Subject {
+public class Board {
     
     private List<Element> listAllElement = new ArrayList<>();
     private List<Position> is;
@@ -524,7 +524,6 @@ public class Board extends Subject {
         deleteAllRule();
         for (Position p:is)
             rule(p,TypeElement.IS);
-        System.out.println("---------------------------");
         Rule.setActivity(Property.TP, true);
         player = getPlayerType();
         
