@@ -28,6 +28,7 @@ public enum TypeElement {
     FLAG("FLAG","E_F ",2,null,null,TypeTypeElement.BLOCK),
     EMPTY("EMPTY","    ",0,null,null,TypeTypeElement.BLOCK),
     METAL("METAL","E_M ",1,null,null,TypeTypeElement.BLOCK),
+    STAR("STAR","E_ST",2,null,null,TypeTypeElement.BLOCK),
     LOVE("LOVE","E_L ",2,null,null,TypeTypeElement.BLOCK),
     PORTAL_IN("PORTAL_IN","E_PI",1,null,null,TypeTypeElement.BLOCK),
     PORTAL_OUT("PORTAL_OUT","E_PO",1,null,null,TypeTypeElement.BLOCK),
@@ -37,6 +38,7 @@ public enum TypeElement {
     ANNI("ANNI","E_A ",3,null,null,TypeTypeElement.PLAYER),
     
     TEXT_ROCK("TEXT_ROCK","T_R ",3,TypeElement.ROCK,null,TypeTypeElement.TEXT),
+    TEXT_STAR("TEXT_STAR","T_ST",3,TypeElement.STAR,null,TypeTypeElement.TEXT),
     TEXT_LAVA("TEXT_LAVA","T_LA",3,TypeElement.LAVA,null,TypeTypeElement.TEXT),
     TEXT_WALL("TEXT_WALL","T_W ",3,TypeElement.WALL,null,TypeTypeElement.TEXT),
     TEXT_YOU("TEXT_YOU","T_Y ",3,null,null,TypeTypeElement.TEXT),

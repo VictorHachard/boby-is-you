@@ -78,15 +78,15 @@ public class Board {
                 List<Element> te =  map.getListElement(j,i);
                 for(int k=1;k<te.size();k++){
                     //ne re load pas les EMPTY
-                    if (!(te.get(k).getTypeElements()==TypeElement.EMPTY)) {
-                        addPlacement(j,i,te.get(te.size()-k));    
+                   /* if (!(te.get(k).getTypeElements()==TypeElement.EMPTY))*/
+                        addPlacement(j,i,te.get(te.size()-k));
                     //Ajoute les pushs sur les texte et les texte regles.
                     if (te.get(k).getTypeTypeElements()==TypeTypeElement.CONNECTER ||
                             te.get(k).getTypeTypeElements()==TypeTypeElement.TEXT ||
                             te.get(k).getTypeTypeElements()==TypeTypeElement.RULE) {
                         listGrid.get(i).get(j).getListeContenu().get(k).addRule(Property.PUSH); 
                     }
-                    }
+                    
                 }
             }
         }    
@@ -496,18 +496,24 @@ public class Board {
                 return o2.pos.y - o1.pos.y;
             }
         });     
+        
         Position pos;
         TypeElement te;
+        int i = 0;
         loop: for(AllPlayer all:player) {
             pos = all.pos;
             te = all.te;
             if(pos.y+direction.getDirVer() < y && pos.x+direction.getDirHori() < x) {
+                List<Property> temps1 = null;
+                if (i<1)
+                    temps1 = Rule.desactivatePlayerList(Property.MOVE);
                 try {
                 if (!this.listRule.check(pos, direction, te))
                     continue loop;
                 } catch (WinException e) {
                     return;
                 }
+                Rule.activatePlayerList(temps1);
                 //Depalcement ADD
                 if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canAdd()){ //verifie si il peut add la case suivante
                     editPlacement(pos,direction,te);
@@ -519,7 +525,7 @@ public class Board {
                         editPlacement(pos,direction,te);
                 }
             
-            }
+            } i++;
         }
         deleteAllRule();
         for (Position p:is)
@@ -532,10 +538,10 @@ public class Board {
         
         //desactiver les regle a pas checker 
         List<Property> temps = Rule.desactivatePlayerList(Property.MOVE,Property.TP,Property.SLIP);
-        loop2: for (AllPlayer p:player)
+        for (AllPlayer p:player)
                 try {
                     if (this.listRule.check(p.pos, Directions.NONE, p.te))
-                        continue loop2;
+                        continue;
                 } catch (WinException ex) {
                     return;
                 }

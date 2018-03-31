@@ -22,7 +22,7 @@ public class Slip extends Rule {
     
     @Override
     boolean work(Position pos,Directions direction,TypeElement player) throws TypeElementNotFoundException, IOException {
-        boolean ret = true;
+        boolean ret = false;
         if (isSlip) {
             System.out.println("coucou enter isslip");
             //si c est pas de l ice
@@ -30,48 +30,44 @@ public class Slip extends Rule {
                 //pour sortire de la ICCE
                 if ((listGrid.get(pos.y+dirSlip.getDirVer()).get(pos.x+dirSlip.getDirHori()).canAdd())) { //si stop return false
                     board.editPlacement(pos,dirSlip,player);
-                    ret = false;
                     isSlip = false;
                 }
                 //Si il y a un eleme a push en dehor de ICE
                 else if (listGrid.get(pos.y+this.dirSlip.getDirVer()).get(pos.x+this.dirSlip.getDirHori()).canPush()) { //verifie si il peut push la case suivante
                     if (board.push(new Position(pos.x+dirSlip.getDirHori(),pos.y+dirSlip.getDirVer()),dirSlip)) {                    
                         board.editPlacement(pos,dirSlip,player);
-                    } 
-                    ret = false;
+                    }
                     isSlip = false;
                 }
-                //continu
+                //si renconter un mur
                 else if (!(listGrid.get(pos.y+dirSlip.getDirVer()).get(pos.x+dirSlip.getDirHori()).canAdd())) { //si stop return false
-                    dirSlip = direction;
-                                
-                                
-                                
-                    if (listGrid.get(pos.y+this.dirSlip.getDirVer()).get(pos.x+this.dirSlip.getDirHori()).canPush()) { //verifie si il peut push la case suivante
-                        if (board.push(new Position(pos.x+dirSlip.getDirHori(),pos.y+dirSlip.getDirVer()),dirSlip)){                    
-                            board.editPlacement(pos,dirSlip,player);
-                        }
-                        isSlip=false;
+                    if (dirSlip.getSide(direction)) {
+                        dirSlip = direction;
+                        //si c'est plus de la ice a gere
+                        //board.editPlacement(pos,dirSlip,player);
                     }
-                    else board.editPlacement(pos,dirSlip,player);
                 }
             }
             
-                        else if (listGrid.get(pos.y+this.dirSlip.getDirVer()).get(pos.x+this.dirSlip.getDirHori()).canPush()) { //verifie si il peut push la case suivante
-                            if (board.push(new Position(pos.x+dirSlip.getDirHori(),pos.y+dirSlip.getDirVer()),dirSlip))       {                    
-                                board.editPlacement(pos,dirSlip,player);
-                            }
-                        }
+            else if (listGrid.get(pos.y+this.dirSlip.getDirVer()).get(pos.x+this.dirSlip.getDirHori()).canPush()) { //verifie si il peut push la case suivante
+                if (board.push(new Position(pos.x+dirSlip.getDirHori(),pos.y+dirSlip.getDirVer()),dirSlip))       {                    
+                    board.editPlacement(pos,dirSlip,player);
+                }
+            }
             else board.editPlacement(pos,dirSlip,player);
             return ret;
-        }
         
+        }
         //1ere fois q'un rentre dans ICE
         else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.SLIP)) {
-            System.out.println("coucou enter thirst");
             isSlip = true;
             dirSlip = direction;
-            board.editPlacement(pos,dirSlip,player);
+            if (listGrid.get(pos.y+this.dirSlip.getDirVer()).get(pos.x+this.dirSlip.getDirHori()).canPush()) { //verifie si il peut push la case suivante
+                if (board.push(new Position(pos.x+dirSlip.getDirHori(),pos.y+dirSlip.getDirVer()),dirSlip))       {                    
+                    board.editPlacement(pos,dirSlip,player);
+                }
+            }
+            else board.editPlacement(pos,dirSlip,player);
             return false;
         } 
         else return true;

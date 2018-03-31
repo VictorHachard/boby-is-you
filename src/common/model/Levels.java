@@ -1,28 +1,17 @@
 package common.model;
 
 import common.exeptions.TypeElementNotFoundException;
-import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Stream;
 import javafx.stage.Stage;
 import common.view.JavaBobyIsYou;
 import common.view.MenuInit;
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
@@ -35,7 +24,6 @@ public class Levels {
     private List<Maps> listMap;
     private int indice;
     private static Levels INSTANCE = null;
-    private File file;
     private Stage primaryStage;
     private static final Logger LOGGER = Logger.getGlobal();
     
@@ -79,7 +67,7 @@ public class Levels {
     }
     
     void loadMap() throws TypeElementNotFoundException, IOException, URISyntaxException {
-        char[] listchar = {'a','b','c','d','e','f','g','h','i','j'};
+        char[] listchar = {/*'a','b','c','d','e','f','g','h','i','j'/*,'k',*/'l'/*,'m'*/};
         for (char a:listchar) {
             try {
                 URL uri = JavaBobyIsYou.class.getResource("/common/maps/map"+a+".txt");

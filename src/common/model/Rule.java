@@ -36,6 +36,8 @@ public abstract class Rule {
     }
     
     static void activatePlayerList(List<Property> list) {
+        if (list==null)
+            return;
         for (Property p : list)
             if (activeMap.containsKey(p))
                 activeMap.put(p, true);

@@ -3,6 +3,8 @@ package common.model;
 import common.exeptions.TypeElementNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -35,8 +37,30 @@ public class Move extends Rule {
         return true;
     }
     
+    private void sort(Directions direction) {
+                Collections.sort(this.listMonster, new Comparator<Position>() {
+            @Override
+            public int compare(Position o1, Position o2) {
+            if (null!=direction)
+                switch (direction) {
+                    case RIGHT:
+                        return o2.x - o1.x;
+                    case LEFT:
+                        return o1.x - o2.x;
+                    case UP:
+                        return o1.y - o2.y;
+                    default:
+                        break;
+                }
+            return o2.y - o1.y;
+            }
+        });  
+    }
+    
     void moveMonster() throws TypeElementNotFoundException, IOException {
-        Directions direction;
+        Directions direction = listGrid.get(listMonster.get(0).y).get(listMonster.get(0).x).getElements(this.te).getDirections();
+        //trie pour ne pas addi les player
+        sort(direction);
         for(Position pos:this.listMonster) {
             direction = listGrid.get(pos.y).get(pos.x).getElements(this.te).getDirections();
             if(pos.y+direction.getDirVer() < board.getSizeY() && pos.x+direction.getDirHori() < board.getSizeX()) {
