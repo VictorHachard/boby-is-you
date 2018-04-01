@@ -4,7 +4,6 @@ import common.exeptions.TypeElementNotFoundException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -18,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static java.util.stream.Collectors.toList;
 import static jdk.nashorn.internal.objects.NativeString.toUpperCase;
 
 /**
@@ -46,8 +46,9 @@ public class Maps {
     
     /**
      * Charge un fichier (fileName) et crée une Maps.
-     * @param fileName String, nom du fichier à charger.
+     * @param buffer
      * @throws TypeElementNotFoundException 
+     * @throws java.io.IOException 
      */
     public Maps(BufferedReader buffer) throws TypeElementNotFoundException, IOException {
         listAllElement = new ArrayList<>();
@@ -130,7 +131,7 @@ public class Maps {
      * @return ListListPlacement
      */
     public List<Element> getListAllElement() {
-        return new ArrayList(this.listAllElement);
+        return new ArrayList(deepCopy(this.listAllElement));
     }
     
     /**
@@ -194,10 +195,16 @@ public class Maps {
      */
     public List<Element> getListElement(int x, int y) { 
         checkIfPosIsInMap(x,y);
-        List<Element> copy = new ArrayList<>();
-        for (Element e:Element.get(new Position(y,x)))
-            copy.add(e);
-        return copy;
+        /*List<Element> copy = new ArrayList<>();
+        for (Element e:Element.get(new Position(y,x))) {
+            copy.add(new Element(e.typeElement,e.direction));
+            for (Element e1:)
+                }*/
+        return deepCopy(Element.get(new Position(y,x)));
+    }
+    
+    private List<Element> deepCopy(List<Element> a){
+        return a.stream().map(val -> new Element(val)).collect(toList());
     }
     
     /**

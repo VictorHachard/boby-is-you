@@ -69,7 +69,6 @@ public class Board {
         music = MusicHashMap.getInstance();
         this.x = map.getSizeX();
         this.y = map.getSizeY();
-        this.listAllElement=map.getListAllElement();
         
         generateGrid(x-2,y-2);
 
@@ -77,21 +76,16 @@ public class Board {
             for(int j=1;j<x-1;j++){
                 List<Element> te =  map.getListElement(j,i);
                 for(int k=1;k<te.size();k++){
-                    //ne re load pas les EMPTY
-                   /* if (!(te.get(k).getTypeElements()==TypeElement.EMPTY))*/
-                        addPlacement(j,i,te.get(te.size()-k));
+                    addPlacement(j,i,te.get(te.size()-k));
                     //Ajoute les pushs sur les texte et les texte regles.
                     if (te.get(k).getTypeTypeElements()==TypeTypeElement.CONNECTER ||
                             te.get(k).getTypeTypeElements()==TypeTypeElement.TEXT ||
-                            te.get(k).getTypeTypeElements()==TypeTypeElement.RULE) {
+                            te.get(k).getTypeTypeElements()==TypeTypeElement.RULE)
                         listGrid.get(i).get(j).getListeContenu().get(k).addRule(Property.PUSH); 
-                    }
-                    
                 }
             }
-        }    
+        }
         is = getAllPos(TypeElement.IS);
-        deleteAllRule();
         for (Position p:is)
             rule(p,TypeElement.IS);
         
@@ -102,7 +96,6 @@ public class Board {
         listRule.addRule(new Move(this));
         listRule.addRule(new Melt(this));
         listRule.addRule(new Win(this));
-
         //make = getAllPos(TypeElement.MAKE);
     }   
     
@@ -371,12 +364,12 @@ public class Board {
      * @throws TypeElementNotFoundException 
      */
     private void addPlacement(int x, int y, Element object) throws TypeElementNotFoundException {
-        if (!this.listAllElement.isEmpty())
-        for(Element e:this.listAllElement)
-                if(e.equals(object)) {
-                    listGrid.get(y).get(x).addElement(object);
-                    return;
-                }
+        //if (!this.listAllElement.isEmpty())
+            for(Element e:this.listAllElement)
+                    if(e.equals(object)) {
+                        listGrid.get(y).get(x).addElement(e);
+                        return;
+                    }
         listAllElement.add(object);
         listGrid.get(y).get(x).addElement(object);
     }

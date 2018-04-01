@@ -38,7 +38,7 @@ public class Move extends Rule {
     }
     
     private void sort(Directions direction) {
-                Collections.sort(this.listMonster, new Comparator<Position>() {
+        Collections.sort(this.listMonster, new Comparator<Position>() {
             @Override
             public int compare(Position o1, Position o2) {
             if (null!=direction)

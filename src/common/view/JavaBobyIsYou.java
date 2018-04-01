@@ -1,10 +1,10 @@
 package common.view;
 
 import common.exeptions.TypeElementNotFoundException;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.logging.FileHandler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import static javafx.application.Application.launch;
@@ -26,6 +26,7 @@ public class JavaBobyIsYou extends Application {
     static double WIDTH = visualBounds.getWidth()-40;
     static double HEIGHT = visualBounds.getHeight()-40;
     private static final Logger LOGGER = Logger.getGlobal();
+    private static int SAVECAMPAGNE;
 
     @Override
     /**
@@ -83,9 +84,26 @@ public class JavaBobyIsYou extends Application {
 
         }
 });*/
+        //lecture du fichier config
         
-        
-        
+        /*final String chemin = "C:/tmp.txt";
+        final File fichier =new File(chemin); 
+        try {
+            // Creation du fichier
+            fichier .createNewFile();
+            // creation d'un writer (un écrivain)
+            final FileWriter writer = new FileWriter(fichier);
+            try {
+                writer.write("ceci est un texte\n");
+                writer.write("encore et encore");
+            } finally {
+                // quoiqu'il arrive, on ferme le fichier
+                writer.close();
+            }
+        } catch (Exception e) {
+            System.out.println("Impossible de creer le fichier");
+        }
+        */
         launch(args);        
     }
 }
