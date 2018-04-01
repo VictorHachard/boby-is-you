@@ -1,4 +1,16 @@
 18 18
+text_door 0 0
+is 0 1
+shut 0 2
+text_key 0 3
+is 0 4
+open 0 5
+and 0 6
+push 0 7
+door 3 3
+key 2 3
+text_key 16 16
+open 14 16
 text_wall 4 4
 is 5 4
 stop 6 4

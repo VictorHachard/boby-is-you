@@ -14,6 +14,8 @@ public class GameModeNormal extends GameMode {
     }
 
     @Override
-    void lose() {}
+    boolean lose() {
+    return true;
+    }
     
 }

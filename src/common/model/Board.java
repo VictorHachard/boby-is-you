@@ -100,7 +100,8 @@ public class Board {
         new Sink(this),
         new Move(this),
         new Melt(this),
-        new Win(this));
+        new Win(this),
+        new Shut(this));
         //listRule.addRule(new Shut(this));
         //make = getAllPos(TypeElement.MAKE);
     }   
@@ -483,25 +484,13 @@ public class Board {
      * @throws java.io.IOException 
      */
     public void movePlayer(Directions direction) throws TypeElementNotFoundException, IOException{
-        List<AllPlayer> player = getPlayerType();   
+        //verifier si on a pas fini un gamemode
+        /*if (this.listLose.check)
+            return;*/
+        List<AllPlayer> player = sortPlayer(direction, getPlayerType());   
         if (player==null)
             return;
-        //trie pour ne pas addi les player
-        Collections.sort(player, (AllPlayer o1, AllPlayer o2) -> {
-            if (null!=direction)
-                switch (direction) {
-                    case RIGHT:
-                        return o2.pos.x - o1.pos.x;
-                    case LEFT:
-                        return o1.pos.x - o2.pos.x;
-                    case UP:
-                        return o1.pos.y - o2.pos.y;
-                    default:
-                        break;
-                }
-            return o2.pos.y - o1.pos.y;
-        });     
-        
+
         Position pos;
         TypeElement te;
         //just executer move
@@ -563,7 +552,6 @@ public class Board {
             if (listGrid.get(pos.y).get(pos.x).canPush()){
                 if(push(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()),direction)){
                     for(Element e:listGrid.get(pos.y).get(pos.x).getElementsOf(Property.PUSH)){
-                        editPlacement(pos,direction,e.getTypeElements());
                         if (e.getTypeElements()==TypeElement.IS) {
                             for (int i=0;i<this.is.size();i++)
                                 if (pos.equals(this.is.get(i)))
@@ -571,15 +559,14 @@ public class Board {
                                     this.is.add(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()));
                         }
                         if (!this.listRule.checkPush(pos, direction, e.getTypeElements())){
-                            listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(e.getTypeElements());
                             return true;
-                        }
+                            
+                        } else editPlacement(pos,direction,e.getTypeElements());
                     }
                     return true;
                 }
-            } else if (listGrid.get(pos.y).get(pos.x).canAdd()) {
+            } else if (listGrid.get(pos.y).get(pos.x).canAdd())
                 return true;
-            }
         }
         return false;    
     }
@@ -640,5 +627,23 @@ public class Board {
         for(Element e:listAllElement)
             if (e.getTypeElements()==te.getText())
                 e.setDirections(dir.getRule().getDirFromProperty(dir.getRule()));
+    }
+
+    private List<AllPlayer> sortPlayer(Directions direction, List<AllPlayer> player) {
+        Collections.sort(player, (AllPlayer o1, AllPlayer o2) -> {
+            if (null!=direction)
+                switch (direction) {
+                    case RIGHT:
+                        return o2.pos.x - o1.pos.x;
+                    case LEFT:
+                        return o1.pos.x - o2.pos.x;
+                    case UP:
+                        return o1.pos.y - o2.pos.y;
+                    default:
+                        break;
+                }
+            return o2.pos.y - o1.pos.y;
+        });   
+        return player;
     }
 }

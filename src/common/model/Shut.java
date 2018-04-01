@@ -22,12 +22,14 @@ public class Shut extends Rule {
     @Override
     boolean work(Position pos, Directions direction, TypeElement player) {
         if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.SHUT)) {
-            if (listGrid.get(pos.y).get(pos.x).getElements(player).getTypeRule().contains(Property.OPEN))
+            if (listGrid.get(pos.y).get(pos.x).getElements(player).getTypeRule().contains(Property.OPEN)) {
                 for (Element e:listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).getListeContenu())
                     if (e.isRule(Property.SHUT)) {
                         listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(e.getTypeElements());
-                        //return true;    a voir
+                        return true;
                     }
+            }
+            return false;
         }
         return true;
     }
@@ -39,7 +41,9 @@ public class Shut extends Rule {
                 for (Element e:listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).getListeContenu())
                     if (e.isRule(Property.SHUT)) {
                         listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(e.getTypeElements());
+                        return false;
                     }
+            return false;
         }
         return true;
     }

@@ -29,5 +29,5 @@ public abstract class GameMode {
         return this.board;
     }
     
-    abstract void lose();
+    abstract boolean lose();
 }
