@@ -26,15 +26,12 @@ public class ImageHashMap {
      * revois une map avec comme key le TypeElement et comme value l'image.
      * @param board Board
      */
-    ImageHashMap(Board board) {
-        List<Element> listAllElement = board.getListAllElement();
-        listAllElement.add(new Element(TypeElement.EMPTY));
-        listAllElement.add(new Element(TypeElement.WALLINJOUABLE));
+    ImageHashMap() {
+        TypeElement[] listAllElement = TypeElement.getAll();
         
-        for(Element e:listAllElement) {
+        for(TypeElement e:listAllElement) {
             try {
-            TypeElement te = e.getTypeElements();
-            this.imageMap.put(te, new Image("common/images/"+te.toString().toLowerCase()+".png"));
+            this.imageMap.put(e, new Image("common/images/"+e.toString().toLowerCase()+".png"));
             } catch (IllegalArgumentException ex) {
             LOGGER.log( Level.WARNING, "Image not fond");
             }

@@ -27,6 +27,7 @@ public enum TypeElement {
     GRASS("GRASS","E_G ",1,null,null,TypeTypeElement.BLOCK),
     FLAG("FLAG","E_F ",2,null,null,TypeTypeElement.BLOCK),
     EMPTY("EMPTY","    ",0,null,null,TypeTypeElement.BLOCK),
+    EMPTYINJOUABLE("EMPTYINJOUABLE","    ",0,null,null,TypeTypeElement.BLOCK),
     METAL("METAL","E_M ",1,null,null,TypeTypeElement.BLOCK),
     STAR("STAR","E_ST",2,null,null,TypeTypeElement.BLOCK),
     LOVE("LOVE","E_L ",2,null,null,TypeTypeElement.BLOCK),

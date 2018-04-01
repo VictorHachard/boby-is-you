@@ -10,6 +10,6 @@ public class Empty extends Element{
      * 
      */
     Empty(){
-        super(TypeElement.EMPTY,Directions.RIGHT);
+        super(TypeElement.EMPTYINJOUABLE,Directions.RIGHT);
     }
 }

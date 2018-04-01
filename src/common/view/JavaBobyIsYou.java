@@ -1,8 +1,6 @@
 package common.view;
 
 import common.exeptions.TypeElementNotFoundException;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
@@ -23,6 +21,7 @@ public class JavaBobyIsYou extends Application {
     static Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();   
     Stage primaryStage;
     Scene scene;
+    static ImageHashMap IMAGEMAP = new ImageHashMap();
     static double WIDTH = visualBounds.getWidth()-40;
     static double HEIGHT = visualBounds.getHeight()-40;
     private static final Logger LOGGER = Logger.getGlobal();

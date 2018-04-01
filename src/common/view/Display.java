@@ -25,7 +25,6 @@ public class Display {
     public Scene scene;
     private GridPane root;
     private Board board;
-    private ImageHashMap map;
     private double imageSize;
     private Stage primaryStage;
     private Pane rootImage;
@@ -41,7 +40,6 @@ public class Display {
         rootImage = new Pane();
         this.primaryStage = primaryStage;
         MenuEsc menuEsc = new MenuEsc(primaryStage,this,board);
-        this.map = new ImageHashMap(board);
         
         //changement de la taille des image en fonction de la taille de la fenetre
         imageSizeX = JavaBobyIsYou.WIDTH/this.board.getSizeX();
@@ -155,7 +153,7 @@ public class Display {
      * @param posy un entier qui indique la position sur l'axe des y 
      */
     private void addImage(TypeElement name,int posx,int posy) {
-        ImageView image = new ImageView(this.map.getImageMap().get(name));
+        ImageView image = new ImageView(JavaBobyIsYou.IMAGEMAP.getImageMap().get(name));
         image.setFitHeight(imageSize);
         image.setFitWidth(imageSize);
         moveImageByCase(image,posx,posy);

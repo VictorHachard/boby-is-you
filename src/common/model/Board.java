@@ -31,6 +31,7 @@ public class Board {
     private MusicHashMap music;
     private Rule listRule;
     private static Board INSTANCE = null;
+    private Element emptyPlayable=new Element(TypeElement.EMPTY);
     
     /**
      * 
@@ -69,6 +70,8 @@ public class Board {
         music = MusicHashMap.getInstance();
         this.x = map.getSizeX();
         this.y = map.getSizeY();
+        //genre le empty jouable
+        this.listAllElement.add(emptyPlayable);
         
         generateGrid(x-2,y-2);
 
@@ -85,6 +88,7 @@ public class Board {
                 }
             }
         }
+        fillEmpty();
         is = getAllPos(TypeElement.IS);
         for (Position p:is)
             rule(p,TypeElement.IS);
@@ -98,6 +102,18 @@ public class Board {
         listRule.addRule(new Win(this));
         //make = getAllPos(TypeElement.MAKE);
     }   
+    
+    private void fillEmpty() {
+        //remove tout les empty
+        for(int i=1;i<y-1;i++)
+            for(int j=1;j<x-1;j++)
+                if (this.listGrid.get(i).get(j).getListeContenu().contains(this.emptyPlayable))
+                    this.listGrid.get(i).get(j).removeElement(TypeElement.EMPTY);
+        for(int i=1;i<y-1;i++)
+            for(int j=1;j<x-1;j++)
+                if (this.listGrid.get(i).get(j).getListeContenu().size()==1)
+                    this.listGrid.get(i).get(j).addElement(this.emptyPlayable);
+    }
     
     /**
      * 
@@ -487,7 +503,6 @@ public class Board {
         Position pos;
         TypeElement te;
         //just executer move
-        int i = 0;
         loop: for(AllPlayer all:player) {
             pos = all.pos;
             te = all.te;
@@ -512,17 +527,16 @@ public class Board {
                         editPlacement(pos,direction,te);
                 }
             
-            } i++;
+            }
         }
         deleteAllRule();
+        fillEmpty();
         for (Position p:is)
             rule(p,TypeElement.IS);
         Rule.setActivity(Property.TP, true);
         player = getPlayerType();
-        
         if (player==null)
             return;
-        
         //desactiver les regle a pas checker 
         List<Property> temps = Rule.desactivatePlayerList(Property.TP,Property.SLIP);
         for (AllPlayer p:player)
@@ -595,7 +609,7 @@ public class Board {
         for(int i=1;i<y-1;i++){
             for(int j=1;j<x-1;j++){
                 List<Element> te =  listGrid.get(i).get(j).getListeContenu();
-                for(int k=0;k<te.size();k++){
+                for(int k=1;k<te.size();k++){
                     //ne save pas les EMPTY
                     if (!(te.get(k).getTypeElements()==TypeElement.EMPTY)) {
                         save.newLine();
