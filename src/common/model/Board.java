@@ -416,10 +416,9 @@ public class Board {
     List<Position> getPositionOf(TypeElement te){
         List<Position> lp = new ArrayList<>();
         for(int i=0;i<this.y;i++)
-            for(int j=0;j<this.x;j++) {
+            for(int j=0;j<this.x;j++)
                 if(this.listGrid.get(i).get(j).findElements(te))
                     lp.add(new Position(j,i));
-            }
         if (lp.isEmpty())
             return null;
         return lp;
@@ -433,8 +432,8 @@ public class Board {
         List<AllPlayer> tempsList = new ArrayList<>();
         List<Position> temp;
         List<TypeElement> alredycheck = new ArrayList<>();
-        for (Element e:this.listAllElement) {
-            for (Property p:e.getTypeRule()) {
+        for (Element e:this.listAllElement)
+            for (Property p:e.getTypeRule())
                 if (p==Property.YOU && (!(alredycheck.contains(e.typeElement)))) {
                     alredycheck.add(e.typeElement);
                     temp = getPositionOf(e.getTypeElements());
@@ -442,8 +441,6 @@ public class Board {
                         for (Position pos:temp)
                             tempsList.add(new AllPlayer(pos,e.getTypeElements()));
                 }
-            }
-        }
         if (tempsList.isEmpty())
             return null;
         return tempsList;
@@ -472,11 +469,9 @@ public class Board {
         if (player==null)
             return;
         //trie pour ne pas addi les player
-        Collections.sort(player, new Comparator<AllPlayer>() {
-            @Override
-            public int compare(AllPlayer o1, AllPlayer o2) {
-                if (null!=direction)
-                    switch (direction) {
+        Collections.sort(player, (AllPlayer o1, AllPlayer o2) -> {
+            if (null!=direction)
+                switch (direction) {
                     case RIGHT:
                         return o2.pos.x - o1.pos.x;
                     case LEFT:
@@ -486,30 +481,26 @@ public class Board {
                     default:
                         break;
                 }
-                return o2.pos.y - o1.pos.y;
-            }
+            return o2.pos.y - o1.pos.y;
         });     
         
         Position pos;
         TypeElement te;
-        boolean thirstTime = false;
+        //just executer move
         int i = 0;
         loop: for(AllPlayer all:player) {
             pos = all.pos;
             te = all.te;
             if(pos.y+direction.getDirVer() < y && pos.x+direction.getDirHori() < x) {
                 List<Property> temps1 = null;
-                if (thirstTime)
-                    temps1 = Rule.desactivatePlayerList(Property.MOVE);
+                temps1 = Rule.desactivatePlayerList(Property.MOVE);
                 try {
                 if (!this.listRule.check(pos, direction, te))
                     continue loop;
                 } catch (WinException e) {
                     return;
                 }
-                if (thirstTime)
-                    Rule.activatePlayerList(temps1);
-                thirstTime = true;
+                Rule.activatePlayerList(temps1);
                 //Depalcement ADD
                 if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canAdd()){ //verifie si il peut add la case suivante
                     editPlacement(pos,direction,te);
@@ -533,14 +524,14 @@ public class Board {
             return;
         
         //desactiver les regle a pas checker 
-        List<Property> temps = Rule.desactivatePlayerList(Property.MOVE,Property.TP,Property.SLIP);
+        List<Property> temps = Rule.desactivatePlayerList(Property.TP,Property.SLIP);
         for (AllPlayer p:player)
-                try {
-                    if (this.listRule.check(p.pos, Directions.NONE, p.te))
-                        continue;
-                } catch (WinException ex) {
-                    return;
-                }
+            try {
+                if (this.listRule.check(p.pos, Directions.NONE, p.te))
+                    continue; 
+            } catch (WinException ex) {
+                return;
+            }
         Rule.activatePlayerList(temps);
     }
     
@@ -564,8 +555,9 @@ public class Board {
                                     this.is.add(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()));
                         }
                         if (!this.listRule.checkPush(pos, direction, TypeElement.ANNI)){
-                                listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(e.getTypeElements());
-                                return true;}
+                            listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(e.getTypeElements());
+                            return true;
+                        }
                     }
                     return true;
                 }
@@ -618,10 +610,8 @@ public class Board {
                 }
             }
         }
-            
         save.close();
-    }
-    catch (IOException e) {
+    } catch (IOException e) {
     }   
     }
 

@@ -1,4 +1,5 @@
 18 18
+anni 12 5
 grass 1 1
 grass 8 1
 grass 5 2
@@ -64,10 +65,12 @@ wall 11 15
 wall 12 15
 wall 13 15
 wall 14 15
-text_flag 11 2
-is 12 2
-win 13 2
-flag 12 5
+text_anni 10 2
+is 11 2
+win 12 2
+text_anni 10 1
+is 11 1
+move 12 1
 text_wall 6 9
 is 7 9
 stop 8 9

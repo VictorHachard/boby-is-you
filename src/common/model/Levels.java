@@ -67,7 +67,7 @@ public class Levels {
     }
     
     void loadMap() throws TypeElementNotFoundException, IOException, URISyntaxException {
-        char[] listchar = {//'a','b','c','d','e','f',
+        char[] listchar = {'a','b','c','d','e','f',
             'g',
             'h','i','j',/*,'k',*//*,*/'l','m'};
         for (char a:listchar) {

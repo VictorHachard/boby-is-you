@@ -49,7 +49,7 @@ public enum TypeElement {
     TEXT_EMPTY("TEXT_EMPTY","T_EM",3,TypeElement.EMPTY,null,TypeTypeElement.TEXT),
     TEXT_LOVE("TEXT_LOVE","T_L ",3,TypeElement.LOVE,null,TypeTypeElement.TEXT),
     TEXT_WATER("TEXT_WATER","T_WA",3,TypeElement.WATER,null,TypeTypeElement.TEXT),
-    TEXT_ANNI("TEXT_ROCK","T_A ",3,TypeElement.ANNI,null,TypeTypeElement.TEXT),
+    TEXT_ANNI("TEXT_ANNI","T_A ",3,TypeElement.ANNI,null,TypeTypeElement.TEXT),
     TEXT_SKULL("TEXT_SKULL","T_S ",3,TypeElement.SKULL,null,TypeTypeElement.TEXT),
     TEXT_ICE("TEXT_ICE","T_I ",3,TypeElement.ICE,null,TypeTypeElement.TEXT),
     TEXT_MONSTER("TEXT_MONSTER","T_M ",3,TypeElement.MONSTER,null,TypeTypeElement.TEXT),
