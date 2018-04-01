@@ -31,6 +31,8 @@ public enum TypeElement {
     METAL("METAL","E_M ",1,null,null,TypeTypeElement.BLOCK),
     STAR("STAR","E_ST",2,null,null,TypeTypeElement.BLOCK),
     LOVE("LOVE","E_L ",2,null,null,TypeTypeElement.BLOCK),
+    DOOR("DOOR","E_DO",2,null,null,TypeTypeElement.BLOCK),
+    KEY("KEY","E_KE",2,null,null,TypeTypeElement.BLOCK),
     PORTAL_IN("PORTAL_IN","E_PI",1,null,null,TypeTypeElement.BLOCK),
     PORTAL_OUT("PORTAL_OUT","E_PO",1,null,null,TypeTypeElement.BLOCK),
     
@@ -38,6 +40,8 @@ public enum TypeElement {
     MONSTER("MONSTER","E_M ",3,null,null,TypeTypeElement.PLAYER),
     ANNI("ANNI","E_A ",3,null,null,TypeTypeElement.PLAYER),
     
+    TEXT_DOOR("TEXT_DOOR","T_DO",3,TypeElement.DOOR,null,TypeTypeElement.TEXT),
+    TEXT_KEY("TEXT_KEY","T_KE",3,TypeElement.KEY,null,TypeTypeElement.TEXT),
     TEXT_ROCK("TEXT_ROCK","T_R ",3,TypeElement.ROCK,null,TypeTypeElement.TEXT),
     TEXT_STAR("TEXT_STAR","T_ST",3,TypeElement.STAR,null,TypeTypeElement.TEXT),
     TEXT_LAVA("TEXT_LAVA","T_LA",3,TypeElement.LAVA,null,TypeTypeElement.TEXT),
@@ -55,7 +59,10 @@ public enum TypeElement {
     TEXT_ICE("TEXT_ICE","T_I ",3,TypeElement.ICE,null,TypeTypeElement.TEXT),
     TEXT_MONSTER("TEXT_MONSTER","T_M ",3,TypeElement.MONSTER,null,TypeTypeElement.TEXT),
     
+    SHUT("SHUT","R_SH",3,null,Property.SHUT,TypeTypeElement.RULE),
+    OPEN("OPEN","R_OP",3,null,Property.OPEN,TypeTypeElement.RULE),
     SLIP("SLIP","R_SL",3,null,Property.SLIP,TypeTypeElement.RULE),
+    FLY("FLY","R_FL",3,null,Property.FLY,TypeTypeElement.RULE),
     WIN("WIN","R_W ",3,null,Property.WIN,TypeTypeElement.RULE),
     PUSH("PUSH","R_P ",3,null,Property.PUSH,TypeTypeElement.RULE),
     STOP("STOP","R_ST",3,null,Property.STOP,TypeTypeElement.RULE),

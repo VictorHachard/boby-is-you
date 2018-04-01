@@ -18,10 +18,13 @@ public enum Property {
     GRAB,
     KILL,
     TP,
+    OPEN,
+    SHUT,
     DOWN,
     LEFT,
     RIGHT,
     UP,
+    FLY,
     ;
 
     Directions getDirFromProperty(Property pro) {

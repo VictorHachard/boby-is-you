@@ -94,12 +94,14 @@ public class Board {
             rule(p,TypeElement.IS);
         
         listRule = new Tp(this);
-        listRule.addRule(new Slip(this));
-        listRule.addRule(new Kill(this));
-        listRule.addRule(new Sink(this));
-        listRule.addRule(new Move(this));
-        listRule.addRule(new Melt(this));
-        listRule.addRule(new Win(this));
+        listRule.addRule(new Fly(this),
+        new Slip(this),
+        new Kill(this),
+        new Sink(this),
+        new Move(this),
+        new Melt(this),
+        new Win(this));
+        //listRule.addRule(new Shut(this));
         //make = getAllPos(TypeElement.MAKE);
     }   
     
@@ -568,7 +570,7 @@ public class Board {
                                     this.is.remove(i);
                                     this.is.add(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()));
                         }
-                        if (!this.listRule.checkPush(pos, direction, TypeElement.ANNI)){
+                        if (!this.listRule.checkPush(pos, direction, e.getTypeElements())){
                             listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(e.getTypeElements());
                             return true;
                         }
