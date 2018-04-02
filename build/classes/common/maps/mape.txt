@@ -1,4 +1,5 @@
 18 18
+config 47
 rock 3 2
 rock 7 2
 rock 15 1

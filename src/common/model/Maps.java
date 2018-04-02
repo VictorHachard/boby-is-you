@@ -34,6 +34,7 @@ public class Maps {
     private Element unplayable = new Element(TypeElement.WALLINJOUABLE,Directions.RIGHT);
     private Element empty = new Element(TypeElement.EMPTY,Directions.RIGHT);
     private static final Logger LOGGER = Logger.getGlobal();
+    int limitedDeplacement;
     
     public Maps(Maps map){
     this.Element = map.Element;
@@ -42,6 +43,7 @@ public class Maps {
     this.x = map.x;
     this.y =map.y;
     this.unplayable=map.unplayable;
+    this.limitedDeplacement=map.limitedDeplacement;;
             }
     
     /**
@@ -52,7 +54,6 @@ public class Maps {
      */
     public Maps(BufferedReader buffer) throws TypeElementNotFoundException, IOException {
         listAllElement = new ArrayList<>();
-        
 
             String nextLine;
             //lecture de la premier ligne pour determiner et crée le board.
@@ -63,14 +64,20 @@ public class Maps {
             generateMap(Integer.parseInt(size[0]),Integer.parseInt(size[1]));
             
             //lecture de toutes les autres lignes pour ajouter les elments dans le board.
-            while ((nextLine = buffer.readLine()) != null) {
+            loop: while ((nextLine = buffer.readLine()) != null) {
                 String[] parts = nextLine.split(" ");
-                int movingDirection = parts.length > 3  ? Integer.parseInt(parts[3]) : 0;
-                addMap(Integer.parseInt(parts[1])+1,
+                if (parts[0].equals("config")) {
+                    this.limitedDeplacement = Integer.parseInt(parts[1]);  
+                    //this.limitedDeplacement = Integer.parseInt(parts[2]);  
+                }
+                else {
+                    int movingDirection = parts.length > 3  ? Integer.parseInt(parts[3]) : 0;
+                    addMap(Integer.parseInt(parts[1])+1,
                         Integer.parseInt(parts[2])+1,
                         new Element(TypeElement.fromString(
                                 toUpperCase(parts[0])),
                                 Directions.fromString(movingDirection)));
+                } 
             }
 
             buffer.close(); 

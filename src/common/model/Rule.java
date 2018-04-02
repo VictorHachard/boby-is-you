@@ -47,11 +47,11 @@ public abstract class Rule {
     
     void addRule(Rule ... next){
         for (Rule r:next) {
-        if (nextRule == null)
-            nextRule = r;
-        else
-            nextRule.addRule(r);
-        }
+            if (nextRule == null)
+                nextRule = r;
+            else
+                nextRule.addRule(r);
+            }
     }
     
     public boolean checkPush(Position pos,Directions direction,TypeElement player) throws TypeElementNotFoundException, IOException{

@@ -1,14 +1,12 @@
 package common.view;
 
 import common.exeptions.TypeElementNotFoundException;
+import common.model.Board;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.stage.Stage;
-import common.model.GameModeNormal;
 import common.model.Maps;
 
 /**
@@ -29,8 +27,7 @@ public class LoadGame {
         this.primaryStage = primaryStage;
         try {
                 Maps m = new Maps(f);
-                GameModeNormal g = new GameModeNormal(m);
-                Display d = new Display(g.getBoard(),primaryStage);
+                Display d = new Display(new Board(m),primaryStage);
                 this.primaryStage.setScene(d.scene);                
             } catch (TypeElementNotFoundException ex) {
                 //RIEN Erreur deja traiter en amont

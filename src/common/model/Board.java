@@ -10,7 +10,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +20,7 @@ import java.util.List;
 public class Board {
     
     private List<Element> listAllElement = new ArrayList<>();
+    private GameMode listLose;
     private List<Position> is;
     private List<Position> make;
     private List<List<Placement>> listGrid = new ArrayList<>();;
@@ -32,6 +32,7 @@ public class Board {
     private Rule listRule;
     private static Board INSTANCE = null;
     private Element emptyPlayable=new Element(TypeElement.EMPTY);
+    private int limitedDeplacement;
     
     /**
      * 
@@ -66,7 +67,7 @@ public class Board {
      * @param map
      * @throws TypeElementNotFoundException 
      */
-    private Board(Maps map) throws TypeElementNotFoundException, IOException {
+    public Board(Maps map) throws TypeElementNotFoundException, IOException {
         music = MusicHashMap.getInstance();
         this.x = map.getSizeX();
         this.y = map.getSizeY();
@@ -102,6 +103,8 @@ public class Board {
         new Melt(this),
         new Win(this),
         new Shut(this));
+        this.limitedDeplacement=map.limitedDeplacement;
+        listLose = new GameModeNumberOfMove(this);
         //listRule.addRule(new Shut(this));
         //make = getAllPos(TypeElement.MAKE);
     }   
@@ -351,6 +354,10 @@ public class Board {
         return this.x;
     }
     
+    int getLimitedDeplacement() {
+        return this.limitedDeplacement;
+    }
+    
     /**
      * Revois la taille du tableau board en ordonnée.
      * @return int
@@ -485,8 +492,9 @@ public class Board {
      */
     public void movePlayer(Directions direction) throws TypeElementNotFoundException, IOException{
         //verifier si on a pas fini un gamemode
-        /*if (this.listLose.check)
-            return;*/
+        System.out.println(this.limitedDeplacement);
+        if (!this.listLose.check())
+            return;
         List<AllPlayer> player = sortPlayer(direction, getPlayerType());   
         if (player==null)
             return;
@@ -538,6 +546,7 @@ public class Board {
                 return;
             }
         Rule.activatePlayerList(temps);
+        this.limitedDeplacement--;
     }
     
     /**
@@ -556,16 +565,16 @@ public class Board {
                             for (int i=0;i<this.is.size();i++)
                                 if (pos.equals(this.is.get(i)))
                                     this.is.remove(i);
-                                    this.is.add(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()));
+                        this.is.add(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()));
                         }
-                        if (!this.listRule.checkPush(pos, direction, e.getTypeElements())){
+                        if (!this.listRule.checkPush(pos, direction, e.getTypeElements()))
                             return true;
-                            
-                        } else editPlacement(pos,direction,e.getTypeElements());
+                        else editPlacement(pos,direction,e.getTypeElements());
                     }
                     return true;
                 }
-            } else if (listGrid.get(pos.y).get(pos.x).canAdd())
+            }
+            else if (listGrid.get(pos.y).get(pos.x).canAdd())
                 return true;
         }
         return false;    

@@ -1,6 +1,7 @@
 package common.view;
 
 import common.exeptions.TypeElementNotFoundException;
+import common.model.Board;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,7 +19,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import common.model.GameModeNormal;
 import common.model.Levels;
 import common.model.Maps;
 
@@ -171,8 +171,8 @@ public class MenuInit extends Menu {
     
     public void LoadGame(Maps m) {
         try {
-                GameModeNormal g = new GameModeNormal(m);
-                Display d = new Display(g.getBoard(),primaryStage);
+                //GameModeNormal g = new GameModeNormal(m);
+                Display d = new Display(new Board(m),primaryStage);
                 this.primaryStage.setScene(d.scene);                
             } catch (TypeElementNotFoundException ex) {
                 //RIEN Erreur deja traiter en amont

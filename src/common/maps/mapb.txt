@@ -1,4 +1,5 @@
 18 18
+config 28
 grass 5 1
 grass 2 3
 grass 2 4
