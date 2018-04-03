@@ -47,7 +47,7 @@ public class Editor {
         this.rootGrid = new GridPane();
         this.rootList = new VBox();
         this.primaryStage = primaryStage;
-        this.imageMap = new ImageHashMap(map);
+        this.imageMap = new ImageHashMap();
         
         //changement de la taille des image en fonction de la taille de la fenetre
         double imageSizeX = JavaBobyIsYou.WIDTH/this.map.getSizeX();

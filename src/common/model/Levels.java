@@ -33,6 +33,10 @@ public class Levels {
         return INSTANCE;
     }
     
+    public static Levels instance() throws TypeElementNotFoundException, IOException {           
+        return INSTANCE;
+    }
+    
     /**
      * 
      */
@@ -46,12 +50,13 @@ public class Levels {
             music = MusicHashMap.getInstance();
             this.primaryStage=MenuInit.getInstance().getStage();
             this.listMap=new ArrayList<>();
-            this.indice =0;
+            this.indice =JavaBobyIsYou.getSaveCampagne();
+            LOGGER.log(Level.INFO, "indice du contructeur : "+indice);
             loadMap();
             loadDisplay();
             this.music.repet(Music.BACK);
-        } catch (URISyntaxException | TypeElementNotFoundException | IOException ex) {
-            Logger.getLogger(Levels.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TypeElementNotFoundException | IOException ex) {
+            LOGGER.log(Level.WARNING,"erreur",ex);
         }
     }
     
@@ -62,29 +67,33 @@ public class Levels {
     
     void nextLevel() throws TypeElementNotFoundException, IOException {
         this.indice = indice+1;
+        LOGGER.log(Level.INFO, "indice de nouveau level : "+indice);
         if (indice==this.listMap.size()) {
             this.music.stop(Music.BACK);
+            JavaBobyIsYou.save(0);
             this.primaryStage.setScene(MenuInit.getInstance().scene);
             return;
         }     
+        JavaBobyIsYou.save(indice);
         loadDisplay();
     }
     
-    void loadMap() throws TypeElementNotFoundException, IOException, URISyntaxException {
+    void loadMap() throws IOException {
         char[] listchar = {'a','b','c','d','e','f',
             'g',
             'h','i','j',/*,'k',*//*,*/'l','m'};
         for (char a:listchar) {
+            InputStream is = null;
             try {
                 URL uri = JavaBobyIsYou.class.getResource("/common/maps/map"+a+".txt");
-                InputStream is = uri.openStream();
+                is = uri.openStream();
                 InputStreamReader ipsr = new InputStreamReader(is);
                 BufferedReader br = new BufferedReader(ipsr);
                 this.listMap.add(new Maps(br));
                 br.close();
-            } catch (Exception e) {
-                System.out.println(e.toString());//genere une erreur
-            }
+            } catch (Exception ex) {
+                LOGGER.log(Level.SEVERE,"coud not load file",ex);
+            } is.close();
         }
     }
 }

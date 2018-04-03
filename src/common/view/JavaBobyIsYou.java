@@ -1,8 +1,18 @@
 package common.view;
 
 import common.exeptions.TypeElementNotFoundException;
+import common.model.Levels;
+import common.model.Maps;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.logging.FileHandler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import static javafx.application.Application.launch;
@@ -25,13 +35,60 @@ public class JavaBobyIsYou extends Application {
     static double WIDTH = visualBounds.getWidth()-40;
     static double HEIGHT = visualBounds.getHeight()-40;
     private static final Logger LOGGER = Logger.getGlobal();
-    private static int SAVECAMPAGNE;
+    private static int SAVECAMPAGNE = 0;
+    
+    public static int getSaveCampagne() {
+        return SAVECAMPAGNE;
+    }
+    
+    public static void save(int i) {
+        try {
+            URL uri = JavaBobyIsYou.class.getResource("/config.txt");
+            String uri1 = uri.toString().substring(6);
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(new File(uri1)));
+                    // normalement si le fichier n'existe pas, il est crée à la racine du projet
+                  
+                    writer.write("level "+i);
+                    writer.close();
+                } catch (IOException ex){
+                    LOGGER.log(Level.SEVERE,"Coud not create file : config.txt",ex);
+                }
+    }
+    
+    private void config() {
+        try {
+                URL uri = JavaBobyIsYou.class.getResource("/config.txt");
+                 System.out.println(uri);
+                InputStream is = uri.openStream();
+                InputStreamReader ipsr = new InputStreamReader(is);
+                BufferedReader br = new BufferedReader(ipsr);
+                
+                String nextLine = br.readLine();
+                String[] parts = nextLine.split(" ");
+                if (parts[0].equals("level")) {
+                    System.out.println(parts[1]);
+                    SAVECAMPAGNE = Integer.parseInt(parts[1]); 
+                }
+
+                br.close();
+            } catch (Exception e) {
+                /*System.out.println("not fond");
+                try {
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(new File("config.txt")));
+                    // normalement si le fichier n'existe pas, il est crée à la racine du projet
+                    writer.close();
+                } catch (IOException ex){
+                    ex.printStackTrace();
+                }*/
+            }
+    }
 
     @Override
     /**
      * 
      */
-    public void start(Stage primaryStage) throws IOException, TypeElementNotFoundException {     
+    public void start(Stage primaryStage) throws IOException, TypeElementNotFoundException {   
+        config();
         System.out.println(WIDTH);
         System.out.println(HEIGHT);
         MenuInit d = MenuInit.getInstance();
@@ -54,55 +111,27 @@ public class JavaBobyIsYou extends Application {
         FileHandler hdl = new FileHandler("BIS.log");
         hdl.setFormatter(new SimpleFormatter());
         LOGGER.addHandler(hdl);
-        /*Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-        @Override
-        /*public void uncaughtException(Thread t, Throwable e) {
-            String str = "";
-            for (StackTraceElement el : e.getStackTrace()){
-                str += el.getClassName() + " " + el.getFileName() + " " + el.getMethodName()+ " " + el.getLineNumber()+"--";
-            }
-                
-            LOGGER.log(Level.SEVERE,e.toString() + " " + str);
-           /* Calendar cal = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-
-            String filename = "crashlogs/"+sdf.format(cal.getTime())+".txt";
-
-            PrintStream writer;
-            try {
-                writer = new PrintStream(filename, "UTF-8");
-                writer.println(e.getClass() + ": " + e.getMessage());
-                for (int i = 0; i < e.getStackTrace().length; i++) {
-                    writer.println(e.getStackTrace()[i].toString());
-                }
-
-            } catch (FileNotFoundException | UnsupportedEncodingException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            
-
-        }
-});*/
-        //lecture du fichier config
         
-        /*final String chemin = "C:/tmp.txt";
-        final File fichier =new File(chemin); 
-        try {
-            // Creation du fichier
-            fichier .createNewFile();
-            // creation d'un writer (un écrivain)
-            final FileWriter writer = new FileWriter(fichier);
-            try {
-                writer.write("ceci est un texte\n");
-                writer.write("encore et encore");
-            } finally {
-                // quoiqu'il arrive, on ferme le fichier
-                writer.close();
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                LOGGER.log(Level.SEVERE,"Exeption Uncaught : ",e);
             }
-        } catch (Exception e) {
-            System.out.println("Impossible de creer le fichier");
+        });
+                /* Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        String filename = "crashlogs/"+sdf.format(cal.getTime())+".txt";
+        PrintStream writer;
+        try {
+        writer = new PrintStream(filename, "UTF-8");
+        writer.println(e.getClass() + ": " + e.getMessage());
+        for (int i = 0; i < e.getStackTrace().length; i++) {
+        writer.println(e.getStackTrace()[i].toString());
         }
-        */
-        launch(args);        
+        } catch (FileNotFoundException | UnsupportedEncodingException e1) {
+        // TODO Auto-generated catch block
+        e1.printStackTrace();
+        }
+        });*/ launch(args);       
     }
 }

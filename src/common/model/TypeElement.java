@@ -114,18 +114,16 @@ public enum TypeElement {
      * @throws TypeElementNotFoundException Si l'erreur est throw cela return TypeElement EMPTY.
      */
     static TypeElement fromString(String element) throws TypeElementNotFoundException {
-
         try {
             for(TypeElement type : TypeElement.values()) {
                 if (type.getElements().equals(element)) {
                     return type;
                 }
             }
-
             throw new TypeElementNotFoundException();
         }
         catch(TypeElementNotFoundException ex) {
-            LOGGER.log( Level.WARNING, "TypeElements " + element + " was not found \n" + element + " replaced by EMPTY",ex);
+            LOGGER.log( Level.WARNING, "TypeElements " + element + " was not found, " + element + " was replaced by EMPTY",ex);
             return TypeElement.EMPTY;
         }
     }
