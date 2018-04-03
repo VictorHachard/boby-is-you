@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.stage.Stage;
 import common.model.Maps;
+import java.net.URISyntaxException;
 
 /**
  *
@@ -33,7 +34,9 @@ public class LoadGame {
                 //RIEN Erreur deja traiter en amont
             } catch (IOException ex) {
                 Logger.getLogger(MenuInit.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            } catch (URISyntaxException ex) {
+            Logger.getLogger(LoadGame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }    
     
     LoadGame(Maps m, Stage primaryStage) {

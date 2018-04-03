@@ -3,6 +3,7 @@ package common.model;
 import common.exeptions.TypeElementNotFoundException;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -22,6 +23,8 @@ public class MusicHashMap {
     private HashMap<Music, Boolean> isPlaying;
     private static MusicHashMap INSTANCE = null;
     
+    
+    
     public static MusicHashMap getInstance() throws TypeElementNotFoundException, IOException {           
         if (INSTANCE == null)
             INSTANCE = new MusicHashMap();
@@ -31,19 +34,33 @@ public class MusicHashMap {
     /**
      * Charge toute les musiques du board dans une map,
      */
-    MusicHashMap() {
+    MusicHashMap()  {
         this.isPlaying = new HashMap<>();
         
         Music[] listAllMusic = Music.values();
         for(Music m:listAllMusic) {
             try {
                 this.isPlaying.put(m, Boolean.FALSE);
-                //this.musicMap.put(m, new MediaPlayer(new Media(new File("src"+File.separator+"music"+File.separator+m.toString().toLowerCase()+".mp3").toURI().toString())));
+                this.musicMap.put(m, new MediaPlayer(
+        new Media(getClass().getClassLoader().getResource("common/music/"+m.toString().toLowerCase()+".mp3").toExternalForm())));
+                        //new Media(new File("src"+File.separator+"music"+File.separator+m.toString().toLowerCase()+".mp3").toURI().toString())));
             }
             catch (MediaException ex) {
                 LOGGER.log( Level.WARNING, "Unable to load " + m,ex);
-            }
+            } 
         }
+    }
+    
+    void stop(Music music) {
+        MediaPlayer mediaPlayer = musicMap.get(music);
+        mediaPlayer.stop();
+        isPlaying.replace(music, Boolean.FALSE);
+    }
+    
+    void repet(Music music) {
+        MediaPlayer mediaPlayer = musicMap.get(music);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        play(music);
     }
     
     /**
@@ -51,13 +68,13 @@ public class MusicHashMap {
      * @param music 
      */
     void play(Music music) {
-        /*MediaPlayer mediaPlayer = musicMap.get(music);
+        MediaPlayer mediaPlayer = musicMap.get(music);
         if(isPlaying.get(music)){
             mediaPlayer.stop();
             isPlaying.replace(music, Boolean.FALSE);
         }
         mediaPlayer.play();
-        isPlaying.replace(music, Boolean.TRUE);*/
+        isPlaying.replace(music, Boolean.TRUE);
     }   
 }
 

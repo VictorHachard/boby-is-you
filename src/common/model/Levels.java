@@ -39,20 +39,23 @@ public class Levels {
     public static void ReloadInstance() {           
         INSTANCE = null;
     }
+    private MusicHashMap music;
     
-    Levels() throws TypeElementNotFoundException, IOException {
-        this.primaryStage=MenuInit.getInstance().getStage();
-        this.listMap=new ArrayList<>();
-        this.indice =0;
+    Levels() {
         try {
+            music = MusicHashMap.getInstance();
+            this.primaryStage=MenuInit.getInstance().getStage();
+            this.listMap=new ArrayList<>();
+            this.indice =0;
             loadMap();
-        } catch (URISyntaxException ex) {
+            loadDisplay();
+            this.music.repet(Music.BACK);
+        } catch (URISyntaxException | TypeElementNotFoundException | IOException ex) {
             Logger.getLogger(Levels.class.getName()).log(Level.SEVERE, null, ex);
         }
-        loadDisplay();
     }
     
-     public void loadDisplay() throws TypeElementNotFoundException, IOException {
+    public void loadDisplay() throws TypeElementNotFoundException, IOException {
         Rule.desactivateAll();
         MenuInit.getInstance().LoadGame(new Maps(this.listMap.get(indice)));
     }
@@ -60,6 +63,7 @@ public class Levels {
     void nextLevel() throws TypeElementNotFoundException, IOException {
         this.indice = indice+1;
         if (indice==this.listMap.size()) {
+            this.music.stop(Music.BACK);
             this.primaryStage.setScene(MenuInit.getInstance().scene);
             return;
         }     
@@ -79,7 +83,7 @@ public class Levels {
                 this.listMap.add(new Maps(br));
                 br.close();
             } catch (Exception e) {
-                System.out.println(e.toString());
+                System.out.println(e.toString());//genere une erreur
             }
         }
     }

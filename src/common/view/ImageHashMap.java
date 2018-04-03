@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.image.Image;
-import common.model.Board;
 import common.model.Element;
 import common.model.Maps;
 import common.model.TypeElement;

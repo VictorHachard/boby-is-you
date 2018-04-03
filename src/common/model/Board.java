@@ -6,6 +6,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class Board {
      * @throws TypeElementNotFoundException
      * @throws IOException 
      */
-    public static Board getInstance(Maps map) throws TypeElementNotFoundException, IOException {           
+    public static Board getInstance(Maps map) throws TypeElementNotFoundException, IOException, URISyntaxException {           
         if (INSTANCE == null)
             INSTANCE = new Board(map);
         return INSTANCE;
@@ -67,7 +68,7 @@ public class Board {
      * @param map
      * @throws TypeElementNotFoundException 
      */
-    public Board(Maps map) throws TypeElementNotFoundException, IOException {
+    public Board(Maps map) throws TypeElementNotFoundException, IOException, URISyntaxException {
         music = MusicHashMap.getInstance();
         this.x = map.getSizeX();
         this.y = map.getSizeY();
@@ -567,6 +568,7 @@ public class Board {
                                     this.is.remove(i);
                         this.is.add(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()));
                         }
+                        System.out.println(e.getTypeElements());
                         if (!this.listRule.checkPush(pos, direction, e.getTypeElements()))
                             return true;
                         else editPlacement(pos,direction,e.getTypeElements());

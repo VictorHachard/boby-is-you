@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import common.model.Levels;
 import common.model.Maps;
+import java.net.URISyntaxException;
 
 /**
  * 
@@ -178,6 +179,8 @@ public class MenuInit extends Menu {
                 //RIEN Erreur deja traiter en amont
             } catch (IOException ex) {
                 Logger.getLogger(MenuInit.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            } catch (URISyntaxException ex) {
+            Logger.getLogger(MenuInit.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }    
 }

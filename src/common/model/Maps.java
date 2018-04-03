@@ -35,16 +35,18 @@ public class Maps {
     private Element empty = new Element(TypeElement.EMPTY,Directions.RIGHT);
     private static final Logger LOGGER = Logger.getGlobal();
     int limitedDeplacement;
+    String title = "";
     
     public Maps(Maps map){
-    this.Element = map.Element;
-    this.empty = map.empty;
-    this.listAllElement = map.listAllElement;
-    this.x = map.x;
-    this.y =map.y;
-    this.unplayable=map.unplayable;
-    this.limitedDeplacement=map.limitedDeplacement;;
-            }
+        this.Element = map.Element;
+        this.empty = map.empty;
+        this.listAllElement = map.listAllElement;
+        this.x = map.x;
+        this.y =map.y;
+        this.unplayable=map.unplayable;
+        this.limitedDeplacement=map.limitedDeplacement;;
+        this.title=map.title;
+    }
     
     /**
      * Charge un fichier (fileName) et crée une Maps.
@@ -69,6 +71,9 @@ public class Maps {
                 if (parts[0].equals("config")) {
                     this.limitedDeplacement = Integer.parseInt(parts[1]);  
                     //this.limitedDeplacement = Integer.parseInt(parts[2]);  
+                }
+                else if (parts[0].equals("title")) {
+                    this.title=parts[1].replaceAll("_", " ");
                 }
                 else {
                     int movingDirection = parts.length > 3  ? Integer.parseInt(parts[3]) : 0;

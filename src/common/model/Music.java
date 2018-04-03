@@ -5,7 +5,8 @@ package common.model;
  * @author Glaskani
  */
 public enum Music {
-    ADD();
+    ADD(),
+    BACK();
     //PUSH(),
     //WIN(),
     //ICE(),
