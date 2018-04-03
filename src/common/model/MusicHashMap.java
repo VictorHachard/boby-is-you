@@ -1,9 +1,8 @@
 package common.model;
 
 import common.exeptions.TypeElementNotFoundException;
-import java.io.File;
+import common.view.JavaBobyIsYou;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -42,11 +41,10 @@ public class MusicHashMap {
             try {
                 this.isPlaying.put(m, Boolean.FALSE);
                 this.musicMap.put(m, new MediaPlayer(
-        new Media(getClass().getClassLoader().getResource("common/music/"+m.toString().toLowerCase()+".mp3").toExternalForm())));
-                        //new Media(new File("src"+File.separator+"music"+File.separator+m.toString().toLowerCase()+".mp3").toURI().toString())));
+                new Media(JavaBobyIsYou.class.getResource("/common/music/"+m.toString().toLowerCase()+".mp3").toString())));
             }
             catch (MediaException ex) {
-                LOGGER.log( Level.WARNING, "Unable to load " + m,ex);
+                LOGGER.log( Level.WARNING, "Unable to load : " + m,ex);
             } 
         }
     }

@@ -27,13 +27,15 @@ public class Levels {
     private Stage primaryStage;
     private static final Logger LOGGER = Logger.getGlobal();
     
-    public static Levels getInstance() throws TypeElementNotFoundException, IOException {           
+    public static Levels getInstance() {           
         if (INSTANCE == null)
             INSTANCE = new Levels();
+        LOGGER.log(Level.INFO,"get instance : "+INSTANCE);
         return INSTANCE;
     }
     
-    public static Levels instance() throws TypeElementNotFoundException, IOException {           
+    public static Levels instance() {  
+        LOGGER.log(Level.INFO,"instance : "+INSTANCE);
         return INSTANCE;
     }
     
@@ -45,7 +47,7 @@ public class Levels {
     }
     private MusicHashMap music;
     
-    Levels() {
+    private Levels() {
         try {
             music = MusicHashMap.getInstance();
             this.primaryStage=MenuInit.getInstance().getStage();

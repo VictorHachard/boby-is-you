@@ -115,14 +115,7 @@ public class MenuInit extends Menu {
 	vbox.setTranslateY((JavaBobyIsYou.HEIGHT/2)-70);
 	
         buttonContinue.setOnAction(event -> {
-            try {
-                Levels lev = Levels.getInstance();
-            } catch (TypeElementNotFoundException ex) {
-                Logger.getLogger(MenuInit.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(MenuInit.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
+                Levels.getInstance();          
         });
         buttonNew.setOnAction(event -> {
                 System.out.println("Option 3 selected via Lambda");
