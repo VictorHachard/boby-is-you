@@ -2,10 +2,6 @@ package common.view;
 
 import common.exeptions.TypeElementNotFoundException;
 import common.model.Board;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
@@ -18,10 +14,8 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.Pair;
 import common.model.Levels;
 import common.model.Maps;
-import java.net.URISyntaxException;
 
 /**
  * 
@@ -40,31 +34,16 @@ public class MenuInit extends Menu {
         return INSTANCE;
     }
     
-        public Stage getStage() {
+    public Stage getStage() {
         return this.primaryStage;
     }
-    
-    
-    private List<Pair<String, Runnable>> menuData = Arrays.asList(
-            new Pair<String, Runnable>("Continue", () -> {}),
-            new Pair<String, Runnable>("Nouveau", () -> {}),
-            new Pair<String, Runnable>("Parametre", () -> {}),
-            new Pair<String, Runnable>("Editeur", () -> {}),
-            new Pair<String, Runnable>("Exit to Desktop", Platform::exit)
-    );
 
     MenuInit() {
+        //creatation des autre menus
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
         addBackground();
         addTitle();
         addMenu();
-    }
-
-    private void addButton() {
-        for (Pair p:menuData) {
-            
-        }
-            
     }
     
     private void addBackground() {
@@ -92,18 +71,26 @@ public class MenuInit extends Menu {
             buttonContinue.setMaxWidth(Double.MAX_VALUE);
         Button buttonNew = new Button("Nouveau");
             buttonNew.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
+            buttonNew.setMaxWidth(Double.MAX_VALUE);
         Button buttonExit = new Button("Exit");
             buttonExit.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
             buttonExit.setMaxWidth(Double.MAX_VALUE);
         Button buttonLoad = new Button("Charger");
             buttonLoad.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
+            buttonLoad.setMaxWidth(Double.MAX_VALUE);
         Button buttonEditor = new Button("Editeur");
             buttonEditor.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-	
+            buttonEditor.setMaxWidth(Double.MAX_VALUE);
+	Button buttonParameter = new Button("Parametre");
+            buttonParameter.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
+            buttonParameter.setMaxWidth(Double.MAX_VALUE);
+            
+           
         vbox.getChildren().addAll(
                 buttonContinue,
                 buttonNew,
                 buttonLoad,
+                buttonParameter,
                 buttonEditor,
                 buttonExit);
         
@@ -114,6 +101,9 @@ public class MenuInit extends Menu {
         vbox.setTranslateX((JavaBobyIsYou.WIDTH/2)-100);
 	vbox.setTranslateY((JavaBobyIsYou.HEIGHT/2)-70);
 	
+        buttonParameter.setOnAction(event -> {    
+            this.primaryStage.setScene(Parameter.getInstance().scene);
+        });
         buttonContinue.setOnAction(event -> {
                 Levels.getInstance();          
         });
@@ -165,11 +155,10 @@ public class MenuInit extends Menu {
     
     public void LoadGame(Maps m) {
         try {
-                //GameModeNormal g = new GameModeNormal(m);
-                Display d = new Display(new Board(m),primaryStage);
-                this.primaryStage.setScene(d.scene);                
-            } catch (TypeElementNotFoundException ex) {
-                //RIEN Erreur deja traiter en amont
-            }
+            Display d = new Display(new Board(m));
+            this.primaryStage.setScene(d.scene);                
+        } catch (TypeElementNotFoundException ex) {
+            //RIEN Erreur deja traiter en amont
+        }
     }    
 }

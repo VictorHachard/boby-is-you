@@ -3,8 +3,6 @@ package common.view;
 import common.exeptions.TypeElementNotFoundException;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,6 +13,7 @@ import common.model.Board;
 import common.model.Directions;
 import common.model.Levels;
 import common.model.TypeElement;
+import javafx.scene.input.KeyCode;
 
 /**
  *
@@ -26,7 +25,7 @@ public class Display {
     private GridPane root;
     private Board board;
     private double imageSize;
-    private Stage primaryStage;
+    private Stage primaryStage = MenuInit.getInstance().getStage();
     private Pane rootImage;
     private double imageSizeX;
     
@@ -34,12 +33,11 @@ public class Display {
      * 
      * @param board
      */
-    public Display(Board board, Stage primaryStage) {
+    public Display(Board board) {
         this.board = board;
         root = new GridPane();
         rootImage = new Pane();
-        this.primaryStage = primaryStage;
-        MenuEsc menuEsc = new MenuEsc(primaryStage,this,board);
+        MenuEsc menuEsc = new MenuEsc(this);
         
         //changement de la taille des image en fonction de la taille de la fenetre
         imageSizeX = JavaBobyIsYou.WIDTH/this.board.getSizeX();
@@ -57,84 +55,29 @@ public class Display {
         scene = new Scene(rootImage, JavaBobyIsYou.WIDTH, JavaBobyIsYou.HEIGHT);
         convertBoardToImage();  
         
-        
-        
         scene.setOnKeyPressed(e -> {
-            switch (e.getCode()) {
-                case UP:
-            {
-                try {
+            KeyCode keyCode = e.getCode();
+            try {
+                if (keyCode.equals(Key.getInstance().getKeyUP()))
                     this.board.movePlayer(Directions.UP);
-                } catch (TypeElementNotFoundException ex) {
-                    //Erreur deja traiter en amont
-                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-                    break;
-                case DOWN:
-            {
-                try {
+                else if (keyCode.equals(Key.getInstance().getKeyDOWN()))
                     this.board.movePlayer(Directions.DOWN);
-                } catch (TypeElementNotFoundException ex) {
-                    //Erreur deja traiter en amont
-                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-                    break;
-                case RIGHT:
-            {
-                try {
-                    this.board.movePlayer(Directions.RIGHT);
-                } catch (TypeElementNotFoundException ex) {
-                    //Erreur deja traiter en amont
-                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-                    break;
-                case LEFT:
-            {
-                try {
+                else if (keyCode.equals(Key.getInstance().getKeyLEFT()))
                     this.board.movePlayer(Directions.LEFT);
-                } catch (TypeElementNotFoundException ex) {
-                    //Erreur deja traiter en amont
-                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-                    break;
-                case R:
-            {
-                try {
+                else if (keyCode.equals(Key.getInstance().getKeyRIGHT()))
+                    this.board.movePlayer(Directions.RIGHT);
+                else if (keyCode.equals(Key.getInstance().getKeyR())) 
                     Levels.getInstance().loadDisplay();
-                } catch (TypeElementNotFoundException ex) {
-                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                else if (keyCode.equals(KeyCode.ESCAPE))
+                    this.primaryStage.setScene(menuEsc.scene);
             }
-                    break;
-                case ESCAPE:
-                    Display.this.primaryStage.setScene(menuEsc.scene);
-                    break;
-                //case Win:
-                    //niveau suivant + save
-                    //break;
-                default :
-                    //NE RIEN FAIRE
+            catch (TypeElementNotFoundException | IOException ex) {
+                //deja traiter en amont
             }
-            //Observer et observateur 
             convertBoardToImage();
-            e.consume();
         });
     }
-    
+        
     /**
      * 
      */

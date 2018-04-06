@@ -74,6 +74,12 @@ public class Levels {
         MenuInit.getInstance().LoadGame(new Maps(this.listMap.get(indice)));
     }
     
+    public void stopGame() {
+        Rule.desactivateAll();
+        this.primaryStage.setScene(MenuInit.getInstance().scene);
+        this.music.stop(Music.BACK);
+    }
+    
     /**
      * Verifie si la prochaine map existe, si elle existe save la progression et
      * appele "loadDisplay", si il n'y a plus de map : stop la music, return au
@@ -84,9 +90,8 @@ public class Levels {
     void nextLevel() throws TypeElementNotFoundException, IOException {
         this.indice = indice+1;
         if (indice==this.listMap.size()) {
-            this.music.stop(Music.BACK);
             JavaBobyIsYou.save(0);
-            this.primaryStage.setScene(MenuInit.getInstance().scene);
+            stopGame();
             return;
         }     
         JavaBobyIsYou.save(indice);

@@ -1,8 +1,6 @@
 package common.view;
 
 import common.exeptions.TypeElementNotFoundException;
-import common.model.Levels;
-import common.model.Maps;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -32,8 +30,8 @@ public class JavaBobyIsYou extends Application {
     Stage primaryStage;
     Scene scene;
     static ImageHashMap IMAGEMAP = new ImageHashMap();
-    static double WIDTH = visualBounds.getWidth()-40;
-    static double HEIGHT = visualBounds.getHeight()-40;
+    static double WIDTH = visualBounds.getWidth()-30;
+    static double HEIGHT = visualBounds.getHeight()-30;
     private static final Logger LOGGER = Logger.getGlobal();
     private static int SAVECAMPAGNE = 0;
     
