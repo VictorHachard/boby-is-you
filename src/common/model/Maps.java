@@ -37,6 +37,10 @@ public class Maps {
     int limitedDeplacement;
     String title = "";
     
+    /**
+     * Réalise une copie d'une Maps donnée.
+     * @param map 
+     */
     public Maps(Maps map){
         this.Element = map.Element;
         this.empty = map.empty;
@@ -49,8 +53,8 @@ public class Maps {
     }
     
     /**
-     * Charge un fichier (fileName) et crée une Maps.
-     * @param buffer
+     * Recupere un BufferedReader et crée une Maps.
+     * @param buffer BufferedReader
      * @throws TypeElementNotFoundException 
      * @throws java.io.IOException 
      */
@@ -215,14 +219,20 @@ public class Maps {
         return deepCopy(Element.get(new Position(y,x)));
     }
     
+    /**
+     * Realise une deepCopy d'une liste d'Element donnée.
+     * @param a ListElement à copier
+     * @return une nouvelle ListElement copier en profondeur.
+     */
     private List<Element> deepCopy(List<Element> a){
         return a.stream().map(val -> new Element(val)).collect(toList());
     }
     
     /**
-     * 
-     * @param x
-     * @param y 
+     * Verifie si les x et y sont bien dans la zone éditable,
+     * si ce n'est pas le cas lance une ArithmeticException.
+     * @param x int, position
+     * @param y int, position
      */
     private void checkIfPosIsInMap(int x, int y) {
         if ((x < 0 || x > this.x-1) || (y < 0 || y > this.y-1)) {
@@ -329,7 +339,8 @@ public class Maps {
     }
     
     /**
-     * Sauvegarde la partie actuel, le nomde fichier sera la date et l'heure actuel.
+     * Sauvegarde la partie actuel, appele "save",
+     * le nomde fichier sera la date et l'heure actuel.
      * @throws IOException 
      */
     public void save() throws IOException {

@@ -27,27 +27,43 @@ import static org.junit.Assert.*;
  */
 public class BoardTest {
     
+    /**
+     *
+     */
     public BoardTest() {
     }
     
+    /**
+     *
+     */
     @BeforeClass
     public static void setUpClass() {
     }
     
+    /**
+     *
+     */
     @AfterClass
     public static void tearDownClass() {
     }
     
+    /**
+     *
+     */
     @Before
     public void setUp() {
     }
     
+    /**
+     *
+     */
     @After
     public void tearDown() {
     }
 
     /**
      * Test of getSizeX method, of class Board.
+     * @throws common.exeptions.TypeElementNotFoundException
      */
     @Test
     public void testGetSizeX() throws TypeElementNotFoundException {
@@ -60,6 +76,7 @@ public class BoardTest {
 
     /**
      * Test of getSizeY method, of class Board.
+     * @throws common.exeptions.TypeElementNotFoundException
      */
     @Test
     public void testGetSizeY() throws TypeElementNotFoundException {
@@ -72,6 +89,7 @@ public class BoardTest {
 
     /**
      * Test of getListGrid method, of class Board.
+     * @throws common.exeptions.TypeElementNotFoundException
      */
     @Test
     public void testGetListGrid() throws TypeElementNotFoundException {
@@ -86,6 +104,7 @@ public class BoardTest {
 
     /**
      * Test of getAffichage method, of class Board.
+     * @throws common.exeptions.TypeElementNotFoundException
      */
     @Test
     public void testGetAffichage() throws TypeElementNotFoundException {
@@ -98,6 +117,7 @@ public class BoardTest {
 
     /**
      * Test of editPlacement method, of class Board.
+     * @throws common.exeptions.TypeElementNotFoundException
      */
     @Test
     public void testEditPlacement() throws TypeElementNotFoundException {
@@ -113,6 +133,7 @@ public class BoardTest {
 
     /**
      * Test of movePlayer method, of class Board.
+     * @throws common.exeptions.TypeElementNotFoundException
      */
     @Test
     public void testMovePlayer() throws TypeElementNotFoundException {
@@ -124,6 +145,7 @@ public class BoardTest {
 
     /**
      * Test of save method, of class Board.
+     * @throws java.lang.Exception
      */
     @Test
     public void testSave_0args() throws Exception {
@@ -134,6 +156,7 @@ public class BoardTest {
 
     /**
      * Test of save method, of class Board.
+     * @throws java.lang.Exception
      */
     @Test
     public void testSave_String() throws Exception {

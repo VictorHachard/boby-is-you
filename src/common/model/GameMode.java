@@ -1,9 +1,5 @@
 package common.model;
 
-import common.exeptions.TypeElementNotFoundException;
-import common.exeptions.WinException;
-import static common.model.Rule.isActive;
-import java.io.IOException;
 import java.util.HashMap;
 
 /**

@@ -170,10 +170,6 @@ public class MenuInit extends Menu {
                 this.primaryStage.setScene(d.scene);                
             } catch (TypeElementNotFoundException ex) {
                 //RIEN Erreur deja traiter en amont
-            } catch (IOException ex) {
-                Logger.getLogger(MenuInit.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (URISyntaxException ex) {
-            Logger.getLogger(MenuInit.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            }
     }    
 }

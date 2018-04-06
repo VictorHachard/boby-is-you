@@ -34,9 +34,7 @@ public class LoadGame {
                 //RIEN Erreur deja traiter en amont
             } catch (IOException ex) {
                 Logger.getLogger(MenuInit.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (URISyntaxException ex) {
-            Logger.getLogger(LoadGame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            }
     }    
     
     LoadGame(Maps m, Stage primaryStage) {

@@ -74,8 +74,9 @@ public class Placement {
     }
     
     /**
-     * Revois true si tr est bien dans la liste des régles de l'element.
-     * @param tr Property
+     * Revois true si la Property est bien dans la liste des régles de la liste
+     * des Element.
+     * @param tr Property, à chercher
      * @return true ou false
      */
     boolean findRule(Property tr){
@@ -86,9 +87,9 @@ public class Placement {
     }
     
     /**
-     * 
-     * @param te
-     * @return 
+     * Revois true si le TypeElement est bien dans la liste des Element.
+     * @param te TypeElement, à chercher
+     * @return true ou false
      */
     boolean findElements(TypeElement te){
         for(Element e:this.listeContenu){
@@ -99,9 +100,9 @@ public class Placement {
     }
     
     /**
-     * 
-     * @param ty
-     * @return 
+     * Revois true si le TypeTypeElement est bien dans la liste des Element.
+     * @param ty TypeTypeElement, à chercher
+     * @return true ou false
      */
     boolean findTypeType(TypeTypeElement ty) {
         for(Element e:this.listeContenu)
@@ -111,9 +112,11 @@ public class Placement {
     }
     
     /**
-     * 
-     * @param ty
-     * @return 
+     * Revois le TypeElement correspondant au TypeTypeElement, si il n'y en a pas
+     * revois null.
+     * @param ty TypeTypeElement, utiliser pour la recherche
+     * @return TypeElement correspondant au TypeTypeElement ou
+     * null si pas trouver
      */
     TypeElement findTypeElement(TypeTypeElement ty) {
         for(Element e:this.listeContenu)
@@ -123,9 +126,10 @@ public class Placement {
     }
     
     /**
-     * 
-     * @param te
-     * @return 
+     * Revois l'Element correspondant au TypeElement, si il n'y en a pas
+     * revois null.
+     * @param te TypeElement, utiliser pour la recherche
+     * @return Element correspondant au TypeElement ou null si pas trouver
      */
     Element getElements(TypeElement te){
         for(Element e:this.listeContenu)
@@ -135,9 +139,10 @@ public class Placement {
     }
     
     /**
-     * 
-     * @param tr
-     * @return 
+     * Revois une ListElement composer de touts les Element qui on comme regle
+     * Property tr.
+     * @param tr Property, , utiliser pour la recherche
+     * @return ListElement, peut etre vide si aucun Element n'a la regl
      */
     List<Element> getElementsOf(Property tr){
         List<Element> ret = new ArrayList<>();

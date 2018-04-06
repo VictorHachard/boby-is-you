@@ -31,7 +31,7 @@ public class MusicHashMap {
     }
     
     /**
-     * Charge toute les musiques du board dans une map,
+     * Charge toute les musiques dans une HashMap
      */
     MusicHashMap()  {
         this.isPlaying = new HashMap<>();
@@ -49,23 +49,38 @@ public class MusicHashMap {
         }
     }
     
+    /**
+     * Verifie si la music est bien dans la HashMap, arrete la music.
+     * @param music Music, la music à stopé
+     */
     void stop(Music music) {
+        if (!musicMap.containsKey(music))
+            return;
         MediaPlayer mediaPlayer = musicMap.get(music);
         mediaPlayer.stop();
         isPlaying.replace(music, Boolean.FALSE);
     }
     
+    /**
+     * Verifie si la music est bien dans la HashMap, lance la music en boucle.
+     * @param music Music, la music à bouclé
+     */
     void repet(Music music) {
+        if (!musicMap.containsKey(music))
+            return;
         MediaPlayer mediaPlayer = musicMap.get(music);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         play(music);
     }
     
     /**
-     * 
-     * @param music 
+     * Verifie si la music est bien dans la HashMap, si la music joue deja elle
+     * sera couper et relancer.
+     * @param music Music, la music à lancer
      */
     void play(Music music) {
+        if (!musicMap.containsKey(music))
+            return;
         MediaPlayer mediaPlayer = musicMap.get(music);
         if(isPlaying.get(music)){
             mediaPlayer.stop();

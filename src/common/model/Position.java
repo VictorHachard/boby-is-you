@@ -10,7 +10,7 @@ public class Position {
     public final int x, y;
     
     /**
-     * 
+     * Cree une Position en fonction de x et y.
      * @param x int
      * @param y int
      */
@@ -43,9 +43,8 @@ public class Position {
         if (obj instanceof Position) {
             Position p = (Position) obj;
             return (p.x == this.x && p.y == this.y);
-        } else {
-            return false;
-        }
+        } 
+        return false;
     }
     
 }

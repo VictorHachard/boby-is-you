@@ -6,13 +6,14 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * //TODO ergerister le dernier deplacment pour la save direction
@@ -42,7 +43,7 @@ public class Board {
      * @throws TypeElementNotFoundException
      * @throws IOException 
      */
-    public static Board getInstance(Maps map) throws TypeElementNotFoundException, IOException, URISyntaxException {           
+    public static Board getInstance(Maps map) throws TypeElementNotFoundException, IOException {           
         if (INSTANCE == null)
             INSTANCE = new Board(map);
         return INSTANCE;
@@ -68,8 +69,12 @@ public class Board {
      * @param map
      * @throws TypeElementNotFoundException 
      */
-    public Board(Maps map) throws TypeElementNotFoundException, IOException, URISyntaxException {
-        music = MusicHashMap.getInstance();
+    public Board(Maps map) throws TypeElementNotFoundException {
+        try {
+            music = MusicHashMap.getInstance();
+        } catch (IOException ex) {
+            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.x = map.getSizeX();
         this.y = map.getSizeY();
         //genre le empty jouable
@@ -105,9 +110,13 @@ public class Board {
         new Win(this),
         new Shut(this));
         this.limitedDeplacement=map.limitedDeplacement;
-        listLose = new GameModeNumberOfMove(this);
-        //listRule.addRule(new Shut(this));
-        //make = getAllPos(TypeElement.MAKE);
+        try {
+            listLose = new GameModeNumberOfMove(this);
+            //listRule.addRule(new Shut(this));
+            //make = getAllPos(TypeElement.MAKE);
+        } catch (IOException ex) {
+            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }   
     
     private void fillEmpty() {
@@ -248,8 +257,6 @@ public class Board {
     }
     
     private void test(int x,int y,TypeTypeElement te, TypeTypeElement te1) throws TypeElementNotFoundException {
-        System.out.println(listGrid.get(x+1).get(y).findTypeType(TypeTypeElement.TEXT));
-        System.out.println(listGrid.get(x-1).get(y).findTypeType(TypeTypeElement.TEXT));
             if (listGrid.get(x+1).get(y).findTypeType(TypeTypeElement.TEXT) && listGrid.get(x-1).get(y).findTypeType(TypeTypeElement.TEXT))
                     addElementOnElement(listGrid.get(x-1).get(y).findTypeElement(te).getText(), new Element(listGrid.get(x+1).get(y).findTypeElement(te1).getText()));
         }
@@ -493,7 +500,6 @@ public class Board {
      */
     public void movePlayer(Directions direction) throws TypeElementNotFoundException, IOException{
         //verifier si on a pas fini un gamemode
-        System.out.println(this.limitedDeplacement);
         if (!this.listLose.check())
             return;
         List<AllPlayer> player = sortPlayer(direction, getPlayerType());   
@@ -504,8 +510,8 @@ public class Board {
         TypeElement te;
         //just executer move
         loop: for(AllPlayer all:player) {
-            pos = all.pos;
-            te = all.te;
+            pos = all.getPos();
+            te = all.getTypeElement();
             if(pos.y+direction.getDirVer() < y && pos.x+direction.getDirHori() < x) {
                 List<Property> temps1 = null;
                 temps1 = Rule.desactivatePlayerList(Property.MOVE);
@@ -541,7 +547,7 @@ public class Board {
         List<Property> temps = Rule.desactivatePlayerList(Property.TP,Property.SLIP);
         for (AllPlayer p:player)
             try {
-                if (this.listRule.check(p.pos, Directions.NONE, p.te))
+                if (this.listRule.check(p.getPos(), Directions.NONE, p.getTypeElement()))
                     continue; 
             } catch (WinException ex) {
                 return;
@@ -556,6 +562,8 @@ public class Board {
      * @param pos Position, de l'element initial
      * @param direction Directions, sens du déplacemnt 
      * @return true ou flase
+     * @throws IOException
+     * @throws TypeElementNotFoundException 
      */
     boolean push(Position pos,Directions direction) throws TypeElementNotFoundException, IOException {
         if(pos.y+direction.getDirVer() < y && pos.x+direction.getDirHori() < x){
@@ -566,9 +574,8 @@ public class Board {
                             for (int i=0;i<this.is.size();i++)
                                 if (pos.equals(this.is.get(i)))
                                     this.is.remove(i);
-                        this.is.add(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()));
+                            this.is.add(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()));
                         }
-                        System.out.println(e.getTypeElements());
                         if (!this.listRule.checkPush(pos, direction, e.getTypeElements()))
                             return true;
                         else editPlacement(pos,direction,e.getTypeElements());
@@ -645,15 +652,15 @@ public class Board {
             if (null!=direction)
                 switch (direction) {
                     case RIGHT:
-                        return o2.pos.x - o1.pos.x;
+                        return o2.getPos().x - o1.getPos().x;
                     case LEFT:
-                        return o1.pos.x - o2.pos.x;
+                        return o1.getPos().x - o2.getPos().x;
                     case UP:
-                        return o1.pos.y - o2.pos.y;
+                        return o1.getPos().y - o2.getPos().y;
                     default:
                         break;
                 }
-            return o2.pos.y - o1.pos.y;
+            return o2.getPos().y - o1.getPos().y;
         });   
         return player;
     }

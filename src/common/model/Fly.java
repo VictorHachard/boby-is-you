@@ -1,7 +1,6 @@
 package common.model;
 
 import common.exeptions.TypeElementNotFoundException;
-import common.exeptions.WinException;
 import java.io.IOException;
 import java.util.List;
 
@@ -44,6 +43,9 @@ public class Fly extends Rule {
     }
 
     @Override
+    /**
+     * Revois la Property de la regle.
+     */
     Property getProperty() {
         return Property.FLY;
     }

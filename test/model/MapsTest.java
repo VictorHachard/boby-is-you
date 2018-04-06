@@ -25,27 +25,43 @@ import static org.junit.Assert.*;
  */
 public class MapsTest {
     
+    /**
+     *
+     */
     public MapsTest() {
     }
     
+    /**
+     *
+     */
     @BeforeClass
     public static void setUpClass() {
     }
     
+    /**
+     *
+     */
     @AfterClass
     public static void tearDownClass() {
     }
     
+    /**
+     *
+     */
     @Before
     public void setUp() {
     }
     
+    /**
+     *
+     */
     @After
     public void tearDown() {
     }
 
     /**
      * Test of addMap method, of class Maps.
+     * @throws java.lang.Exception
      */
     @Test
     public void testAddMap() throws Exception {
@@ -62,6 +78,7 @@ public class MapsTest {
 
     /**
      * Test of removeMap method, of class Maps.
+     * @throws java.lang.Exception
      */
     @Test
     public void testRemoveMap() throws Exception {
@@ -117,6 +134,7 @@ public class MapsTest {
 
     /**
      * Test of getAffichage method, of class Maps.
+     * @throws common.exeptions.TypeElementNotFoundException
      */
     @Test
     public void testGetAffichage() throws TypeElementNotFoundException {
@@ -143,6 +161,7 @@ public class MapsTest {
 
     /**
      * Test of save method, of class Maps.
+     * @throws java.lang.Exception
      */
     @Test
     public void testSave_0args() throws Exception {
@@ -155,6 +174,7 @@ public class MapsTest {
 
     /**
      * Test of save method, of class Maps.
+     * @throws java.lang.Exception
      */
     @Test
     public void testSave_String() throws Exception {

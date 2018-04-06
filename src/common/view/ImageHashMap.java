@@ -19,7 +19,6 @@ public class ImageHashMap {
     /**
      * Charge toute le image du board dans une map,
      * revois une map avec comme key le TypeElement et comme value l'image.
-     * @param board Board
      */
     ImageHashMap() {
         loadImage();
