@@ -2,11 +2,8 @@ package common.view;
 
 import common.exeptions.TypeElementNotFoundException;
 import common.model.Board;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,6 +13,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import common.model.Levels;
 import common.model.Maps;
+import java.io.IOException;
+import javafx.scene.input.KeyCode;
 
 /**
  * 
@@ -85,7 +84,6 @@ public class MenuInit extends Menu {
             buttonParameter.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
             buttonParameter.setMaxWidth(Double.MAX_VALUE);
             
-           
         vbox.getChildren().addAll(
                 buttonContinue,
                 buttonNew,
@@ -104,8 +102,8 @@ public class MenuInit extends Menu {
         buttonParameter.setOnAction(event -> {    
             this.primaryStage.setScene(Parameter.getInstance().scene);
         });
-        buttonContinue.setOnAction(event -> {
-                Levels.getInstance();          
+        buttonContinue.setOnAction(event -> {    
+            Levels.getInstance().loadGame();
         });
         buttonNew.setOnAction(event -> {
                 System.out.println("Option 3 selected via Lambda");
@@ -133,13 +131,9 @@ public class MenuInit extends Menu {
             primaryStage.close();
         });
         scene.setOnKeyPressed(e -> {
-            switch (e.getCode()) {
-                case ESCAPE:
-                    Logger.getLogger(MenuInit.class.getName()).log(Level.INFO, "Exit of the application");
-                    primaryStage.close();
-                    break;
-                    default :
-                    //NE RIEN FAIRE
+            if (e.getCode() == KeyCode.ESCAPE) {
+                Logger.getLogger(MenuInit.class.getName()).log(Level.INFO, "Exit of the application");
+                primaryStage.close();
             }
             e.consume();
         });

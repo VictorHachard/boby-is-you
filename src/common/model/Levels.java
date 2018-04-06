@@ -54,22 +54,27 @@ public class Levels {
             music = MusicHashMap.getInstance();
             this.primaryStage=MenuInit.getInstance().getStage();
             this.listMap=new ArrayList<>();
-            this.indice =JavaBobyIsYou.getSaveCampagne();
+            this.indice=JavaBobyIsYou.indice;
             loadMap();
-            loadDisplay();
-            this.music.repet(Music.BACK);
         } catch (TypeElementNotFoundException | IOException ex) {
             LOGGER.log(Level.WARNING,"erreur",ex);
         }
     }
     
+    public int getIndice() {
+        return indice;
+    }
+    
+    public void loadGame() {
+        loadDisplay();
+        this.music.repet(Music.BACK);
+    }
+    
     /**
      * Desactive toutes les reglées, appele LoadGame de MenuInit pour charge la
      * prochaine map.
-     * @throws TypeElementNotFoundException
-     * @throws IOException 
      */
-    public void loadDisplay() throws TypeElementNotFoundException, IOException {
+    public void loadDisplay() {
         Rule.desactivateAll();
         MenuInit.getInstance().LoadGame(new Maps(this.listMap.get(indice)));
     }
@@ -90,11 +95,12 @@ public class Levels {
     void nextLevel() throws TypeElementNotFoundException, IOException {
         this.indice = indice+1;
         if (indice==this.listMap.size()) {
-            JavaBobyIsYou.save(0);
+            this.indice=0;
+            JavaBobyIsYou.save();
             stopGame();
             return;
         }     
-        JavaBobyIsYou.save(indice);
+        JavaBobyIsYou.save();
         loadDisplay();
     }
     

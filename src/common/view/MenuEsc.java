@@ -1,6 +1,5 @@
 package common.view;
 
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.Scene;
@@ -8,8 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import common.model.Board;
 import common.model.Levels;
+import javafx.scene.input.KeyCode;
 
 /**
  *
@@ -90,13 +89,8 @@ public class MenuEsc extends Menu {
             primaryStage.close();
         });
         scene.setOnKeyPressed(e -> {
-            switch (e.getCode()) {
-                case ESCAPE:
-                    this.primaryStage.setScene(continuer.scene);
-                    break;
-                    default :
-                    //NE RIEN FAIRE
-            }
+            if (e.getCode() == KeyCode.ESCAPE)
+                this.primaryStage.setScene(continuer.scene);
             e.consume();
         });
 
