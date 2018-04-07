@@ -1,6 +1,7 @@
-level 0
-KeyUP Z
-KeyDOWN S
-KeyLEFT Q
-KeyRIGHT D
+level 3
+
+KeyUP UP
+KeyDOWN DOWN
+KeyLEFT LEFT
+KeyRIGHT RIGHT
 KeyR R

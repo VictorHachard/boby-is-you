@@ -1,10 +1,8 @@
 package common.view;
 
 import common.exeptions.TypeElementNotFoundException;
-import java.io.File;
 import java.io.IOException;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -22,11 +20,11 @@ import javafx.scene.input.KeyCode;
 public class Display {
        
     public Scene scene;
-    private GridPane root;
+    private GridPane root= new GridPane();
     private Board board;
     private double imageSize;
     private Stage primaryStage = MenuInit.getInstance().getStage();
-    private Pane rootImage;
+    private Pane rootImage  = new Pane();;
     private double imageSizeX;
     
     /**
@@ -35,8 +33,6 @@ public class Display {
      */
     public Display(Board board) {
         this.board = board;
-        root = new GridPane();
-        rootImage = new Pane();
         MenuEsc menuEsc = new MenuEsc(this);
         
         //changement de la taille des image en fonction de la taille de la fenetre
@@ -74,19 +70,9 @@ public class Display {
             catch (TypeElementNotFoundException | IOException ex) {
                 //deja traiter en amont
             }
+            e.consume();
             convertBoardToImage();
         });
-    }
-        
-    /**
-     * 
-     */
-    private void addBackground() {
-        Image file = new Image (new File("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\images\\EMPTY.png").toURI().toString());
-        ImageView imageView = new ImageView(file);
-        imageView.setFitWidth(JavaBobyIsYou.WIDTH);
-        imageView.setFitHeight(JavaBobyIsYou.HEIGHT);
-        rootImage.getChildren().add(imageView);
     }
     
     /**

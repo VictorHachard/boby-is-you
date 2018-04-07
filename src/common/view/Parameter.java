@@ -28,16 +28,8 @@ public class Parameter {
     Parameter() {
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
         //recuper les donner dans config
-        addTitle();
+        root.getChildren().add(JavaFXMethode.addTitle("PARAMETRE"));
         addMenu();
-    }
-    
-    private void addTitle() {
-        Title title = new Title("PARAMETRE");
-        title.setTranslateX(JavaBobyIsYou.WIDTH / 2 - title.getTitleWidth() / 2);
-        title.setTranslateY(JavaBobyIsYou.HEIGHT / 3);
-
-        root.getChildren().add(title);
     }
 
     private void addMenu() {

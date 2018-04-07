@@ -81,6 +81,7 @@ public class Levels {
     
     public void stopGame() {
         Rule.desactivateAll();
+        GameMode.desactivateAll();
         this.primaryStage.setScene(MenuInit.getInstance().scene);
         this.music.stop(Music.BACK);
     }

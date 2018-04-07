@@ -1,6 +1,8 @@
 package common.view;
 
 import common.exeptions.TypeElementNotFoundException;
+import common.model.Game;
+import common.model.GameMode;
 import common.model.Levels;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -8,9 +10,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,7 +41,11 @@ public class JavaBobyIsYou extends Application {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(new File("config.txt")));
             if (!(Levels.instance()==null))
-            writer.write("level "+Levels.instance().getIndice()+"\n");
+                writer.write("level "+Levels.instance().getIndice()+"\n");
+            if (GameMode.isActive(Game.TIMER))
+                writer.write("gameModeTIME true\n");
+            if (GameMode.isActive(Game.PLAYERMOVE))
+                writer.write("gameModeMOVE true\n");
             writer.write("KeyUP "+Key.getInstance().getKeyUP()+"\n");
             writer.write("KeyDOWN "+Key.getInstance().getKeyDOWN()+"\n");
             writer.write("KeyLEFT "+Key.getInstance().getKeyLEFT()+"\n");
@@ -62,7 +65,13 @@ public class JavaBobyIsYou extends Application {
             while ((nextLine = br.readLine()) != null) {
                 String[] parts = nextLine.split(" ");
                 if (parts[0].equals("level"))
-                    this.indice=Integer.parseInt(parts[1]);
+                    JavaBobyIsYou.indice=Integer.parseInt(parts[1]);
+                else if (parts[0].equals("gameModeMOVE"))
+                    if (parts[1].equals("true"))
+                        GameMode.setActivity(Game.PLAYERMOVE, Boolean.TRUE);
+                else if (parts[0].equals("gameModeTIME"))
+                    if (parts[1].equals("true"))
+                        GameMode.setActivity(Game.TIMER, Boolean.TRUE);
                 else if (parts[0].equals("KeyUP"))
                     Key.getInstance().setKeyUP(getKeyCode(parts[1]));
                 else if (parts[0].equals("KeyDOWN"))

@@ -30,24 +30,13 @@ public class MenuEsc extends Menu {
     
     /**
      * 
-     * @param primaryStage
      * @param continuer
-     * @param board 
      */
     MenuEsc(Display continuer) {
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
         this.continuer= continuer;
-        //addBackground();
-        addTitle();
+        root.getChildren().add(JavaFXMethode.addTitle("ESC"));
         addMenu();
-    }
-    
-    private void addTitle() {
-        Title title = new Title("BOBY IS YOU");
-        title.setTranslateX(JavaBobyIsYou.WIDTH / 2 - title.getTitleWidth() / 2);
-        title.setTranslateY(JavaBobyIsYou.HEIGHT / 3);
-
-        root.getChildren().add(title);
     }
 
     private void addMenu() {

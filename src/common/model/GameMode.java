@@ -12,12 +12,12 @@ public abstract class GameMode {
     public static boolean isActive(Game name){
         return activeMode.getOrDefault(name,false);
     }
-    static void desactivateAll() {
+    public static void desactivateAll() {
         activeMode = new HashMap<>();
-        //System.out.println("desactivating all rules");
+        System.out.println("desactivating all rules");
     }
-    static void setActivity(Game k, Boolean v){
-       // System.out.println("rule"+k+"->"+v);
+    public static void setActivity(Game k, Boolean v){
+        System.out.println("rule"+k+"->"+v);
         activeMode.put(k, v);
     }
     

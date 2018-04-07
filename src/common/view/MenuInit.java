@@ -5,15 +5,12 @@ import common.model.Board;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import common.model.Levels;
 import common.model.Maps;
-import java.io.IOException;
 import javafx.scene.input.KeyCode;
 
 /**
@@ -40,26 +37,9 @@ public class MenuInit extends Menu {
     MenuInit() {
         //creatation des autre menus
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
-        addBackground();
-        addTitle();
+        root.getChildren().add(JavaFXMethode.addBackground("common/images/empty.png"));
+        root.getChildren().add(JavaFXMethode.addTitle("Boby Is You"));
         addMenu();
-    }
-    
-    private void addBackground() {
-        Image file = new Image ("common/images/empty.png");
-        ImageView imageView = new ImageView(file);
-        imageView.setFitWidth(JavaBobyIsYou.WIDTH);
-        imageView.setFitHeight(JavaBobyIsYou.HEIGHT);
-
-        root.getChildren().add(imageView);
-    }
-
-    private void addTitle() {
-        Title title = new Title("BOBY IS YOU");
-        title.setTranslateX(JavaBobyIsYou.WIDTH / 2 - title.getTitleWidth() / 2);
-        title.setTranslateY(JavaBobyIsYou.HEIGHT / 3);
-
-        root.getChildren().add(title);
     }
 
     private void addMenu() {
