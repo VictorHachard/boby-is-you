@@ -30,8 +30,6 @@ public class JavaBobyIsYou extends Application {
     
     static final String THEME = "/common/css/theme.css";
     static final Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();   
-    Stage primaryStage;
-    Scene scene;
     static final double WIDTH = visualBounds.getWidth()-30;
     static final double HEIGHT = visualBounds.getHeight()-30;
     private static final Logger LOGGER = Logger.getGlobal();
@@ -99,10 +97,8 @@ public class JavaBobyIsYou extends Application {
         config();
         MenuInit d = MenuInit.getInstance();
         d.setStage(primaryStage);
-        scene = d.scene;
-        
         primaryStage.setTitle("BobyIsYou");
-        primaryStage.setScene(scene);
+        primaryStage.setScene(d.scene);
         primaryStage.show();
     }
     

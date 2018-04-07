@@ -18,7 +18,7 @@ import javafx.scene.paint.Color;
  * 
  * @author Glaskani basé sur le model de Almas Baimagambetov (almaslvl@gmail.com)
  */
-public class MenuInit extends Menu {
+public class MenuInit {
     
     public Scene scene;
     private Stage primaryStage;
@@ -36,7 +36,6 @@ public class MenuInit extends Menu {
     }
 
     MenuInit() {
-        //creatation des autre menus
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
         scene.getStylesheets().add(JavaBobyIsYou.THEME);
         root.getChildren().add(JavaFXMethode.addBackground("common/images/empty.png"));
@@ -63,16 +62,13 @@ public class MenuInit extends Menu {
                 buttonParameter,
                 buttonEditor,
                 buttonExit);
-        
-        vbox.setSpacing(20);
-        vbox.setMinWidth(200);
-        
+        vbox.getStyleClass().add("vbox");
         root.getChildren().addAll(vbox);
-        vbox.setTranslateX((JavaBobyIsYou.WIDTH/2)-100);
+        vbox.setTranslateX((JavaBobyIsYou.WIDTH/2)-90);
 	vbox.setTranslateY((JavaBobyIsYou.HEIGHT/2)-70);
 	
         buttonParameter.setOnAction(event -> {    
-            this.primaryStage.setScene(Parameter.getInstance().scene);
+            this.primaryStage.setScene(MenuParameter.getInstance().scene);
         });
         buttonContinue.setOnAction(event -> {    
             Levels.getInstance().loadGame();

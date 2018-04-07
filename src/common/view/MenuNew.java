@@ -3,8 +3,6 @@ package common.view;
 import common.model.Game;
 import common.model.GameMode;
 import common.model.Levels;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
@@ -30,10 +28,6 @@ public class MenuNew {
         return INSTANCE;
     }
     
-    public Stage getStage() {
-        return this.primaryStage;
-    }
-    
     MenuNew() {
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
         scene.getStylesheets().add(JavaBobyIsYou.THEME);
@@ -54,33 +48,24 @@ public class MenuNew {
                 buttonTimer,
                 buttonLimited,
                 buttonBack);
-        
-        vbox.setSpacing(20);
-        vbox.setMinWidth(200);
-        
+        vbox.getStyleClass().add("vbox");
         root.getChildren().addAll(vbox);
-        vbox.setTranslateX((JavaBobyIsYou.WIDTH/2)-100);
+        vbox.setTranslateX((JavaBobyIsYou.WIDTH/2)-90);
 	vbox.setTranslateY((JavaBobyIsYou.HEIGHT/2)-70);
 
         buttonBack.setOnAction(event -> {
             this.primaryStage.setScene(MenuInit.getInstance().scene);
         });
         buttonNormal.setOnAction(event -> {
-           Levels.getInstance().setIndice(0);
-           Levels.instance().loadGame();
-           JavaBobyIsYou.save();
+           game();
         });
         buttonLimited.setOnAction(event -> {
-           Levels.getInstance().setIndice(0);
            GameMode.setActivity(Game.PLAYERMOVE, Boolean.TRUE);
-           Levels.instance().loadGame();
-           JavaBobyIsYou.save();
+           game();
         });
         buttonTimer.setOnAction(event -> {
-           Levels.getInstance().setIndice(0);
            GameMode.setActivity(Game.TIMER, Boolean.TRUE);
-           Levels.instance().loadGame();
-           JavaBobyIsYou.save();
+           game();
         });
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE)
@@ -88,6 +73,12 @@ public class MenuNew {
             e.consume();
         });
 
-    }                       
+    }                     
+     
+    private void game() {
+        Levels.getInstance().setIndice(0);
+        Levels.instance().loadGame();
+        JavaBobyIsYou.save();
+    } 
     
 }

@@ -52,21 +52,20 @@ public class Display {
         else imageSize = imageSizeY;
         //ajout du backGroude dans rootImage
         //addBackground();
-        
-        
-        
-        //rootTitle.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.BLUE, CornerRadii.EMPTY, Insets.EMPTY)));
-        //Text title = new Text((((JavaBobyIsYou.WIDTH/2)-((board.getSizeX()*imageSizeX)/4))), 25,board.title);
+
         Text title = new Text(board.title);
         title.setFont(Font.loadFont(JavaFXMethode.loadFont(), 30));
         title.setFill(Color.BLACK);
         
-        Text gm = new Text(" - GM ");
-        gm.setFont(Font.loadFont(JavaFXMethode.loadFont(), 20));
+        Text gm = new Text();
+        if (GameMode.isActive(Game.TIMER) || GameMode.isActive(Game.PLAYERMOVE)) {
+            gm = new Text(" - GM ");
+            gm.setFont(Font.loadFont(JavaFXMethode.loadFont(), 20));
+        }
         
         Text time = new Text();
         if (GameMode.isActive(Game.TIMER)) {
-            time.setText(", temps");
+            time.setText("temps"+" ");
             time.setFont(Font.loadFont(JavaFXMethode.loadFont(), 20));
             time.setFill(Color.RED);
         }
@@ -109,7 +108,7 @@ public class Display {
     
     private void gmMove() {
         if (GameMode.isActive(Game.PLAYERMOVE)) {
-            move.setText("deplacement "+Integer.toString(board.limitedDeplacement));
+            move.setText("deplacement "+Integer.toString(board.limitedDeplacement)+" ");
             move.setFont(Font.loadFont(JavaFXMethode.loadFont(), 20));
             move.setFill(Color.RED);
         }

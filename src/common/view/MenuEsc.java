@@ -15,7 +15,7 @@ import javafx.scene.paint.Color;
  *
  * @author Glaskani
  */
-public class MenuEsc extends Menu {
+public class MenuEsc {
 
     private Stage primaryStage = MenuInit.getInstance().getStage();
     private Pane root = new Pane();
@@ -53,16 +53,16 @@ public class MenuEsc extends Menu {
                 buttonContinue,
                 buttonMenu,
                 buttonExit);
-        
-        vbox.setSpacing(20);
-        vbox.setMinWidth(200);
-        
+        vbox.getStyleClass().add("vbox");
         root.getChildren().addAll(vbox);
-        vbox.setTranslateX((JavaBobyIsYou.WIDTH/2)-100);
+        vbox.setTranslateX((JavaBobyIsYou.WIDTH/2)-90);
 	vbox.setTranslateY((JavaBobyIsYou.HEIGHT/2)-70);
 
         buttonContinue.setOnAction(event -> {
-            this.primaryStage.setScene(continuer.scene);
+            this.primaryStage.setScene(continuer.scene);vbox.getStyleClass().add("vbox");
+        root.getChildren().addAll(vbox);
+        vbox.setTranslateX((JavaBobyIsYou.WIDTH/2)-90);
+	vbox.setTranslateY((JavaBobyIsYou.HEIGHT/2)-70);
         });
         buttonMenu.setOnAction(event -> {
            Levels.instance().stopGame();

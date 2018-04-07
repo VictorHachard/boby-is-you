@@ -1,4 +1,5 @@
 package common.model;
+
 import common.exeptions.TypeElementNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

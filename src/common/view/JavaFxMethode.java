@@ -26,8 +26,8 @@ public class JavaFXMethode {
         Text title = new Text(string);
         title.setFont(Font.loadFont(loadFont(),40));
         title.setFill(color);
-        title.setTranslateX(JavaBobyIsYou.WIDTH / 2 - title.getLayoutBounds().getWidth() / 2);
-        title.setTranslateY(JavaBobyIsYou.HEIGHT / 3);
+        title.setTranslateX(JavaBobyIsYou.WIDTH/2 - title.getLayoutBounds().getWidth()/2);
+        title.setTranslateY(JavaBobyIsYou.HEIGHT/3);
         return title;
     }
     

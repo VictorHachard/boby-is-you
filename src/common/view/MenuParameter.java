@@ -13,20 +13,20 @@ import javafx.stage.Stage;
  *
  * @author Windows
  */
-public class Parameter {
+public class MenuParameter {
     
     Scene scene;
-    private static Parameter INSTANCE = null;
+    private static MenuParameter INSTANCE = null;
     private Stage primaryStage = MenuInit.getInstance().getStage();
     private Pane root = new Pane();
     
-    static Parameter getInstance() {           
+    static MenuParameter getInstance() {           
         if (INSTANCE == null)  
-            INSTANCE = new Parameter();
+            INSTANCE = new MenuParameter();
         return INSTANCE;
     }
     
-    Parameter() {
+    MenuParameter() {
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
         scene.getStylesheets().add(JavaBobyIsYou.THEME);
         //recuper les donner dans config
@@ -51,12 +51,9 @@ public class Parameter {
                 buttonRIGHT,
                 buttonR,
                 buttonBack);
-        
-        vbox.setSpacing(20);
-        vbox.setMinWidth(200);
-        
+        vbox.getStyleClass().add("vbox");
         root.getChildren().addAll(vbox);
-        vbox.setTranslateX((JavaBobyIsYou.WIDTH/2)-100);
+        vbox.setTranslateX((JavaBobyIsYou.WIDTH/2)-90);
 	vbox.setTranslateY((JavaBobyIsYou.HEIGHT/2)-70);
 	
         buttonUP.setOnAction(event -> {

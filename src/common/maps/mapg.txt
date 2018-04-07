@@ -1,5 +1,5 @@
 18 18
-config 20
+config 120
 text_skull 9 0
 is 10 0
 kill 11 0
