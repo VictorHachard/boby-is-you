@@ -30,7 +30,7 @@ public class Maps {
     private int y;
     
     private Map<Position, List<Element>> Element = new HashMap<>();
-    private ArrayList<Element> listAllElement;
+    private ArrayList<Element> listAllElement = new ArrayList<>();
     private Element unplayable = new Element(TypeElement.WALLINJOUABLE,Directions.RIGHT);
     private Element empty = new Element(TypeElement.EMPTY,Directions.RIGHT);
     private static final Logger LOGGER = Logger.getGlobal();
@@ -59,8 +59,6 @@ public class Maps {
      * @throws java.io.IOException 
      */
     public Maps(BufferedReader buffer) throws TypeElementNotFoundException, IOException {
-        listAllElement = new ArrayList<>();
-
             String nextLine;
             //lecture de la premier ligne pour determiner et crée le board.
             String line = buffer.readLine();

@@ -124,7 +124,7 @@ public class Display {
      * @param posy un entier qui indique la position sur l'axe des y 
      */
     private void addImage(TypeElement name,int posx,int posy) {
-        ImageView image = new ImageView(JavaBobyIsYou.IMAGEMAP.getImageMap().get(name));
+        ImageView image = new ImageView(ImageHashMap.getInstance().getImageMap().get(name));
         image.setFitHeight(imageSize);
         image.setFitWidth(imageSize);
         moveImageByCase(image,posx,posy);

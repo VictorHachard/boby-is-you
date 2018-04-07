@@ -1,29 +1,15 @@
 package common.view;
 
 import java.util.List;
-import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import common.model.Board;
 import common.model.Element;
 import common.model.Maps;
-import common.model.Property;
 import common.model.TypeElement;
-import common.model.TypeTypeElement;
 
 /**
  *
@@ -33,12 +19,10 @@ public class Editor {
     
     Scene scene;
     private GridPane root;
-    //private Label rootGrid;
     private GridPane rootGrid;
     private Maps map;
-    private ImageHashMap imageMap;
     private double imageSize;
-    private Stage primaryStage;
+    private Stage primaryStage = MenuInit.getInstance().getStage();
     private VBox rootList;
     
     Editor(Maps map) {
@@ -46,8 +30,6 @@ public class Editor {
         this.root = new GridPane();
         this.rootGrid = new GridPane();
         this.rootList = new VBox();
-        this.primaryStage = primaryStage;
-        this.imageMap = new ImageHashMap();
         
         //changement de la taille des image en fonction de la taille de la fenetre
         double imageSizeX = JavaBobyIsYou.WIDTH/this.map.getSizeX();
@@ -94,7 +76,7 @@ public class Editor {
     
     
     private void buttonVbox() {
-        Image NORMAL_IMAGE = this.imageMap.getImageMap().get("EMPTY");
+        Image NORMAL_IMAGE = ImageHashMap.getInstance().getImageMap().get("EMPTY");
         ImageView iv = new ImageView(NORMAL_IMAGE);
         this.rootList.getChildren().add(iv);
 
@@ -104,7 +86,7 @@ public class Editor {
     }
     
     private void addImage(TypeElement name,int posx,int posy) {
-        ImageView image = new ImageView(this.imageMap.getImageMap().get(name));
+        ImageView image = new ImageView(ImageHashMap.getInstance().getImageMap().get(name));
         image.setFitHeight(imageSize);
         image.setFitWidth(imageSize);
         moveImageByCase(image,posx,posy);

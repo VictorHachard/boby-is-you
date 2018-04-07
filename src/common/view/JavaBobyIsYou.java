@@ -32,7 +32,6 @@ public class JavaBobyIsYou extends Application {
     static final Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();   
     Stage primaryStage;
     Scene scene;
-    static ImageHashMap IMAGEMAP = new ImageHashMap();
     static final double WIDTH = visualBounds.getWidth()-30;
     static final double HEIGHT = visualBounds.getHeight()-30;
     private static final Logger LOGGER = Logger.getGlobal();
