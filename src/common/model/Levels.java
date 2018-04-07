@@ -65,6 +65,10 @@ public class Levels {
         return indice;
     }
     
+    public void setIndice(int i) {
+        indice=i;
+    }
+    
     public void loadGame() {
         loadDisplay();
         this.music.repet(Music.BACK);

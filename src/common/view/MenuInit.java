@@ -75,7 +75,7 @@ public class MenuInit extends Menu {
             Levels.getInstance().loadGame();
         });
         buttonNew.setOnAction(event -> {
-                System.out.println("Option 3 selected via Lambda");
+            this.primaryStage.setScene(MenuNew.getInstance().scene);
         });
         buttonLoad.setOnAction(event -> {
                 System.out.println("Option 3 selected via Lambda");

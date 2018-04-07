@@ -29,18 +29,19 @@ import javafx.stage.Stage;
 public class JavaBobyIsYou extends Application {
     
     static final String THEME = "/common/css/theme.css";
-    static Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();   
+    static final Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();   
     Stage primaryStage;
     Scene scene;
     static ImageHashMap IMAGEMAP = new ImageHashMap();
-    static double WIDTH = visualBounds.getWidth()-30;
-    static double HEIGHT = visualBounds.getHeight()-30;
+    static final double WIDTH = visualBounds.getWidth()-30;
+    static final double HEIGHT = visualBounds.getHeight()-30;
     private static final Logger LOGGER = Logger.getGlobal();
     public static int indice =0;
     
     public static void save() {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(new File("config.txt")));
+            writer.write("date "+"\n");
             if (!(Levels.instance()==null))
                 writer.write("level "+Levels.instance().getIndice()+"\n");
             if (GameMode.isActive(Game.TIMER))

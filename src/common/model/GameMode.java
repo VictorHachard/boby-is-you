@@ -14,10 +14,10 @@ public abstract class GameMode {
     }
     public static void desactivateAll() {
         activeMode = new HashMap<>();
-        System.out.println("desactivating all rules");
+        System.out.println("desactivating all gamemode");
     }
     public static void setActivity(Game k, Boolean v){
-        System.out.println("rule"+k+"->"+v);
+        System.out.println("gamemode"+k+"->"+v);
         activeMode.put(k, v);
     }
     
