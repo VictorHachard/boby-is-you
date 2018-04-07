@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -36,7 +37,7 @@ public class MenuNew {
     MenuNew() {
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
         scene.getStylesheets().add(JavaBobyIsYou.THEME);
-        root.getChildren().add(JavaFXMethode.addTitle("ESC"));
+        root.getChildren().add(JavaFXMethode.addTitle("ESC",Color.WHITE));
         addMenu();
     }
     
@@ -67,16 +68,19 @@ public class MenuNew {
         buttonNormal.setOnAction(event -> {
            Levels.getInstance().setIndice(0);
            Levels.instance().loadGame();
+           JavaBobyIsYou.save();
         });
         buttonLimited.setOnAction(event -> {
            Levels.getInstance().setIndice(0);
            GameMode.setActivity(Game.PLAYERMOVE, Boolean.TRUE);
            Levels.instance().loadGame();
+           JavaBobyIsYou.save();
         });
         buttonTimer.setOnAction(event -> {
            Levels.getInstance().setIndice(0);
            GameMode.setActivity(Game.TIMER, Boolean.TRUE);
            Levels.instance().loadGame();
+           JavaBobyIsYou.save();
         });
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE)

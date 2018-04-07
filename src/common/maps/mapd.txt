@@ -1,5 +1,5 @@
 18 18
-config 40
+config 45
 text_baba 0 0
 text_wall 1 0
 wall 2 0

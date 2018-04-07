@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  * @author Glaskani
  */
 public class Board {
-    
+    private int i=0;
     private List<Element> listAllElement = new ArrayList<>();
     private GameMode listLose;
     private List<Position> is;
@@ -34,7 +34,8 @@ public class Board {
     private Rule listRule;
     private static Board INSTANCE = null;
     private Element emptyPlayable=new Element(TypeElement.EMPTY);
-    private int limitedDeplacement;
+    public int limitedDeplacement;
+    public String title="";
     
     /**
      * 
@@ -110,6 +111,7 @@ public class Board {
         new Win(this),
         new Shut(this));
         this.limitedDeplacement=map.limitedDeplacement;
+        this.title=map.title;
         try {
             listLose = new GameModeNumberOfMove(this);
             //listRule.addRule(new Shut(this));
@@ -505,7 +507,8 @@ public class Board {
         List<AllPlayer> player = sortPlayer(direction, getPlayerType());   
         if (player==null)
             return;
-
+        i++;
+        System.out.println(i);
         Position pos;
         TypeElement te;
         //just executer move
@@ -648,6 +651,8 @@ public class Board {
     }
 
     private List<AllPlayer> sortPlayer(Directions direction, List<AllPlayer> player) {
+        if (player.isEmpty())
+            return null;
         Collections.sort(player, (AllPlayer o1, AllPlayer o2) -> {
             if (null!=direction)
                 switch (direction) {

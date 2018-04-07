@@ -9,9 +9,15 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import common.model.Board;
 import common.model.Directions;
+import common.model.Game;
+import common.model.GameMode;
 import common.model.Levels;
 import common.model.TypeElement;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 /**
  *
@@ -19,6 +25,7 @@ import javafx.scene.input.KeyCode;
  */
 public class Display {
        
+    private Text move = new Text();
     public Scene scene;
     private GridPane root= new GridPane();
     private Board board;
@@ -26,6 +33,7 @@ public class Display {
     private Stage primaryStage = MenuInit.getInstance().getStage();
     private Pane rootImage  = new Pane();;
     private double imageSizeX;
+    private HBox hbox = new HBox();
     
     /**
      * 
@@ -37,7 +45,7 @@ public class Display {
         
         //changement de la taille des image en fonction de la taille de la fenetre
         imageSizeX = JavaBobyIsYou.WIDTH/this.board.getSizeX();
-        double imageSizeY = JavaBobyIsYou.HEIGHT/this.board.getSizeY();
+        double imageSizeY = (JavaBobyIsYou.HEIGHT-30)/this.board.getSizeY();
         //recuperation du plus grand ImageSize
         if (imageSizeX < imageSizeY)
             imageSize = imageSizeX;
@@ -45,11 +53,34 @@ public class Display {
         //ajout du backGroude dans rootImage
         //addBackground();
         
-        //ajout de la grid dans rooImage
-        rootImage.getChildren().addAll(root);
         
+        
+        //rootTitle.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.BLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+        //Text title = new Text((((JavaBobyIsYou.WIDTH/2)-((board.getSizeX()*imageSizeX)/4))), 25,board.title);
+        Text title = new Text(board.title);
+        title.setFont(Font.loadFont(JavaFXMethode.loadFont(), 30));
+        title.setFill(Color.BLACK);
+        
+        Text gm = new Text(" - GM ");
+        gm.setFont(Font.loadFont(JavaFXMethode.loadFont(), 20));
+        
+        Text time = new Text();
+        if (GameMode.isActive(Game.TIMER)) {
+            time.setText(", temps");
+            time.setFont(Font.loadFont(JavaFXMethode.loadFont(), 20));
+            time.setFill(Color.RED);
+        }
+        
+        hbox.setTranslateX(-((JavaBobyIsYou.WIDTH/2)-((board.getSizeX()*imageSizeX)/4)));
+        hbox.setTranslateY(-30);
+        hbox.setLayoutX(imageSize*board.getSizeX());
+        hbox.setLayoutY(30);
+        hbox.getChildren().addAll(title,gm);
+        
+        rootImage.getChildren().addAll(hbox,root);
         scene = new Scene(rootImage, JavaBobyIsYou.WIDTH, JavaBobyIsYou.HEIGHT);
         convertBoardToImage();  
+        gmMove();
         
         scene.setOnKeyPressed(e -> {
             KeyCode keyCode = e.getCode();
@@ -72,7 +103,18 @@ public class Display {
             }
             e.consume();
             convertBoardToImage();
+            gmMove();
         });
+    }
+    
+    private void gmMove() {
+        if (GameMode.isActive(Game.PLAYERMOVE)) {
+            move.setText("deplacement "+Integer.toString(board.limitedDeplacement));
+            move.setFont(Font.loadFont(JavaFXMethode.loadFont(), 20));
+            move.setFill(Color.RED);
+        }
+        hbox.getChildren().remove(move);
+        hbox.getChildren().add(move);
     }
     
     /**
@@ -112,6 +154,7 @@ public class Display {
         this.root = new GridPane();
         //Centrement de la Grid
         root.setTranslateX((JavaBobyIsYou.WIDTH/2)-((board.getSizeX()*imageSizeX)/4));
+        root.setTranslateY(30);
         rootImage.getChildren().addAll(root);
         for(int i=0;i<this.board.getSizeX();i++) {
             for(int j=0;j<this.board.getSizeY();j++) {

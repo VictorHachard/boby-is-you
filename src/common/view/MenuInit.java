@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import common.model.Levels;
 import common.model.Maps;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 
 /**
  * 
@@ -39,7 +40,7 @@ public class MenuInit extends Menu {
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
         scene.getStylesheets().add(JavaBobyIsYou.THEME);
         root.getChildren().add(JavaFXMethode.addBackground("common/images/empty.png"));
-        root.getChildren().add(JavaFXMethode.addTitle("Boby Is You"));
+        root.getChildren().add(JavaFXMethode.addTitle("Boby Is You",Color.WHITE));
         addMenu();
     }
 

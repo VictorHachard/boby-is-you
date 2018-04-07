@@ -6,6 +6,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -29,7 +30,7 @@ public class Parameter {
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
         scene.getStylesheets().add(JavaBobyIsYou.THEME);
         //recuper les donner dans config
-        root.getChildren().add(JavaFXMethode.addTitle("PARAMETRE"));
+        root.getChildren().add(JavaFXMethode.addTitle("PARAMETRE",Color.WHITE));
         addMenu();
     }
 

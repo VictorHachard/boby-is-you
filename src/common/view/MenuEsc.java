@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import common.model.Levels;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -36,7 +37,7 @@ public class MenuEsc extends Menu {
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
         scene.getStylesheets().add(JavaBobyIsYou.THEME);
         this.continuer= continuer;
-        root.getChildren().add(JavaFXMethode.addTitle("ESC"));
+        root.getChildren().add(JavaFXMethode.addTitle("ESC",Color.WHITE));
         addMenu();
     }
 
