@@ -1,7 +1,7 @@
 package common.model;
 
 import common.exeptions.TypeElementNotFoundException;
-import java.io.File;
+import common.view.JavaBobyIsYou;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +22,8 @@ public class MusicHashMap {
     private HashMap<Music, Boolean> isPlaying;
     private static MusicHashMap INSTANCE = null;
     
+    
+    
     public static MusicHashMap getInstance() throws TypeElementNotFoundException, IOException {           
         if (INSTANCE == null)
             INSTANCE = new MusicHashMap();
@@ -29,35 +31,63 @@ public class MusicHashMap {
     }
     
     /**
-     * Charge toute les musiques du board dans une map,
+     * Charge toute les musiques dans une HashMap
      */
-    MusicHashMap() {
+    MusicHashMap()  {
         this.isPlaying = new HashMap<>();
         
         Music[] listAllMusic = Music.values();
         for(Music m:listAllMusic) {
             try {
                 this.isPlaying.put(m, Boolean.FALSE);
-                //this.musicMap.put(m, new MediaPlayer(new Media(new File("src"+File.separator+"music"+File.separator+m.toString().toLowerCase()+".mp3").toURI().toString())));
+                this.musicMap.put(m, new MediaPlayer(
+                new Media(JavaBobyIsYou.class.getResource("/common/music/"+m.toString().toLowerCase()+".mp3").toString())));
             }
             catch (MediaException ex) {
-                LOGGER.log( Level.WARNING, "Unable to load " + m,ex);
-            }
+                LOGGER.log( Level.WARNING, "Unable to load : " + m,ex);
+            } 
         }
     }
     
     /**
-     * 
-     * @param music 
+     * Verifie si la music est bien dans la HashMap, arrete la music.
+     * @param music Music, la music à stopé
+     */
+    void stop(Music music) {
+        if (!musicMap.containsKey(music))
+            return;
+        MediaPlayer mediaPlayer = musicMap.get(music);
+        mediaPlayer.stop();
+        isPlaying.replace(music, Boolean.FALSE);
+    }
+    
+    /**
+     * Verifie si la music est bien dans la HashMap, lance la music en boucle.
+     * @param music Music, la music à bouclé
+     */
+    void repet(Music music) {
+        if (!musicMap.containsKey(music))
+            return;
+        MediaPlayer mediaPlayer = musicMap.get(music);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        play(music);
+    }
+    
+    /**
+     * Verifie si la music est bien dans la HashMap, si la music joue deja elle
+     * sera couper et relancer.
+     * @param music Music, la music à lancer
      */
     void play(Music music) {
-        /*MediaPlayer mediaPlayer = musicMap.get(music);
+        if (!musicMap.containsKey(music))
+            return;
+        MediaPlayer mediaPlayer = musicMap.get(music);
         if(isPlaying.get(music)){
             mediaPlayer.stop();
             isPlaying.replace(music, Boolean.FALSE);
         }
         mediaPlayer.play();
-        isPlaying.replace(music, Boolean.TRUE);*/
+        isPlaying.replace(music, Boolean.TRUE);
     }   
 }
 

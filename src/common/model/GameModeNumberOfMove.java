@@ -5,27 +5,34 @@ import java.io.IOException;
 
 /**
  *
- * @author Windows
+ * @author Glaskani
  */
 public class GameModeNumberOfMove extends GameMode {
 
     private int limitedDeplacement;
-
+    private Board board;
+    
     /**
      * nm de coup
-     * @param map
-     * @param limitedDeplacement
+     * @param board
      * @throws TypeElementNotFoundException 
+     * @throws java.io.IOException 
      */
-    public GameModeNumberOfMove(Maps map,int limitedDeplacement) throws TypeElementNotFoundException, IOException {
-        super(map);
-        this.limitedDeplacement = limitedDeplacement;
-        lose();
+    public GameModeNumberOfMove(Board board) throws TypeElementNotFoundException, IOException {
+        this.board=board;
+        this.limitedDeplacement=board.getLimitedDeplacement();
     }
 
     @Override
-    boolean lose() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    Game getGame() {
+        return Game.PLAYERMOVE;
+    }
+
+    @Override
+    boolean work() {
+        if (board.getLimitedDeplacement()==0)
+            return false;
+        return true;
     }
     
 }

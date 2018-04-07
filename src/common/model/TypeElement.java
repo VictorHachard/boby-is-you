@@ -4,16 +4,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /*
+ * Convention 0 : fond,
+ * 1 : materiaux sur le fond,
+ * 2 : objects, 
+ * 3 : joueurs, ia(s), régles et defintions.
  * @author Glaskani
  */
 public enum TypeElement {
-    
-    /*
-     * Convention 0 : fond,
-     * 1 : materiaux sur le fond,
-     * 2 : objects, 
-     * 3 : joueurs, ia(s), régles et defintions.
-     */
     
     ROCK("ROCK","E_R ",2,null,null,TypeTypeElement.BLOCK),
     LAVA("LAVA","E_L ",1,null,null,TypeTypeElement.BLOCK),
@@ -95,8 +92,11 @@ public enum TypeElement {
     /**
      * 
      * @param fromString
-     * @param stringConsole 
+     * @param stringConsole
      * @param intType
+     * @param te
+     * @param rule
+     * @param type 
      */
     TypeElement(String fromString,String stringConsole, int intType, TypeElement te,Property rule,TypeTypeElement type) {
 	this.fromString = fromString;
@@ -114,18 +114,16 @@ public enum TypeElement {
      * @throws TypeElementNotFoundException Si l'erreur est throw cela return TypeElement EMPTY.
      */
     static TypeElement fromString(String element) throws TypeElementNotFoundException {
-
         try {
             for(TypeElement type : TypeElement.values()) {
                 if (type.getElements().equals(element)) {
                     return type;
                 }
             }
-
             throw new TypeElementNotFoundException();
         }
         catch(TypeElementNotFoundException ex) {
-            LOGGER.log( Level.WARNING, "TypeElements " + element + " was not found \n" + element + " replaced by EMPTY",ex);
+            LOGGER.log( Level.WARNING, "TypeElements " + element + " was not found, " + element + " was replaced by EMPTY",ex);
             return TypeElement.EMPTY;
         }
     }
@@ -133,24 +131,24 @@ public enum TypeElement {
     //Getters
     
     /**
-     * 
-     * @return 
+     * Revois le TypeTypeElement de l'element.
+     * @return TypeTypeElement
      */
     public TypeTypeElement getType() {
         return type;
     }
     
     /**
-     * 
-     * @return 
+     * Revois le Property d'un TypeTypeElement rule.
+     * @return Property
      */
     public Property getRule() {
         return rule;
     }
     
     /**
-     * 
-     * @return 
+     * Revois le TypeElement de l'application d'un TypeTypeElement text.
+     * @return TypeElement
      */
     public TypeElement getText() {
         return te;

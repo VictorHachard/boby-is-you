@@ -1,4 +1,6 @@
 18 18
+config 11
+title test_test
 text_door 0 0
 is 0 1
 shut 0 2

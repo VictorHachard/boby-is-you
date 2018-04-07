@@ -79,22 +79,39 @@ public enum Directions {
         return 0;
     }
     
+    /**
+     * Revois la direction opposée de la direction de l'element ou autre.
+     * @return LEFT si la direction est RIGHT
+     * RIGHT si la direction est LEFT
+     * UP si la direction est DOWN
+     * DOWN si la direction est UP
+     * NONE si la direction est inconue
+     */
     Directions getOpp() {
-        if (this==Directions.DOWN)
-            return Directions.UP;
-        else if (this==Directions.UP)
-            return Directions.DOWN;
-        else if (this==Directions.LEFT)
-            return Directions.RIGHT;
-        if (this==Directions.RIGHT)
-            return Directions.LEFT;
-        return Directions.NONE; //genere une erreur
+        if (null!=this)
+            switch (this) {
+            case DOWN:
+                return Directions.UP;
+            case UP:
+                return Directions.DOWN;
+            case LEFT:
+                return Directions.RIGHT;
+            case RIGHT:
+                return Directions.LEFT;
+            default:
+                return Directions.NONE;
+        }
+        return Directions.NONE;
     }
     
     /**
-     * 
-     * @param dir, direction a verifier
-     * @return 
+     * Verifie si une direcion donné est bien dans l'axe perpendiculaire de la 
+     * direction de l'element.
+     * @param dir, direction perpendiculaire à l'axe à verifier
+     * @return true si la direction donné est bien perpendiculaire à
+     * la direction de l'element, 
+     * false si la direction donné n'est pas perpendiculaire à la direction
+     * de l'element ou si la direction n'existe pas
      */
     boolean getSide(Directions dir) {
         if (this==Directions.DOWN || this==Directions.UP)

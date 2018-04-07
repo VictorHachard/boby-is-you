@@ -63,6 +63,9 @@ public class Tp extends Rule {
     }
 
     @Override
+    /**
+     * Revois la Property de la regle.
+     */
     Property getProperty() {
         return Property.TP;
     }

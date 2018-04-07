@@ -1,14 +1,24 @@
 package common.view;
 
 import common.exeptions.TypeElementNotFoundException;
+import common.model.Game;
+import common.model.GameMode;
+import common.model.Levels;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.FileHandler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import static javafx.application.Application.launch;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import static javafx.scene.input.KeyCode.getKeyCode;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -18,26 +28,80 @@ import javafx.stage.Stage;
  */
 public class JavaBobyIsYou extends Application {
     
-    static Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();   
+    static final String THEME = "/common/css/theme.css";
+    static final Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();   
     Stage primaryStage;
     Scene scene;
     static ImageHashMap IMAGEMAP = new ImageHashMap();
-    static double WIDTH = visualBounds.getWidth()-40;
-    static double HEIGHT = visualBounds.getHeight()-40;
+    static final double WIDTH = visualBounds.getWidth()-30;
+    static final double HEIGHT = visualBounds.getHeight()-30;
     private static final Logger LOGGER = Logger.getGlobal();
-    private static int SAVECAMPAGNE;
+    public static int indice =0;
+    
+    public static void save() {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(new File("config.txt")));
+            writer.write("date "+"\n");
+            if (!(Levels.instance()==null))
+                writer.write("level "+Levels.instance().getIndice()+"\n");
+            if (GameMode.isActive(Game.TIMER))
+                writer.write("gameModeTIME true\n");
+            if (GameMode.isActive(Game.PLAYERMOVE))
+                writer.write("gameModeMOVE true\n");
+            writer.write("KeyUP "+Key.getInstance().getKeyUP()+"\n");
+            writer.write("KeyDOWN "+Key.getInstance().getKeyDOWN()+"\n");
+            writer.write("KeyLEFT "+Key.getInstance().getKeyLEFT()+"\n");
+            writer.write("KeyRIGHT "+Key.getInstance().getKeyRIGHT()+"\n");
+            writer.write("KeyR "+Key.getInstance().getKeyR()+"\n");     
+            writer.close();
+        } catch (IOException ex){
+            LOGGER.log(Level.SEVERE,"Coud not create file : config.txt",ex);
+        }
+    }
+    
+    private void config() {
+        try {
+            File file = new File("config.txt");
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String nextLine;
+            while ((nextLine = br.readLine()) != null) {
+                String[] parts = nextLine.split(" ");
+                if (parts[0].equals("level"))
+                    JavaBobyIsYou.indice=Integer.parseInt(parts[1]);
+                else if (parts[0].equals("gameModeMOVE"))
+                    if (parts[1].equals("true"))
+                        GameMode.setActivity(Game.PLAYERMOVE, Boolean.TRUE);
+                else if (parts[0].equals("gameModeTIME"))
+                    if (parts[1].equals("true"))
+                        GameMode.setActivity(Game.TIMER, Boolean.TRUE);
+                else if (parts[0].equals("KeyUP"))
+                    Key.getInstance().setKeyUP(getKeyCode(parts[1]));
+                else if (parts[0].equals("KeyDOWN"))
+                    Key.getInstance().setKeyDOWN(getKeyCode(parts[1]));
+                else if (parts[0].equals("KeyLEFT"))
+                    Key.getInstance().setKeyLEFT(getKeyCode(parts[1]));
+                else if (parts[0].equals("KeyRIGHT"))
+                    Key.getInstance().setKeyRIGHT(getKeyCode(parts[1]));
+                else if (parts[0].equals("KeyR"))
+                    Key.getInstance().setKeyR(getKeyCode(parts[1]));
+            }
+            br.close();
+            } catch (IOException | NumberFormatException e) {
+                //normal c'est que le fichier n'existe pas
+            }
+    }
 
     @Override
     /**
      * 
      */
-    public void start(Stage primaryStage) throws IOException, TypeElementNotFoundException {     
-        System.out.println(WIDTH);
-        System.out.println(HEIGHT);
+    public void start(Stage primaryStage) throws IOException, TypeElementNotFoundException {   
+        Key.getInstance();
+        config();
         MenuInit d = MenuInit.getInstance();
         d.setStage(primaryStage);
         scene = d.scene;
-      
+        
         primaryStage.setTitle("BobyIsYou");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -54,55 +118,24 @@ public class JavaBobyIsYou extends Application {
         FileHandler hdl = new FileHandler("BIS.log");
         hdl.setFormatter(new SimpleFormatter());
         LOGGER.addHandler(hdl);
-        /*Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-        @Override
-        /*public void uncaughtException(Thread t, Throwable e) {
-            String str = "";
-            for (StackTraceElement el : e.getStackTrace()){
-                str += el.getClassName() + " " + el.getFileName() + " " + el.getMethodName()+ " " + el.getLineNumber()+"--";
-            }
-                
-            LOGGER.log(Level.SEVERE,e.toString() + " " + str);
-           /* Calendar cal = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-
-            String filename = "crashlogs/"+sdf.format(cal.getTime())+".txt";
-
-            PrintStream writer;
-            try {
-                writer = new PrintStream(filename, "UTF-8");
-                writer.println(e.getClass() + ": " + e.getMessage());
-                for (int i = 0; i < e.getStackTrace().length; i++) {
-                    writer.println(e.getStackTrace()[i].toString());
-                }
-
-            } catch (FileNotFoundException | UnsupportedEncodingException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            
-
-        }
-});*/
-        //lecture du fichier config
         
-        /*final String chemin = "C:/tmp.txt";
-        final File fichier =new File(chemin); 
+        Thread.setDefaultUncaughtExceptionHandler((Thread t, Throwable e) -> {
+            LOGGER.log(Level.SEVERE,"Exeption Uncaught : ",e);
+        });
+                /* Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        String filename = "crashlogs/"+sdf.format(cal.getTime())+".txt";
+        PrintStream writer;
         try {
-            // Creation du fichier
-            fichier .createNewFile();
-            // creation d'un writer (un écrivain)
-            final FileWriter writer = new FileWriter(fichier);
-            try {
-                writer.write("ceci est un texte\n");
-                writer.write("encore et encore");
-            } finally {
-                // quoiqu'il arrive, on ferme le fichier
-                writer.close();
-            }
-        } catch (Exception e) {
-            System.out.println("Impossible de creer le fichier");
+        writer = new PrintStream(filename, "UTF-8");
+        writer.println(e.getClass() + ": " + e.getMessage());
+        for (int i = 0; i < e.getStackTrace().length; i++) {
+        writer.println(e.getStackTrace()[i].toString());
         }
-        */
-        launch(args);        
+        } catch (FileNotFoundException | UnsupportedEncodingException e1) {
+        // TODO Auto-generated catch block
+        e1.printStackTrace();
+        }
+        });*/ launch(args);       
     }
 }

@@ -1,4 +1,5 @@
 18 18
+config 120
 wall 6 3
 wall 7 3
 wall 8 3

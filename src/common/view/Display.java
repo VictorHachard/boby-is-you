@@ -1,20 +1,23 @@
 package common.view;
 
 import common.exeptions.TypeElementNotFoundException;
-import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import common.model.Board;
 import common.model.Directions;
+import common.model.Game;
+import common.model.GameMode;
 import common.model.Levels;
 import common.model.TypeElement;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 /**
  *
@@ -22,28 +25,27 @@ import common.model.TypeElement;
  */
 public class Display {
        
+    private Text move = new Text();
     public Scene scene;
-    private GridPane root;
+    private GridPane root= new GridPane();
     private Board board;
     private double imageSize;
-    private Stage primaryStage;
-    private Pane rootImage;
+    private Stage primaryStage = MenuInit.getInstance().getStage();
+    private Pane rootImage  = new Pane();;
     private double imageSizeX;
+    private HBox hbox = new HBox();
     
     /**
      * 
      * @param board
      */
-    public Display(Board board, Stage primaryStage) {
+    public Display(Board board) {
         this.board = board;
-        root = new GridPane();
-        rootImage = new Pane();
-        this.primaryStage = primaryStage;
-        MenuEsc menuEsc = new MenuEsc(primaryStage,this,board);
+        MenuEsc menuEsc = new MenuEsc(this);
         
         //changement de la taille des image en fonction de la taille de la fenetre
         imageSizeX = JavaBobyIsYou.WIDTH/this.board.getSizeX();
-        double imageSizeY = JavaBobyIsYou.HEIGHT/this.board.getSizeY();
+        double imageSizeY = (JavaBobyIsYou.HEIGHT-30)/this.board.getSizeY();
         //recuperation du plus grand ImageSize
         if (imageSizeX < imageSizeY)
             imageSize = imageSizeX;
@@ -51,99 +53,68 @@ public class Display {
         //ajout du backGroude dans rootImage
         //addBackground();
         
-        //ajout de la grid dans rooImage
-        rootImage.getChildren().addAll(root);
         
+        
+        //rootTitle.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.BLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+        //Text title = new Text((((JavaBobyIsYou.WIDTH/2)-((board.getSizeX()*imageSizeX)/4))), 25,board.title);
+        Text title = new Text(board.title);
+        title.setFont(Font.loadFont(JavaFXMethode.loadFont(), 30));
+        title.setFill(Color.BLACK);
+        
+        Text gm = new Text(" - GM ");
+        gm.setFont(Font.loadFont(JavaFXMethode.loadFont(), 20));
+        
+        Text time = new Text();
+        if (GameMode.isActive(Game.TIMER)) {
+            time.setText(", temps");
+            time.setFont(Font.loadFont(JavaFXMethode.loadFont(), 20));
+            time.setFill(Color.RED);
+        }
+        
+        hbox.setTranslateX(-((JavaBobyIsYou.WIDTH/2)-((board.getSizeX()*imageSizeX)/4)));
+        hbox.setTranslateY(-30);
+        hbox.setLayoutX(imageSize*board.getSizeX());
+        hbox.setLayoutY(30);
+        hbox.getChildren().addAll(title,gm);
+        
+        rootImage.getChildren().addAll(hbox,root);
         scene = new Scene(rootImage, JavaBobyIsYou.WIDTH, JavaBobyIsYou.HEIGHT);
         convertBoardToImage();  
-        
-        
+        gmMove();
         
         scene.setOnKeyPressed(e -> {
-            switch (e.getCode()) {
-                case UP:
-            {
-                try {
+            KeyCode keyCode = e.getCode();
+            try {
+                if (keyCode.equals(Key.getInstance().getKeyUP()))
                     this.board.movePlayer(Directions.UP);
-                } catch (TypeElementNotFoundException ex) {
-                    //Erreur deja traiter en amont
-                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-                    break;
-                case DOWN:
-            {
-                try {
+                else if (keyCode.equals(Key.getInstance().getKeyDOWN()))
                     this.board.movePlayer(Directions.DOWN);
-                } catch (TypeElementNotFoundException ex) {
-                    //Erreur deja traiter en amont
-                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-                    break;
-                case RIGHT:
-            {
-                try {
-                    this.board.movePlayer(Directions.RIGHT);
-                } catch (TypeElementNotFoundException ex) {
-                    //Erreur deja traiter en amont
-                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-                    break;
-                case LEFT:
-            {
-                try {
+                else if (keyCode.equals(Key.getInstance().getKeyLEFT()))
                     this.board.movePlayer(Directions.LEFT);
-                } catch (TypeElementNotFoundException ex) {
-                    //Erreur deja traiter en amont
-                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-                    break;
-                case R:
-            {
-                try {
+                else if (keyCode.equals(Key.getInstance().getKeyRIGHT()))
+                    this.board.movePlayer(Directions.RIGHT);
+                else if (keyCode.equals(Key.getInstance().getKeyR())) 
                     Levels.getInstance().loadDisplay();
-                } catch (TypeElementNotFoundException ex) {
-                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(Display.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                else if (keyCode.equals(KeyCode.ESCAPE))
+                    this.primaryStage.setScene(menuEsc.scene);
             }
-                    break;
-                case ESCAPE:
-                    Display.this.primaryStage.setScene(menuEsc.scene);
-                    break;
-                //case Win:
-                    //niveau suivant + save
-                    //break;
-                default :
-                    //NE RIEN FAIRE
+            catch (TypeElementNotFoundException | IOException ex) {
+                //deja traiter en amont
             }
-            //Observer et observateur 
-            convertBoardToImage();
             e.consume();
+            convertBoardToImage();
+            gmMove();
         });
     }
     
-    /**
-     * 
-     */
-    private void addBackground() {
-        Image file = new Image (new File("C:\\Users\\Glaskani\\OneDrive\\BobyIsYou\\src\\images\\EMPTY.png").toURI().toString());
-        ImageView imageView = new ImageView(file);
-        imageView.setFitWidth(JavaBobyIsYou.WIDTH);
-        imageView.setFitHeight(JavaBobyIsYou.HEIGHT);
-        rootImage.getChildren().add(imageView);
+    private void gmMove() {
+        if (GameMode.isActive(Game.PLAYERMOVE)) {
+            move.setText("deplacement "+Integer.toString(board.limitedDeplacement));
+            move.setFont(Font.loadFont(JavaFXMethode.loadFont(), 20));
+            move.setFill(Color.RED);
+        }
+        hbox.getChildren().remove(move);
+        hbox.getChildren().add(move);
     }
     
     /**
@@ -183,6 +154,7 @@ public class Display {
         this.root = new GridPane();
         //Centrement de la Grid
         root.setTranslateX((JavaBobyIsYou.WIDTH/2)-((board.getSizeX()*imageSizeX)/4));
+        root.setTranslateY(30);
         rootImage.getChildren().addAll(root);
         for(int i=0;i<this.board.getSizeX();i++) {
             for(int j=0;j<this.board.getSizeY();j++) {

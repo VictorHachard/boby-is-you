@@ -6,11 +6,27 @@ package common.model;
  */
 public class AllPlayer {
         
-        Position pos;
-        TypeElement te;
+    private Position pos;
+    private TypeElement te;
             
-        AllPlayer(Position pos, TypeElement te) {
-                this.te=te;
-                this.pos=pos;
-            }
+    AllPlayer(Position pos, TypeElement te) {
+            this.te=te;
+            this.pos=pos;
+        }
+    
+    /**
+     * Revois la position.
+     * @return Position
+     */
+    Position getPos() {
+        return pos;
+    }
+    
+    /**
+     * Revois un TypeElement.
+     * @return TypeElement
+     */
+    TypeElement getTypeElement() {
+        return te;
+    }
     }

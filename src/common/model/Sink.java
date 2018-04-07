@@ -28,10 +28,8 @@ public class Sink extends Rule {
     @Override
     boolean workPush(Position pos,Directions direction,TypeElement player) {
         if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.SINK)
-                && (!listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findTypeType(TypeTypeElement.CONNECTER))
-                && (!listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findTypeType(TypeTypeElement.RULE))
-                && (!listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findTypeType(TypeTypeElement.TEXT))) {
-            listGrid.get(pos.y).get(pos.x).removeElement(player);
+                && (player.getType()==TypeTypeElement.BLOCK)) {
+                listGrid.get(pos.y).get(pos.x).removeElement(player);
             for (Element e:listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).getListeContenu())
             if (e.isRule(Property.SINK))
                 listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(e.getTypeElements());
@@ -42,6 +40,9 @@ public class Sink extends Rule {
     }
 
     @Override
+    /**
+     * Revois la Property de la regle.
+     */
     Property getProperty() {
         return Property.SINK;
     }

@@ -1,15 +1,15 @@
 package common.view;
 
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import common.model.Board;
+import common.model.Levels;
+import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -17,78 +17,67 @@ import common.model.Board;
  */
 public class MenuEsc extends Menu {
 
-    private Stage primaryStage;
-    private Pane root;
+    private Stage primaryStage = MenuInit.getInstance().getStage();
+    private Pane root = new Pane();
+    private Display continuer;
     Scene scene;
+    private static MenuEsc INSTANCE = null;
+    
+    static MenuEsc getInstance(Display continuer) {           
+        if (INSTANCE == null)  
+            INSTANCE = new MenuEsc(continuer);
+        return INSTANCE;
+    }
     
     /**
      * 
-     * @param primaryStage
      * @param continuer
-     * @param board 
      */
-    MenuEsc(Stage primaryStage,Display continuer,Board board) {
-        this.primaryStage = primaryStage;
-        root = new Pane();
-        
-        scene = new Scene(root, 1280, 720);
-        //scene.setOpacity(0.2);
+    MenuEsc(Display continuer) {
+        this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
+        scene.getStylesheets().add(JavaBobyIsYou.THEME);
+        this.continuer= continuer;
+        root.getChildren().add(JavaFXMethode.addTitle("ESC",Color.WHITE));
+        addMenu();
+    }
 
-        Text title = new Text ("Parametre");
-	title.setTranslateX(1280/2);
-	title.setTranslateY(720/3);
-               
-	VBox vbox = new VBox();
-        
+    private void addMenu() {
+        VBox vbox = new VBox();
+
         Button buttonContinue = new Button("Continuer");
-            buttonContinue.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
         Button buttonExit = new Button("Exit");
-            buttonExit.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
         Button buttonMenu = new Button("Menu");
-            buttonMenu.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-        Button buttonSave = new Button("Sauvegarder");
-            buttonSave.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-                
-	vbox.setTranslateX(1280/2);
-	vbox.setTranslateY(720/2);
+        //Button buttonSave = new Button("Sauvegarder");
 	
-        vbox.getChildren().addAll(title,
+        vbox.getChildren().addAll(
                 buttonContinue,
-                buttonSave,
                 buttonMenu,
                 buttonExit);
-	root.getChildren().addAll(vbox);
-	
+        
+        vbox.setSpacing(20);
+        vbox.setMinWidth(200);
+        
+        root.getChildren().addAll(vbox);
+        vbox.setTranslateX((JavaBobyIsYou.WIDTH/2)-100);
+	vbox.setTranslateY((JavaBobyIsYou.HEIGHT/2)-70);
+
         buttonContinue.setOnAction(event -> {
             this.primaryStage.setScene(continuer.scene);
         });
-        buttonSave.setOnAction(event -> {
-            try {
-                board.save();
-            } catch (IOException ex) {
-                Logger.getLogger(MenuEsc.class.getName()).log(Level.SEVERE, null, ex);//Pas le global log 
-            }
-        });
         buttonMenu.setOnAction(event -> {
-           this.primaryStage.setScene(MenuInit.getInstance().scene);
+           Levels.instance().stopGame();
         });
         buttonExit.setOnAction(event -> {
             Logger.getLogger(MenuInit.class.getName()).log(Level.INFO, "Exit of the application");
             primaryStage.close();
         });
         scene.setOnKeyPressed(e -> {
-            switch (e.getCode()) {
-                case ESCAPE:
-                    this.primaryStage.setScene(continuer.scene);
-                    break;
-                    default :
-                    //NE RIEN FAIRE
-            }
+            if (e.getCode() == KeyCode.ESCAPE)
+                this.primaryStage.setScene(continuer.scene);
             e.consume();
         });
-        
-        
-    }
+
+    }                       
     
     /**
      * 

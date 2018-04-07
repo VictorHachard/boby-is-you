@@ -5,7 +5,7 @@ package common.model;
  * @author Glaskani
  */
 public enum Property {
-    SLIP, //glisser
+    SLIP,
     WIN,
     PUSH,
     STOP,
@@ -27,6 +27,12 @@ public enum Property {
     FLY,
     ;
 
+    /**
+     * Revois la Directions en fonction de la Porperty.
+     * @param pro Property, utilisable uniquement avec les
+     * Property UP, DOWN, LEFT, RIGHT
+     * @return Directions correspondant à la Property
+     */
     Directions getDirFromProperty(Property pro) {
         if (pro==Property.DOWN)
             return Directions.DOWN;
@@ -37,16 +43,7 @@ public enum Property {
         else if (pro==Property.RIGHT)
             return Directions.RIGHT;
         else return Directions.NONE;
-    }
-    
-   /* private final Rule rule;
-    
-    Property(Rule rule) {
-        this.rule=rule;
-    }*/
-    
-    
-    
+    }    
 }
     
 

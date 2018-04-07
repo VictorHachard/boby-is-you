@@ -68,13 +68,18 @@ public class Element {
         this.direction = e.direction;
     }
     
+    /**
+     * Verifie si deux Element sont bien égale, la verification ce fait sur :
+     * le TypeElement et la direction et ingore la liste des regles.
+     * @param obj Element à comparée
+     * @return true si les element sont bien egales, false sinon
+     */
     public boolean equals(Object obj){
         if (obj instanceof Element) {
             Element e = (Element) obj;
             return (e.getTypeElements() == this.getTypeElements() && e.getDirections() == this.getDirections());
-        } else {
-            return false;
         }
+        return false;
     }
     
     //Getters

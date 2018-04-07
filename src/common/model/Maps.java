@@ -34,25 +34,32 @@ public class Maps {
     private Element unplayable = new Element(TypeElement.WALLINJOUABLE,Directions.RIGHT);
     private Element empty = new Element(TypeElement.EMPTY,Directions.RIGHT);
     private static final Logger LOGGER = Logger.getGlobal();
-    
-    public Maps(Maps map){
-    this.Element = map.Element;
-    this.empty = map.empty;
-    this.listAllElement = map.listAllElement;
-    this.x = map.x;
-    this.y =map.y;
-    this.unplayable=map.unplayable;
-            }
+    int limitedDeplacement;
+    String title = "";
     
     /**
-     * Charge un fichier (fileName) et crée une Maps.
-     * @param buffer
+     * Réalise une copie d'une Maps donnée.
+     * @param map 
+     */
+    public Maps(Maps map){
+        this.Element = map.Element;
+        this.empty = map.empty;
+        this.listAllElement = map.listAllElement;
+        this.x = map.x;
+        this.y =map.y;
+        this.unplayable=map.unplayable;
+        this.limitedDeplacement=map.limitedDeplacement;;
+        this.title=map.title;
+    }
+    
+    /**
+     * Recupere un BufferedReader et crée une Maps.
+     * @param buffer BufferedReader
      * @throws TypeElementNotFoundException 
      * @throws java.io.IOException 
      */
     public Maps(BufferedReader buffer) throws TypeElementNotFoundException, IOException {
         listAllElement = new ArrayList<>();
-        
 
             String nextLine;
             //lecture de la premier ligne pour determiner et crée le board.
@@ -63,14 +70,23 @@ public class Maps {
             generateMap(Integer.parseInt(size[0]),Integer.parseInt(size[1]));
             
             //lecture de toutes les autres lignes pour ajouter les elments dans le board.
-            while ((nextLine = buffer.readLine()) != null) {
+            loop: while ((nextLine = buffer.readLine()) != null) {
                 String[] parts = nextLine.split(" ");
-                int movingDirection = parts.length > 3  ? Integer.parseInt(parts[3]) : 0;
-                addMap(Integer.parseInt(parts[1])+1,
+                if (parts[0].equals("config")) {
+                    this.limitedDeplacement = Integer.parseInt(parts[1]);  
+                    //this.limitedDeplacement = Integer.parseInt(parts[2]);  
+                }
+                else if (parts[0].equals("title")) {
+                    this.title=parts[1].replaceAll("_", " ");
+                }
+                else {
+                    int movingDirection = parts.length > 3  ? Integer.parseInt(parts[3]) : 0;
+                    addMap(Integer.parseInt(parts[1])+1,
                         Integer.parseInt(parts[2])+1,
                         new Element(TypeElement.fromString(
                                 toUpperCase(parts[0])),
                                 Directions.fromString(movingDirection)));
+                } 
             }
 
             buffer.close(); 
@@ -203,14 +219,20 @@ public class Maps {
         return deepCopy(Element.get(new Position(y,x)));
     }
     
+    /**
+     * Realise une deepCopy d'une liste d'Element donnée.
+     * @param a ListElement à copier
+     * @return une nouvelle ListElement copier en profondeur.
+     */
     private List<Element> deepCopy(List<Element> a){
         return a.stream().map(val -> new Element(val)).collect(toList());
     }
     
     /**
-     * 
-     * @param x
-     * @param y 
+     * Verifie si les x et y sont bien dans la zone éditable,
+     * si ce n'est pas le cas lance une ArithmeticException.
+     * @param x int, position
+     * @param y int, position
      */
     private void checkIfPosIsInMap(int x, int y) {
         if ((x < 0 || x > this.x-1) || (y < 0 || y > this.y-1)) {
@@ -317,7 +339,8 @@ public class Maps {
     }
     
     /**
-     * Sauvegarde la partie actuel, le nomde fichier sera la date et l'heure actuel.
+     * Sauvegarde la partie actuel, appele "save",
+     * le nomde fichier sera la date et l'heure actuel.
      * @throws IOException 
      */
     public void save() throws IOException {

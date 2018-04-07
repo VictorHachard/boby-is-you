@@ -1,26 +1,18 @@
 package common.view;
 
 import common.exeptions.TypeElementNotFoundException;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URLClassLoader;
-import java.util.Arrays;
-import java.util.List;
+import common.model.Board;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.Pair;
-import common.model.GameModeNormal;
 import common.model.Levels;
 import common.model.Maps;
+import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 
 /**
  * 
@@ -39,70 +31,34 @@ public class MenuInit extends Menu {
         return INSTANCE;
     }
     
-        public Stage getStage() {
+    public Stage getStage() {
         return this.primaryStage;
     }
-    
-    
-    private List<Pair<String, Runnable>> menuData = Arrays.asList(
-            new Pair<String, Runnable>("Continue", () -> {}),
-            new Pair<String, Runnable>("Nouveau", () -> {}),
-            new Pair<String, Runnable>("Parametre", () -> {}),
-            new Pair<String, Runnable>("Editeur", () -> {}),
-            new Pair<String, Runnable>("Exit to Desktop", Platform::exit)
-    );
 
     MenuInit() {
+        //creatation des autre menus
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
-        addBackground();
-        addTitle();
+        scene.getStylesheets().add(JavaBobyIsYou.THEME);
+        root.getChildren().add(JavaFXMethode.addBackground("common/images/empty.png"));
+        root.getChildren().add(JavaFXMethode.addTitle("Boby Is You",Color.WHITE));
         addMenu();
-    }
-
-    private void addButton() {
-        for (Pair p:menuData) {
-            
-        }
-            
-    }
-    
-    private void addBackground() {
-        Image file = new Image ("common/images/empty.png");
-        ImageView imageView = new ImageView(file);
-        imageView.setFitWidth(JavaBobyIsYou.WIDTH);
-        imageView.setFitHeight(JavaBobyIsYou.HEIGHT);
-
-        root.getChildren().add(imageView);
-    }
-
-    private void addTitle() {
-        Title title = new Title("BOBY IS YOU");
-        title.setTranslateX(JavaBobyIsYou.WIDTH / 2 - title.getTitleWidth() / 2);
-        title.setTranslateY(JavaBobyIsYou.HEIGHT / 3);
-
-        root.getChildren().add(title);
     }
 
     private void addMenu() {
         VBox vbox = new VBox();
 
         Button buttonContinue = new Button("Continuer");
-            buttonContinue.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-            buttonContinue.setMaxWidth(Double.MAX_VALUE);
         Button buttonNew = new Button("Nouveau");
-            buttonNew.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
         Button buttonExit = new Button("Exit");
-            buttonExit.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-            buttonExit.setMaxWidth(Double.MAX_VALUE);
         Button buttonLoad = new Button("Charger");
-            buttonLoad.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
         Button buttonEditor = new Button("Editeur");
-            buttonEditor.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-	
+	Button buttonParameter = new Button("Parametre");
+            
         vbox.getChildren().addAll(
                 buttonContinue,
                 buttonNew,
                 buttonLoad,
+                buttonParameter,
                 buttonEditor,
                 buttonExit);
         
@@ -113,18 +69,14 @@ public class MenuInit extends Menu {
         vbox.setTranslateX((JavaBobyIsYou.WIDTH/2)-100);
 	vbox.setTranslateY((JavaBobyIsYou.HEIGHT/2)-70);
 	
-        buttonContinue.setOnAction(event -> {
-            try {
-                Levels lev = Levels.getInstance();
-            } catch (TypeElementNotFoundException ex) {
-                Logger.getLogger(MenuInit.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(MenuInit.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
+        buttonParameter.setOnAction(event -> {    
+            this.primaryStage.setScene(Parameter.getInstance().scene);
+        });
+        buttonContinue.setOnAction(event -> {    
+            Levels.getInstance().loadGame();
         });
         buttonNew.setOnAction(event -> {
-                System.out.println("Option 3 selected via Lambda");
+            this.primaryStage.setScene(MenuNew.getInstance().scene);
         });
         buttonLoad.setOnAction(event -> {
                 System.out.println("Option 3 selected via Lambda");
@@ -149,13 +101,9 @@ public class MenuInit extends Menu {
             primaryStage.close();
         });
         scene.setOnKeyPressed(e -> {
-            switch (e.getCode()) {
-                case ESCAPE:
-                    Logger.getLogger(MenuInit.class.getName()).log(Level.INFO, "Exit of the application");
-                    primaryStage.close();
-                    break;
-                    default :
-                    //NE RIEN FAIRE
+            if (e.getCode() == KeyCode.ESCAPE) {
+                Logger.getLogger(MenuInit.class.getName()).log(Level.INFO, "Exit of the application");
+                primaryStage.close();
             }
             e.consume();
         });
@@ -171,13 +119,10 @@ public class MenuInit extends Menu {
     
     public void LoadGame(Maps m) {
         try {
-                GameModeNormal g = new GameModeNormal(m);
-                Display d = new Display(g.getBoard(),primaryStage);
-                this.primaryStage.setScene(d.scene);                
-            } catch (TypeElementNotFoundException ex) {
-                //RIEN Erreur deja traiter en amont
-            } catch (IOException ex) {
-                Logger.getLogger(MenuInit.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Display d = new Display(new Board(m));
+            this.primaryStage.setScene(d.scene);                
+        } catch (TypeElementNotFoundException ex) {
+            //RIEN Erreur deja traiter en amont
+        }
     }    
 }

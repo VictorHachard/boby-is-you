@@ -1,33 +1,48 @@
 package common.model;
 
-import common.exeptions.TypeElementNotFoundException;
-import java.io.IOException;
+import java.util.HashMap;
 
 /**
  *
  * @author Windows
  */
 public abstract class GameMode {
+    private static HashMap<Game,Boolean> activeMode = new HashMap<>();
     
-    Board board;
-    
-    /**
-     * 
-     * @param map 
-     * @throws common.exeptions.TypeElementNotFoundException 
-     */
-    public GameMode(Maps map) throws TypeElementNotFoundException, IOException {
-        Board.reloadInstance();
-        this.board = Board.getInstance(map);
+    public static boolean isActive(Game name){
+        return activeMode.getOrDefault(name,false);
+    }
+    public static void desactivateAll() {
+        activeMode = new HashMap<>();
+        System.out.println("desactivating all gamemode");
+    }
+    public static void setActivity(Game k, Boolean v){
+        System.out.println("gamemode"+k+"->"+v);
+        activeMode.put(k, v);
     }
     
-    /**
-     * Revois le board.
-     * @return Board
-     */
-    public Board getBoard() {
-        return this.board;
+    GameMode nextRule = null;
+    
+    void addGameMode(GameMode ... next){
+        for (GameMode r:next) {
+            if (nextRule == null)
+                nextRule = r;
+            else
+                nextRule.addGameMode(r);
+        }
     }
     
-    abstract boolean lose();
+    public boolean check(){
+        boolean res = true;
+        if (isActive(this.getGame())){
+            res = work();
+        }
+        if (nextRule == null){
+            return res;
+        }
+        return res && nextRule.check();
+    }
+    
+    abstract boolean work();
+    abstract Game getGame();
 }

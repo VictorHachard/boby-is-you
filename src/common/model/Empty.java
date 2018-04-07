@@ -7,7 +7,7 @@ package common.model;
 public class Empty extends Element{
     
     /**
-     * 
+     * Crée un EmptyInjouable, Directions RIGHT.
      */
     Empty(){
         super(TypeElement.EMPTYINJOUABLE,Directions.RIGHT);

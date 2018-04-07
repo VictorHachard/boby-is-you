@@ -7,25 +7,10 @@ package common.model;
 public class Unplayable extends Element {
     
     /**
-     * 
+     * Crée un MurInjouable, Directions RIGHT, Property STOP.
      */
     public Unplayable() {
         super(TypeElement.WALLINJOUABLE,Directions.RIGHT);
         super.ltr.add(Property.STOP);
-    }
-    
-    @Override
-    /**
-     * 
-     * @param tr Property
-     */
-    void deleteRule(Property tr){}
-    
-    @Override
-    /**
-     * 
-     * @param tr Property
-     */
-    void addRule(Property tr){}
-    
+    }    
 }
