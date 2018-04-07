@@ -1,5 +1,3 @@
-level 3
-
 KeyUP UP
 KeyDOWN DOWN
 KeyLEFT LEFT

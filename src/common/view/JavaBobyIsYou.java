@@ -28,6 +28,7 @@ import javafx.stage.Stage;
  */
 public class JavaBobyIsYou extends Application {
     
+    static final String THEME = "/common/css/theme.css";
     static Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();   
     Stage primaryStage;
     Scene scene;

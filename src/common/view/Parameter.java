@@ -27,6 +27,7 @@ public class Parameter {
     
     Parameter() {
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
+        scene.getStylesheets().add(JavaBobyIsYou.THEME);
         //recuper les donner dans config
         root.getChildren().add(JavaFXMethode.addTitle("PARAMETRE"));
         addMenu();
@@ -35,27 +36,13 @@ public class Parameter {
     private void addMenu() {
         VBox vbox = new VBox();
 
-        Button buttonBack= new Button("Menu");
-            buttonBack.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-            buttonBack.setMaxWidth(Double.MAX_VALUE);
-            
+        Button buttonBack= new Button("Menu");            
         Button buttonUP= new Button("Move UP : "+Key.getInstance().getKeyUP());
-            buttonUP.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-            buttonUP.setMaxWidth(Double.MAX_VALUE);
         Button buttonDOWN= new Button("Move DOWN : "+Key.getInstance().getKeyDOWN());
-            buttonDOWN.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-            buttonDOWN.setMaxWidth(Double.MAX_VALUE);
         Button buttonLEFT= new Button("Move LEFT : "+Key.getInstance().getKeyLEFT());
-            buttonLEFT.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-            buttonLEFT.setMaxWidth(Double.MAX_VALUE);
         Button buttonRIGHT= new Button("Move RIGHT : "+Key.getInstance().getKeyRIGHT());
-            buttonRIGHT.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-            buttonRIGHT.setMaxWidth(Double.MAX_VALUE);
         Button buttonR= new Button("Reload : "+Key.getInstance().getKeyR());
-            buttonR.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-            buttonR.setMaxWidth(Double.MAX_VALUE);
         
-	
         vbox.getChildren().addAll(
                 buttonUP,
                 buttonDOWN,

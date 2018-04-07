@@ -34,6 +34,7 @@ public class MenuEsc extends Menu {
      */
     MenuEsc(Display continuer) {
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
+        scene.getStylesheets().add(JavaBobyIsYou.THEME);
         this.continuer= continuer;
         root.getChildren().add(JavaFXMethode.addTitle("ESC"));
         addMenu();
@@ -43,17 +44,9 @@ public class MenuEsc extends Menu {
         VBox vbox = new VBox();
 
         Button buttonContinue = new Button("Continuer");
-            buttonContinue.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-            buttonContinue.setMaxWidth(Double.MAX_VALUE);
         Button buttonExit = new Button("Exit");
-            buttonExit.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-            buttonExit.setMaxWidth(Double.MAX_VALUE);
         Button buttonMenu = new Button("Menu");
-            buttonMenu.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-            buttonMenu.setMaxWidth(Double.MAX_VALUE);
-        /*Button buttonSave = new Button("Sauvegarder");
-            buttonSave.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-            buttonContinue.setMaxWidth(Double.MAX_VALUE);*/
+        //Button buttonSave = new Button("Sauvegarder");
 	
         vbox.getChildren().addAll(
                 buttonContinue,

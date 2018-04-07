@@ -37,6 +37,7 @@ public class MenuInit extends Menu {
     MenuInit() {
         //creatation des autre menus
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
+        scene.getStylesheets().add(JavaBobyIsYou.THEME);
         root.getChildren().add(JavaFXMethode.addBackground("common/images/empty.png"));
         root.getChildren().add(JavaFXMethode.addTitle("Boby Is You"));
         addMenu();
@@ -46,23 +47,11 @@ public class MenuInit extends Menu {
         VBox vbox = new VBox();
 
         Button buttonContinue = new Button("Continuer");
-            buttonContinue.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-            buttonContinue.setMaxWidth(Double.MAX_VALUE);
         Button buttonNew = new Button("Nouveau");
-            buttonNew.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-            buttonNew.setMaxWidth(Double.MAX_VALUE);
         Button buttonExit = new Button("Exit");
-            buttonExit.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-            buttonExit.setMaxWidth(Double.MAX_VALUE);
         Button buttonLoad = new Button("Charger");
-            buttonLoad.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-            buttonLoad.setMaxWidth(Double.MAX_VALUE);
         Button buttonEditor = new Button("Editeur");
-            buttonEditor.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-            buttonEditor.setMaxWidth(Double.MAX_VALUE);
 	Button buttonParameter = new Button("Parametre");
-            buttonParameter.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-            buttonParameter.setMaxWidth(Double.MAX_VALUE);
             
         vbox.getChildren().addAll(
                 buttonContinue,
