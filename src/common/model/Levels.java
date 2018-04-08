@@ -20,6 +20,7 @@ import java.io.InputStreamReader;
  */
 public class Levels {
 
+    private boolean carryOn;
     private List<Maps> listMap;
     private int indice;
     private static Levels INSTANCE = null;
@@ -55,6 +56,7 @@ public class Levels {
             this.primaryStage=MenuInit.getInstance().getStage();
             this.listMap=new ArrayList<>();
             this.indice=JavaBobyIsYou.indice;
+            this.carryOn=JavaBobyIsYou.carryOn;
             loadMap();
         } catch (TypeElementNotFoundException | IOException ex) {
             LOGGER.log(Level.WARNING,"erreur",ex);
@@ -71,6 +73,7 @@ public class Levels {
     
     public void loadGame() {
         loadDisplay();
+        this.carryOn=true;
         this.music.repet(Music.BACK);
     }
     
@@ -101,6 +104,7 @@ public class Levels {
         this.indice = indice+1;
         if (indice==this.listMap.size()) {
             this.indice=0;
+            this.carryOn=false;
             JavaBobyIsYou.save();
             stopGame();
             return;
@@ -130,5 +134,9 @@ public class Levels {
                 LOGGER.log(Level.SEVERE,"coud not load file",ex);
             } is.close();
         }
+    }
+    
+    public boolean getContinue() {
+        return this.carryOn;
     }
 }

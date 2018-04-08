@@ -59,10 +59,7 @@ public class MenuEsc {
 	vbox.setTranslateY((JavaBobyIsYou.HEIGHT/2)-70);
 
         buttonContinue.setOnAction(event -> {
-            this.primaryStage.setScene(continuer.scene);vbox.getStyleClass().add("vbox");
-        root.getChildren().addAll(vbox);
-        vbox.setTranslateX((JavaBobyIsYou.WIDTH/2)-90);
-	vbox.setTranslateY((JavaBobyIsYou.HEIGHT/2)-70);
+            this.primaryStage.setScene(continuer.scene);
         });
         buttonMenu.setOnAction(event -> {
            Levels.instance().stopGame();

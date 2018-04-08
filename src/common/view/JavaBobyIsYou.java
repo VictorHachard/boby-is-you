@@ -17,7 +17,6 @@ import java.util.logging.SimpleFormatter;
 import static javafx.application.Application.launch;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Scene;
 import static javafx.scene.input.KeyCode.getKeyCode;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -34,17 +33,19 @@ public class JavaBobyIsYou extends Application {
     static final double HEIGHT = visualBounds.getHeight()-30;
     private static final Logger LOGGER = Logger.getGlobal();
     public static int indice =0;
+    public static boolean carryOn=false;
     
     public static void save() {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(new File("config.txt")));
-            writer.write("date "+"\n");
+            //writer.write("date "+"\n");
             if (!(Levels.instance()==null))
                 writer.write("level "+Levels.instance().getIndice()+"\n");
             if (GameMode.isActive(Game.TIMER))
                 writer.write("gameModeTIME true\n");
             if (GameMode.isActive(Game.PLAYERMOVE))
                 writer.write("gameModeMOVE true\n");
+            writer.write("continue "+Levels.getInstance().getContinue()+"\n");
             writer.write("KeyUP "+Key.getInstance().getKeyUP()+"\n");
             writer.write("KeyDOWN "+Key.getInstance().getKeyDOWN()+"\n");
             writer.write("KeyLEFT "+Key.getInstance().getKeyLEFT()+"\n");
@@ -63,14 +64,15 @@ public class JavaBobyIsYou extends Application {
             String nextLine;
             while ((nextLine = br.readLine()) != null) {
                 String[] parts = nextLine.split(" ");
+                System.out.println(parts[0]+" --> "+parts[1]);
                 if (parts[0].equals("level"))
                     JavaBobyIsYou.indice=Integer.parseInt(parts[1]);
                 else if (parts[0].equals("gameModeMOVE"))
-                    if (parts[1].equals("true"))
-                        GameMode.setActivity(Game.PLAYERMOVE, Boolean.TRUE);
+                    GameMode.setActivity(Game.PLAYERMOVE, Boolean.parseBoolean(parts[1]));
                 else if (parts[0].equals("gameModeTIME"))
-                    if (parts[1].equals("true"))
-                        GameMode.setActivity(Game.TIMER, Boolean.TRUE);
+                    GameMode.setActivity(Game.TIMER, Boolean.parseBoolean(parts[1]));
+                else if (parts[0].equals("continue"))
+                    JavaBobyIsYou.carryOn=Boolean.parseBoolean(parts[1]);                    
                 else if (parts[0].equals("KeyUP"))
                     Key.getInstance().setKeyUP(getKeyCode(parts[1]));
                 else if (parts[0].equals("KeyDOWN"))
