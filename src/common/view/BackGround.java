@@ -4,7 +4,7 @@ import common.exeptions.TypeElementNotFoundException;
 import common.model.Element;
 import common.model.Maps;
 import common.model.TypeElement;
-import common.model.TypeTypeElement;
+import common.model.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -54,7 +54,7 @@ public class BackGround {
         TypeElement[] listTemps = TypeElement.getAll();
         List<TypeElement> list = new ArrayList<>();
         for (TypeElement te:listTemps)
-            if (te.getType()==TypeTypeElement.BLOCK)
+            if (te.getType()==Type.BLOCK)
                 list.add(te);
         return list;
     }
@@ -96,7 +96,7 @@ public class BackGround {
             for(int j=0;j<this.map.getSizeY();j++) {
                 List<Element> te =  map.getListElement(i,j);
                 for(int k=0;k<te.size();k++){
-                    TypeElement objectName = this.map.getListElement(i,j).get(k).getTypeElements();
+                    TypeElement objectName = this.map.getListElement(i,j).get(k).getTypeElement();
                     addImage(objectName,i,j);
                 }
             }

@@ -88,7 +88,7 @@ public class Move extends Rule {
     boolean checkRule(Property pro) {
         for (Element e:board.getListAllElement())
             if (e.getTypeRule().contains(pro)) {
-                this.te = e.getTypeElements();
+                this.te = e.getTypeElement();
                 this.isMonster=true;
                 return true;
             }

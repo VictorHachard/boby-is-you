@@ -27,7 +27,7 @@ public class Tp extends Rule {
             listGrid.get(this.portalPos.y).get(this.portalPos.x).removeElement(TypeElement.PORTAL_IN);
             listGrid.get(this.portalPos.y).get(this.portalPos.x).removeElement(TypeElement.PORTAL_OUT);
             return true;
-        } else if (isPortal && listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.TP)) {
+        } else if (isPortal && listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).find(Property.TP)) {
             //ajoute player
             listGrid.get(this.portalPos.y+direction.getDirVer()).get(this.portalPos.x+direction.getDirHori())
             .addElement(listGrid.get(pos.y).get(pos.x).getElements(player));
@@ -57,7 +57,7 @@ public class Tp extends Rule {
             this.portalPos = lp2.get(i);
             this.isPortal = true;
             for (Element e:listGrid.get(lp.get(0).y).get(lp.get(0).x).getListeContenu())
-                if (e.getTypeElements()==TypeElement.PORTAL_IN)
+                if (e.getTypeElement()==TypeElement.PORTAL_IN)
                     e.addRule(Property.TP);
         }
     }

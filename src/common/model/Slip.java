@@ -26,7 +26,7 @@ public class Slip extends Rule {
         if (isSlip) {
             System.out.println("coucou enter isslip");
             //si c est pas de l ice
-            if (!(listGrid.get(pos.y+this.dirSlip.getDirVer()).get(pos.x+this.dirSlip.getDirHori()).findRule(Property.SLIP))) {
+            if (!(listGrid.get(pos.y+this.dirSlip.getDirVer()).get(pos.x+this.dirSlip.getDirHori()).find(Property.SLIP))) {
                 //pour sortire de la ICCE
                 if ((listGrid.get(pos.y+dirSlip.getDirVer()).get(pos.x+dirSlip.getDirHori()).canAdd())) { //si stop return false
                     board.editPlacement(pos,dirSlip,player);
@@ -59,7 +59,7 @@ public class Slip extends Rule {
         
         }
         //1ere fois q'un rentre dans ICE
-        else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.SLIP)) {
+        else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).find(Property.SLIP)) {
             isSlip = true;
             dirSlip = direction;
             if (listGrid.get(pos.y+this.dirSlip.getDirVer()).get(pos.x+this.dirSlip.getDirHori()).canPush()) { //verifie si il peut push la case suivante

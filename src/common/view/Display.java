@@ -160,7 +160,7 @@ public class Display {
                 for(int k=0;k<this.board.getListGrid().get(j).get(i)
                         .getListeContenu().size();k++) {   
                     TypeElement objectName = this.board.getListGrid().get(j)
-                            .get(i).getListeContenu().get(k).getTypeElements();
+                            .get(i).getListeContenu().get(k).getTypeElement();
                     addImage(objectName,i,j);
                 }
             }

@@ -18,7 +18,7 @@ public class Kill extends Rule {
     
     @Override
     public boolean work(Position pos,Directions direction,TypeElement player) {
-        if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.KILL)) {
+        if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).find(Property.KILL)) {
             listGrid.get(pos.y).get(pos.x).removeElement(player);
             return false;
         }

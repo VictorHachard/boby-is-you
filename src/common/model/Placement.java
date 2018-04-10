@@ -44,7 +44,7 @@ public class Placement {
         Collections.sort(listeContenu, new Comparator<Element>() {
             @Override
             public int compare(Element e1, Element e2) {
-                return e1.getTypeElements().getPriority() - e2.getTypeElements().getPriority();
+                return e1.getTypeElement().getPriority() - e2.getTypeElement().getPriority();
             }
         });        
     }
@@ -62,7 +62,7 @@ public class Placement {
      * @return true ou false
      */
     boolean canPush() {
-        return findRule(Property.PUSH) && !findRule(Property.STOP);
+        return find(Property.PUSH) && !find(Property.STOP);
     }
         
     /**
@@ -70,7 +70,7 @@ public class Placement {
      * @return true ou false
      */
     boolean canAdd() {
-        return !findRule(Property.STOP) && !findRule(Property.PUSH);
+        return !find(Property.STOP) && !find(Property.PUSH);
     }
     
     /**
@@ -79,7 +79,7 @@ public class Placement {
      * @param tr Property, à chercher
      * @return true ou false
      */
-    boolean findRule(Property tr){
+    boolean find(Property tr){
         for(Element e:this.listeContenu)
             if(e.getTypeRule().contains(tr))
                 return true; 
@@ -91,37 +91,37 @@ public class Placement {
      * @param te TypeElement, à chercher
      * @return true ou false
      */
-    boolean findElements(TypeElement te){
+    boolean find(TypeElement te){
         for(Element e:this.listeContenu){
-            if(e.getTypeElements()==te)
+            if(e.getTypeElement()==te)
                 return true;
         }
         return false;
     }
     
     /**
-     * Revois true si le TypeTypeElement est bien dans la liste des Element.
-     * @param ty TypeTypeElement, à chercher
+     * Revois true si le Type est bien dans la liste des Element.
+     * @param ty Type, à chercher
      * @return true ou false
      */
-    boolean findTypeType(TypeTypeElement ty) {
+    boolean find(Type ty) {
         for(Element e:this.listeContenu)
-            if(e.getTypeTypeElements()==ty)
+            if(e.getType()==ty)
                 return true;
         return false;
     }
     
     /**
-     * Revois le TypeElement correspondant au TypeTypeElement, si il n'y en a pas
+     * Revois le TypeElement correspondant au Type, si il n'y en a pas
      * revois null.
-     * @param ty TypeTypeElement, utiliser pour la recherche
-     * @return TypeElement correspondant au TypeTypeElement ou
+     * @param ty Type, utiliser pour la recherche
+     * @return TypeElement correspondant au Type ou
      * null si pas trouver
      */
-    TypeElement findTypeElement(TypeTypeElement ty) {
+    TypeElement getType(Type ty) {
         for(Element e:this.listeContenu)
-            if(e.getTypeTypeElements()==ty)
-                return e.getTypeElements();
+            if(e.getType()==ty)
+                return e.getTypeElement();
         return null;
     }
     
@@ -133,7 +133,7 @@ public class Placement {
      */
     Element getElements(TypeElement te){
         for(Element e:this.listeContenu)
-            if(e.getTypeElements()==te)
+            if(e.getTypeElement()==te)
                 return e;
         return null;
     }

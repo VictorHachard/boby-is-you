@@ -115,7 +115,7 @@ public class Editor {
             for(int j=0;j<this.map.getSizeY();j++) {
                 List<Element> te =  map.getListElement(i,j);
                 for(int k=0;k<te.size();k++){
-                    TypeElement objectName = this.map.getListElement(i,j).get(k).getTypeElements();
+                    TypeElement objectName = this.map.getListElement(i,j).get(k).getTypeElement();
                     addImage(objectName,i,j);
                 }
             }

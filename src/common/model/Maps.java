@@ -129,7 +129,7 @@ public class Maps {
      */
     public void addMap(int x, int y, Element object)throws TypeElementNotFoundException {   
         checkIfPosIsInMap(x,y);
-        if (!(object.getTypeTypeElements()==TypeTypeElement.PLAYER || object.getTypeElements()==TypeElement.ROCK))
+        if (!(object.getType()==Type.PLAYER || object.getTypeElement()==TypeElement.ROCK))
             for(Element e:this.listAllElement) {
                 if(e.equals(object)) {
                     putObjects (Element, new Position(y,x), e);
@@ -180,7 +180,7 @@ public class Maps {
         Collections.sort(temps, new Comparator<Element>() {
             @Override
             public int compare(Element e1, Element e2) {
-                return e1.getTypeElements().getPriority() - e2.getTypeElements().getPriority();
+                return e1.getTypeElement().getPriority() - e2.getTypeElement().getPriority();
             }
         });
     }
@@ -275,7 +275,7 @@ public class Maps {
         for(int i=0;i<y;i++){
             for(int j=0;j<x;j++){
                 List<Element> te =  this.Element.get(new Position(i,j));
-                sb.append(te.get(te.size()-1).getTypeElements().getLetter()).append("|");
+                sb.append(te.get(te.size()-1).getTypeElement().getLetter()).append("|");
             }
             sb.append("\n");
         }
@@ -323,8 +323,8 @@ public class Maps {
                 List<Element> te =  this.Element.get(new Position(i,j));
                 for(int k=0;k<te.size();k++){
                     for(TypeElement e:need)
-                        if (te.get(k).getTypeElements()==e)
-                            find.add(te.get(k).getTypeElements());
+                        if (te.get(k).getTypeElement()==e)
+                            find.add(te.get(k).getTypeElement());
                 }
             }
         }
@@ -366,12 +366,12 @@ public class Maps {
                 List<Element> te =  this.Element.get(new Position(i,j));
                 for(int k=0;k<te.size();k++){
                     //ne save pas les EMPTY
-                    if (!(te.get(k).getTypeElements()==TypeElement.EMPTY ||
-                          te.get(k).getTypeElements()==TypeElement.WALLINJOUABLE)) {
+                    if (!(te.get(k).getTypeElement()==TypeElement.EMPTY ||
+                          te.get(k).getTypeElement()==TypeElement.WALLINJOUABLE)) {
                         save.newLine();
                         int j1 = j-1;
                         int i1 = i-1;
-                        String name = te.get(te.size()-k).getTypeElements().getElements().toLowerCase();
+                        String name = te.get(te.size()-k).getTypeElement().getElements().toLowerCase();
                         int dir = te.get(te.size()-k).getDirections().getDir();
                         if (dir == 0)
                             save.write(name + " " + j1 + " " + i1);

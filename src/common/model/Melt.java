@@ -19,15 +19,15 @@ public class Melt extends Rule {
     
     @Override
     public boolean work(Position pos,Directions direction,TypeElement player) {
-        if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.MELT)) {
+        if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).find(Property.MELT)) {
             if (listGrid.get(pos.y).get(pos.x).getElements(player).getTypeRule().contains(Property.HOT)) {
                 for (Element e:listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).getListeContenu())
                     if (e.isRule(Property.MELT))
-                        listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(e.getTypeElements());
+                        listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(e.getTypeElement());
                 return true;
             }
         }
-        else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.HOT)) {
+        else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).find(Property.HOT)) {
             if (listGrid.get(pos.y).get(pos.x).getElements(player).getTypeRule().contains(Property.MELT)) {
                 listGrid.get(pos.y).get(pos.x).removeElement(player);
                 return false;

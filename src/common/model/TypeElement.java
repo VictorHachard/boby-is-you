@@ -13,74 +13,74 @@ import java.util.logging.Logger;
  */
 public enum TypeElement {
     
-    ROCK("ROCK","E_R ",2,null,null,TypeTypeElement.BLOCK),
-    LAVA("LAVA","E_L ",1,null,null,TypeTypeElement.BLOCK),
-    WALL("WALL","E_W ",1,null,null,TypeTypeElement.BLOCK),
-    WALLINJOUABLE("WALLINJOUABLE","E_WI",0,null,null,TypeTypeElement.BLOCK),
-    ICE("ICE","E_I ",1,null,null,TypeTypeElement.BLOCK),
-    //SPIKE("SPIKE","E_S ",1,null,null,TypeTypeElement.BLOCK),
-    WATER("WATER","E_WA",1,null,null,TypeTypeElement.BLOCK),
-    //ERROR("ERROR","E_ER",1,null,null,TypeTypeElement.BLOCK),
-    SKULL("SKULL","E_S ",2,null,null,TypeTypeElement.BLOCK),
-    GRASS("GRASS","E_G ",1,null,null,TypeTypeElement.BLOCK),
-    FLAG("FLAG","E_F ",2,null,null,TypeTypeElement.BLOCK),
-    EMPTY("EMPTY","    ",0,null,null,TypeTypeElement.BLOCK),
-    EMPTYINJOUABLE("EMPTYINJOUABLE","    ",0,null,null,TypeTypeElement.BLOCK),
-    METAL("METAL","E_M ",1,null,null,TypeTypeElement.BLOCK),
-    //STAR("STAR","E_ST",2,null,null,TypeTypeElement.BLOCK),
-    LOVE("LOVE","E_L ",2,null,null,TypeTypeElement.BLOCK),
-    DOOR("DOOR","E_DO",2,null,null,TypeTypeElement.BLOCK),
-    KEY("KEY","E_KE",2,null,null,TypeTypeElement.BLOCK),
-    PORTAL_IN("PORTAL_IN","E_PI",1,null,null,TypeTypeElement.BLOCK),
-    PORTAL_OUT("PORTAL_OUT","E_PO",1,null,null,TypeTypeElement.BLOCK),
+    ROCK("ROCK","E_R ",2,null,null,Type.BLOCK),
+    LAVA("LAVA","E_L ",1,null,null,Type.BLOCK),
+    WALL("WALL","E_W ",1,null,null,Type.BLOCK),
+    WALLINJOUABLE("WALLINJOUABLE","E_WI",0,null,null,Type.BLOCK),
+    ICE("ICE","E_I ",1,null,null,Type.BLOCK),
+    //SPIKE("SPIKE","E_S ",1,null,null,Type.BLOCK),
+    WATER("WATER","E_WA",1,null,null,Type.BLOCK),
+    //ERROR("ERROR","E_ER",1,null,null,Type.BLOCK),
+    SKULL("SKULL","E_S ",2,null,null,Type.BLOCK),
+    GRASS("GRASS","E_G ",1,null,null,Type.BLOCK),
+    FLAG("FLAG","E_F ",2,null,null,Type.BLOCK),
+    EMPTY("EMPTY","    ",0,null,null,Type.BLOCK),
+    EMPTYINJOUABLE("EMPTYINJOUABLE","    ",0,null,null,Type.BLOCK),
+    METAL("METAL","E_M ",1,null,null,Type.BLOCK),
+    //STAR("STAR","E_ST",2,null,null,Type.BLOCK),
+    LOVE("LOVE","E_L ",2,null,null,Type.BLOCK),
+    DOOR("DOOR","E_DO",2,null,null,Type.BLOCK),
+    KEY("KEY","E_KE",2,null,null,Type.BLOCK),
+    PORTAL_IN("PORTAL_IN","E_PI",1,null,null,Type.BLOCK),
+    PORTAL_OUT("PORTAL_OUT","E_PO",1,null,null,Type.BLOCK),
     
-    PLAYER1("BABA","E_P ",3,null,null,TypeTypeElement.PLAYER),
-    MONSTER("MONSTER","E_M ",3,null,null,TypeTypeElement.PLAYER),
-    ANNI("ANNI","E_A ",3,null,null,TypeTypeElement.PLAYER),
+    PLAYER1("BABA","E_P ",3,null,null,Type.PLAYER),
+    MONSTER("MONSTER","E_M ",3,null,null,Type.PLAYER),
+    ANNI("ANNI","E_A ",3,null,null,Type.PLAYER),
     
-    TEXT_DOOR("TEXT_DOOR","T_DO",3,TypeElement.DOOR,null,TypeTypeElement.TEXT),
-    TEXT_KEY("TEXT_KEY","T_KE",3,TypeElement.KEY,null,TypeTypeElement.TEXT),
-    TEXT_ROCK("TEXT_ROCK","T_R ",3,TypeElement.ROCK,null,TypeTypeElement.TEXT),
-    //TEXT_STAR("TEXT_STAR","T_ST",3,TypeElement.STAR,null,TypeTypeElement.TEXT),
-    TEXT_LAVA("TEXT_LAVA","T_LA",3,TypeElement.LAVA,null,TypeTypeElement.TEXT),
-    TEXT_WALL("TEXT_WALL","T_W ",3,TypeElement.WALL,null,TypeTypeElement.TEXT),
-    TEXT_YOU("TEXT_YOU","T_Y ",3,null,null,TypeTypeElement.TEXT),
-    TEXT_PLAYER1("TEXT_BABA","T_P ",3,TypeElement.PLAYER1,null,TypeTypeElement.TEXT),
-    TEXT_GRASS("TEXT_GRASS","T_G ",3,TypeElement.GRASS,null,TypeTypeElement.TEXT),
-    TEXT_FLAG("TEXT_FLAG","T_F ",3,TypeElement.FLAG,null,TypeTypeElement.TEXT),
-//    TEXT_ERROR("TEXT_ERROR","T_ER",3,TypeElement.ERROR,null,TypeTypeElement.TEXT),
-    TEXT_EMPTY("TEXT_EMPTY","T_EM",3,TypeElement.EMPTY,null,TypeTypeElement.TEXT),
-    TEXT_LOVE("TEXT_LOVE","T_L ",3,TypeElement.LOVE,null,TypeTypeElement.TEXT),
-    TEXT_WATER("TEXT_WATER","T_WA",3,TypeElement.WATER,null,TypeTypeElement.TEXT),
-    TEXT_ANNI("TEXT_ANNI","T_A ",3,TypeElement.ANNI,null,TypeTypeElement.TEXT),
-    TEXT_SKULL("TEXT_SKULL","T_S ",3,TypeElement.SKULL,null,TypeTypeElement.TEXT),
-    TEXT_ICE("TEXT_ICE","T_I ",3,TypeElement.ICE,null,TypeTypeElement.TEXT),
-    TEXT_MONSTER("TEXT_MONSTER","T_M ",3,TypeElement.MONSTER,null,TypeTypeElement.TEXT),
+    TEXT_DOOR("TEXT_DOOR","T_DO",3,TypeElement.DOOR,null,Type.TEXT),
+    TEXT_KEY("TEXT_KEY","T_KE",3,TypeElement.KEY,null,Type.TEXT),
+    TEXT_ROCK("TEXT_ROCK","T_R ",3,TypeElement.ROCK,null,Type.TEXT),
+    //TEXT_STAR("TEXT_STAR","T_ST",3,TypeElement.STAR,null,Type.TEXT),
+    TEXT_LAVA("TEXT_LAVA","T_LA",3,TypeElement.LAVA,null,Type.TEXT),
+    TEXT_WALL("TEXT_WALL","T_W ",3,TypeElement.WALL,null,Type.TEXT),
+    TEXT_YOU("TEXT_YOU","T_Y ",3,null,null,Type.TEXT),
+    TEXT_PLAYER1("TEXT_BABA","T_P ",3,TypeElement.PLAYER1,null,Type.TEXT),
+    TEXT_GRASS("TEXT_GRASS","T_G ",3,TypeElement.GRASS,null,Type.TEXT),
+    TEXT_FLAG("TEXT_FLAG","T_F ",3,TypeElement.FLAG,null,Type.TEXT),
+//    TEXT_ERROR("TEXT_ERROR","T_ER",3,TypeElement.ERROR,null,Type.TEXT),
+    TEXT_EMPTY("TEXT_EMPTY","T_EM",3,TypeElement.EMPTY,null,Type.TEXT),
+    TEXT_LOVE("TEXT_LOVE","T_L ",3,TypeElement.LOVE,null,Type.TEXT),
+    TEXT_WATER("TEXT_WATER","T_WA",3,TypeElement.WATER,null,Type.TEXT),
+    TEXT_ANNI("TEXT_ANNI","T_A ",3,TypeElement.ANNI,null,Type.TEXT),
+    TEXT_SKULL("TEXT_SKULL","T_S ",3,TypeElement.SKULL,null,Type.TEXT),
+    TEXT_ICE("TEXT_ICE","T_I ",3,TypeElement.ICE,null,Type.TEXT),
+    TEXT_MONSTER("TEXT_MONSTER","T_M ",3,TypeElement.MONSTER,null,Type.TEXT),
     
-    SHUT("SHUT","R_SH",3,null,Property.SHUT,TypeTypeElement.RULE),
-    OPEN("OPEN","R_OP",3,null,Property.OPEN,TypeTypeElement.RULE),
-    SLIP("SLIP","R_SL",3,null,Property.SLIP,TypeTypeElement.RULE),
-    FLY("FLY","R_FL",3,null,Property.FLY,TypeTypeElement.RULE),
-    WIN("WIN","R_W ",3,null,Property.WIN,TypeTypeElement.RULE),
-    PUSH("PUSH","R_P ",3,null,Property.PUSH,TypeTypeElement.RULE),
-    STOP("STOP","R_ST",3,null,Property.STOP,TypeTypeElement.RULE),
-    SINK("SINK","R_SI",3,null,Property.SINK,TypeTypeElement.RULE),
-    MOVE("MOVE","R_M ",3,null,Property.MOVE,TypeTypeElement.RULE),
-    BEST("BEST","R_B ",3,null,Property.BEST,TypeTypeElement.RULE),
-    MELT("MELT","R_M ",3,null,Property.MELT,TypeTypeElement.RULE),
-    HOT("HOT","R_H ",3,null,Property.HOT,TypeTypeElement.RULE),
-    YOU("YOU","R_Y ",3,null,Property.YOU,TypeTypeElement.RULE),
-    GRAB("GRAB","R_G ",3,null,Property.GRAB,TypeTypeElement.RULE),
-    KILL("KILL","R_K ",3,null,Property.KILL,TypeTypeElement.RULE),
+    SHUT("SHUT","R_SH",3,null,Property.SHUT,Type.RULE),
+    OPEN("OPEN","R_OP",3,null,Property.OPEN,Type.RULE),
+    SLIP("SLIP","R_SL",3,null,Property.SLIP,Type.RULE),
+    FLY("FLY","R_FL",3,null,Property.FLY,Type.RULE),
+    WIN("WIN","R_W ",3,null,Property.WIN,Type.RULE),
+    PUSH("PUSH","R_P ",3,null,Property.PUSH,Type.RULE),
+    STOP("STOP","R_ST",3,null,Property.STOP,Type.RULE),
+    SINK("SINK","R_SI",3,null,Property.SINK,Type.RULE),
+    MOVE("MOVE","R_M ",3,null,Property.MOVE,Type.RULE),
+    BEST("BEST","R_B ",3,null,Property.BEST,Type.RULE),
+    MELT("MELT","R_M ",3,null,Property.MELT,Type.RULE),
+    HOT("HOT","R_H ",3,null,Property.HOT,Type.RULE),
+    YOU("YOU","R_Y ",3,null,Property.YOU,Type.RULE),
+    GRAB("GRAB","R_G ",3,null,Property.GRAB,Type.RULE),
+    KILL("KILL","R_K ",3,null,Property.KILL,Type.RULE),
     
-    UP("UP","UP  ",3,null,Property.UP,TypeTypeElement.RULE),
-    DOWN("DOWN","DOWN",3,null,Property.DOWN,TypeTypeElement.RULE),
-    LEFT("LEFT","LEFT",3,null,Property.LEFT,TypeTypeElement.RULE),
-    RIGHT("RIGHT","RIGH",3,null,Property.RIGHT,TypeTypeElement.RULE),
+    UP("UP","UP  ",3,null,Property.UP,Type.RULE),
+    DOWN("DOWN","DOWN",3,null,Property.DOWN,Type.RULE),
+    LEFT("LEFT","LEFT",3,null,Property.LEFT,Type.RULE),
+    RIGHT("RIGHT","RIGH",3,null,Property.RIGHT,Type.RULE),
     
-    IS("IS","IS  ",3,null,null,TypeTypeElement.CONNECTER),
-    AND("AND","AND ",3,null,null,TypeTypeElement.CONNECTER),
-    MAKE("MAKE","MAKE",3,null,null,TypeTypeElement.CONNECTER);
+    IS("IS","IS  ",3,null,null,Type.CONNECTER),
+    AND("AND","AND ",3,null,null,Type.CONNECTER),
+    MAKE("MAKE","MAKE",3,null,null,Type.CONNECTER);
 
     private final String fromString;
     private final TypeElement te;
@@ -88,7 +88,7 @@ public enum TypeElement {
     private static final Logger LOGGER = Logger.getGlobal();
     private final int intType;
     private final Property rule;
-    private final TypeTypeElement type;
+    private final Type type;
     
     /**
      * 
@@ -99,7 +99,7 @@ public enum TypeElement {
      * @param rule
      * @param type 
      */
-    TypeElement(String fromString,String stringConsole, int intType, TypeElement te,Property rule,TypeTypeElement type) {
+    TypeElement(String fromString,String stringConsole, int intType, TypeElement te,Property rule,Type type) {
 	this.fromString = fromString;
         this.stringConsole = stringConsole;
         this.intType = intType;
@@ -132,15 +132,15 @@ public enum TypeElement {
     //Getters
     
     /**
-     * Revois le TypeTypeElement de l'element.
-     * @return TypeTypeElement
+     * Revois le Type de l'element.
+     * @return Type
      */
-    public TypeTypeElement getType() {
+    public Type getType() {
         return type;
     }
     
     /**
-     * Revois le Property d'un TypeTypeElement rule.
+     * Revois le Property d'un Type rule.
      * @return Property
      */
     public Property getRule() {
@@ -148,7 +148,7 @@ public enum TypeElement {
     }
     
     /**
-     * Revois le TypeElement de l'application d'un TypeTypeElement text.
+     * Revois le TypeElement de l'application d'un Type text.
      * @return TypeElement
      */
     public TypeElement getText() {

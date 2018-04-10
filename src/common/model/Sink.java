@@ -18,7 +18,7 @@ public class Sink extends Rule {
     
     @Override
     public boolean work(Position pos,Directions direction,TypeElement player) {
-        if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.SINK)) {
+        if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).find(Property.SINK)) {
             listGrid.get(pos.y).get(pos.x).removeElement(player);
             return false;
         }
@@ -27,12 +27,12 @@ public class Sink extends Rule {
     
     @Override
     boolean workPush(Position pos,Directions direction,TypeElement player) {
-        if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.SINK)
-                && (player.getType()==TypeTypeElement.BLOCK)) {
+        if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).find(Property.SINK)
+                && (player.getType()==Type.BLOCK)) {
                 listGrid.get(pos.y).get(pos.x).removeElement(player);
             for (Element e:listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).getListeContenu())
             if (e.isRule(Property.SINK))
-                listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(e.getTypeElements());
+                listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(e.getTypeElement());
             listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(player);
             return false;
         }

@@ -18,11 +18,11 @@ public class Shut extends Rule {
     
     @Override
     boolean work(Position pos, Directions direction, TypeElement player) {
-        if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.SHUT)) {
+        if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).find(Property.SHUT)) {
             if (listGrid.get(pos.y).get(pos.x).getElements(player).getTypeRule().contains(Property.OPEN)) {
                 for (Element e:listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).getListeContenu())
                     if (e.isRule(Property.SHUT)) {
-                        listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(e.getTypeElements());
+                        listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(e.getTypeElement());
                         return true;
                     }
             }
@@ -33,11 +33,11 @@ public class Shut extends Rule {
     
     @Override
     boolean workPush(Position pos, Directions direction, TypeElement player) {
-        if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.SHUT)) {
+        if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).find(Property.SHUT)) {
             if (listGrid.get(pos.y).get(pos.x).getElements(player).getTypeRule().contains(Property.OPEN))
                 for (Element e:listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).getListeContenu())
                     if (e.isRule(Property.SHUT)) {
-                        listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(e.getTypeElements());
+                        listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(e.getTypeElement());
                         return false;
                     }
             return false;

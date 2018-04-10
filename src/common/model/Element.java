@@ -77,18 +77,17 @@ public class Element {
     public boolean equals(Object obj){
         if (obj instanceof Element) {
             Element e = (Element) obj;
-            return (e.getTypeElements() == this.getTypeElements() && e.getDirections() == this.getDirections());
+            return (e.getTypeElement()==this.getTypeElement()
+                    &&e.getDirections()==this.getDirections());
         }
         return false;
     }
-    
-    //Getters
     
     /**
      * Revois le type de l'element.
      * @return TypeElement
      */
-    public TypeElement getTypeElements() {
+    public TypeElement getTypeElement() {
         return this.typeElement;
     }
     
@@ -104,7 +103,7 @@ public class Element {
      * Revois le type de l'element.
      * @return TypeElement
      */
-    public TypeTypeElement getTypeTypeElements() {
+    public Type getType() {
         return this.typeElement.getType();
     }
     

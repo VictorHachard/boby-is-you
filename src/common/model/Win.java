@@ -24,7 +24,7 @@ public class Win extends Rule {
     
     @Override
     public boolean work(Position pos,Directions direction,TypeElement player) throws WinException, TypeElementNotFoundException, IOException {
-        if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).findRule(Property.WIN)) {
+        if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).find(Property.WIN)) {
             Levels.instance().nextLevel();
             throw new WinException();
         }
