@@ -14,13 +14,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.util.Pair;
 
 /**
- * //TODO ergerister le dernier deplacment pour la save direction
+ * //TODO ergerister le dernier deplacment pour la save dir
  * @author Glaskani
  */
 public class Board {
-    private int i=0;
+    
     private List<Element> listAllElement = new ArrayList<>();
     private GameMode listLose;
     private List<Position> is;
@@ -464,8 +465,8 @@ public class Board {
      * 
      * @return 
      */
-    private List<AllPlayer> getPlayerType(){        
-        List<AllPlayer> tempsList = new ArrayList<>();
+    private List<Pair<Position,TypeElement>> getPlayerType(){        
+        List<Pair<Position,TypeElement>> tempsList = new ArrayList<>();
         List<Position> temp;
         List<TypeElement> alredycheck = new ArrayList<>();
         for (Element e:this.listAllElement)
@@ -475,7 +476,7 @@ public class Board {
                     temp = getPositionOf(e.getTypeElement());
                     if (!(temp==null))
                         for (Position pos:temp)
-                            tempsList.add(new AllPlayer(pos,e.getTypeElement()));
+                            tempsList.add(new Pair<>(pos,e.getTypeElement()));
                 }
         if (tempsList.isEmpty())
             return null;
@@ -485,55 +486,51 @@ public class Board {
     /**
      * 
      * @param pos
-     * @param direction
+     * @param dir
      * @param element 
      */
-    void editPlacement(Position pos, Directions direction, TypeElement element) {
-        listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori())
+    void editPlacement(Position pos, Directions dir, TypeElement element) {
+        listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori())
                 .addElement(listGrid.get(pos.y).get(pos.x).getElements(element));
         listGrid.get(pos.y).get(pos.x).removeElement(element);
     }
     
     /**
      * 
-     * @param direction 
+     * @param dir 
      * @throws common.exeptions.TypeElementNotFoundException 
      * @throws java.io.IOException 
      */
-    public void movePlayer(Directions direction) throws TypeElementNotFoundException, IOException{
+    public void movePlayer(Directions dir) throws TypeElementNotFoundException, IOException{
         //verifier si on a pas fini un gamemode
         if (!this.listLose.check())
             return;
-        List<AllPlayer> player = sortPlayer(direction, getPlayerType());   
+        List<Pair<Position,TypeElement>> player = sortPlayer(dir, getPlayerType());   
         if (player==null)
             return;
-        i++;
-        System.out.println(i);
         Position pos;
         TypeElement te;
         //just executer move
-        loop: for(AllPlayer all:player) {
-            pos = all.getPos();
-            te = all.getTypeElement();
-            if(pos.y+direction.getDirVer() < y && pos.x+direction.getDirHori() < x) {
+        loop: for(Pair<Position,TypeElement> a:player) {
+            pos = a.getKey();
+            te = a.getValue();
+            if(pos.y+dir.getDirVer() < y && pos.x+dir.getDirHori() < x) {
                 List<Property> temps1 = null;
                 temps1 = Rule.desactivatePlayerList(Property.MOVE);
                 try {
-                if (!this.listRule.check(pos, direction, te))
+                if (!this.listRule.check(pos, dir, te))
                     continue loop;
                 } catch (WinException e) {
                     return;
                 }
                 Rule.activatePlayerList(temps1);
-                //Depalcement ADD
-                if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canAdd()){ //verifie si il peut add la case suivante
-                    editPlacement(pos,direction,te);
+                if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).canAdd()){ //verifie si il peut add la case suivante
+                    editPlacement(pos,dir,te);
                     //this.music.play(Music.ADD);
-                } 
-                //Depalcement PUSH
-                else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canPush()) { //verifie si il peut push la case suivante
-                    if (push(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()),direction))
-                        editPlacement(pos,direction,te);
+                }
+                else if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).canPush()) { //verifie si il peut push la case suivante
+                    if (push(new Position(pos.x+dir.getDirHori(),pos.y+dir.getDirVer()),dir))
+                        editPlacement(pos,dir,te);
                 }
             
             }
@@ -548,9 +545,9 @@ public class Board {
             return;
         //desactiver les regle a pas checker 
         List<Property> temps = Rule.desactivatePlayerList(Property.TP,Property.SLIP);
-        for (AllPlayer p:player)
+        for (Pair<Position,TypeElement> p:player)
             try {
-                if (this.listRule.check(p.getPos(), Directions.NONE, p.getTypeElement()))
+                if (this.listRule.check(p.getKey(), Directions.NONE, p.getValue()))
                     continue; 
             } catch (WinException ex) {
                 return;
@@ -561,27 +558,27 @@ public class Board {
     
     /**
      * Methode recurcive qui deplace un TypeElement d'un Elements dans le sens
-     * de la direction.
+     * de la dir.
      * @param pos Position, de l'element initial
-     * @param direction Directions, sens du déplacemnt 
+     * @param dir Directions, sens du déplacemnt 
      * @return true ou flase
      * @throws IOException
      * @throws TypeElementNotFoundException 
      */
-    boolean push(Position pos,Directions direction) throws TypeElementNotFoundException, IOException {
-        if(pos.y+direction.getDirVer() < y && pos.x+direction.getDirHori() < x){
+    boolean push(Position pos,Directions dir) throws TypeElementNotFoundException, IOException {
+        if(pos.y+dir.getDirVer() < y && pos.x+dir.getDirHori() < x){
             if (listGrid.get(pos.y).get(pos.x).canPush()){
-                if(push(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()),direction)){
+                if(push(new Position(pos.x+dir.getDirHori(),pos.y+dir.getDirVer()),dir)){
                     for(Element e:listGrid.get(pos.y).get(pos.x).getElementsOf(Property.PUSH)){
                         if (e.getTypeElement()==TypeElement.IS) {
                             for (int i=0;i<this.is.size();i++)
                                 if (pos.equals(this.is.get(i)))
                                     this.is.remove(i);
-                            this.is.add(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()));
+                            this.is.add(new Position(pos.x+dir.getDirHori(),pos.y+dir.getDirVer()));
                         }
-                        if (!this.listRule.checkPush(pos, direction, e.getTypeElement()))
+                        if (!this.listRule.checkPush(pos, dir, e.getTypeElement()))
                             return true;
-                        else editPlacement(pos,direction,e.getTypeElement());
+                        else editPlacement(pos,dir,e.getTypeElement());
                     }
                     return true;
                 }
@@ -650,22 +647,22 @@ public class Board {
                 e.setDirections(dir.getRule().getDirFromProperty(dir.getRule()));
     }
 
-    private List<AllPlayer> sortPlayer(Directions direction, List<AllPlayer> player) {
+    private List<Pair<Position,TypeElement>> sortPlayer(Directions dir, List<Pair<Position,TypeElement>> player) {
         if (player.isEmpty())
             return null;
-        Collections.sort(player, (AllPlayer o1, AllPlayer o2) -> {
-            if (null!=direction)
-                switch (direction) {
+        Collections.sort(player, (Pair<Position,TypeElement> o1, Pair<Position,TypeElement> o2) -> {
+            if (null!=dir)
+                switch (dir) {
                     case RIGHT:
-                        return o2.getPos().x - o1.getPos().x;
+                        return o2.getKey().x - o1.getKey().x;
                     case LEFT:
-                        return o1.getPos().x - o2.getPos().x;
+                        return o1.getKey().x - o2.getKey().x;
                     case UP:
-                        return o1.getPos().y - o2.getPos().y;
+                        return o1.getKey().y - o2.getKey().y;
                     default:
                         break;
                 }
-            return o2.getPos().y - o1.getPos().y;
+            return o2.getKey().y - o1.getKey().y;
         });   
         return player;
     }

@@ -12,7 +12,9 @@ import java.util.List;
  * @author Glaskani
  */
 public abstract class Rule {
+    
     private static HashMap<Property,Boolean> activeMap = new HashMap<>();
+    
     public static boolean isActive(Property name){
         return activeMap.getOrDefault(name,false);
     }
