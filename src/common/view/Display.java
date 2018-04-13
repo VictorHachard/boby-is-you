@@ -158,9 +158,9 @@ public class Display {
         for(int i=0;i<this.board.getSizeX();i++) {
             for(int j=0;j<this.board.getSizeY();j++) {
                 for(int k=0;k<this.board.getListGrid().get(j).get(i)
-                        .getListeContenu().size();k++) {   
+                        .getZ().size();k++) {   
                     TypeElement objectName = this.board.getListGrid().get(j)
-                            .get(i).getListeContenu().get(k).getTypeElement();
+                            .get(i).getZ().get(k).getTypeElement();
                     addImage(objectName,i,j);
                 }
             }

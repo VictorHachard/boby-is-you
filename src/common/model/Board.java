@@ -93,7 +93,7 @@ public class Board {
                     if (te.get(k).getType()==Type.CONNECTER ||
                             te.get(k).getType()==Type.TEXT ||
                             te.get(k).getType()==Type.RULE)
-                        listGrid.get(i).get(j).getListeContenu().get(k).addRule(Property.PUSH); 
+                        listGrid.get(i).get(j).getZ().get(k).addRule(Property.PUSH); 
                 }
             }
         }
@@ -126,16 +126,16 @@ public class Board {
         //remove tout les empty
         for(int i=1;i<y-1;i++)
             for(int j=1;j<x-1;j++)
-                if (this.listGrid.get(i).get(j).getListeContenu().contains(this.emptyPlayable))
+                if (this.listGrid.get(i).get(j).getZ().contains(this.emptyPlayable))
                     this.listGrid.get(i).get(j).removeElement(TypeElement.EMPTY);
         for(int i=1;i<y-1;i++)
             for(int j=1;j<x-1;j++)
-                if (this.listGrid.get(i).get(j).getListeContenu().size()==1)
+                if (this.listGrid.get(i).get(j).getZ().size()==1)
                     this.listGrid.get(i).get(j).addElement(this.emptyPlayable);
     }
     
     /**
-     * 
+     * Supprime et reset toutes les regles.
      */
     private void deleteAllRule() {
         Rule.desactivateAll();
@@ -169,7 +169,7 @@ public class Board {
             if (listGrid.get(x).get(y-3).find(te)) {
                 addRule(listGrid.get(x).get(y-3).getType(te),
                 listGrid.get(x).get(y+1).getType(te1));
-        i++;
+                i++;
             }
         if (listGrid.get(x).get(y+2).find(TypeElement.AND))
             if (listGrid.get(x).get(y+3).find(te1)) {
@@ -195,7 +195,7 @@ public class Board {
             if (listGrid.get(x-3).get(y).find(te)) {
                 addRule(listGrid.get(x-3).get(y).getType(te),
                 listGrid.get(x+1).get(y).getType(te1));
-        i++;
+                i++;
             }
         if (listGrid.get(x+2).get(y).find(TypeElement.AND))
             if (listGrid.get(x+3).get(y).find(te1)) {
@@ -274,8 +274,8 @@ public class Board {
         //e2 a faire poper sur e1
         for(int i=1;i<y-1;i++)
             for(int j=1;j<x-1;j++)
-                for(int k=0;k<listGrid.get(i).get(j).getListeContenu().size();k++)
-                    if (listGrid.get(i).get(j).getListeContenu().get(k).getTypeElement()==e1)
+                for(int k=0;k<listGrid.get(i).get(j).getZ().size();k++)
+                    if (listGrid.get(i).get(j).getZ().get(k).getTypeElement()==e1)
                         addPlacement(j,i,e2);
     }
     
@@ -309,8 +309,8 @@ public class Board {
                  aft = e;
         for(int i=1;i<y-1;i++)
             for(int j=1;j<x-1;j++)
-                for(int k=0;k<listGrid.get(i).get(j).getListeContenu().size();k++)
-                    if (listGrid.get(i).get(j).getListeContenu().get(k).getTypeElement()==bef) {
+                for(int k=0;k<listGrid.get(i).get(j).getZ().size();k++)
+                    if (listGrid.get(i).get(j).getZ().get(k).getTypeElement()==bef) {
                         listGrid.get(i).get(j).removeElement(bef);
                         addPlacement(j,i,aft);  
                     }
@@ -350,8 +350,8 @@ public class Board {
     }
       
     /**
-     * 
-     * @return 
+     * Revois la liste general des regles.
+     * @return Rule
      */
     Rule getElementRule() {
         return this.listRule;
@@ -365,6 +365,10 @@ public class Board {
         return this.x;
     }
     
+    /**
+     * Revois la limite de deplacment.
+     * @return int
+     */
     int getLimitedDeplacement() {
         return this.limitedDeplacement;
     }
@@ -401,12 +405,11 @@ public class Board {
      * @throws TypeElementNotFoundException 
      */
     private void addPlacement(int x, int y, Element object) throws TypeElementNotFoundException {
-        //if (!this.listAllElement.isEmpty())
-            for(Element e:this.listAllElement)
-                    if(e.equals(object)) {
-                        listGrid.get(y).get(x).addElement(e);
-                        return;
-                    }
+        for(Element e:this.listAllElement)
+                if(e.equals(object)) {
+                    listGrid.get(y).get(x).addElement(e);
+                    return;
+                }
         listAllElement.add(object);
         listGrid.get(y).get(x).addElement(object);
     }
@@ -415,34 +418,15 @@ public class Board {
      * Revois une chaine de charactére du Board.
      * @return String
      */
-    public String Affichage(){
+    @Override
+    public String toString(){
         StringBuilder  sb = new StringBuilder();
-        
         for(List<Placement> lp:this.listGrid){
-            for(Placement p:lp) {
-                sb.append(p.getListeContenu().get(p.getListeContenu().size()-1).getTypeElement().getLetter());
-                sb.append("|");
-            }
+            for(Placement p:lp)
+                sb.append(p.getZ().get(p.getZ().size()-1)
+                        .getTypeElement().getLetter()+"|");
             sb.append('\n');
-        }
-        return sb.toString();
-    }
-    
-    /**
-     * Revois une chaine de charactére du Board en adresse memoire.
-     * @return String
-     */
-    public String AffichageAdresse(){
-        StringBuilder  sb = new StringBuilder();
-        
-        for(List<Placement> lp:this.listGrid){
-            for(Placement p:lp) {
-                sb.append(p.getListeContenu().get(p.getListeContenu().size()-1));
-                sb.append("|");
-            }
-            sb.append('\n');
-        }
-        return sb.toString();
+        } return sb.toString();
     }
     
     /**
@@ -566,7 +550,7 @@ public class Board {
      * @throws TypeElementNotFoundException 
      */
     boolean push(Position pos,Directions dir) throws TypeElementNotFoundException, IOException {
-        if(pos.y+dir.getDirVer() < y && pos.x+dir.getDirHori() < x){
+        if(pos.y+dir.getDirVer() < y && pos.x+dir.getDirHori() < x)
             if (listGrid.get(pos.y).get(pos.x).canPush()){
                 if(push(new Position(pos.x+dir.getDirHori(),pos.y+dir.getDirVer()),dir)){
                     for(Element e:listGrid.get(pos.y).get(pos.x).getElementsOf(Property.PUSH)){
@@ -585,7 +569,6 @@ public class Board {
             }
             else if (listGrid.get(pos.y).get(pos.x).canAdd())
                 return true;
-        }
         return false;    
     }
     
@@ -615,7 +598,7 @@ public class Board {
         //save chaque element.
         for(int i=1;i<y-1;i++){
             for(int j=1;j<x-1;j++){
-                List<Element> te =  listGrid.get(i).get(j).getListeContenu();
+                List<Element> te =  listGrid.get(i).get(j).getZ();
                 for(int k=1;k<te.size();k++){
                     //ne save pas les EMPTY
                     if (!(te.get(k).getTypeElement()==TypeElement.EMPTY)) {

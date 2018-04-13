@@ -21,7 +21,7 @@ public class Melt extends Rule {
     public boolean work(Position pos,Directions direction,TypeElement player) {
         if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).find(Property.MELT)) {
             if (listGrid.get(pos.y).get(pos.x).getElements(player).getTypeRule().contains(Property.HOT)) {
-                for (Element e:listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).getListeContenu())
+                for (Element e:listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).getZ())
                     if (e.isRule(Property.MELT))
                         listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(e.getTypeElement());
                 return true;

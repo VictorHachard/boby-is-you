@@ -28,7 +28,7 @@ public class Placement {
      * Revois une liste d'Element.
      * @return ArrayListElement
      */
-    public List<Element> getListeContenu() {
+    public List<Element> getZ() {
         return new ArrayList(this.listeContenu);
     }
     

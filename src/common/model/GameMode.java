@@ -7,6 +7,7 @@ import java.util.HashMap;
  * @author Windows
  */
 public abstract class GameMode {
+    
     private static HashMap<Game,Boolean> activeMode = new HashMap<>();
     
     public static boolean isActive(Game name){
@@ -14,15 +15,17 @@ public abstract class GameMode {
     }
     public static void desactivateAll() {
         activeMode = new HashMap<>();
-        System.out.println("desactivating all gamemode");
     }
     public static void setActivity(Game k, Boolean v){
-        System.out.println("gamemode"+k+"->"+v);
         activeMode.put(k, v);
     }
     
     GameMode nextRule = null;
     
+    /**
+     * Ajoute un GameMode ou une infinite a la liste next Rule.
+     * @param next GameMode à ajouter
+     */
     void addGameMode(GameMode ... next){
         for (GameMode r:next) {
             if (nextRule == null)

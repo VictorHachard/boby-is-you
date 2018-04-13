@@ -78,7 +78,7 @@ public class Maps {
                     this.title=parts[1].replaceAll("_", " ");
                 }
                 else {
-                    int movingDirection = parts.length > 3  ? Integer.parseInt(parts[3]) : 0;
+                    int movingDirection=parts.length>3 ? Integer.parseInt(parts[3]) : 0;
                     addMap(Integer.parseInt(parts[1])+1,
                         Integer.parseInt(parts[2])+1,
                         new Element(TypeElement.fromString(
@@ -86,9 +86,7 @@ public class Maps {
                                 Directions.fromString(movingDirection)));
                 } 
             }
-
             buffer.close(); 
-           
     }
     
     /**
@@ -114,8 +112,8 @@ public class Maps {
             for(int i=0;i<x+2;i++)
                 if(i==0 || j==0 || j==y+1 || i==x+1)
                     putObjects (Element, new Position(j,i), this.unplayable);
-                else
-                    putObjects (Element, new Position(j,i), this.empty);
+        else
+            putObjects (Element, new Position(j,i), this.empty);
         }           
     }
     
@@ -124,20 +122,20 @@ public class Maps {
      * prend en compte la prioriter de l'object avec les autres dans la liste.
      * @param x int, la case en abssice ou on ajoute l'object.
      * @param y int, la case en ordonnée ou on ajoute l'object.
-     * @param object Element, object à ajouter.
+     * @param e Element, object à ajouter.
      * @throws TypeElementNotFoundException 
      */
-    public void addMap(int x, int y, Element object)throws TypeElementNotFoundException {   
+    public void addMap(int x, int y, Element e)throws TypeElementNotFoundException {   
         checkIfPosIsInMap(x,y);
-        if (!(object.getType()==Type.PLAYER || object.getTypeElement()==TypeElement.ROCK))
-            for(Element e:this.listAllElement) {
-                if(e.equals(object)) {
-                    putObjects (Element, new Position(y,x), e);
+        if (!(e.getType()==Type.PLAYER || e.getTypeElement()==TypeElement.ROCK))
+            for(Element el:this.listAllElement) {
+                if(el.equals(e)) {
+                    putObjects (Element, new Position(y,x), el);
                     return;
                 }
             }
-        listAllElement.add(object);
-        putObjects (Element, new Position(y,x), object);
+        listAllElement.add(e);
+        putObjects (Element, new Position(y,x), e);
     }
     
     /**
@@ -153,36 +151,30 @@ public class Maps {
      * Supprimer un elem à la map,
      * @param x int, la case en abssice ou on supprime l'object.
      * @param y int, la case en ordonnée ou on supprime l'object.
-     * @param elem Element, elme à supprimer.
+     * @param e Element, elme à supprimer.
      * @throws TypeElementNotFoundException 
      */
-    public void removeMap(int x, int y, Element elem) throws TypeElementNotFoundException {
+    public void removeMap(int x, int y, Element e) throws TypeElementNotFoundException {
         checkIfPosIsInMap(x,y);
-        removeObjects (Element, new Position(y,x), elem);
+        removeObjects (Element, new Position(y,x), e);
     }
     
     /**
      * Ajoute un te à la MultiMaps.
-     * @param typeElem MapPosition, ListElement, la map pour ajouter te.
-     * @param key Position, la position ou on ajoute te. 
-     * @param te Elemnt, l'element que l'on veut ajouter.
+     * @param te MapPosition, ListElement, la map pour ajouter te.
+     * @param p Position, la position ou on ajoute te. 
+     * @param e Elemnt, l'element que l'on veut ajouter.
      */
-    private void putObjects(Map<Position, List<Element>> typeElem, Position key, Element te) {
-        List<Element> temps = typeElem.get(key);
+    private void putObjects(Map<Position,List<Element>> te, Position p, Element e) {
+        List<Element> temps = te.get(p);
         if(temps == null) {
             temps = new ArrayList<>();
-            typeElem.put(key, temps);
+            te.put(p, temps);
         }
-        else if (temps.contains(te))
+        else if (temps.contains(e))
             return;
-        temps.add(te);
-        
-        Collections.sort(temps, new Comparator<Element>() {
-            @Override
-            public int compare(Element e1, Element e2) {
-                return e1.getTypeElement().getPriority() - e2.getTypeElement().getPriority();
-            }
-        });
+        temps.add(e);
+        Collections.sort(temps, (Element e1, Element e2) -> e1.getTypeElement().getPriority() - e2.getTypeElement().getPriority());
     }
     
     /**
@@ -269,9 +261,9 @@ public class Maps {
      * Revois une chaine de charactére de la Maps pour afficher la map en console.
      * @return String
      */
-    public String Affichage(){
+    @Override
+    public String toString(){
         StringBuilder  sb = new StringBuilder();
-        
         for(int i=0;i<y;i++){
             for(int j=0;j<x;j++){
                 List<Element> te =  this.Element.get(new Position(i,j));
@@ -279,25 +271,6 @@ public class Maps {
             }
             sb.append("\n");
         }
-        
-        return sb.toString();
-    }
-    
-    /**
-     * Revois une chaine de charactére du Board en adresse memoire.
-     * @return String
-     */
-    public String AffichageAdresse(){
-        StringBuilder  sb = new StringBuilder();
-        
-        for(int i=0;i<y;i++){
-            for(int j=0;j<x;j++){
-                List<Element> te =  this.Element.get(new Position(i,j));
-                sb.append(te.get(te.size()-1)).append("|");
-            }
-            sb.append("\n");
-        }
-        
         return sb.toString();
     }
 

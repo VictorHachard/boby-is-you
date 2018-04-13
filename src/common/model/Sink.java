@@ -30,7 +30,7 @@ public class Sink extends Rule {
         if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).find(Property.SINK)
                 && (player.getType()==Type.BLOCK)) {
                 listGrid.get(pos.y).get(pos.x).removeElement(player);
-            for (Element e:listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).getListeContenu())
+            for (Element e:listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).getZ())
             if (e.isRule(Property.SINK))
                 listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(e.getTypeElement());
             listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(player);

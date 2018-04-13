@@ -18,7 +18,7 @@ import java.io.InputStreamReader;
  *
  * @author Windows
  */
-public class Levels {
+public final class Levels {
 
     private boolean carryOn;
     private List<Maps> listMap;
@@ -63,6 +63,10 @@ public class Levels {
         }
     }
     
+    /**
+     * Revois l'indice actutel de la liste des levels.
+     * @return int
+     */
     public int getIndice() {
         return indice;
     }
@@ -130,7 +134,7 @@ public class Levels {
                 BufferedReader br = new BufferedReader(ipsr);
                 this.listMap.add(new Maps(br));
                 br.close();
-            } catch (Exception ex) {
+            } catch (TypeElementNotFoundException | IOException ex) {
                 LOGGER.log(Level.SEVERE,"coud not load file",ex);
             } is.close();
         }

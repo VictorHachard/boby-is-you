@@ -56,7 +56,7 @@ public class Tp extends Rule {
                 i = (int)(Math.random() * (i+1));
             this.portalPos = lp2.get(i);
             this.isPortal = true;
-            for (Element e:listGrid.get(lp.get(0).y).get(lp.get(0).x).getListeContenu())
+            for (Element e:listGrid.get(lp.get(0).y).get(lp.get(0).x).getZ())
                 if (e.getTypeElement()==TypeElement.PORTAL_IN)
                     e.addRule(Property.TP);
         }
