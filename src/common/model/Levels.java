@@ -20,10 +20,11 @@ import java.io.InputStreamReader;
 public final class Levels {
 
     private boolean carryOn;
-    private List<Maps> listMap;
+    private final List<Maps> listMap;
     private int indice;
     private static Levels INSTANCE = null;
-    private Stage primaryStage;
+    private Stage primaryStage = MenuInit.getInstance().getStage();
+    private final MusicHashMap music = MusicHashMap.getInstance();
     private static final Logger LOGGER = Logger.getGlobal();
     
     public static Levels getInstance() {           
@@ -42,7 +43,6 @@ public final class Levels {
     public static void ReloadInstance() {           
         INSTANCE = null;
     }
-    private MusicHashMap music;
     
     /**
      * Recupere le lecteur de music et active la music de fond, la Stage,
@@ -50,8 +50,6 @@ public final class Levels {
      * load toutes les maps pas encore jouée.
      */
     private Levels() {
-        music = MusicHashMap.getInstance();
-        this.primaryStage=MenuInit.getInstance().getStage();
         this.listMap=new ArrayList<>();
         this.indice=JavaBobyIsYou.indice;
         this.carryOn=JavaBobyIsYou.carryOn;
@@ -76,6 +74,11 @@ public final class Levels {
         this.music.repet(Music.BACK);
     }
     
+    /**
+     * Change la maps en focntion de b.
+     * @param b true ou false, change la direction dans la quel la Maps va etre 
+     * changer
+     */
     public void switchMaps(boolean b) {
         if (b)
             this.indice= (this.indice+1)%this.listMap.size();
@@ -147,6 +150,10 @@ public final class Levels {
         }
     }
     
+    /**
+     * Revois carryOn.
+     * @return boolean
+     */
     public boolean getContinue() {
         return this.carryOn;
     }

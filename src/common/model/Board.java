@@ -1,29 +1,18 @@
 package common.model;
 
-import common.exeptions.TypeElementNotFoundException;
 import common.exeptions.WinException;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.util.Pair;
 
 /**
- * //TODO ergerister le dernier deplacment pour la save dir
  * @author Glaskani
  */
 public class Board {
     
     private List<Element> listAllElement = new ArrayList<>();
-    private GameMode listLose;
+    private final GameMode listLose;
     private List<Position> is;
     private List<Position> make;
     private List<List<Placement>> listGrid = new ArrayList<>();
@@ -31,10 +20,10 @@ public class Board {
     private final int y;
     private final Placement unplayable = new Placement(new Unplayable());
     private final Element empty = new Empty();
-    private MusicHashMap music;
+    private final MusicHashMap music= MusicHashMap.getInstance();;
     private Rule listRule;
     private static Board INSTANCE = null;
-    private Element emptyPlayable=new Element(TypeElement.EMPTY);
+    private final Element emptyPlayable=new Element(TypeElement.EMPTY);
     public int limitedDeplacement;
     public String title="";
     
@@ -42,10 +31,8 @@ public class Board {
      * 
      * @param map
      * @return
-     * @throws TypeElementNotFoundException
-     * @throws IOException 
      */
-    public static Board getInstance(Maps map) throws TypeElementNotFoundException, IOException {           
+    public static Board getInstance(Maps map) {           
         if (INSTANCE == null)
             INSTANCE = new Board(map);
         return INSTANCE;
@@ -53,7 +40,7 @@ public class Board {
     
     /**
      * 
-     * @return 
+     * @return l'incentence de Board
      */
     public static Board getInstance() {           
         return INSTANCE;
@@ -71,8 +58,6 @@ public class Board {
      * @param map
      */
     public Board(Maps map) {
-        music = MusicHashMap.getInstance();
-       
         this.x = map.getSizeX();
         this.y = map.getSizeY();
         //genre le empty jouable
@@ -100,13 +85,13 @@ public class Board {
         
         listRule = new Tp(this);
         listRule.addRule(new Fly(this),
-        new Slip(this),
-        new Kill(this),
-        new Sink(this),
-        new Move(this),
-        new Melt(this),
-        new Win(this),
-        new Shut(this));
+                new Slip(this),
+                new Kill(this),
+                new Sink(this),
+                new Move(this),
+                new Melt(this),
+                new Win(this),
+                new Shut(this));
         this.limitedDeplacement=map.limitedDeplacement;
         this.title=map.title;
         listLose = new GameModeNumberOfMove(this);
@@ -208,7 +193,6 @@ public class Board {
      * @param te
      * @param te1
      * @return
-     * @throws TypeElementNotFoundException 
      */
     private boolean checkRule(int x,int y,Type te, Type te1) {
         boolean check = false;
@@ -252,7 +236,7 @@ public class Board {
         return check;
     }
     
-    private void test(int x,int y,Type te, Type te1) throws TypeElementNotFoundException {
+    private void test(int x,int y,Type te, Type te1) {
             if (listGrid.get(x+1).get(y).find(Type.TEXT) && listGrid.get(x-1).get(y).find(Type.TEXT))
                     addElementOnElement(listGrid.get(x-1).get(y).getType(te).getText(), new Element(listGrid.get(x+1).get(y).getType(te1).getText()));
         }
@@ -261,9 +245,8 @@ public class Board {
      * 
      * @param e1
      * @param e2
-     * @throws TypeElementNotFoundException 
      */
-    private void addElementOnElement(TypeElement e1, Element e2) throws TypeElementNotFoundException {
+    private void addElementOnElement(TypeElement e1, Element e2) {
         //e2 a faire poper sur e1
         for(int i=1;i<y-1;i++)
             for(int j=1;j<x-1;j++)
@@ -286,7 +269,6 @@ public class Board {
      * BUGGER
      * @param text
      * @param text2
-     * @throws TypeElementNotFoundException 
      */
     private void changeType(TypeElement text,TypeElement text2) { //e1 a mettre e a enlever
         TypeElement bef=text.getText();
@@ -395,7 +377,6 @@ public class Board {
      * @param x
      * @param y
      * @param object
-     * @throws TypeElementNotFoundException 
      */
     private void addPlacement(int x, int y, Element object) {
         for(Element e:this.listAllElement)
@@ -415,9 +396,10 @@ public class Board {
     public String toString(){
         StringBuilder  sb = new StringBuilder();
         for(List<Placement> lp:this.listGrid){
-            for(Placement p:lp)
+            for (Placement p : lp) {
                 sb.append(p.getZ().get(p.getZ().size()-1)
-                        .getTypeElement().getLetter()+"|");
+                        .getTypeElement().getLetter()).append("|");
+            }
             sb.append('\n');
         } return sb.toString();
     }
@@ -473,16 +455,15 @@ public class Board {
     }
     
     /**
-     * 
-     * @param dir 
-     * @throws common.exeptions.TypeElementNotFoundException 
-     * @throws java.io.IOException 
+     * Execute toutes les actions et verification qui doivent entre faite à
+     * chaque tour.
+     * @param dir Direction de l'input de l'utilsateur.
      */
     public void movePlayer(Directions dir) {
         //verifier si on a pas fini un gamemode
         if (!this.listLose.check())
             return;
-        List<Pair<Position,TypeElement>> player = sortPlayer(dir, getPlayerType());   
+        List<Pair<Position,TypeElement>> player = sort(dir, getPlayerType());   
         if (player==null)
             return;
         Position pos;
@@ -562,53 +543,6 @@ public class Board {
                 return true;
         return false;    
     }
-    
-    /**
-     * Sauvegarde la partie actuel.
-     * @throws IOException 
-     */
-    public void save() throws IOException {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-        save(dateFormat.format(new Date()) +".txt");     
-    }
-    
-    /**
-     * 
-     * @param fileName
-     * @throws IOException 
-     */
-    public void save(String fileName) throws IOException {   
-    try {
-        BufferedWriter save = new BufferedWriter(new FileWriter(new File(fileName)));
-        //si le fichier n'existe pas, il est crée à la racine du projet.
-        //save la taille du Board.
-        int x1 = this.x-2;
-        int y1 = this.y-2;
-        save.write(x1 + " " + y1);
-        
-        //save chaque element.
-        for(int i=1;i<y-1;i++){
-            for(int j=1;j<x-1;j++){
-                List<Element> te =  listGrid.get(i).get(j).getZ();
-                for(int k=1;k<te.size();k++){
-                    //ne save pas les EMPTY
-                    if (!(te.get(k).getTypeElement()==TypeElement.EMPTY)) {
-                        save.newLine();
-                        int j1 = j-1;
-                        int i1 = i-1;
-                        String name = te.get(te.size()-k).getTypeElement().getElements().toLowerCase();
-                        int dir = te.get(te.size()-k).getDirections().getDir();
-                        if (dir == 0)
-                            save.write(name + " " + j1 + " " + i1);
-                        else save.write(name + " " + j1 + " " + i1 + " " + dir);
-                    }
-                }
-            }
-        }
-        save.close();
-    } catch (IOException e) {
-    }   
-    }
 
     /**
      * 
@@ -621,10 +555,16 @@ public class Board {
                 e.setDirections(dir.getRule().getDirFromProperty(dir.getRule()));
     }
 
-    private List<Pair<Position,TypeElement>> sortPlayer(Directions dir, List<Pair<Position,TypeElement>> player) {
-        if (player.isEmpty())
+    /**
+     * Revois une ListPairPosition,TypeElement trier en fonction de la direction
+     * @param dir Direction, trie p en fonction de la direction.
+     * @param p ListPairPosition,TypeElement, liste a trier
+     * @return 
+     */
+    private List<Pair<Position,TypeElement>> sort(Directions dir, List<Pair<Position,TypeElement>> p) {
+        if (p.isEmpty())
             return null;
-        Collections.sort(player, (Pair<Position,TypeElement> o1, Pair<Position,TypeElement> o2) -> {
+        Collections.sort(p, (Pair<Position,TypeElement> o1, Pair<Position,TypeElement> o2) -> {
             if (null!=dir)
                 switch (dir) {
                     case RIGHT:
@@ -638,6 +578,6 @@ public class Board {
                 }
             return o2.getKey().y - o1.getKey().y;
         });   
-        return player;
+        return p;
     }
 }
