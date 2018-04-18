@@ -24,7 +24,7 @@ public class MusicHashMap {
     
     
     
-    public static MusicHashMap getInstance() throws TypeElementNotFoundException, IOException {           
+    public static MusicHashMap getInstance() {           
         if (INSTANCE == null)
             INSTANCE = new MusicHashMap();
         return INSTANCE;

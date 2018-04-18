@@ -21,22 +21,22 @@ public class Tp extends Rule {
     }
     
     @Override
-    public boolean work(Position pos,Directions direction,TypeElement player) {
+    public boolean work(Position pos,Directions dir,TypeElement te) {
         getPortal();
         if (removePortal) {
             listGrid.get(this.portalPos.y).get(this.portalPos.x).removeElement(TypeElement.PORTAL_IN);
             listGrid.get(this.portalPos.y).get(this.portalPos.x).removeElement(TypeElement.PORTAL_OUT);
             return true;
-        } else if (isPortal && listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).find(Property.TP)) {
-            //ajoute player
-            listGrid.get(this.portalPos.y+direction.getDirVer()).get(this.portalPos.x+direction.getDirHori())
-            .addElement(listGrid.get(pos.y).get(pos.x).getElements(player));
+        } else if (isPortal && listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).find(Property.TP)) {
+            //ajoute te
+            listGrid.get(this.portalPos.y+dir.getDirVer()).get(this.portalPos.x+dir.getDirHori())
+            .addElement(listGrid.get(pos.y).get(pos.x).getElements(te));
             //ajoute portail in
             listGrid.get(this.portalPos.y).get(this.portalPos.x)
-            .addElement(listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).getElements(TypeElement.PORTAL_IN));
-            //supprimer player et portal in
-            listGrid.get(pos.y).get(pos.x).removeElement(player);
-            listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(TypeElement.PORTAL_IN);
+            .addElement(listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).getElements(TypeElement.PORTAL_IN));
+            //supprimer te et portal in
+            listGrid.get(pos.y).get(pos.x).removeElement(te);
+            listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).removeElement(TypeElement.PORTAL_IN);
             //changement true false
             isPortal = false;
             this.removePortal = true;         

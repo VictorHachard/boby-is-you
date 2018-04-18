@@ -15,6 +15,9 @@ import common.model.Maps;
  */
 public class LoadGame {
  
+    
+    private static final Logger LOGGER = Logger.getGlobal();
+    
     /**
      * 
      * @param f
@@ -25,10 +28,8 @@ public class LoadGame {
                 Maps m = new Maps(f);
                 Display d = new Display(new Board(m));
                 MenuInit.getInstance().getStage().setScene(d.scene);                
-            } catch (TypeElementNotFoundException ex) {
-                //RIEN Erreur deja traiter en amont
             } catch (IOException ex) {
-                Logger.getLogger(MenuInit.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE,"Error during the creation of the Maps : ",ex);
             }
     }    
     

@@ -30,14 +30,14 @@ public class ImageHashMap {
         loadImage();
     }
     
-    private void loadImage() throws IllegalArgumentException {
+    private void loadImage() {
         TypeElement[] listAllElement = TypeElement.getAll();
         for(TypeElement e:listAllElement)
             try {
                 Image img = new Image("common/images/"+e.toString().toLowerCase()+".png");
                 this.imageMap.put(e, img);
             } catch (IllegalArgumentException ex) {
-                LOGGER.log(Level.WARNING,"Image not fond : "+e/*ex*/);
+                LOGGER.log(Level.WARNING, "Image not fond : {0}", e);
             }
     }
     

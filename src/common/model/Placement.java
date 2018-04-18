@@ -2,7 +2,6 @@ package common.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -11,15 +10,15 @@ import java.util.List;
  */
 public class Placement {
     
-    private List<Element> listeContenu;
+    private List<Element> listZ;
 
     /**
      * 
      * @param e Element
      */
     public Placement(Element e) {
-        listeContenu = new ArrayList<>();
-        listeContenu.add(new Element(e));
+        listZ = new ArrayList<>();
+        listZ.add(new Element(e));
     }
     
     //Getters
@@ -29,7 +28,7 @@ public class Placement {
      * @return ArrayListElement
      */
     public List<Element> getZ() {
-        return new ArrayList(this.listeContenu);
+        return new ArrayList(this.listZ);
     }
     
     /**
@@ -37,16 +36,11 @@ public class Placement {
      * @param e Element
      */
     void addElement(Element e){
-        if(this.listeContenu.contains(e))
+        if(this.listZ.contains(e))
             return;
-        this.listeContenu.add(e);
-        
-        Collections.sort(listeContenu, new Comparator<Element>() {
-            @Override
-            public int compare(Element e1, Element e2) {
-                return e1.getTypeElement().getPriority() - e2.getTypeElement().getPriority();
-            }
-        });        
+        this.listZ.add(e);
+        Collections.sort(listZ, (Element e1, Element e2) ->
+        e1.getTypeElement().getPriority() - e2.getTypeElement().getPriority());        
     }
     
     /**
@@ -54,7 +48,7 @@ public class Placement {
      * @param e 
      */
     void removeElement(TypeElement e){
-        listeContenu.remove(getElements(e));
+        listZ.remove(getElements(e));
     }
        
     /**
@@ -80,7 +74,7 @@ public class Placement {
      * @return true ou false
      */
     boolean find(Property tr){
-        for(Element e:this.listeContenu)
+        for(Element e:this.listZ)
             if(e.getTypeRule().contains(tr))
                 return true; 
         return false;
@@ -92,7 +86,7 @@ public class Placement {
      * @return true ou false
      */
     boolean find(TypeElement te){
-        for(Element e:this.listeContenu){
+        for(Element e:this.listZ){
             if(e.getTypeElement()==te)
                 return true;
         }
@@ -105,7 +99,7 @@ public class Placement {
      * @return true ou false
      */
     boolean find(Type ty) {
-        for(Element e:this.listeContenu)
+        for(Element e:this.listZ)
             if(e.getType()==ty)
                 return true;
         return false;
@@ -119,7 +113,7 @@ public class Placement {
      * null si pas trouver
      */
     TypeElement getType(Type ty) {
-        for(Element e:this.listeContenu)
+        for(Element e:this.listZ)
             if(e.getType()==ty)
                 return e.getTypeElement();
         return null;
@@ -132,7 +126,7 @@ public class Placement {
      * @return Element correspondant au TypeElement ou null si pas trouver
      */
     Element getElements(TypeElement te){
-        for(Element e:this.listeContenu)
+        for(Element e:this.listZ)
             if(e.getTypeElement()==te)
                 return e;
         return null;
@@ -147,7 +141,7 @@ public class Placement {
     List<Element> getElementsOf(Property tr){
         List<Element> ret = new ArrayList<>();
         
-        for(Element e:this.listeContenu)
+        for(Element e:this.listZ)
             if(e.getTypeRule().contains(tr))
                 ret.add(e);
         

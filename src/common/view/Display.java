@@ -1,7 +1,5 @@
 package common.view;
 
-import common.exeptions.TypeElementNotFoundException;
-import java.io.IOException;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -83,23 +81,22 @@ public class Display {
         
         scene.setOnKeyPressed(e -> {
             KeyCode keyCode = e.getCode();
-            try {
-                if (keyCode.equals(Key.getInstance().getKeyUP()))
-                    this.board.movePlayer(Directions.UP);
-                else if (keyCode.equals(Key.getInstance().getKeyDOWN()))
-                    this.board.movePlayer(Directions.DOWN);
-                else if (keyCode.equals(Key.getInstance().getKeyLEFT()))
-                    this.board.movePlayer(Directions.LEFT);
-                else if (keyCode.equals(Key.getInstance().getKeyRIGHT()))
-                    this.board.movePlayer(Directions.RIGHT);
-                else if (keyCode.equals(Key.getInstance().getKeyR())) 
-                    Levels.getInstance().loadDisplay();
-                else if (keyCode.equals(KeyCode.ESCAPE))
-                    this.primaryStage.setScene(menuEsc.scene);
-            }
-            catch (TypeElementNotFoundException | IOException ex) {
-                //deja traiter en amont
-            }
+            if (keyCode.equals(Key.getInstance().getKeyUP()))
+                this.board.movePlayer(Directions.UP);
+            else if (keyCode.equals(Key.getInstance().getKeyDOWN()))
+                this.board.movePlayer(Directions.DOWN);
+            else if (keyCode.equals(Key.getInstance().getKeyLEFT()))
+                this.board.movePlayer(Directions.LEFT);
+            else if (keyCode.equals(Key.getInstance().getKeyRIGHT()))
+                this.board.movePlayer(Directions.RIGHT);
+            else if (keyCode.equals(Key.getInstance().getKeyR())) 
+                Levels.getInstance().loadDisplay();
+            else if (keyCode.equals(KeyCode.SUBTRACT))
+                Levels.getInstance().switchMaps(false);
+            else if (keyCode.equals(KeyCode.ADD))
+                Levels.getInstance().switchMaps(true);
+            else if (keyCode.equals(KeyCode.ESCAPE))
+                this.primaryStage.setScene(menuEsc.scene);
             e.consume();
             convertBoardToImage();
             gmMove();

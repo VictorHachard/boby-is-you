@@ -1,6 +1,5 @@
 package common.model;
 
-import common.exeptions.TypeElementNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -51,16 +50,12 @@ public final class Levels {
      * load toutes les maps pas encore jouée.
      */
     private Levels() {
-        try {
-            music = MusicHashMap.getInstance();
-            this.primaryStage=MenuInit.getInstance().getStage();
-            this.listMap=new ArrayList<>();
-            this.indice=JavaBobyIsYou.indice;
-            this.carryOn=JavaBobyIsYou.carryOn;
-            loadMap();
-        } catch (TypeElementNotFoundException | IOException ex) {
-            LOGGER.log(Level.WARNING,"erreur",ex);
-        }
+        music = MusicHashMap.getInstance();
+        this.primaryStage=MenuInit.getInstance().getStage();
+        this.listMap=new ArrayList<>();
+        this.indice=JavaBobyIsYou.indice;
+        this.carryOn=JavaBobyIsYou.carryOn;
+        loadMap();
     }
     
     /**
@@ -81,6 +76,17 @@ public final class Levels {
         this.music.repet(Music.BACK);
     }
     
+    public void switchMaps(boolean b) {
+        if (b)
+            this.indice= (this.indice+1)%this.listMap.size();
+        else {
+            this.indice= (this.indice-1);
+            if (this.indice<0)
+                this.indice=this.listMap.size()-1;
+        }
+        loadDisplay();
+    }
+    
     /**
      * Desactive toutes les reglées, appele LoadGame de MenuInit pour charge la
      * prochaine map.
@@ -90,6 +96,9 @@ public final class Levels {
         MenuInit.getInstance().LoadGame(new Maps(this.listMap.get(indice)));
     }
     
+    /**
+     * Execute toutes les actions pour arreter une partie.
+     */
     public void stopGame() {
         Rule.desactivateAll();
         GameMode.desactivateAll();
@@ -101,10 +110,8 @@ public final class Levels {
      * Verifie si la prochaine map existe, si elle existe save la progression et
      * appele "loadDisplay", si il n'y a plus de map : stop la music, return au
      * menuInit et reset la save.
-     * @throws TypeElementNotFoundException
-     * @throws IOException 
      */
-    void nextLevel() throws TypeElementNotFoundException, IOException {
+    void nextLevel() {
         this.indice = indice+1;
         if (indice==this.listMap.size()) {
             this.indice=0;
@@ -121,22 +128,22 @@ public final class Levels {
      * Ouvre dans le fichier "maps", ajoute toues les maps sous formats "txt"
      * dans la liste des maps "listMap" qui sont prealablement transformer et 
      * Maps.
-     * @throws IOException 
      */
-    void loadMap() throws IOException {
-        char[] listchar = {'a','b','c','d','e','f','g','h','i','j',/*,'k',*/'l','m'};
+    void loadMap() {
+        char[] listchar = {'a','b','c','d','e','f','g','h','i','j','l','m'};
         for (char a:listchar) {
             InputStream is = null;
             try {
                 URL uri = JavaBobyIsYou.class.getResource("/common/maps/map"+a+".txt");
                 is = uri.openStream();
                 InputStreamReader ipsr = new InputStreamReader(is);
-                BufferedReader br = new BufferedReader(ipsr);
-                this.listMap.add(new Maps(br));
-                br.close();
-            } catch (TypeElementNotFoundException | IOException ex) {
+                try (BufferedReader br = new BufferedReader(ipsr)) {
+                    this.listMap.add(new Maps(br));
+                }
+                is.close();
+            } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE,"coud not load file",ex);
-            } is.close();
+            } 
         }
     }
     

@@ -9,20 +9,18 @@ import java.util.List;
 public class Shut extends Rule {
 
     private List<List<Placement>> listGrid;
-    private Board board;
     
     public Shut(Board board) {
-        this.board=board;
         this.listGrid=board.getListGrid();
     }
     
     @Override
-    boolean work(Position pos, Directions direction, TypeElement player) {
-        if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).find(Property.SHUT)) {
-            if (listGrid.get(pos.y).get(pos.x).getElements(player).getTypeRule().contains(Property.OPEN)) {
-                for (Element e:listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).getZ())
+    boolean work(Position pos, Directions dir, TypeElement te) {
+        if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).find(Property.SHUT)) {
+            if (listGrid.get(pos.y).get(pos.x).getElements(te).getTypeRule().contains(Property.OPEN)) {
+                for (Element e:listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).getZ())
                     if (e.isRule(Property.SHUT)) {
-                        listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(e.getTypeElement());
+                        listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).removeElement(e.getTypeElement());
                         return true;
                     }
             }
@@ -32,12 +30,12 @@ public class Shut extends Rule {
     }
     
     @Override
-    boolean workPush(Position pos, Directions direction, TypeElement player) {
-        if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).find(Property.SHUT)) {
-            if (listGrid.get(pos.y).get(pos.x).getElements(player).getTypeRule().contains(Property.OPEN))
-                for (Element e:listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).getZ())
+    boolean workPush(Position pos, Directions dir, TypeElement te) {
+        if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).find(Property.SHUT)) {
+            if (listGrid.get(pos.y).get(pos.x).getElements(te).getTypeRule().contains(Property.OPEN))
+                for (Element e:listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).getZ())
                     if (e.isRule(Property.SHUT)) {
-                        listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(e.getTypeElement());
+                        listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).removeElement(e.getTypeElement());
                         return false;
                     }
             return false;

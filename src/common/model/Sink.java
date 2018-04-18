@@ -9,31 +9,29 @@ import java.util.List;
 public class Sink extends Rule {
     
     private List<List<Placement>> listGrid;
-    private Board board;
     
     public Sink(Board board) {
-        this.board=board;
         this.listGrid=board.getListGrid();
     }
     
     @Override
-    public boolean work(Position pos,Directions direction,TypeElement player) {
-        if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).find(Property.SINK)) {
-            listGrid.get(pos.y).get(pos.x).removeElement(player);
+    public boolean work(Position pos,Directions dir,TypeElement te) {
+        if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).find(Property.SINK)) {
+            listGrid.get(pos.y).get(pos.x).removeElement(te);
             return false;
         }
         return true;
     }
     
     @Override
-    boolean workPush(Position pos,Directions direction,TypeElement player) {
-        if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).find(Property.SINK)
-                && (player.getType()==Type.BLOCK)) {
-                listGrid.get(pos.y).get(pos.x).removeElement(player);
-            for (Element e:listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).getZ())
+    boolean workPush(Position pos,Directions dir,TypeElement te) {
+        if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).find(Property.SINK)
+                && (te.getType()==Type.BLOCK)) {
+                listGrid.get(pos.y).get(pos.x).removeElement(te);
+            for (Element e:listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).getZ())
             if (e.isRule(Property.SINK))
-                listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(e.getTypeElement());
-            listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).removeElement(player);
+                listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).removeElement(e.getTypeElement());
+            listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).removeElement(te);
             return false;
         }
         return true;

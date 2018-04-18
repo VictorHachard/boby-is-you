@@ -1,6 +1,5 @@
 package common.view;
 
-import common.exeptions.TypeElementNotFoundException;
 import common.model.Game;
 import common.model.GameMode;
 import common.model.Levels;
@@ -35,9 +34,12 @@ public class JavaBobyIsYou extends Application {
     public static int indice =0;
     public static boolean carryOn=false;
     
+    /**
+     * Sauvegarde les informations suivante dans un config.txt à la racine :
+     * level, gameModeTIME, gameModeMove, continue, toutes les key.
+     */
     public static void save() {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(new File("config.txt")));
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File("config.txt")))) {
             //writer.write("date "+"\n");
             if (!(Levels.instance()==null))
                 writer.write("level "+Levels.instance().getIndice()+"\n");
@@ -57,36 +59,50 @@ public class JavaBobyIsYou extends Application {
         }
     }
     
+    /**
+     * Lis le fichier config.txt.
+     */
     private void config() {
-        try {
-            File file = new File("config.txt");
-            BufferedReader br = new BufferedReader(new FileReader(file));
+        try (BufferedReader br = new BufferedReader(new FileReader("config.txt"))) {
             String nextLine;
             while ((nextLine = br.readLine()) != null) {
                 String[] parts = nextLine.split(" ");
-                System.out.println(parts[0]+" --> "+parts[1]);
-                if (parts[0].equals("level"))
-                    JavaBobyIsYou.indice=Integer.parseInt(parts[1]);
-                else if (parts[0].equals("gameModeMOVE"))
-                    GameMode.setActivity(Game.PLAYERMOVE, Boolean.parseBoolean(parts[1]));
-                else if (parts[0].equals("gameModeTIME"))
-                    GameMode.setActivity(Game.TIMER, Boolean.parseBoolean(parts[1]));
-                else if (parts[0].equals("continue"))
-                    JavaBobyIsYou.carryOn=Boolean.parseBoolean(parts[1]);                    
-                else if (parts[0].equals("KeyUP"))
-                    Key.getInstance().setKeyUP(getKeyCode(parts[1]));
-                else if (parts[0].equals("KeyDOWN"))
-                    Key.getInstance().setKeyDOWN(getKeyCode(parts[1]));
-                else if (parts[0].equals("KeyLEFT"))
-                    Key.getInstance().setKeyLEFT(getKeyCode(parts[1]));
-                else if (parts[0].equals("KeyRIGHT"))
-                    Key.getInstance().setKeyRIGHT(getKeyCode(parts[1]));
-                else if (parts[0].equals("KeyR"))
-                    Key.getInstance().setKeyR(getKeyCode(parts[1]));
+                switch (parts[0]) {
+                    case "level":
+                        JavaBobyIsYou.indice=Integer.parseInt(parts[1]);
+                        break;
+                    case "gameModeMOVE":
+                        GameMode.setActivity(Game.PLAYERMOVE, Boolean.parseBoolean(parts[1]));
+                        break;
+                    case "gameModeTIME":
+                        GameMode.setActivity(Game.TIMER, Boolean.parseBoolean(parts[1]));
+                        break;
+                    case "continue":
+                        JavaBobyIsYou.carryOn=Boolean.parseBoolean(parts[1]);
+                        break;
+                    case "KeyUP":
+                        Key.getInstance().setKeyUP(getKeyCode(parts[1]));
+                        break;
+                    case "KeyDOWN":
+                        Key.getInstance().setKeyDOWN(getKeyCode(parts[1]));
+                        break;
+                    case "KeyLEFT":
+                        Key.getInstance().setKeyLEFT(getKeyCode(parts[1]));
+                        break;
+                    case "KeyRIGHT":
+                        Key.getInstance().setKeyRIGHT(getKeyCode(parts[1]));
+                        break;
+                    case "KeyR":
+                        Key.getInstance().setKeyR(getKeyCode(parts[1]));
+                        break;
+                    default:
+                        break;
+                }
             }
             br.close();
             } catch (IOException | NumberFormatException e) {
-                //normal c'est que le fichier n'existe pas
+                //rien faire
+                //c'est que le fichier n'existe pas
             }
     }
 
@@ -94,7 +110,7 @@ public class JavaBobyIsYou extends Application {
     /**
      * 
      */
-    public void start(Stage primaryStage) throws IOException, TypeElementNotFoundException {   
+    public void start(Stage primaryStage) {   
         Key.getInstance();
         config();
         MenuInit d = MenuInit.getInstance();
@@ -107,32 +123,20 @@ public class JavaBobyIsYou extends Application {
     /**
      *
      * @param args
-     * @throws TypeElementNotFoundException
-     * @throws IOException
      */
-    public static void main(String[] args) throws TypeElementNotFoundException, IOException {
-        //Looger
-        FileHandler hdl = new FileHandler("BIS.log");
-        hdl.setFormatter(new SimpleFormatter());
-        LOGGER.addHandler(hdl);
-        
-        Thread.setDefaultUncaughtExceptionHandler((Thread t, Throwable e) -> {
-            LOGGER.log(Level.SEVERE,"Exeption Uncaught : ",e);
-        });
-                /* Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-        String filename = "crashlogs/"+sdf.format(cal.getTime())+".txt";
-        PrintStream writer;
+    public static void main(String[] args) {
         try {
-        writer = new PrintStream(filename, "UTF-8");
-        writer.println(e.getClass() + ": " + e.getMessage());
-        for (int i = 0; i < e.getStackTrace().length; i++) {
-        writer.println(e.getStackTrace()[i].toString());
+            //Looger
+            FileHandler hdl = new FileHandler("BIS.log");
+            hdl.setFormatter(new SimpleFormatter());
+            LOGGER.addHandler(hdl);
+            
+            Thread.setDefaultUncaughtExceptionHandler((Thread t, Throwable e) -> {
+                LOGGER.log(Level.SEVERE,"Exeption Uncaught : ",e);
+            });       
+            launch(args);
+        } catch (IOException | SecurityException ex) {
+            Logger.getLogger(JavaBobyIsYou.class.getName()).log(Level.SEVERE, null, ex);
         }
-        } catch (FileNotFoundException | UnsupportedEncodingException e1) {
-        // TODO Auto-generated catch block
-        e1.printStackTrace();
-        }
-        });*/ launch(args);       
     }
 }

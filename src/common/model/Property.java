@@ -34,15 +34,20 @@ public enum Property {
      * @return Directions correspondant à la Property
      */
     Directions getDirFromProperty(Property pro) {
-        if (pro==Property.DOWN)
-            return Directions.DOWN;
-        else if (pro==Property.UP)
-            return Directions.UP;
-        else if (pro==Property.LEFT)
-            return Directions.LEFT;
-        else if (pro==Property.RIGHT)
-            return Directions.RIGHT;
-        else return Directions.NONE;
+        if (null==pro)
+            return Directions.NONE;
+        else switch (pro) {
+            case DOWN:
+                return Directions.DOWN;
+            case UP:
+                return Directions.UP;
+            case LEFT:
+                return Directions.LEFT;
+            case RIGHT:
+                return Directions.RIGHT;
+            default:
+                return Directions.NONE;
+        }
     }    
 }
     

@@ -1,5 +1,7 @@
-KeyUP UP
-KeyDOWN DOWN
-KeyLEFT LEFT
-KeyRIGHT RIGHT
+level 1
+continue true
+KeyUP Z
+KeyDOWN S
+KeyLEFT Q
+KeyRIGHT D
 KeyR R

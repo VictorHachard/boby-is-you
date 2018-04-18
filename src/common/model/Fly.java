@@ -1,7 +1,5 @@
 package common.model;
 
-import common.exeptions.TypeElementNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -19,24 +17,24 @@ public class Fly extends Rule {
     }
     
     @Override
-    boolean work(Position pos, Directions direction, TypeElement player) throws TypeElementNotFoundException, IOException {
-    if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).find(TypeElement.WALLINJOUABLE)) {
+    boolean work(Position pos, Directions dir, TypeElement te) {
+    if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).find(TypeElement.WALLINJOUABLE)) {
         int y = pos.y;
         int x = pos.x;
-        if (pos.y+direction.getDirVer()==0)
+        if (pos.y+dir.getDirVer()==0)
             y = board.getSizeY()-2;
-        else if (pos.y+direction.getDirVer()==board.getSizeY()-1)
+        else if (pos.y+dir.getDirVer()==board.getSizeY()-1)
                 y = 1;
-        if (pos.x+direction.getDirHori()==0) //ok
+        if (pos.x+dir.getDirHori()==0) //ok
             x = board.getSizeX()-2;
-        else if (pos.x+direction.getDirHori()==board.getSizeX()-1)
+        else if (pos.x+dir.getDirHori()==board.getSizeX()-1)
                 x = 1;
         //verifier si il y a pas un push ou stop a la sortie
         if (listGrid.get(y).get(x).find(Property.PUSH) || listGrid.get(y).get(x).find(Property.STOP))
             return true;
         listGrid.get(y).get(x)
-                .addElement(listGrid.get(pos.y).get(pos.x).getElements(player));
-        listGrid.get(pos.y).get(pos.x).removeElement(player);
+                .addElement(listGrid.get(pos.y).get(pos.x).getElements(te));
+        listGrid.get(pos.y).get(pos.x).removeElement(te);
             return false;
         }
         return true;  

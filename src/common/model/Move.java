@@ -1,10 +1,7 @@
 package common.model;
 
-import common.exeptions.TypeElementNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -27,7 +24,7 @@ public class Move extends Rule {
     
     
     @Override
-    public boolean work(Position pos,Directions direction,TypeElement player) throws TypeElementNotFoundException, IOException {
+    public boolean work(Position pos,Directions dir,TypeElement player) {
         if (isMonster) {
             if (checkRule(Property.MOVE)) {
                 getMonster();
@@ -37,12 +34,10 @@ public class Move extends Rule {
         return true;
     }
     
-    private void sort(Directions direction) {
-        Collections.sort(this.listMonster, new Comparator<Position>() {
-            @Override
-            public int compare(Position o1, Position o2) {
-            if (null!=direction)
-                switch (direction) {
+    private void sort(Directions dir) {
+        Collections.sort(this.listMonster, (Position o1, Position o2) -> {
+            if (null!=dir)
+                switch (dir) {
                     case RIGHT:
                         return o2.x - o1.x;
                     case LEFT:
@@ -53,32 +48,31 @@ public class Move extends Rule {
                         break;
                 }
             return o2.y - o1.y;
-            }
         });  
     }
     
-    void moveMonster() throws TypeElementNotFoundException, IOException {
-        Directions direction = listGrid.get(listMonster.get(0).y).get(listMonster.get(0).x).getElements(this.te).getDirections();
+    void moveMonster() {
+        Directions dir = listGrid.get(listMonster.get(0).y).get(listMonster.get(0).x).getElements(this.te).getDirections();
         //trie pour ne pas addi les player
-        sort(direction);
+        sort(dir);
         for(Position pos:this.listMonster) {
-            direction = listGrid.get(pos.y).get(pos.x).getElements(this.te).getDirections();
-            if(pos.y+direction.getDirVer() < board.getSizeY() && pos.x+direction.getDirHori() < board.getSizeX()) {
-                if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canAdd()){ //verifie si il peut add la case suivante
-                    board.editPlacement(pos,direction,this.te);
+            dir = listGrid.get(pos.y).get(pos.x).getElements(this.te).getDirections();
+            if(pos.y+dir.getDirVer() < board.getSizeY() && pos.x+dir.getDirHori() < board.getSizeX()) {
+                if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).canAdd()){ //verifie si il peut add la case suivante
+                    board.editPlacement(pos,dir,this.te);
                 }
-                else if (listGrid.get(pos.y+direction.getDirVer()).get(pos.x+direction.getDirHori()).canPush()) { //verifie si il peut push la case suivante
-                    if (board.push(new Position(pos.x+direction.getDirHori(),pos.y+direction.getDirVer()),direction))
-                        board.editPlacement(pos,direction,this.te);
+                else if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).canPush()) { //verifie si il peut push la case suivante
+                    if (board.push(new Position(pos.x+dir.getDirHori(),pos.y+dir.getDirVer()),dir))
+                        board.editPlacement(pos,dir,this.te);
                     else {
-                        listGrid.get(pos.y).get(pos.x).getElements(this.te).setDirections(direction.getOpp());
-                        board.editPlacement(pos,direction.getOpp(),this.te);
+                        listGrid.get(pos.y).get(pos.x).getElements(this.te).setDirections(dir.getOpp());
+                        board.editPlacement(pos,dir.getOpp(),this.te);
                         }
                 }
                 else {
-                    if (listGrid.get(pos.y+direction.getOpp().getDirVer()).get(pos.x+direction.getOpp().getDirHori()).canAdd()) {
-                        listGrid.get(pos.y).get(pos.x).getElements(this.te).setDirections(direction.getOpp());
-                        board.editPlacement(pos,direction.getOpp(),this.te);
+                    if (listGrid.get(pos.y+dir.getOpp().getDirVer()).get(pos.x+dir.getOpp().getDirHori()).canAdd()) {
+                        listGrid.get(pos.y).get(pos.x).getElements(this.te).setDirections(dir.getOpp());
+                        board.editPlacement(pos,dir.getOpp(),this.te);
                     }
                 }
             }

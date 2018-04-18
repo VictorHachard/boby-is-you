@@ -2,8 +2,6 @@ package common.view;
 
 import common.exeptions.TypeElementNotFoundException;
 import common.model.Board;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
@@ -16,13 +14,13 @@ import javafx.scene.paint.Color;
 
 /**
  * 
- * @author Glaskani basé sur le model de Almas Baimagambetov (almaslvl@gmail.com)
+ * @author Glaskani
  */
 public class MenuInit {
     
     public Scene scene;
     private Stage primaryStage;
-    private Pane root = new Pane();
+    private final Pane root = new Pane();
     private static MenuInit INSTANCE = null;
     
     public static MenuInit getInstance() {           
@@ -51,16 +49,12 @@ public class MenuInit {
         Button buttonContinue = new Button("Continuer");
         Button buttonNew = new Button("Nouveau");
         Button buttonExit = new Button("Exit");
-        Button buttonLoad = new Button("Charger");
-        Button buttonEditor = new Button("Editeur");
 	Button buttonParameter = new Button("Parametre");
             
         vbox.getChildren().addAll(
                 buttonContinue,
                 buttonNew,
-                buttonLoad,
                 buttonParameter,
-                buttonEditor,
                 buttonExit);
         vbox.getStyleClass().add("vbox");
         root.getChildren().addAll(vbox);
@@ -78,33 +72,12 @@ public class MenuInit {
         buttonNew.setOnAction(event -> {
             this.primaryStage.setScene(MenuNew.getInstance().scene);
         });
-        buttonLoad.setOnAction(event -> {
-                System.out.println("Option 3 selected via Lambda");
-        });
-        buttonEditor.setOnAction(event -> {
-           /* File f = new File("." + File.separator + "maps" + File.separator + "map1.txt"); //get last save
-            f.getAbsolutePath();
-            Maps m;
-            try {
-                m = new Maps(f);
-                Editor editor = new Editor(m);
-                this.primaryStage.setScene(editor.scene);  
-            } catch (TypeElementNotFoundException ex) {
-                Logger.getLogger(MenuInit.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(MenuInit.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
-                
-        });
         buttonExit.setOnAction(event -> {
-            Logger.getLogger(MenuInit.class.getName()).log(Level.INFO, "Exit of the application");
             primaryStage.close();
         });
         scene.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.ESCAPE) {
-                Logger.getLogger(MenuInit.class.getName()).log(Level.INFO, "Exit of the application");
+            if (e.getCode() == KeyCode.ESCAPE)
                 primaryStage.close();
-            }
             e.consume();
         });
     }        
@@ -117,12 +90,12 @@ public class MenuInit {
         primaryStage = stage;
     }    
     
+    /**
+     * Load graphiqument une Maps
+     * @param m Maps
+     */
     public void LoadGame(Maps m) {
-        try {
-            Display d = new Display(new Board(m));
-            this.primaryStage.setScene(d.scene);                
-        } catch (TypeElementNotFoundException ex) {
-            //RIEN Erreur deja traiter en amont
-        }
+        Display d = new Display(new Board(m));
+        this.primaryStage.setScene(d.scene);                
     }    
 }

@@ -1,8 +1,5 @@
 package common.model;
 
-import common.exeptions.TypeElementNotFoundException;
-import java.io.IOException;
-
 /**
  *
  * @author Glaskani
@@ -15,10 +12,8 @@ public class GameModeNumberOfMove extends GameMode {
     /**
      * nm de coup
      * @param board
-     * @throws TypeElementNotFoundException 
-     * @throws java.io.IOException 
      */
-    public GameModeNumberOfMove(Board board) throws TypeElementNotFoundException, IOException {
+    public GameModeNumberOfMove(Board board) {
         this.board=board;
         this.limitedDeplacement=board.getLimitedDeplacement();
     }

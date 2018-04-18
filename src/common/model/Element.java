@@ -1,6 +1,7 @@
 package common.model;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *
@@ -74,6 +75,7 @@ public class Element {
      * @param obj Element à comparée
      * @return true si les element sont bien egales, false sinon
      */
+    @Override
     public boolean equals(Object obj){
         if (obj instanceof Element) {
             Element e = (Element) obj;
@@ -81,6 +83,15 @@ public class Element {
                     &&e.getDirections()==this.getDirections());
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 71 * hash + Objects.hashCode(this.typeElement);
+        hash = 71 * hash + Objects.hashCode(this.ltr);
+        hash = 71 * hash + Objects.hashCode(this.direction);
+        return hash;
     }
     
     /**

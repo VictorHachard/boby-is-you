@@ -2,16 +2,9 @@ package common.model;
 
 import common.exeptions.TypeElementNotFoundException;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,17 +41,16 @@ public class Maps {
         this.x = map.x;
         this.y =map.y;
         this.unplayable=map.unplayable;
-        this.limitedDeplacement=map.limitedDeplacement;;
+        this.limitedDeplacement=map.limitedDeplacement;
         this.title=map.title;
     }
     
     /**
      * Recupere un BufferedReader et crée une Maps.
      * @param buffer BufferedReader
-     * @throws TypeElementNotFoundException 
      * @throws java.io.IOException 
      */
-    public Maps(BufferedReader buffer) throws TypeElementNotFoundException, IOException {
+    public Maps(BufferedReader buffer) throws IOException {
             String nextLine;
             //lecture de la premier ligne pour determiner et crée le board.
             String line = buffer.readLine();
@@ -123,9 +115,8 @@ public class Maps {
      * @param x int, la case en abssice ou on ajoute l'object.
      * @param y int, la case en ordonnée ou on ajoute l'object.
      * @param e Element, object à ajouter.
-     * @throws TypeElementNotFoundException 
      */
-    public void addMap(int x, int y, Element e)throws TypeElementNotFoundException {   
+    public void addMap(int x, int y, Element e) {   
         checkIfPosIsInMap(x,y);
         if (!(e.getType()==Type.PLAYER || e.getTypeElement()==TypeElement.ROCK))
             for(Element el:this.listAllElement) {
@@ -227,15 +218,15 @@ public class Maps {
     private void checkIfPosIsInMap(int x, int y) {
         if ((x < 0 || x > this.x-1) || (y < 0 || y > this.y-1)) {
             if ((x < 0 || x > this.x-1) && (y < 0 || y > this.y-1)) {
-                LOGGER.log(Level.SEVERE, "int x,y " + x + "," + y + " are out of the hashMap");
+                LOGGER.log(Level.SEVERE, "int x,y {0},{1} are out of the hashMap", new Object[]{x, y});
                 throw new ArithmeticException("int x,y " + x + "," + y + " are out of the hashMap");
             }
             else if (y < 0 || y > this.y-1) {
-                LOGGER.log(Level.SEVERE, "int y " + y + " is out of the hashMap");
+                LOGGER.log(Level.SEVERE, "int y {0} is out of the hashMap", y);
                 throw new ArithmeticException("int y " + y + " is out of the hashMap");
             }
             else {
-                LOGGER.log(Level.SEVERE, "int x " + x + " is out of the hashMap");
+                LOGGER.log(Level.SEVERE, "int x {0} is out of the hashMap", x);
                 throw new ArithmeticException("int x " + x + " is out of the hashMap");
             }
         }
@@ -307,56 +298,5 @@ public class Maps {
                 find.remove(e);
         //return liste de ce qui manque
         return find; 
-    }
-    
-    /**
-     * Sauvegarde la partie actuel, appele "save",
-     * le nomde fichier sera la date et l'heure actuel.
-     * @throws IOException 
-     */
-    public void save() throws IOException {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-        save(dateFormat.format(new Date()) +".txt");
-    }
-    
-    /**
-     * Sauvegarde la partie actuel, le nomde fichier sera fileName.
-     * @param fileName String, le nom de fichier desirée.
-     * @throws IOException 
-     */
-    public void save(String fileName) throws IOException {   
-    try {
-        BufferedWriter save = new BufferedWriter(new FileWriter(new File(fileName)));
-        //si le fichier n'existe pas, il est crée à la racine du projet.
-        //save la taille du Board.
-        int x1 = this.x-2;
-        int y1 = this.y-2;
-        save.write(x1 + " " + y1);
-        
-        //save chaque element.
-        for(int i=0;i<y;i++){
-            for(int j=0;j<x;j++){
-                List<Element> te =  this.Element.get(new Position(i,j));
-                for(int k=0;k<te.size();k++){
-                    //ne save pas les EMPTY
-                    if (!(te.get(k).getTypeElement()==TypeElement.EMPTY ||
-                          te.get(k).getTypeElement()==TypeElement.WALLINJOUABLE)) {
-                        save.newLine();
-                        int j1 = j-1;
-                        int i1 = i-1;
-                        String name = te.get(te.size()-k).getTypeElement().getElements().toLowerCase();
-                        int dir = te.get(te.size()-k).getDirections().getDir();
-                        if (dir == 0)
-                            save.write(name + " " + j1 + " " + i1);
-                        else save.write(name + " " + j1 + " " + i1 + " " + dir);
-                    }
-                }
-            }
-        }
-            
-        save.close();
-    }
-    catch (IOException e) {
-    }   
     }
 }

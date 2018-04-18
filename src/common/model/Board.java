@@ -69,14 +69,10 @@ public class Board {
     /**
      * 
      * @param map
-     * @throws TypeElementNotFoundException 
      */
-    public Board(Maps map) throws TypeElementNotFoundException {
-        try {
-            music = MusicHashMap.getInstance();
-        } catch (IOException ex) {
-            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public Board(Maps map) {
+        music = MusicHashMap.getInstance();
+       
         this.x = map.getSizeX();
         this.y = map.getSizeY();
         //genre le empty jouable
@@ -113,13 +109,10 @@ public class Board {
         new Shut(this));
         this.limitedDeplacement=map.limitedDeplacement;
         this.title=map.title;
-        try {
-            listLose = new GameModeNumberOfMove(this);
-            //listRule.addRule(new Shut(this));
-            //make = getAllPos(TypeElement.MAKE);
-        } catch (IOException ex) {
-            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        listLose = new GameModeNumberOfMove(this);
+        //listRule.addRule(new Shut(this));
+        //make = getAllPos(TypeElement.MAKE);
+        
     }   
     
     private void fillEmpty() {
@@ -217,7 +210,7 @@ public class Board {
      * @return
      * @throws TypeElementNotFoundException 
      */
-    private boolean checkRule(int x,int y,Type te, Type te1) throws TypeElementNotFoundException {
+    private boolean checkRule(int x,int y,Type te, Type te1) {
         boolean check = false;
         if (listGrid.get(x).get(y-1).find(te)
                 && listGrid.get(x).get(y+1).find(te1)) {
@@ -283,7 +276,7 @@ public class Board {
      * 
      * 
      */
-    private void rule(Position pos, TypeElement te) throws TypeElementNotFoundException {
+    private void rule(Position pos, TypeElement te) {
         if (checkRule(pos.y,pos.x,Type.TEXT,Type.RULE))
             return;
         checkRule(pos.y,pos.x,Type.TEXT,Type.TEXT);
@@ -295,7 +288,7 @@ public class Board {
      * @param text2
      * @throws TypeElementNotFoundException 
      */
-    private void changeType(TypeElement text,TypeElement text2) throws TypeElementNotFoundException { //e1 a mettre e a enlever
+    private void changeType(TypeElement text,TypeElement text2) { //e1 a mettre e a enlever
         TypeElement bef=text.getText();
         Element aft=new Element(text2.getText());
         List<Element> listAllElementDelete = new ArrayList<>();
@@ -404,7 +397,7 @@ public class Board {
      * @param object
      * @throws TypeElementNotFoundException 
      */
-    private void addPlacement(int x, int y, Element object) throws TypeElementNotFoundException {
+    private void addPlacement(int x, int y, Element object) {
         for(Element e:this.listAllElement)
                 if(e.equals(object)) {
                     listGrid.get(y).get(x).addElement(e);
@@ -485,7 +478,7 @@ public class Board {
      * @throws common.exeptions.TypeElementNotFoundException 
      * @throws java.io.IOException 
      */
-    public void movePlayer(Directions dir) throws TypeElementNotFoundException, IOException{
+    public void movePlayer(Directions dir) {
         //verifier si on a pas fini un gamemode
         if (!this.listLose.check())
             return;
@@ -495,7 +488,7 @@ public class Board {
         Position pos;
         TypeElement te;
         //just executer move
-        loop: for(Pair<Position,TypeElement> a:player) {
+        for(Pair<Position,TypeElement> a:player) {
             pos = a.getKey();
             te = a.getValue();
             if(pos.y+dir.getDirVer() < y && pos.x+dir.getDirHori() < x) {
@@ -503,7 +496,7 @@ public class Board {
                 temps1 = Rule.desactivatePlayerList(Property.MOVE);
                 try {
                 if (!this.listRule.check(pos, dir, te))
-                    continue loop;
+                    continue;
                 } catch (WinException e) {
                     return;
                 }
@@ -546,10 +539,8 @@ public class Board {
      * @param pos Position, de l'element initial
      * @param dir Directions, sens du déplacemnt 
      * @return true ou flase
-     * @throws IOException
-     * @throws TypeElementNotFoundException 
      */
-    boolean push(Position pos,Directions dir) throws TypeElementNotFoundException, IOException {
+    boolean push(Position pos,Directions dir) {
         if(pos.y+dir.getDirVer() < y && pos.x+dir.getDirHori() < x)
             if (listGrid.get(pos.y).get(pos.x).canPush()){
                 if(push(new Position(pos.x+dir.getDirHori(),pos.y+dir.getDirVer()),dir)){

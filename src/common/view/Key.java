@@ -1,11 +1,5 @@
 package common.view;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.input.KeyCode;
 
 /**
@@ -15,7 +9,6 @@ import javafx.scene.input.KeyCode;
 public class Key {
     
     private static Key INSTANCE = null;
-    private static final Logger LOGGER = Logger.getGlobal();
     
     static Key getInstance() {           
         if (INSTANCE == null)  
