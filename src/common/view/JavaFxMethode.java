@@ -34,7 +34,7 @@ public class JavaFXMethode {
     public static InputStream loadFont() {
         InputStream is = null;
         try {
-            URL uri = JavaBobyIsYou.class.getResource("/common/fonts/Minecraft.ttf");
+            URL uri = JavaBobyIsYou.class.getResource("/common/ressources/fonts/Minecraft.ttf");
             is = uri.openStream();
             return is;
         } catch (IOException ex) {

@@ -34,8 +34,10 @@ public class ImageHashMap {
         TypeElement[] listAllElement = TypeElement.getAll();
         for(TypeElement e:listAllElement)
             try {
-                Image img = new Image("common/images/"+e.toString().toLowerCase()+".png");
+                Image img = new Image("common/ressources/images/"+e.toString().toLowerCase()+".png");
                 this.imageMap.put(e, img);
+                //img = new Image("common/images/"+e.toString().toLowerCase()+".gif");
+                //this.imageMap.put(e, img);
             } catch (IllegalArgumentException ex) {
                 LOGGER.log(Level.WARNING, "Image not fond : {0}", e);
             }

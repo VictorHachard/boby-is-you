@@ -137,7 +137,7 @@ public final class Levels {
         for (char a:listchar) {
             InputStream is = null;
             try {
-                URL uri = JavaBobyIsYou.class.getResource("/common/maps/map"+a+".txt");
+                URL uri = JavaBobyIsYou.class.getResource("/common/ressources/maps/map"+a+".txt");
                 is = uri.openStream();
                 InputStreamReader ipsr = new InputStreamReader(is);
                 try (BufferedReader br = new BufferedReader(ipsr)) {

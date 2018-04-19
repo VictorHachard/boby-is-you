@@ -12,6 +12,7 @@ import javafx.util.Pair;
 public class Board {
     
     private List<Element> listAllElement = new ArrayList<>();
+    private Element best = new Element(TypeElement.BESTELEME);
     private final GameMode listLose;
     private List<Position> is;
     private List<Position> make;
@@ -201,7 +202,7 @@ public class Board {
             if (listGrid.get(x).get(y+1).find(Type.TEXT))
                 changeType(listGrid.get(x).get(y-1).getType(te),
                     listGrid.get(x).get(y+1).getType(te1));
-            else {
+            else {                        
                 if (listGrid.get(x).get(y+1).find(TypeElement.UP) || 
                         listGrid.get(x).get(y+1).find(TypeElement.LEFT) ||
                         listGrid.get(x).get(y+1).find(TypeElement.DOWN) ||
@@ -460,9 +461,12 @@ public class Board {
      * @param dir Direction de l'input de l'utilsateur.
      */
     public void movePlayer(Directions dir) {
-        
-        System.out.println(listGrid.get(0).get(0).getZ().get(0).getTypeElement());
-        System.out.println(listGrid.get(0).get(0).getZ().get(0).getTypeRule().get(0));
+        for(int i=1;i<y-1;i++)
+            for(int j=1;j<x-1;j++)
+                if (this.listGrid.get(j).get(i).find(Property.BEST) && !this.listGrid.get(j).get(i).find(TypeElement.BESTELEME))
+                   this.listGrid.get(j).get(i).addElement(best);
+                else if (!this.listGrid.get(j).get(i).find(Property.BEST) && this.listGrid.get(j).get(i).find(TypeElement.BESTELEME))
+                    this.listGrid.get(j).get(i).removeElement(TypeElement.BESTELEME);
         //verifier si on a pas fini un gamemode
         if (!this.listLose.check())
             return;

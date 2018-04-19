@@ -1,7 +1,5 @@
 package common.view;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
@@ -65,7 +63,6 @@ public class MenuEsc {
            Levels.instance().stopGame();
         });
         buttonExit.setOnAction(event -> {
-            Logger.getLogger(MenuInit.class.getName()).log(Level.INFO, "Exit of the application");
             primaryStage.close();
         });
         scene.setOnKeyPressed(e -> {

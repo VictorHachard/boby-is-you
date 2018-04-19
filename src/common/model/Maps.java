@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static java.util.stream.Collectors.toList;
-import static jdk.nashorn.internal.objects.NativeString.toUpperCase;
 
 /**
  *
@@ -74,7 +73,7 @@ public class Maps {
                     addMap(Integer.parseInt(parts[1])+1,
                         Integer.parseInt(parts[2])+1,
                         new Element(TypeElement.fromString(
-                                toUpperCase(parts[0])),
+                                parts[0]=parts[0].toUpperCase()),
                                 Directions.fromString(movingDirection)));
                 } 
             }

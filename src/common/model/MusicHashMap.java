@@ -41,7 +41,7 @@ public class MusicHashMap {
             try {
                 this.isPlaying.put(m, Boolean.FALSE);
                 this.musicMap.put(m, new MediaPlayer(
-                new Media(JavaBobyIsYou.class.getResource("/common/music/"+m.toString().toLowerCase()+".mp3").toString())));
+                new Media(JavaBobyIsYou.class.getResource("/common/ressources/music/"+m.toString().toLowerCase()+".mp3").toString())));
             }
             catch (MediaException ex) {
                 LOGGER.log( Level.WARNING, "Unable to load : " + m,ex);
