@@ -8,7 +8,7 @@ import java.util.List;
  *
  * @author Glaskani
  */
-public class Placement {
+public class Cell {
     
     private List<Element> listZ;
 
@@ -16,7 +16,7 @@ public class Placement {
      * 
      * @param e Element
      */
-    public Placement(Element e) {
+    public Cell(Element e) {
         listZ = new ArrayList<>();
         listZ.add(new Element(e));
     }

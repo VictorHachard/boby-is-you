@@ -1,4 +1,4 @@
-level 1
+level 0
 continue true
 KeyUP Z
 KeyDOWN S

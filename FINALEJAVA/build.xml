@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<project name="Test" default="archive" >
+<description>Compile, Clean, Run, DoUnityTest</description>
+
+  <target name="init">
+    <mkdir dir="build/classes" />
+    <mkdir dir="dist" />
+  </target>
+
+  <target name="biuld" depends="init"
+      description="Compile le code source">
+    <javac srcdir="src" destdir="build/classes" />
+  </target>
+
+  <target name="archive" depends="compile"
+      description="Creation d'une livraison JAR">
+    <jar destfile="dist/projet.jar" basedir="build/classes" />
+  </target>
+
+  <target name="clean" depends="init"
+      description="Supprime les repertoires temporaires utilises">
+    <delete dir="build" />
+    <delete dir="dist" />
+  </target>
+
+  <target name="run" depends="compile"
+      description="Execute le programme">
+    <echo level="warning" message="running" />
+    <java
+      classname="common.view.JavaBobyIsYou"
+      classpath="build/classes">
+      <arg value="JAVA"/>
+      <arg value="JEE"/>
+      <arg value="SOA"/>
+      <arg file="."/>
+    </java>
+  </target>
+
+</project>
