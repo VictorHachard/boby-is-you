@@ -13,7 +13,6 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
-import static javafx.application.Application.launch;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import static javafx.scene.input.KeyCode.getKeyCode;
