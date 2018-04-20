@@ -6,22 +6,38 @@ package common.model;
  */
 public class GameModeTimer extends GameMode {
     
-    private double limitedTimer;
+    private long limitedTimer;
     private Board board;
+    private Chrono chrono;
+    private long duree=0;
+    
+    public int getTime() {
+        return (int) limitedTimer/1000;
+    }
 
     GameModeTimer(Board board) {
         this.board=board;
-        //this.limitedTimer=;
+        this.limitedTimer=10000;
+        chrono = new Chrono();
+        chrono.start();
     }
     
     @Override
     boolean work() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        chrono.stop();
+        duree = chrono.getDureeMs();
+        System.out.println(limitedTimer);
+        if (!(duree>limitedTimer)) {
+            limitedTimer=limitedTimer-duree;
+            chrono = new Chrono();
+            chrono.start();
+        }
+        return !(duree>limitedTimer);
     }
 
     @Override
     Game getGame() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return Game.TIMER;
     }
     
 }

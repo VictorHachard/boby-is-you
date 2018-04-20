@@ -1,5 +1,6 @@
 18 18
 config 45
+title Palomar
 text_baba 0 0
 text_wall 1 0
 wall 2 0

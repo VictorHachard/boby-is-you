@@ -1,7 +1,6 @@
 18 18
-is 14 15
 config 11
-title test_test
+title Abriville
 text_wall 4 4
 is 5 4
 stop 6 4

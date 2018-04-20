@@ -7,6 +7,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import common.model.Board;
 import common.model.Directions;
+import common.model.Element;
 import common.model.Game;
 import common.model.GameMode;
 import common.model.Levels;
@@ -24,6 +25,7 @@ import javafx.scene.text.Text;
 public class Display {
        
     private Text move = new Text();
+    private Text time = new Text();
     public Scene scene;
     private GridPane root= new GridPane();
     private Board board;
@@ -113,6 +115,16 @@ public class Display {
         hbox.getChildren().add(move);
     }
     
+    private void gmTime() {
+        if (GameMode.isActive(Game.TIMER)) {
+            time.setText("temps "+Integer.toString(board.getTime())+" ");
+            time.setFont(Font.loadFont(JavaFXMethode.loadFont(), 20));
+            time.setFill(Color.RED);
+        }
+        hbox.getChildren().remove(time);
+        hbox.getChildren().add(time);
+    }
+    
     /**
      * importe une image et qui l'ajoute a un pane passer en parametre
      * @param name nom de l'image à importer
@@ -154,11 +166,10 @@ public class Display {
         rootImage.getChildren().addAll(root);
         for(int i=0;i<this.board.getSizeX();i++) {
             for(int j=0;j<this.board.getSizeY();j++) {
-                for(int k=0;k<this.board.getListGrid().get(j).get(i)
-                        .getZ().size();k++) {   
-                    TypeElement objectName = this.board.getListGrid().get(j)
-                            .get(i).getZ().get(k).getTypeElement();
-                    addImage(objectName,i,j);
+                for (Element e:this.board.getListGrid().get(j).get(i).getZ()) {
+                    addImage(e.getTypeElement(),i,j);
+                    if (this.board.best(e.getTypeElement()))
+                        addImage(TypeElement.BESTELEME,i,j);
                 }
             }
         }

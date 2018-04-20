@@ -1,5 +1,6 @@
 18 18
 config 58
+title Balbec
 baba 5 11
 left 4 4
 is 5 5

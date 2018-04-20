@@ -1,8 +1,6 @@
 package common.model;
 
-import common.exeptions.TypeElementNotFoundException;
 import common.view.JavaBobyIsYou;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;

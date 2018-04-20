@@ -1,5 +1,6 @@
 18 18
 config 8
+title Chako_Paul
 anni 12 5
 grass 1 1
 grass 8 1
@@ -69,9 +70,11 @@ wall 14 15
 text_anni 10 2
 is 11 2
 win 12 2
-text_anni 10 1
-is 11 1
-move 12 1
+and 13 2
+move 14 2
+text_anni 1 12
+is 1 13
+best 1 14
 text_wall 6 9
 is 7 9
 stop 8 9

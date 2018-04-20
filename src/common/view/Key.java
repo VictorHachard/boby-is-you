@@ -41,16 +41,20 @@ public class Key {
     }
     
     void setKeyLEFT(KeyCode param) {
-        this.LEFT = param;
+        if (!(param==null))
+            this.LEFT = param;
     }
     void setKeyRIGHT(KeyCode param) {
-        this.RIGHT = param;
+        if (!(param==null))
+            this.RIGHT = param;
     }
     void setKeyUP(KeyCode param) {
-        this.UP = param;
+        if (!(param==null))
+            this.UP = param;
     }
     void setKeyDOWN(KeyCode param) {
-        this.DOWN = param;
+        if (!(param==null))
+            this.DOWN = param;
     }
     void setKeyR(KeyCode param) {
         this.R = param;

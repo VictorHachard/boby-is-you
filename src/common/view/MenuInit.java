@@ -63,8 +63,7 @@ public class MenuInit {
         buttonParameter.setOnAction(event -> {    
             this.primaryStage.setScene(MenuParameter.getInstance().scene);
         });
-        buttonContinue.setOnAction(event -> {    
-            System.out.println(Levels.getInstance().getContinue());
+        buttonContinue.setOnAction(event -> {
             if (Levels.getInstance().getContinue())
                 Levels.getInstance().loadGame();
         });

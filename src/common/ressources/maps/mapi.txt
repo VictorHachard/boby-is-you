@@ -1,5 +1,7 @@
 18 18
 config 60
+title Camorr
+best 4 7
 wall 0 0
 wall 1 0
 wall 2 0

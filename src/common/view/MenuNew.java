@@ -52,7 +52,9 @@ public class MenuNew {
         root.getChildren().addAll(vbox);
         vbox.setTranslateX((JavaBobyIsYou.WIDTH/2)-90);
 	vbox.setTranslateY((JavaBobyIsYou.HEIGHT/2)-70);
-
+        
+        GameMode.desactivateAll();
+        
         buttonBack.setOnAction(event -> {
             this.primaryStage.setScene(MenuInit.getInstance().scene);
         });

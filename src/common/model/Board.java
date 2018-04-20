@@ -11,9 +11,10 @@ import javafx.util.Pair;
  */
 public class Board {
     
+    private GameModeTimer gameModeTimer = new GameModeTimer(this);
     private List<Element> listAllElement = new ArrayList<>();
-    private Element best = new Element(TypeElement.BESTELEME);
     private final GameMode listLose;
+    private List<TypeElement> bestlist = new ArrayList<>();
     private List<Position> is;
     private List<Position> make;
     private List<List<Cell>> listGrid = new ArrayList<>();
@@ -96,10 +97,15 @@ public class Board {
         this.limitedDeplacement=map.limitedDeplacement;
         this.title=map.title;
         listLose = new GameModeNumberOfMove(this);
+        listLose.addGameMode(gameModeTimer);
         //listRule.addRule(new Shut(this));
         //make = getAllPos(TypeElement.MAKE);
         
     }   
+    
+    public int getTime() {
+        return this.gameModeTimer.getTime();
+    }
     
     private void fillEmpty() {
         //remove tout les empty
@@ -202,14 +208,17 @@ public class Board {
             if (listGrid.get(x).get(y+1).find(Type.TEXT))
                 changeType(listGrid.get(x).get(y-1).getType(te),
                     listGrid.get(x).get(y+1).getType(te1));
-            else {                        
+            else {  
+                if (listGrid.get(x).get(y+1).find(TypeElement.BEST)) {
+                    bestlist.add(listGrid.get(x).get(y-1).getType(te).getText());
+                }
                 if (listGrid.get(x).get(y+1).find(TypeElement.UP) || 
                         listGrid.get(x).get(y+1).find(TypeElement.LEFT) ||
                         listGrid.get(x).get(y+1).find(TypeElement.DOWN) ||
                         listGrid.get(x).get(y+1).find(TypeElement.RIGHT)) {
                     changeDirections(listGrid.get(x).get(y-1).getType(te),
                     listGrid.get(x).get(y+1).getType(te1));
-                }
+                } 
                 else addRule(listGrid.get(x).get(y-1).getType(te),
                     listGrid.get(x).get(y+1).getType(te1));
             }
@@ -222,6 +231,9 @@ public class Board {
                 changeType(listGrid.get(x-1).get(y).getType(te),
                     listGrid.get(x+1).get(y).getType(te1));
             else { 
+                if (listGrid.get(x+1).get(y).find(TypeElement.BEST)) {
+                    bestlist.add(listGrid.get(x-1).get(y).getType(te).getText());
+                }
                 if (listGrid.get(x+1).get(y).find(TypeElement.UP) || 
                         listGrid.get(x+1).get(y).find(TypeElement.LEFT) ||
                         listGrid.get(x+1).get(y).find(TypeElement.DOWN) ||
@@ -236,11 +248,6 @@ public class Board {
         }
         return check;
     }
-    
-    private void test(int x,int y,Type te, Type te1) {
-            if (listGrid.get(x+1).get(y).find(Type.TEXT) && listGrid.get(x-1).get(y).find(Type.TEXT))
-                    addElementOnElement(listGrid.get(x-1).get(y).getType(te).getText(), new Element(listGrid.get(x+1).get(y).getType(te1).getText()));
-        }
     
     /**
      * 
@@ -461,18 +468,12 @@ public class Board {
      * @param dir Direction de l'input de l'utilsateur.
      */
     public void movePlayer(Directions dir) {
-        for(int i=1;i<y-1;i++)
-            for(int j=1;j<x-1;j++)
-                if (this.listGrid.get(j).get(i).find(Property.BEST) && !this.listGrid.get(j).get(i).find(TypeElement.BESTELEME))
-                   this.listGrid.get(j).get(i).addElement(best);
-                else if (!this.listGrid.get(j).get(i).find(Property.BEST) && this.listGrid.get(j).get(i).find(TypeElement.BESTELEME))
-                    this.listGrid.get(j).get(i).removeElement(TypeElement.BESTELEME);
         //verifier si on a pas fini un gamemode
         if (!this.listLose.check())
             return;
-        List<Pair<Position,TypeElement>> player = sort(dir, getPlayerType());   
-        if (player==null)
+        if (getPlayerType()==null)
             return;
+        List<Pair<Position,TypeElement>> player = sort(dir, getPlayerType());   
         Position pos;
         TypeElement te;
         //just executer move
@@ -483,13 +484,12 @@ public class Board {
                 List<Property> temps1 = null;
                 temps1 = Rule.desactivatePlayerList(Property.MOVE);
                 try {
-                if (!this.listRule.check(pos, dir, te))
-                    continue;
+                    if (!this.listRule.check(pos, dir, te))
+                        continue;
                 } catch (WinException e) {
                     return;
                 }
                 Rule.activatePlayerList(temps1);
-                System.out.println(listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).canAdd());
                 if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).canAdd()){ //verifie si il peut add la case suivante
                     editPlacement(pos,dir,te);
                     //this.music.play(Music.ADD);
@@ -502,6 +502,7 @@ public class Board {
             }
         }
         deleteAllRule();
+        bestlist=new ArrayList<>();
         fillEmpty();
         for (Position p:is)
             rule(p,TypeElement.IS);
@@ -511,18 +512,23 @@ public class Board {
             return;
         //desactiver les regle a pas checker 
         List<Property> temps = Rule.desactivatePlayerList(Property.TP,Property.SLIP);
-        for (Pair<Position,TypeElement> p:player)
+        for (Pair<Position,TypeElement> p:player) {
             try {
                 if (this.listRule.check(p.getKey(), Directions.NONE, p.getValue()))
                     continue; 
             } catch (WinException ex) {
                 return;
             }
+        }
         Rule.activatePlayerList(temps);
         this.limitedDeplacement--;
-        for (Element e:this.listAllElement)
-            System.out.println(e.getTypeElement());
-        //System.out.println(this.listGrid.get(0).get(0).getZ().get(0).getTypeRule().get(0));
+    }
+    
+    public boolean best(TypeElement te) {
+        for (TypeElement e:this.bestlist)
+            if (e==te)
+                return true;
+        return false;
     }
     
     /**
@@ -573,7 +579,7 @@ public class Board {
      * @return 
      */
     private List<Pair<Position,TypeElement>> sort(Directions dir, List<Pair<Position,TypeElement>> p) {
-        if (p.isEmpty())
+        if (p.isEmpty()||p==null)
             return null;
         Collections.sort(p, (Pair<Position,TypeElement> o1, Pair<Position,TypeElement> o2) -> {
             if (null!=dir)

@@ -1,5 +1,6 @@
 18 18
 config 40
+title Greenfalls
 text_flag 6 0
 is 7 0
 win 8 0
@@ -46,7 +47,6 @@ ice 9 10
 ice 10 10
 ice 6 11
 ice 7 11
-ice 8 11
 ice 9 11
 ice 10 11
 ice 6 12

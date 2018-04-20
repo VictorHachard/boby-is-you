@@ -263,39 +263,4 @@ public class Maps {
         }
         return sb.toString();
     }
-
-    /**
-     * Revois une liste vide ou avec des elements.
-     * @return ListTypeElements, les type elements obligatoires,
-     * si la liste est vide c'est qu'il ne manque rien,
-     * si il y a des type elments cela veut dire qu'il manque ces type elements.
-     * Element possible : PLAYER1, IS, WIN, TEXT_PLAYER1, TEXT_YOU.
-     */
-    public List<TypeElement> getForget() {
-        List<TypeElement> find = new ArrayList<>();
-        List<TypeElement> need = new ArrayList<>();
-        need.add(TypeElement.PLAYER1);
-        need.add(TypeElement.IS);
-        need.add(TypeElement.WIN);
-        need.add(TypeElement.TEXT_YOU);
-        need.add(TypeElement.TEXT_PLAYER1);
-        
-        //parcourire tout la map pour cree la liste find
-        for(int i=0;i<y;i++){
-            for(int j=0;j<x;j++){
-                List<Element> te =  this.Element.get(new Position(i,j));
-                for(int k=0;k<te.size();k++){
-                    for(TypeElement e:need)
-                        if (te.get(k).getTypeElement()==e)
-                            find.add(te.get(k).getTypeElement());
-                }
-            }
-        }
-        //supprimer des type element de find si ils sont dans need
-        for(TypeElement e:find)
-            if (need.contains(e))
-                find.remove(e);
-        //return liste de ce qui manque
-        return find; 
-    }
 }
