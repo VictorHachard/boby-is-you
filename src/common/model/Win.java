@@ -18,10 +18,8 @@ public class Win extends Rule {
     
     @Override
     public boolean work(Position pos,Directions dir,TypeElement te) throws WinException {
-        if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).find(Property.WIN)) {
-            Levels.instance().nextLevel();
+        if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).find(Property.WIN))
             throw new WinException();
-        }
         return true;
     }
 

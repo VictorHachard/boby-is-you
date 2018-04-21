@@ -20,7 +20,7 @@ import java.io.InputStreamReader;
 public final class Levels {
 
     private boolean carryOn;
-    private final List<Maps> listMap;
+    private final List<Maps> listMap = new ArrayList<>();;
     private int indice;
     private static Levels INSTANCE = null;
     private Stage primaryStage = MenuInit.getInstance().getStage();
@@ -50,7 +50,6 @@ public final class Levels {
      * load toutes les maps pas encore jouée.
      */
     private Levels() {
-        listMap=new ArrayList<>();
         indice=JavaBobyIsYou.indice;
         carryOn=JavaBobyIsYou.carryOn;
         loadMap();

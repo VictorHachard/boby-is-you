@@ -20,7 +20,6 @@ public class Maps {
 
     private int x;
     private int y;
-    
     private Map<Position, List<Element>> Element = new HashMap<>();
     private ArrayList<Element> listAllElement = new ArrayList<>();
     private Element unplayable = new Element(TypeElement.WALLINJOUABLE,Directions.RIGHT);
@@ -59,7 +58,9 @@ public class Maps {
             generateMap(Integer.parseInt(size[0]),Integer.parseInt(size[1]));
             
             //lecture de toutes les autres lignes pour ajouter les elments dans le board.
-            loop: while ((nextLine = buffer.readLine()) != null) {
+            while ((nextLine = buffer.readLine()) != null) {
+                if (nextLine.length()==0)
+                    continue;
                 String[] parts = nextLine.split(" ");
                 if (parts[0].equals("config")) {
                     this.limitedDeplacement = Integer.parseInt(parts[1]);  
@@ -70,11 +71,12 @@ public class Maps {
                 }
                 else {
                     int movingDirection=parts.length>3 ? Integer.parseInt(parts[3]) : 0;
-                    addMap(Integer.parseInt(parts[1])+1,
-                        Integer.parseInt(parts[2])+1,
-                        new Element(TypeElement.fromString(
-                                parts[0]=parts[0].toUpperCase()),
-                                Directions.fromString(movingDirection)));
+                    if (checkIfPosIsInMap(Integer.parseInt(parts[1])+1,Integer.parseInt(parts[2])+1))
+                        addMap(Integer.parseInt(parts[1])+1,
+                            Integer.parseInt(parts[2])+1,
+                            new Element(TypeElement.fromString(
+                                    parts[0]=parts[0].toUpperCase()),
+                                    Directions.fromString(movingDirection)));
                 } 
             }
             buffer.close(); 
@@ -87,9 +89,9 @@ public class Maps {
      * @param y int, taille total de la map (aves les mur injouables).
      */
     public Maps(int x, int y) {
-        this.x = x;
-        this.y = y;
-        generateMap(x-2, y-2);
+        this.x = x+2;
+        this.y = y+2;
+        generateMap(x, y);
     }
 
     /**
@@ -116,16 +118,17 @@ public class Maps {
      * @param e Element, object à ajouter.
      */
     public void addMap(int x, int y, Element e) {   
-        checkIfPosIsInMap(x,y);
-        if (!(e.getType()==Type.PLAYER || e.getTypeElement()==TypeElement.ROCK))
-            for(Element el:this.listAllElement) {
-                if(el.equals(e)) {
-                    putObjects (Element, new Position(y,x), el);
-                    return;
+        if (checkIfPosIsInMap(x,y)) {
+            if (!(e.getType()==Type.PLAYER || e.getTypeElement()==TypeElement.ROCK))
+                for(Element el:this.listAllElement) {
+                    if(el.equals(e)) {
+                        putObjects (Element, new Position(y,x), el);
+                        return;
+                    }
                 }
-            }
-        listAllElement.add(e);
-        putObjects (Element, new Position(y,x), e);
+            listAllElement.add(e);
+            putObjects (Element, new Position(y,x), e);
+        }
     }
     
     /**
@@ -145,8 +148,8 @@ public class Maps {
      * @throws TypeElementNotFoundException 
      */
     public void removeMap(int x, int y, Element e) throws TypeElementNotFoundException {
-        checkIfPosIsInMap(x,y);
-        removeObjects (Element, new Position(y,x), e);
+        if (checkIfPosIsInMap(x,y))
+            removeObjects (Element, new Position(y,x), e);
     }
     
     /**
@@ -190,13 +193,9 @@ public class Maps {
      * @return ListElement, liste de tout les element de cette position.
      */
     public List<Element> getListElement(int x, int y) { 
-        checkIfPosIsInMap(x,y);
-        /*List<Element> copy = new ArrayList<>();
-        for (Element e:Element.get(new Position(y,x))) {
-            copy.add(new Element(e.typeElement,e.direction));
-            for (Element e1:)
-                }*/
-        return deepCopy(Element.get(new Position(y,x)));
+        if (checkIfPosIsInMap(x,y))
+            return deepCopy(Element.get(new Position(y,x)));
+        return null;
     }
     
     /**
@@ -214,21 +213,33 @@ public class Maps {
      * @param x int, position
      * @param y int, position
      */
-    private void checkIfPosIsInMap(int x, int y) {
+    private boolean checkIfPosIsInMap(int x, int y) {
         if ((x < 0 || x > this.x-1) || (y < 0 || y > this.y-1)) {
             if ((x < 0 || x > this.x-1) && (y < 0 || y > this.y-1)) {
-                LOGGER.log(Level.SEVERE, "int x,y {0},{1} are out of the hashMap", new Object[]{x, y});
-                throw new ArithmeticException("int x,y " + x + "," + y + " are out of the hashMap");
+                try  {
+                    throw new ArithmeticException();
+                } catch (ArithmeticException e) {
+                    LOGGER.log(Level.SEVERE, "int x,y "+x+","+y+" are out of the Maps",e);
+                    return false;
+                }
             }
             else if (y < 0 || y > this.y-1) {
-                LOGGER.log(Level.SEVERE, "int y {0} is out of the hashMap", y);
-                throw new ArithmeticException("int y " + y + " is out of the hashMap");
+                try  {
+                    throw new ArithmeticException();
+                } catch (ArithmeticException e) {
+                    LOGGER.log(Level.SEVERE, "int y "+y+" is out of the Maps", e);
+                    return false;
+                }
             }
             else {
-                LOGGER.log(Level.SEVERE, "int x {0} is out of the hashMap", x);
-                throw new ArithmeticException("int x " + x + " is out of the hashMap");
+                try  {
+                    throw new ArithmeticException();
+                } catch (ArithmeticException e) {
+                    LOGGER.log(Level.SEVERE, "int x "+x+" is out of the Maps", e);
+                    return false;
+                }
             }
-        }
+        } return true;
     }
     
     /**

@@ -22,12 +22,16 @@ public class Board {
     private final int y;
     private final Cell unplayable = new Cell(new Unplayable());
     private final Element empty = new Empty();
-    private final MusicHashMap music= MusicHashMap.getInstance();;
+    private final MusicHashMap music= MusicHashMap.getInstance();
     private Rule listRule;
     private static Board INSTANCE = null;
     private final Element emptyPlayable=new Element(TypeElement.EMPTY);
     public int limitedDeplacement;
     public String title="";
+    
+    public Rule getRule() {
+        return listRule;
+    }    
     
     /**
      * 
@@ -136,6 +140,8 @@ public class Board {
      */
     private List<Position> getAllPos(TypeElement te) {
         List<Position> lp = new ArrayList<>();
+        if (getPositionOf(te)==null)
+            return lp;
         for (Position p:getPositionOf(te))
             lp.add(p);
         return lp;
@@ -487,6 +493,7 @@ public class Board {
                     if (!this.listRule.check(pos, dir, te))
                         continue;
                 } catch (WinException e) {
+                    Levels.instance().nextLevel();
                     return;
                 }
                 Rule.activatePlayerList(temps1);
