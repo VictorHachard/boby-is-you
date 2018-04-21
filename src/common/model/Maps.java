@@ -50,18 +50,17 @@ public class Maps {
      */
     public Maps(BufferedReader buffer) throws IOException {
             String nextLine;
-            //lecture de la premier ligne pour determiner et crée le board.
             String line = buffer.readLine();
             String[] size = line.split(" ");
             this.x = Integer.parseInt(size[0])+2;
             this.y = Integer.parseInt(size[1])+2;
             generateMap(Integer.parseInt(size[0]),Integer.parseInt(size[1]));
-            
-            //lecture de toutes les autres lignes pour ajouter les elments dans le board.
             while ((nextLine = buffer.readLine()) != null) {
                 if (nextLine.length()==0)
                     continue;
                 String[] parts = nextLine.split(" ");
+                if (parts.length<=1)
+                    continue;
                 if (parts[0].equals("config")) {
                     this.limitedDeplacement = Integer.parseInt(parts[1]);  
                     //this.limitedDeplacement = Integer.parseInt(parts[2]);  
@@ -69,14 +68,19 @@ public class Maps {
                 else if (parts[0].equals("title")) {
                     this.title=parts[1].replaceAll("_", " ");
                 }
+                else if (parts.length<=2 || parts.length>=5)
+                    continue;
                 else {
-                    int movingDirection=parts.length>3 ? Integer.parseInt(parts[3]) : 0;
-                    if (checkIfPosIsInMap(Integer.parseInt(parts[1])+1,Integer.parseInt(parts[2])+1))
-                        addMap(Integer.parseInt(parts[1])+1,
-                            Integer.parseInt(parts[2])+1,
+                    int dir=parts.length>3 ? Integer.parseInt(parts[3]) : 0;
+                    int tmpx=Integer.parseInt(parts[1])+1;
+                    int tmpy=Integer.parseInt(parts[2])+1;
+                    TypeElement te =TypeElement.fromString(
+                                    parts[0]=parts[0].toUpperCase());
+                    if (checkIfPosIsInMap(tmpx,tmpy,te))
+                        addMap(tmpx,tmpy,
                             new Element(TypeElement.fromString(
                                     parts[0]=parts[0].toUpperCase()),
-                                    Directions.fromString(movingDirection)));
+                                    Directions.fromString(dir)));
                 } 
             }
             buffer.close(); 
@@ -118,7 +122,7 @@ public class Maps {
      * @param e Element, object à ajouter.
      */
     public void addMap(int x, int y, Element e) {   
-        if (checkIfPosIsInMap(x,y)) {
+        if (checkIfPosIsInMap(x,y,e.getTypeElement())) {
             if (!(e.getType()==Type.PLAYER || e.getTypeElement()==TypeElement.ROCK))
                 for(Element el:this.listAllElement) {
                     if(el.equals(e)) {
@@ -148,7 +152,7 @@ public class Maps {
      * @throws TypeElementNotFoundException 
      */
     public void removeMap(int x, int y, Element e) throws TypeElementNotFoundException {
-        if (checkIfPosIsInMap(x,y))
+        if (checkIfPosIsInMap(x,y,e.getTypeElement()))
             removeObjects (Element, new Position(y,x), e);
     }
     
@@ -193,7 +197,7 @@ public class Maps {
      * @return ListElement, liste de tout les element de cette position.
      */
     public List<Element> getListElement(int x, int y) { 
-        if (checkIfPosIsInMap(x,y))
+        if (checkIfPosIsInMap(x,y,TypeElement.NONEINRANGE))
             return deepCopy(Element.get(new Position(y,x)));
         return null;
     }
@@ -213,29 +217,29 @@ public class Maps {
      * @param x int, position
      * @param y int, position
      */
-    private boolean checkIfPosIsInMap(int x, int y) {
+    private boolean checkIfPosIsInMap(int x, int y,TypeElement te) {
         if ((x < 0 || x > this.x-1) || (y < 0 || y > this.y-1)) {
             if ((x < 0 || x > this.x-1) && (y < 0 || y > this.y-1)) {
                 try  {
-                    throw new ArithmeticException();
-                } catch (ArithmeticException e) {
-                    LOGGER.log(Level.SEVERE, "int x,y "+x+","+y+" are out of the Maps",e);
+                    throw new IndexOutOfBoundsException();
+                } catch (IndexOutOfBoundsException e) {
+                    LOGGER.log(Level.SEVERE, "TypeElement "+te+" is out of the Maps, "+x+", "+y+"\nSOLVE: delete "+te);
                     return false;
                 }
             }
             else if (y < 0 || y > this.y-1) {
                 try  {
-                    throw new ArithmeticException();
-                } catch (ArithmeticException e) {
-                    LOGGER.log(Level.SEVERE, "int y "+y+" is out of the Maps", e);
+                    throw new IndexOutOfBoundsException();
+                } catch (IndexOutOfBoundsException e) {
+                    LOGGER.log(Level.SEVERE, "TypeElement "+te+" is out of the Maps, "+x+"\nSOLVE: delete "+te);
                     return false;
                 }
             }
             else {
                 try  {
-                    throw new ArithmeticException();
-                } catch (ArithmeticException e) {
-                    LOGGER.log(Level.SEVERE, "int x "+x+" is out of the Maps", e);
+                    throw new IndexOutOfBoundsException();
+                } catch (IndexOutOfBoundsException e) {
+                    LOGGER.log(Level.SEVERE, "TypeElement "+te+" is out of the Maps, "+x+"\nSOLVE: delete "+te);
                     return false;
                 }
             }

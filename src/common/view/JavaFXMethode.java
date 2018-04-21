@@ -22,13 +22,17 @@ public class JavaFXMethode {
         return imageView;
     }
 
-    public static Text addTitle(String string,Color color) {
+    public static Text addTitle(String string,Color color,int i) {
         Text title = new Text(string);
         title.setFont(Font.loadFont(loadFont(),40));
         title.setFill(color);
         title.setTranslateX(JavaBobyIsYou.WIDTH/2 - title.getLayoutBounds().getWidth()/2);
         title.setTranslateY(JavaBobyIsYou.HEIGHT/3);
         return title;
+    }
+    
+    public static Text addTitle(String string,Color color) {
+        return addTitle(string,color,40);
     }
     
     public static InputStream loadFont() {

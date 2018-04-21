@@ -81,7 +81,9 @@ public enum TypeElement {
     
     IS("IS","IS  ",3,null,null,Type.CONNECTER),
     AND("AND","AND ",3,null,null,Type.CONNECTER),
-    MAKE("MAKE","MAKE",3,null,null,Type.CONNECTER);
+    MAKE("MAKE","MAKE",3,null,null,Type.CONNECTER),
+    
+    NONEINRANGE("NONE",null,-1,null,null,null);
 
     private final String fromString;
     private final TypeElement te;
@@ -125,7 +127,7 @@ public enum TypeElement {
             throw new TypeElementNotFoundException();
         }
         catch(TypeElementNotFoundException ex) {
-            LOGGER.log( Level.WARNING, "TypeElements {0} was not found, {0} was replaced by EMPTY",element);
+            LOGGER.log( Level.WARNING, "TypeElements {0} was not found\nSOLVE: {0} was replaced by EMPTY",element);
             return TypeElement.EMPTY;
         }
     }

@@ -11,6 +11,7 @@ import javafx.util.Pair;
  */
 public class Board {
     
+    private CheckAchievement achi = CheckAchievement.getInstance();
     private GameModeTimer gameModeTimer = new GameModeTimer(this);
     private List<Element> listAllElement = new ArrayList<>();
     private final GameMode listLose;
@@ -483,6 +484,7 @@ public class Board {
         Position pos;
         TypeElement te;
         //just executer move
+        achi.checkMove();
         for(Pair<Position,TypeElement> a:player) {
             pos = a.getKey();
             te = a.getValue();
@@ -494,6 +496,7 @@ public class Board {
                         continue;
                 } catch (WinException e) {
                     Levels.instance().nextLevel();
+                    CheckAchievement.getInstance().checkWin();
                     return;
                 }
                 Rule.activatePlayerList(temps1);

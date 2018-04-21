@@ -5,6 +5,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import common.model.Board;
+import common.model.CheckAchievement;
 import common.model.Directions;
 import common.model.Element;
 import common.model.Game;
@@ -15,6 +16,7 @@ import common.model.MusicHashMap;
 import common.model.TypeElement;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -27,12 +29,14 @@ public class Display {
        
     private Text move = new Text();
     private Text time = new Text();
+    public VBox vb = new VBox();
     private double volume = 8;
     public Scene scene;
+    public boolean show =false;
     private GridPane root= new GridPane();
     private Board board;
     private double imageSize;
-    private Pane rootImage  = new Pane();;
+    public Pane rootImage  = new Pane();
     private double imageSizeX;
     private HBox hbox = new HBox();
     
@@ -42,8 +46,7 @@ public class Display {
      */
     public Display(Board board) {
         this.board = board;
-        MenuEsc menuEsc = new MenuEsc(this);
-        
+        MenuEsc menuEsc = new MenuEsc(this);        
         //changement de la taille des image en fonction de la taille de la fenetre
         imageSizeX = JavaBobyIsYou.WIDTH/this.board.getSizeX();
         double imageSizeY = (JavaBobyIsYou.HEIGHT-30)/this.board.getSizeY();
@@ -52,8 +55,6 @@ public class Display {
             imageSize = imageSizeX;
         else imageSize = imageSizeY;
         //ajout du backGroude dans rootImage
-        //addBackground();
-
         Text title = new Text(board.title);
         title.setFont(Font.loadFont(JavaFXMethode.loadFont(), 30));
         title.setFill(Color.BLACK);
@@ -72,6 +73,7 @@ public class Display {
         
         rootImage.getChildren().addAll(hbox,root);
         scene = new Scene(rootImage, JavaBobyIsYou.WIDTH, JavaBobyIsYou.HEIGHT);
+        CheckAchievement.getInstance().d=this;
         convertBoardToImage();  
         gmMove();
         
@@ -107,9 +109,16 @@ public class Display {
                 MenuInit.getInstance().getStage().setScene(menuEsc.scene);
             e.consume();
             convertBoardToImage();
+            if (show)
+                show();
             gmMove();
             gmTime();
         });
+    }
+    
+    private void show() {
+        rootImage.getChildren().addAll(vb);
+        show=false;
     }
     
     private void gmMove() {

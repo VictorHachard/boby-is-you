@@ -30,17 +30,17 @@ public enum Directions {
      * @param direction int, 0,1,2 ou 3.
      * @return Directions, la direction en fonction de direction. 
      */
-    static Directions fromString(int direction) {
+    static Directions fromString(int dir) {
         try {
             for(Directions type : Directions.values()) {
-                if (type.getDir()==direction) {
+                if (type.getDir()==dir) {
                     return type;
                 }
             }
             throw new IllegalArgumentException();
         }
         catch (IllegalArgumentException e) {
-            LOGGER.log( Level.WARNING, "int " + direction + " cannot be convert into a Directions \n" + direction + " convert into RIGHT",e);
+            LOGGER.log(Level.WARNING, "int {0} cannot be convert into a Directions\nSOLVE: {0} convert into RIGHT", dir);
             return Directions.RIGHT;
         }
     }
