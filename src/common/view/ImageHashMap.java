@@ -27,10 +27,6 @@ public class ImageHashMap {
      * revois une map avec comme key le TypeElement et comme value l'image.
      */
     ImageHashMap() {
-        loadImage();
-    }
-    
-    private void loadImage() {
         TypeElement[] listAllElement = TypeElement.getAll();
         for(TypeElement e:listAllElement)
             try {

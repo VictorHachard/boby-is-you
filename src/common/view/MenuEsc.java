@@ -70,14 +70,5 @@ public class MenuEsc {
                 this.primaryStage.setScene(continuer.scene);
             e.consume();
         });
-
     }                       
-    
-    /**
-     * 
-     * @param stage 
-     */
-    void setStage(Stage stage) {
-        primaryStage = stage;
-    }
 }

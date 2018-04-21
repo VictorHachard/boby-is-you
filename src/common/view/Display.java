@@ -30,7 +30,6 @@ public class Display {
     private GridPane root= new GridPane();
     private Board board;
     private double imageSize;
-    private Stage primaryStage = MenuInit.getInstance().getStage();
     private Pane rootImage  = new Pane();;
     private double imageSizeX;
     private HBox hbox = new HBox();
@@ -63,13 +62,6 @@ public class Display {
             gm.setFont(Font.loadFont(JavaFXMethode.loadFont(), 20));
         }
         
-        Text time = new Text();
-        if (GameMode.isActive(Game.TIMER)) {
-            time.setText("temps"+" ");
-            time.setFont(Font.loadFont(JavaFXMethode.loadFont(), 20));
-            time.setFill(Color.RED);
-        }
-        
         hbox.setTranslateX(-((JavaBobyIsYou.WIDTH/2)-((board.getSizeX()*imageSizeX)/4)));
         hbox.setTranslateY(-30);
         hbox.setLayoutX(imageSize*board.getSizeX());
@@ -98,10 +90,11 @@ public class Display {
             else if (keyCode.equals(KeyCode.ADD))
                 Levels.getInstance().switchMaps(true);
             else if (keyCode.equals(KeyCode.ESCAPE))
-                this.primaryStage.setScene(menuEsc.scene);
+                MenuInit.getInstance().getStage().setScene(menuEsc.scene);
             e.consume();
             convertBoardToImage();
             gmMove();
+            gmTime();
         });
     }
     

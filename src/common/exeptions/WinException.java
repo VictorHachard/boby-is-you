@@ -2,7 +2,7 @@ package common.exeptions;
 
 /**
  *
- * @author Windows
+ * @author Glaskani
  */
 public class WinException extends Exception {
     /**

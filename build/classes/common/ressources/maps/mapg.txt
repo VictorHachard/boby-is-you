@@ -1,6 +1,6 @@
 18 18
 config 120
-title Cité_17
+title City_17
 text_skull 9 0
 is 10 0
 kill 11 0
@@ -32,6 +32,15 @@ metal 7 8
 metal 9 6
 metal 9 7
 metal 9 8
+metal 14 2
+metal 14 3
+metal 14 4
+metal 13 2
+metal 13 3
+metal 13 4
+metal 12 2
+metal 12 3
+metal 12 4
 text_monster 7 16
 is 8 16
 move 9 16

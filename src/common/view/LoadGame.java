@@ -20,7 +20,6 @@ public class LoadGame {
     /**
      * 
      * @param f
-     * @param primaryStage 
      */
     LoadGame(BufferedReader f) {
         try {
@@ -31,7 +30,7 @@ public class LoadGame {
         }
     }    
     
-    LoadGame(Maps m, Stage pr) {
+    LoadGame(Stage pr) {
         MenuInit.getInstance().setStage(pr);
     }    
 }

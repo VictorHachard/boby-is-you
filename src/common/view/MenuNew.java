@@ -18,7 +18,6 @@ import javafx.stage.Stage;
 public class MenuNew {
     
     Scene scene;
-    private Stage primaryStage = MenuInit.getInstance().getStage();
     private Pane root = new Pane();
     private static MenuNew INSTANCE = null;
     
@@ -56,7 +55,7 @@ public class MenuNew {
         GameMode.desactivateAll();
         
         buttonBack.setOnAction(event -> {
-            this.primaryStage.setScene(MenuInit.getInstance().scene);
+            MenuInit.getInstance().getStage().setScene(MenuInit.getInstance().scene);
         });
         buttonNormal.setOnAction(event -> {
            game();
@@ -71,12 +70,15 @@ public class MenuNew {
         });
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE)
-                this.primaryStage.setScene(MenuInit.getInstance().scene);
+                MenuInit.getInstance().getStage().setScene(MenuInit.getInstance().scene);
             e.consume();
         });
 
     }                     
-     
+    
+    /**
+     * Creation d'une partie.
+     */ 
     private void game() {
         Levels.getInstance().setIndice(0);
         Levels.instance().loadGame();

@@ -7,7 +7,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 /**
  *
@@ -17,7 +16,6 @@ public class MenuParameter {
     
     Scene scene;
     private static MenuParameter INSTANCE = null;
-    private Stage primaryStage = MenuInit.getInstance().getStage();
     private Pane root = new Pane();
     
     static MenuParameter getInstance() {           
@@ -102,7 +100,7 @@ public class MenuParameter {
     }
     private void saveKey() {
         JavaBobyIsYou.save();
-        this.primaryStage.setScene(MenuInit.getInstance().scene);
+        MenuInit.getInstance().getStage().setScene(MenuInit.getInstance().scene);
     }      
     
 }
