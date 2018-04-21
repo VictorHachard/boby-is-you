@@ -39,7 +39,8 @@ public class Tp extends Rule {
             listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).removeElement(TypeElement.PORTAL_IN);
             //changement true false
             isPortal = false;
-            this.removePortal = true;         
+            removePortal = true;      
+            MusicHashMap.getInstance().play(Music.PORTAL);
             return false;
         } else return true;
     }

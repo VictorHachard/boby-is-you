@@ -2,12 +2,14 @@ package common.model;
 
 import common.view.JavaBobyIsYou;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Pair;
 
 /**
  *
@@ -15,12 +17,9 @@ import javafx.scene.media.MediaPlayer;
  */
 public class MusicHashMap {
     
-    private Map<Music, MediaPlayer> musicMap = new HashMap<>();
+    private Map<Music, Pair<MediaPlayer, Boolean>> musicMap = new HashMap<>();
     private static final Logger LOGGER = Logger.getGlobal();
-    private HashMap<Music, Boolean> isPlaying;
     private static MusicHashMap INSTANCE = null;
-    
-    
     
     public static MusicHashMap getInstance() {           
         if (INSTANCE == null)
@@ -32,17 +31,14 @@ public class MusicHashMap {
      * Charge toute les musiques dans une HashMap
      */
     MusicHashMap()  {
-        this.isPlaying = new HashMap<>();
-        
         Music[] listAllMusic = Music.values();
         for(Music m:listAllMusic) {
             try {
-                this.isPlaying.put(m, Boolean.FALSE);
-                this.musicMap.put(m, new MediaPlayer(
-                new Media(JavaBobyIsYou.class.getResource("/common/ressources/music/"+m.toString().toLowerCase()+".mp3").toString())));
+                this.musicMap.put(m, new Pair<>(new MediaPlayer(
+                new Media(JavaBobyIsYou.class.getResource("/common/ressources/music/"+m.toString().toLowerCase()+".wav").toString())),false));
             }
-            catch (MediaException ex) {
-                LOGGER.log( Level.WARNING, "Unable to load : " + m,ex);
+            catch (NullPointerException ex) {
+                LOGGER.log(Level.WARNING, "Music not fond : {0}", m);
             } 
         }
     }
@@ -51,22 +47,22 @@ public class MusicHashMap {
      * Verifie si la music est bien dans la HashMap, arrete la music.
      * @param music Music, la music à stopé
      */
-    void stop(Music music) {
+    public void stop(Music music) {
         if (!musicMap.containsKey(music))
             return;
-        MediaPlayer mediaPlayer = musicMap.get(music);
+        MediaPlayer mediaPlayer = musicMap.get(music).getKey();
         mediaPlayer.stop();
-        isPlaying.replace(music, Boolean.FALSE);
+        musicMap.replace(music, new Pair<>(mediaPlayer,true));
     }
     
     /**
      * Verifie si la music est bien dans la HashMap, lance la music en boucle.
      * @param music Music, la music à bouclé
      */
-    void repet(Music music) {
+    public void repet(Music music) {
         if (!musicMap.containsKey(music))
             return;
-        MediaPlayer mediaPlayer = musicMap.get(music);
+        MediaPlayer mediaPlayer = musicMap.get(music).getKey();
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         play(music);
     }
@@ -76,16 +72,32 @@ public class MusicHashMap {
      * sera couper et relancer.
      * @param music Music, la music à lancer
      */
-    void play(Music music) {
+    public void play(Music music) {
         if (!musicMap.containsKey(music))
             return;
-        MediaPlayer mediaPlayer = musicMap.get(music);
-        if(isPlaying.get(music)){
+        MediaPlayer mediaPlayer = musicMap.get(music).getKey();
+        if(musicMap.get(music).getValue()){
             mediaPlayer.stop();
-            isPlaying.replace(music, Boolean.FALSE);
+            musicMap.replace(music, new Pair<>(mediaPlayer,false));
         }
         mediaPlayer.play();
-        isPlaying.replace(music, Boolean.TRUE);
+        musicMap.replace(music, new Pair<>(mediaPlayer,true));
     }   
+    
+    /**
+     * 
+     * @param music
+     * @param d 
+     */
+    public void volume( double d, Music ... music) {
+        for (Music m:music) {
+            try {
+            MediaPlayer mediaPlayer = musicMap.get(m).getKey();
+            mediaPlayer.setVolume(d);
+            } catch (NullPointerException e) {
+                
+            }
+        }
+    }
 }
 

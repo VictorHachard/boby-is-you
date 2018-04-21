@@ -20,14 +20,17 @@ public class Melt extends Rule {
         if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).find(Property.MELT)) {
             if (listGrid.get(pos.y).get(pos.x).getElements(te).getTypeRule().contains(Property.HOT)) {
                 for (Element e:listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).getZ())
-                    if (e.isRule(Property.MELT))
+                    if (e.isRule(Property.MELT)) {
                         listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).removeElement(e.getTypeElement());
+                        MusicHashMap.getInstance().play(Music.MELTBLOCK);
+                    }
                 return true;
             }
         }
         else if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).find(Property.HOT)) {
             if (listGrid.get(pos.y).get(pos.x).getElements(te).getTypeRule().contains(Property.MELT)) {
                 listGrid.get(pos.y).get(pos.x).removeElement(te);
+                MusicHashMap.getInstance().play(Music.MELT);
                 return false;
             }
         }

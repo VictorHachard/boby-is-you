@@ -18,6 +18,7 @@ public class Sink extends Rule {
     public boolean work(Position pos,Directions dir,TypeElement te) {
         if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).find(Property.SINK)) {
             listGrid.get(pos.y).get(pos.x).removeElement(te);
+            MusicHashMap.getInstance().play(Music.SINK);
             return false;
         }
         return true;
@@ -32,6 +33,7 @@ public class Sink extends Rule {
             if (e.isRule(Property.SINK))
                 listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).removeElement(e.getTypeElement());
             listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).removeElement(te);
+            MusicHashMap.getInstance().play(Music.SINKBLOCK);
             return false;
         }
         return true;

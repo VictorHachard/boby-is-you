@@ -33,6 +33,7 @@ public enum TypeElement {
     KEY("KEY","E_KE",2,null,null,Type.BLOCK),
     PORTAL_IN("PORTAL_IN","E_PI",1,null,null,Type.BLOCK),
     PORTAL_OUT("PORTAL_OUT","E_PO",1,null,null,Type.BLOCK),
+    
     BESTELEME("BESTELEME","BEST",5,null,null,Type.BLOCK),
     
     PLAYER1("BABA","E_P ",3,null,null,Type.PLAYER),

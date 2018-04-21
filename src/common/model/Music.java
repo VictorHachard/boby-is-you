@@ -6,13 +6,17 @@ package common.model;
  */
 public enum Music {
     ADD(),
-    BACK();
-    //PUSH(),
-    //WIN(),
-    //ICE(),
-    //MELT(),
-    //SINK(),
-    //LOSE();
+    BACK(),
+    PUSH(),
+    WIN(),
+    ICE(),
+    KILL(),
+    MELT(),
+    PORTAL(),
+    MELTBLOCK(),
+    SINK(),
+    SINKBLOCK(),
+    LOSE();
      
     /**
      * 

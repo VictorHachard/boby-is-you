@@ -50,9 +50,9 @@ public final class Levels {
      * load toutes les maps pas encore jouée.
      */
     private Levels() {
-        this.listMap=new ArrayList<>();
-        this.indice=JavaBobyIsYou.indice;
-        this.carryOn=JavaBobyIsYou.carryOn;
+        listMap=new ArrayList<>();
+        indice=JavaBobyIsYou.indice;
+        carryOn=JavaBobyIsYou.carryOn;
         loadMap();
     }
     
@@ -70,8 +70,8 @@ public final class Levels {
     
     public void loadGame() {
         loadDisplay();
-        this.carryOn=true;
-        this.music.repet(Music.BACK);
+        carryOn=true;
+        music.repet(Music.BACK);
     }
     
     /**
@@ -81,11 +81,11 @@ public final class Levels {
      */
     public void switchMaps(boolean b) {
         if (b)
-            this.indice= (this.indice+1)%this.listMap.size();
+            indice= (indice+1)%listMap.size();
         else {
-            this.indice= (this.indice-1);
-            if (this.indice<0)
-                this.indice=this.listMap.size()-1;
+            indice= (indice-1);
+            if (indice<0)
+                indice=listMap.size()-1;
         }
         loadDisplay();
     }
@@ -96,7 +96,7 @@ public final class Levels {
      */
     public void loadDisplay() {
         Rule.desactivateAll();
-        MenuInit.getInstance().LoadGame(new Maps(this.listMap.get(indice)));
+        MenuInit.getInstance().LoadGame(new Maps(listMap.get(indice)));
     }
     
     /**
@@ -105,8 +105,8 @@ public final class Levels {
     public void stopGame() {
         Rule.desactivateAll();
         GameMode.desactivateAll();
-        this.primaryStage.setScene(MenuInit.getInstance().scene);
-        this.music.stop(Music.BACK);
+        primaryStage.setScene(MenuInit.getInstance().scene);
+        music.stop(Music.BACK);
     }
     
     /**
@@ -117,12 +117,13 @@ public final class Levels {
     void nextLevel() {
         this.indice = indice+1;
         if (indice==this.listMap.size()) {
-            this.indice=0;
-            this.carryOn=false;
+            indice=0;
+            carryOn=false;
             JavaBobyIsYou.save();
             stopGame();
             return;
         }     
+        music.play(Music.WIN);
         JavaBobyIsYou.save();
         loadDisplay();
     }
@@ -141,7 +142,7 @@ public final class Levels {
                 is = uri.openStream();
                 InputStreamReader ipsr = new InputStreamReader(is);
                 try (BufferedReader br = new BufferedReader(ipsr)) {
-                    this.listMap.add(new Maps(br));
+                    listMap.add(new Maps(br));
                 }
                 is.close();
             } catch (IOException ex) {
@@ -155,6 +156,6 @@ public final class Levels {
      * @return boolean
      */
     public boolean getContinue() {
-        return this.carryOn;
+        return carryOn;
     }
 }

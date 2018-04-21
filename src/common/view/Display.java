@@ -4,13 +4,14 @@ import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import common.model.Board;
 import common.model.Directions;
 import common.model.Element;
 import common.model.Game;
 import common.model.GameMode;
 import common.model.Levels;
+import common.model.Music;
+import common.model.MusicHashMap;
 import common.model.TypeElement;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
@@ -26,6 +27,7 @@ public class Display {
        
     private Text move = new Text();
     private Text time = new Text();
+    private double volume = 8;
     public Scene scene;
     private GridPane root= new GridPane();
     private Board board;
@@ -89,6 +91,18 @@ public class Display {
                 Levels.getInstance().switchMaps(false);
             else if (keyCode.equals(KeyCode.ADD))
                 Levels.getInstance().switchMaps(true);
+            else if (keyCode.equals(KeyCode.PAGE_UP)) {
+                if (volume<10) {
+                    volume++;
+                    MusicHashMap.getInstance().volume(volume/10, Music.values());
+                }
+            }
+            else if (keyCode.equals(KeyCode.PAGE_DOWN)) {
+                if (volume>0) {
+                    volume--;
+                    MusicHashMap.getInstance().volume(volume/10, Music.values());
+                }
+            }
             else if (keyCode.equals(KeyCode.ESCAPE))
                 MenuInit.getInstance().getStage().setScene(menuEsc.scene);
             e.consume();
@@ -167,5 +181,4 @@ public class Display {
             }
         }
     }
-    
 }

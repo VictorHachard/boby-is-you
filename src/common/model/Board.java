@@ -492,11 +492,13 @@ public class Board {
                 Rule.activatePlayerList(temps1);
                 if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).canAdd()){ //verifie si il peut add la case suivante
                     editPlacement(pos,dir,te);
-                    //this.music.play(Music.ADD);
+                   // this.music.play(Music.ADD);
                 }
                 else if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).canPush()) { //verifie si il peut push la case suivante
-                    if (push(new Position(pos.x+dir.getDirHori(),pos.y+dir.getDirVer()),dir))
+                    if (push(new Position(pos.x+dir.getDirHori(),pos.y+dir.getDirVer()),dir)) {
                         editPlacement(pos,dir,te);
+                        //this.music.play(Music.PUSH);
+                    }
                 }
             
             }

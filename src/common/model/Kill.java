@@ -18,6 +18,7 @@ public class Kill extends Rule {
     public boolean work(Position pos,Directions dir,TypeElement te) {
         if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).find(Property.KILL)) {
             listGrid.get(pos.y).get(pos.x).removeElement(te);
+            MusicHashMap.getInstance().play(Music.KILL);
             return false;
         }
         return true;
