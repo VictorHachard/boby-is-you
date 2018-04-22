@@ -3,9 +3,15 @@ package common.view;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -15,20 +21,24 @@ import javafx.scene.text.Text;
  */
 public class JavaFXMethode {
     
-    public static ImageView addBackground(String string) {
+    public static ImageView addBackGround(String string) {
         ImageView imageView = new ImageView(new Image(string));
         imageView.setFitWidth(JavaBobyIsYou.WIDTH);
         imageView.setFitHeight(JavaBobyIsYou.HEIGHT);
         return imageView;
     }
 
-    public static Text addTitle(String string,Color color,int i) {
-        Text title = new Text(string);
-        title.setFont(Font.loadFont(loadFont(),40));
-        title.setFill(color);
-        title.setTranslateX(JavaBobyIsYou.WIDTH/2 - title.getLayoutBounds().getWidth()/2);
-        title.setTranslateY(JavaBobyIsYou.HEIGHT/3);
-        return title;
+    public static Background addColoredBackGround(Color c) {
+        return new Background(new BackgroundFill(c,CornerRadii.EMPTY, Insets.EMPTY));
+    }
+    
+    public static Text addTitle(String s,Color c,int i) {
+        Text t = new Text(s);
+        t.setFont(Font.loadFont(loadFont(),i));
+        t.setFill(c);
+        t.setTranslateX(JavaBobyIsYou.WIDTH/2-t.getLayoutBounds().getWidth()/2);
+        t.setTranslateY(JavaBobyIsYou.HEIGHT/3);
+        return t;
     }
     
     public static Text addTitle(String string,Color color) {
