@@ -80,13 +80,23 @@ public class Display {
         scene.setOnKeyPressed(e -> {
             KeyCode keyCode = e.getCode();
             if (keyCode.equals(Key.getInstance().getKeyUP()))
-                this.board.movePlayer(Directions.UP);
+                this.board.movePlayer(Directions.UP,0);
             else if (keyCode.equals(Key.getInstance().getKeyDOWN()))
-                this.board.movePlayer(Directions.DOWN);
+                this.board.movePlayer(Directions.DOWN,0);
             else if (keyCode.equals(Key.getInstance().getKeyLEFT()))
-                this.board.movePlayer(Directions.LEFT);
+                this.board.movePlayer(Directions.LEFT,0);
             else if (keyCode.equals(Key.getInstance().getKeyRIGHT()))
-                this.board.movePlayer(Directions.RIGHT);
+                this.board.movePlayer(Directions.RIGHT,0);
+            
+            else if (keyCode.equals(KeyCode.T))
+                this.board.movePlayer(Directions.UP,1);
+            else if (keyCode.equals(KeyCode.G))
+                this.board.movePlayer(Directions.DOWN,1);
+            else if (keyCode.equals(KeyCode.F))
+                this.board.movePlayer(Directions.LEFT,1);
+            else if (keyCode.equals(KeyCode.H))
+                this.board.movePlayer(Directions.RIGHT,1);
+            
             else if (keyCode.equals(Key.getInstance().getKeyR())) 
                 Levels.getInstance().reload();
             else if (keyCode.equals(KeyCode.SUBTRACT))

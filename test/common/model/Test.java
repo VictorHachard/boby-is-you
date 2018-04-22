@@ -33,7 +33,7 @@ public class Test {
         boolean result = Rule.isActive(Property.WIN);
         assertTrue("La regles n'a pas ete rajouter a la liste des regles active",
                 result == expResult);
-        b.movePlayer(Directions.RIGHT);
+        b.movePlayer(Directions.RIGHT,1);
         expResult = false;
         result = Rule.isActive(Property.WIN);
         assertTrue("La regles n'a pas ete supprimer de la liste des regles active",
@@ -56,7 +56,7 @@ public class Test {
         boolean result = Rule.isActive(Property.KILL);
         assertTrue("La regles n'a pas ete rajouter a la liste des regles active",
                 result == expResult);
-                b.movePlayer(Directions.DOWN);
+                b.movePlayer(Directions.DOWN,1);
         expResult = false;
         result = Rule.isActive(Property.KILL);
         assertTrue("La regles n'a pas ete supprimer de la liste des regles active",
@@ -72,7 +72,7 @@ public class Test {
         m.addMap(1, 3, new Element(TypeElement.YOU));
         m.addMap(1, 4, new Element(TypeElement.PLAYER1));
 	Board b = new Board(m);
-        b.movePlayer(Directions.RIGHT);
+        b.movePlayer(Directions.RIGHT,1);
         boolean expResult = false;
         boolean result = b.getListGrid().get(4).get(1).find(TypeElement.PLAYER1);
         assertTrue("Le joueur n'est pas partie de la cellule de depart",
@@ -92,7 +92,7 @@ public class Test {
         m.addMap(1, 3, new Element(TypeElement.YOU));
         m.addMap(1, 4, new Element(TypeElement.PLAYER1));
 	Board b = new Board(m);
-        b.movePlayer(Directions.DOWN);
+        b.movePlayer(Directions.DOWN,1);
         boolean expResult = true;
         boolean result = b.getListGrid().get(4).get(1).find(TypeElement.PLAYER1);
 	assertTrue("Le joueur a bougé alors qu'il était bloqué par la limite de la carte",
@@ -127,12 +127,12 @@ public class Test {
         m1.addMap(1, 3, new Element(TypeElement.IS));
         m1.addMap(1, 4, new Element(TypeElement.YOU));
         Board b = new Board(m1);
-        b.movePlayer(Directions.DOWN);
+        b.movePlayer(Directions.DOWN,1);
         boolean expResult = true;
         boolean result = b.getListGrid().get(5).get(1).find(TypeElement.YOU);
         assertTrue("La methode recurcive push n'a pas reussi",
                 result == expResult);
-        b.movePlayer(Directions.DOWN);
+        b.movePlayer(Directions.DOWN,1);
         expResult = false;
         result = b.getListGrid().get(6).get(1).find(TypeElement.YOU);
         assertTrue("La methode recurcive push c'est exuter alors qu'elle n'aurai pas du",

@@ -11,6 +11,7 @@ public enum Music {
     WIN,
     ICE,
     KILL,
+    DESTROY,
     MELT,
     PORTAL,
     MELTBLOCK,

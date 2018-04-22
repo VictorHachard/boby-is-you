@@ -37,7 +37,7 @@ public enum TypeElement {
     BESTELEME("BESTELEME","BEST",5,null,null,Type.BLOCK),
     
     PLAYER1("BABA","E_P ",3,null,null,Type.PLAYER),
-    MONSTER("MONSTER","E_M ",3,null,null,Type.PLAYER),
+    MONSTER("MONSTER","E_M ",3,null,null,Type.BLOCK),
     ANNI("ANNI","E_A ",3,null,null,Type.PLAYER),
     
     TEXT_DOOR("TEXT_DOOR","T_DO",3,TypeElement.DOOR,null,Type.TEXT),
@@ -59,7 +59,9 @@ public enum TypeElement {
     TEXT_MONSTER("TEXT_MONSTER","T_M ",3,TypeElement.MONSTER,null,Type.TEXT),
     
     SHUT("SHUT","R_SH",3,null,Property.SHUT,Type.RULE),
+    STRONG("STRONG","R_ST",3,null,Property.STRONG,Type.RULE),
     OPEN("OPEN","R_OP",3,null,Property.OPEN,Type.RULE),
+    WEAK("WEAK","R_WE",3,null,Property.WEAK,Type.RULE),
     SLIP("SLIP","R_SL",3,null,Property.SLIP,Type.RULE),
     FLY("FLY","R_FL",3,null,Property.FLY,Type.RULE),
     WIN("WIN","R_W ",3,null,Property.WIN,Type.RULE),
@@ -71,6 +73,8 @@ public enum TypeElement {
     MELT("MELT","R_M ",3,null,Property.MELT,Type.RULE),
     HOT("HOT","R_H ",3,null,Property.HOT,Type.RULE),
     YOU("YOU","R_Y ",3,null,Property.YOU,Type.RULE),
+    YOU1("YOU1","R_Y ",3,null,Property.YOU1,Type.RULE),
+    YOU2("YOU2","R_Y ",3,null,Property.YOU2,Type.RULE),
     //GRAB("GRAB","R_G ",3,null,Property.GRAB,Type.RULE),
     KILL("KILL","R_K ",3,null,Property.KILL,Type.RULE),
     

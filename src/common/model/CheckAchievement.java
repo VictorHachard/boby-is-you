@@ -27,6 +27,10 @@ public class CheckAchievement {
     private Text description = new Text();
     private static CheckAchievement INSTANCE = null;
     
+    public HashMap<Achievement, Integer> getData() {
+        return data;
+    }
+    
     public static CheckAchievement getInstance() {           
         if (INSTANCE == null)  
             INSTANCE = new CheckAchievement();

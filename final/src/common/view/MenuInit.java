@@ -47,10 +47,12 @@ public class MenuInit {
         Button buttonNew = new Button("Nouveau");
         Button buttonExit = new Button("Exit");
 	Button buttonParameter = new Button("Parametre");
+        Button buttonAcheivement = new Button("Succe");
             
         vbox.getChildren().addAll(
                 buttonContinue,
                 buttonNew,
+                buttonAcheivement,
                 buttonParameter,
                 buttonExit);
         vbox.getStyleClass().add("vbox");
@@ -60,6 +62,9 @@ public class MenuInit {
 	
         buttonParameter.setOnAction(event -> {    
             this.primaryStage.setScene(MenuParameter.getInstance().scene);
+        });
+        buttonAcheivement.setOnAction(event -> {    
+            this.primaryStage.setScene(MenuAchievement.getInstance().scene);
         });
         buttonContinue.setOnAction(event -> {
             if (Levels.getInstance().getContinue())
