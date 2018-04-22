@@ -1,8 +1,5 @@
 package common.view;
 
-import common.model.Achievement;
-import common.model.CheckAchievement;
-import java.util.HashMap;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;

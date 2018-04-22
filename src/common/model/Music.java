@@ -17,7 +17,6 @@ public enum Music {
     MELTBLOCK,
     SINK,
     SINKBLOCK,
-    LOSE,
     ACHIEVEMENT;
      
     /**

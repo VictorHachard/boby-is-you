@@ -146,7 +146,7 @@ public final class Levels {
  Map.
      */
     void loadMap() {
-        char[] listchar = {'a','b','c','d','e','f','g','h','1','i','j','k','l','m'};
+        char[] listchar = {'2','a','b','c','d','e','f','g','h','1','i','j','k','l','m'};
         for (char a:listchar) {
             InputStream is = null;
             try {
