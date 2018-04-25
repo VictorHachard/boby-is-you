@@ -9,7 +9,6 @@ public enum Music {
     BACK,
     PUSH,
     WIN,
-    ICE,
     KILL,
     DESTROY,
     MELT,

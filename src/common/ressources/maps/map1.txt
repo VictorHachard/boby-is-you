@@ -75,9 +75,6 @@ sink 15 2
 text_skull 5 2
 is 6 2
 stop 7 2
-text_wall 7 13
-is 8 13
-text_wall 9 13
 skull 8 4
 skull 8 10
 text_baba 10 10
