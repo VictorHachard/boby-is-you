@@ -27,13 +27,15 @@ public class MenuAchievement {
     MenuAchievement() {
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
         scene.getStylesheets().add(JavaBobyIsYou.THEME);
-        root.getChildren().add(JavaFXMethode.addTitle("Achievement",Color.WHITE));
+        root.getChildren().add(JavaFXMethode.addTitle("Achievement",Color.BLACK));
         HashMap<Achievement, Integer> data = CheckAchievement.getInstance().getData();
         VBox b = new VBox();
         b.setMinWidth(JavaBobyIsYou.WIDTH);
+        b.setMinHeight(JavaBobyIsYou.HEIGHT);
         for(HashMap.Entry<Achievement, Integer> d : data.entrySet()) {
-            b.getChildren().add(JavaFXMethode.addTitle(d.getKey()+" "+d.getValue(),Color.WHITE,14));
+            b.getChildren().add(JavaFXMethode.addTitle(d.getKey()+" "+d.getValue(),Color.BLACK,16));
         }
+        root.getChildren().add(b);
     }
     
 }

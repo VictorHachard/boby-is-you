@@ -8,12 +8,12 @@ public enum Achievement {
     
     MOVE("Deplacement", "Deplaces toi"),
     WIN("Gagner", "Gagne"),
-    VICTORY("Victory", "Fini le jeu."),
+    //VICTORY("Victory", "Fini le jeu."),
     RELOAD("Recomence","Reload le niveux");
     
     private String name;
     private String description;
-
+    
     Achievement(String name, String description) {
         this.description = description;
         this.name = name;

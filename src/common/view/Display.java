@@ -130,7 +130,7 @@ public class Display {
         rootImage.getChildren().remove(vbox);
         vbox = vb;
         rootImage.getChildren().add(vbox);
-        new Timeline(new KeyFrame(Duration.millis(3000), e -> 
+        new Timeline(new KeyFrame(Duration.millis(2000), e -> 
                 rootImage.getChildren().remove(vbox))).play();
     }
     
