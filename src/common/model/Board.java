@@ -114,6 +114,7 @@ public class Board {
     }
     
     private void fillEmpty() {
+        this.listAllElement.remove(this.emptyPlayable);
         //remove tout les empty
         for(int i=1;i<y-1;i++)
             for(int j=1;j<x-1;j++)
@@ -123,6 +124,7 @@ public class Board {
             for(int j=1;j<x-1;j++)
                 if (this.listGrid.get(i).get(j).getZ().size()==1)
                     this.listGrid.get(i).get(j).addElement(this.emptyPlayable);
+        this.listAllElement.add(emptyPlayable);
     }
     
     /**
@@ -496,6 +498,11 @@ public class Board {
         TypeElement te;
         //just executer move
         achi.checkMove();
+        deleteAllRule();
+        fillEmpty();
+        for (Position p:is)
+            rule(p,TypeElement.IS);
+        Rule.setActivity(Property.TP, true);
         for(Pair<Position,TypeElement> a:player) {
             pos = a.getKey();
             te = a.getValue();
@@ -513,7 +520,7 @@ public class Board {
                 Rule.activatePlayerList(temps1);
                 if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).canAdd()){ //verifie si il peut add la case suivante
                     editPlacement(pos,dir,te);
-                   // this.music.play(Music.ADD);
+                    //this.music.play(Music.ADD);
                 }
                 else if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).canPush()) { //verifie si il peut push la case suivante
                     if (push(new Position(pos.x+dir.getDirHori(),pos.y+dir.getDirVer()),dir)) {

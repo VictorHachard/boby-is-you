@@ -1,6 +1,14 @@
-package common.model;
+package common.test;
 
 import common.exeptions.WinException;
+import common.model.Board;
+import common.model.Directions;
+import common.model.Element;
+import common.model.Maps;
+import common.model.Position;
+import common.model.Property;
+import common.model.Rule;
+import common.model.TypeElement;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;

@@ -73,7 +73,7 @@ public class Cell {
      * @param tr Property, à chercher
      * @return true ou false
      */
-    boolean find(Property tr){
+    public boolean find(Property tr){
         for(Element e:this.listZ)
             if(e.getTypeRule().contains(tr))
                 return true; 
@@ -85,7 +85,7 @@ public class Cell {
      * @param te TypeElement, à chercher
      * @return true ou false
      */
-    boolean find(TypeElement te){
+    public boolean find(TypeElement te){
         for(Element e:this.listZ){
             if(e.getTypeElement()==te)
                 return true;

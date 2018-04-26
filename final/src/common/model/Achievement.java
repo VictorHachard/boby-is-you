@@ -6,7 +6,7 @@ package common.model;
  */
 public enum Achievement {
     
-    MOVE("Deplacment", "Deplaces toi"),
+    MOVE("Deplacement", "Deplaces toi"),
     WIN("Gagner", "Gagne"),
     VICTORY("Victory", "Fini le jeu."),
     RELOAD("Recomence","Reload le niveux");
