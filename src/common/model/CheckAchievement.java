@@ -52,8 +52,7 @@ public class CheckAchievement {
             j=e.getName();
         b.getChildren().addAll(JavaFXMethode.addTitle(j, Color.WHITE),
                 JavaFXMethode.addTitle(e.getDescription()+" "+i,Color.WHITE,20));
-        d.show=true;
-        d.vb=b;
+        d.show(b);
     }
     
     public void checkMove() {

@@ -97,6 +97,7 @@ public class Board {
                 new Sink(this),
                 new Move(this),
                 new Melt(this),
+                new Weak(this),
                 new Win(this),
                 new Shut(this));
         this.limitedDeplacement=map.limitedDeplacement;
@@ -316,7 +317,7 @@ public class Board {
      * @param rule 
      */
     private void addRule(TypeElement text,TypeElement rule) {
-        if (!(rule.getRule()==Property.STOP||rule.getRule()==Property.PUSH||rule.getRule()==Property.YOU))
+        if (!(rule.getRule()==Property.STOP||rule.getRule()==Property.PUSH||rule.getRule()==Property.YOU1||rule.getRule()==Property.YOU2))
             Rule.setActivity(rule.getRule(), true);
         for(Element e:listAllElement)
             if (e.getTypeElement()==text.getText())
@@ -439,13 +440,13 @@ public class Board {
      * 
      * @return 
      */
-    private List<Pair<Position,TypeElement>> getPlayerType(){        
+    private List<Pair<Position,TypeElement>> getPlayerType(Property player){        
         List<Pair<Position,TypeElement>> tempsList = new ArrayList<>();
         List<Position> temp;
         List<TypeElement> alredycheck = new ArrayList<>();
         for (Element e:this.listAllElement)
             for (Property p:e.getTypeRule())
-                if (p==Property.YOU && (!(alredycheck.contains(e.getTypeElement())))) {
+                if (p==player && (!(alredycheck.contains(e.getTypeElement())))) {
                     alredycheck.add(e.getTypeElement());
                     temp = getPositionOf(e.getTypeElement());
                     if (!(temp==null))
@@ -473,14 +474,24 @@ public class Board {
      * Execute toutes les actions et verification qui doivent entre faite à
      * chaque tour.
      * @param dir Direction de l'input de l'utilsateur.
+     * @param i
      */
-    public void movePlayer(Directions dir) {
+    public void movePlayer(Directions dir, int i) {
         //verifier si on a pas fini un gamemode
         if (!this.listLose.check())
             return;
-        if (getPlayerType()==null)
+        Property pro = Property.YOU;
+        if (getPositionOf(TypeElement.YOU1)==null || getPositionOf(TypeElement.YOU2)==null)
+            pro = Property.YOU;
+        else {
+            if (i==0)
+                pro = Property.YOU1;
+            else if (i==1)
+                 pro = Property.YOU2;
+        }
+        if (getPlayerType(pro)==null)
             return;
-        List<Pair<Position,TypeElement>> player = sort(dir, getPlayerType());   
+        List<Pair<Position,TypeElement>> player = sort(dir, getPlayerType(pro));   
         Position pos;
         TypeElement te;
         //just executer move
@@ -519,7 +530,7 @@ public class Board {
         for (Position p:is)
             rule(p,TypeElement.IS);
         Rule.setActivity(Property.TP, true);
-        player = getPlayerType();
+        player = getPlayerType(pro);
         if (player==null)
             return;
         //desactiver les regle a pas checker 

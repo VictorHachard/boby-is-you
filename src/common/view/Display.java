@@ -14,12 +14,15 @@ import common.model.Levels;
 import common.model.Music;
 import common.model.MusicHashMap;
 import common.model.TypeElement;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 /**
  *
@@ -29,10 +32,9 @@ public class Display {
        
     private Text move = new Text();
     private Text time = new Text();
-    public VBox vb = new VBox();
+    private VBox vbox = new VBox();
     private double volume = 8;
     public Scene scene;
-    public boolean show =false;
     private GridPane root= new GridPane();
     private Board board;
     private double imageSize;
@@ -58,7 +60,7 @@ public class Display {
         Text title = new Text(board.title);
         title.setFont(Font.loadFont(JavaFXMethode.loadFont(), 30));
         title.setFill(Color.BLACK);
-        
+        rootImage.getChildren().add(vbox);
         Text gm = new Text();
         if (GameMode.isActive(Game.TIMER) || GameMode.isActive(Game.PLAYERMOVE)) {
             gm = new Text(" - GM ");
@@ -119,16 +121,17 @@ public class Display {
                 MenuInit.getInstance().getStage().setScene(menuEsc.scene);
             e.consume();
             convertBoardToImage();
-            if (show)
-                show();
             gmMove();
             gmTime();
         });
     }
     
-    private void show() {
-        rootImage.getChildren().add(vb);
-        show=false;
+    public void show(VBox vb) {
+        rootImage.getChildren().remove(vbox);
+        vbox = vb;
+        rootImage.getChildren().add(vbox);
+        new Timeline(new KeyFrame(Duration.millis(3000), e -> 
+                rootImage.getChildren().remove(vbox))).play();
     }
     
     private void gmMove() {
@@ -183,23 +186,21 @@ public class Display {
      * chaque objet present dans board
      */
     private void convertBoardToImage() {    
-        //enlever la vb achivement
-        rootImage.getChildren().remove(vb);
         //temporaire supprimer le root pour le rempalcer cela evite d'avoir tout les root en memoir
         rootImage.getChildren().remove(root);
         this.root = new GridPane();
         //Centrement de la Grid
         root.setTranslateX((JavaBobyIsYou.WIDTH/2)-((board.getSizeX()*imageSizeX)/4));
         root.setTranslateY(30);
-        rootImage.getChildren().addAll(root);
-        for(int i=0;i<this.board.getSizeX();i++) {
-            for(int j=0;j<this.board.getSizeY();j++) {
+        if (rootImage.getChildren().contains(vbox))
+            rootImage.getChildren().add(1, root);
+        else rootImage.getChildren().add(root);
+        for(int i=0;i<this.board.getSizeX();i++)
+            for(int j=0;j<this.board.getSizeY();j++)
                 for (Element e:this.board.getListGrid().get(j).get(i).getZ()) {
                     addImage(e.getTypeElement(),i,j);
                     if (this.board.best(e.getTypeElement()))
                         addImage(TypeElement.BESTELEME,i,j);
                 }
-            }
-        }
     }
 }

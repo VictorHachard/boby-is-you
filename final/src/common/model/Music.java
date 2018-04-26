@@ -9,14 +9,13 @@ public enum Music {
     BACK,
     PUSH,
     WIN,
-    ICE,
     KILL,
+    DESTROY,
     MELT,
     PORTAL,
     MELTBLOCK,
     SINK,
     SINKBLOCK,
-    LOSE,
     ACHIEVEMENT;
      
     /**

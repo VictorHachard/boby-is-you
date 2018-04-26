@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.stage.Stage;
 import common.view.JavaBobyIsYou;
+import common.view.MenuEnd;
 import common.view.MenuInit;
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -130,6 +131,7 @@ public final class Levels {
             indice=0;
             carryOn=false;
             stopGame();
+            primaryStage.setScene(MenuEnd.getInstance().scene);
             return;
         }     
         music.play(Music.WIN);
@@ -144,7 +146,7 @@ public final class Levels {
  Map.
      */
     void loadMap() {
-        char[] listchar = {'a','b','c','d','e','f','g','h','i','j','l','m'};
+        char[] listchar = {'2','a','b','c','d','e','f','g','h','1','i','j','k','l','m','o'};
         for (char a:listchar) {
             InputStream is = null;
             try {

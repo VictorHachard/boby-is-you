@@ -1,67 +1,123 @@
 18 18
-config 60
+config 100
 title Avonlea
-baba 3 0
-baba 5 0
-text_love 4 0
-is 4 1
-is 5 1
-is 6 1
-left 4 2
-down 5 2
-right 6 2
-love 6 5 3
-love 7 4 3
-love 8 4 3
-love 9 4 3
-love 10 4 3
-love 11 4 3
-love 7 5 3
-love 8 5 3
-love 9 5 3
-love 10 5 3
-love 11 5 3
-love 7 6 3
-love 8 6 3
-love 9 6 3
-love 10 6 3
-love 11 6 3
-wall 4 4
-wall 4 5
-wall 4 6
-wall 4 7
-wall 4 8
-wall 4 9
-wall 4 10
-wall 4 11
-wall 4 12
-wall 4 13
-wall 4 14
-wall 4 15
-wall 4 16
-wall 13 4
-wall 13 5
-wall 13 6
-wall 13 7
-wall 13 8
-wall 13 9
-wall 13 10
-wall 13 11
-wall 13 12
-wall 13 13
-wall 13 14
-wall 13 15
-wall 13 16
-star 8 16
-star 9 16
-text_wall 0 17
-is 1 17
-stop 2 17
-text_baba 0 16
-is 1 16
-you 2 16
-text_love 13 0
-is 14 0
-melt 15 0
-and 16 0
-move 17 0
+text_flag 0 0
+is 1 0
+win 2 0
+rock 3 2
+rock 4 4
+rock 6 3
+text_rock 5 6
+is 4 6
+push 3 6
+baba 4 8
+text_baba 3 10
+is 4 10
+you 5 10
+text_lava 13 15
+is 14 15
+hot 15 15
+flag 13 8
+text_baba 11 7
+is 11 8
+melt 11 9
+lava 17 0
+lava 16 0
+lava 15 0
+lava 14 0
+lava 13 0
+lava 17 1
+lava 16 1
+lava 15 1
+lava 14 1
+lava 13 1
+lava 12 1
+lava 17 2
+lava 16 2
+lava 15 2
+lava 14 2
+lava 13 2
+lava 12 2
+lava 11 2
+lava 16 3
+lava 15 3
+lava 14 3
+lava 13 3
+lava 12 3
+lava 11 3
+lava 16 4
+lava 15 4
+lava 14 4
+lava 13 4
+lava 12 4
+lava 11 4
+lava 10 4
+lava 16 5
+lava 15 5
+lava 14 5
+lava 13 5
+lava 12 5
+lava 11 5
+lava 10 5
+lava 9 5
+lava 14 6
+lava 15 6
+lava 9 6
+lava 10 6
+lava 15 7
+lava 9 7
+lava 9 8
+lava 15 8
+lava 15 9
+lava 14 9
+lava 9 9
+lava 14 10
+lava 14 11
+lava 14 12
+lava 8 10
+lava 9 10
+lava 10 10
+lava 8 11
+lava 9 11
+lava 10 11
+lava 11 11
+lava 12 11
+lava 13 11
+lava 14 11
+lava 8 12
+lava 9 12
+lava 10 12
+lava 11 12
+lava 12 12
+lava 13 12
+lava 8 13
+lava 9 13
+lava 10 13
+lava 11 13
+lava 12 13
+lava 7 14
+lava 8 14
+lava 9 14
+lava 10 14
+lava 11 14
+lava 6 15
+lava 7 15
+lava 8 15
+lava 9 15
+lava 10 15
+lava 10 16
+lava 9 16
+lava 8 16
+lava 7 16
+lava 6 16
+lava 5 16
+lava 4 16
+lava 2 17
+lava 3 17
+lava 4 17
+lava 5 17
+lava 6 17
+lava 7 17
+lava 8 17
+lava 9 17
+lava 10 17

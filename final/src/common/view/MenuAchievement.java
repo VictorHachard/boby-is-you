@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 /**
  *
@@ -15,7 +14,6 @@ import javafx.stage.Stage;
  */
 public class MenuAchievement {
     
-    private Stage primaryStage = MenuInit.getInstance().getStage();
     private Pane root = new Pane();
     Scene scene;
     private static MenuAchievement INSTANCE = null;

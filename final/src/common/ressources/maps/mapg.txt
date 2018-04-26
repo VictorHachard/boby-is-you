@@ -60,6 +60,7 @@ skull 12 9
 skull 13 9
 win 14 9
 wall 14 11
+wall 14 6
 skull 15 9
 skull 16 9
 skull 17 9
