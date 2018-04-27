@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -29,8 +30,15 @@ public class BackGround {
     private double imageSize;
     private Pane rootImage  = new Pane();
     private double imageSizeX;
+    private static BackGround INSTANCE = null;
     
-    BackGround() {
+    public static BackGround getInstance() {           
+        if (INSTANCE == null)
+            INSTANCE = new BackGround();
+        return INSTANCE;
+    }
+    
+    private BackGround() {
         InputStream is = null;
             try {
                 URL uri = JavaBobyIsYou.class.getResource("/common/ressources/maps/mapa.txt");
@@ -53,7 +61,8 @@ public class BackGround {
             imageSize = imageSizeX;
         else imageSize = imageSizeY;
         convertBoardToImage(); 
-        rootImage.getChildren().add(r);
+        rootImage.setBackground(JavaFXMethode.addColoredBackGround(Color.BROWN));
+        rootImage.getChildren().addAll(r);
     }
     
     Pane getPane() {
@@ -96,8 +105,6 @@ public class BackGround {
         //temporaire supprimer le root pour le rempalcer cela evite d'avoir tout les root en memoir
         rootImage.getChildren().remove(root);
         this.root = new GridPane();
-        //Centrement de la Grid
-        //root.setTranslateX((JavaBobyIsYou.WIDTH/2)-((board.getSizeX()*imageSizeX)/4));
         rootImage.getChildren().add(root);
         for(int i=0;i<this.board.getSizeX();i++)
             for(int j=0;j<this.board.getSizeY();j++)

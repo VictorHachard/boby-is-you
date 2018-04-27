@@ -29,6 +29,7 @@ public class MenuNew {
     private MenuNew() {
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
         scene.getStylesheets().add(JavaBobyIsYou.THEME);
+        root.getChildren().add(BackGround.getInstance().getPane());
         root.getChildren().add(JavaFXMethode.addTitle("ESC",Color.WHITE));
         addMenu();
     }

@@ -67,7 +67,7 @@ public class Display {
             gm.setFont(Font.loadFont(JavaFXMethode.loadFont(), 20));
         }
         
-       // hbox.setTranslateX(-((JavaBobyIsYou.WIDTH/2)-((board.getSizeX()*imageSizeX)/4)));
+        hbox.setTranslateX(-JavaBobyIsYou.WIDTH+30);
         hbox.setTranslateY(-30);
         hbox.setLayoutX(imageSize*board.getSizeX());
         hbox.setLayoutY(30);

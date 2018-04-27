@@ -23,11 +23,12 @@ public class MenuAchievement {
         root.getChildren().add(JavaFXMethode.addTitle("Achievement",Color.BLACK));
         HashMap<Achievement, Integer> data = CheckAchievement.getInstance().getData();
         VBox b = new VBox();
+        b.setTranslateY(40);
+        b.setSpacing(10);
         b.setMinWidth(JavaBobyIsYou.WIDTH);
-        b.setMinHeight(JavaBobyIsYou.HEIGHT);
-        for(HashMap.Entry<Achievement, Integer> d : data.entrySet()) {
-            b.getChildren().add(JavaFXMethode.addTitle(d.getKey()+" "+d.getValue(),Color.BLACK,16));
-        }
+        b.setMinHeight(JavaBobyIsYou.HEIGHT-40);
+        for(HashMap.Entry<Achievement, Integer> d : data.entrySet())
+            b.getChildren().add(JavaFXMethode.addTitle(d.getKey()+" "+d.getValue(),Color.BLACK,20));
         root.getChildren().add(b);
     }
     

@@ -35,9 +35,7 @@ public class MenuInit {
     private MenuInit() {
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
         scene.getStylesheets().add(JavaBobyIsYou.THEME);
-        root.getChildren().add(JavaFXMethode.addBackGround("common/ressources/images/empty.png"));
-        BackGround b = new BackGround();
-        root.getChildren().add(b.getPane());
+        root.getChildren().add(BackGround.getInstance().getPane());
         root.getChildren().add(JavaFXMethode.addTitle("Boby Is You",Color.WHITE));
         addMenu();
     }

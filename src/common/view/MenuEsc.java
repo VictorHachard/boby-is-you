@@ -28,6 +28,7 @@ public class MenuEsc {
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
         scene.getStylesheets().add(JavaBobyIsYou.THEME);
         this.continuer= continuer;
+        root.setBackground(JavaFXMethode.addColoredBackGround(Color.BLACK));
         root.getChildren().add(JavaFXMethode.addTitle("ESC",Color.WHITE));
         addMenu();
     }
@@ -38,7 +39,6 @@ public class MenuEsc {
         Button buttonContinue = new Button("Continuer");
         Button buttonExit = new Button("Exit");
         Button buttonMenu = new Button("Menu");
-        //Button buttonSave = new Button("Sauvegarder");
 	
         vbox.getChildren().addAll(
                 buttonContinue,

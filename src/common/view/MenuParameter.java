@@ -28,6 +28,7 @@ public class MenuParameter {
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
         scene.getStylesheets().add(JavaBobyIsYou.THEME);
         //recuper les donner dans config
+        root.setBackground(JavaFXMethode.addColoredBackGround(Color.BLACK));
         root.getChildren().add(JavaFXMethode.addTitle("PARAMETRE",Color.WHITE));
         addMenu();
     }
