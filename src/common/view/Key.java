@@ -22,7 +22,7 @@ public class Key {
     private KeyCode DOWN = KeyCode.DOWN;
     private KeyCode R = KeyCode.R;
     
-    Key() {}
+    private Key() {}
     
     KeyCode getKeyLEFT() {
         return LEFT;

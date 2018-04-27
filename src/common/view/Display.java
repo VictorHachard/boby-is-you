@@ -38,7 +38,7 @@ public class Display {
     private GridPane root= new GridPane();
     private Board board;
     private double imageSize;
-    public Pane rootImage  = new Pane();
+    private Pane rootImage  = new Pane();
     private double imageSizeX;
     private HBox hbox = new HBox();
     
@@ -67,7 +67,7 @@ public class Display {
             gm.setFont(Font.loadFont(JavaFXMethode.loadFont(), 20));
         }
         
-        hbox.setTranslateX(-((JavaBobyIsYou.WIDTH/2)-((board.getSizeX()*imageSizeX)/4)));
+       // hbox.setTranslateX(-((JavaBobyIsYou.WIDTH/2)-((board.getSizeX()*imageSizeX)/4)));
         hbox.setTranslateY(-30);
         hbox.setLayoutX(imageSize*board.getSizeX());
         hbox.setLayoutY(30);
@@ -190,7 +190,7 @@ public class Display {
         rootImage.getChildren().remove(root);
         this.root = new GridPane();
         //Centrement de la Grid
-        root.setTranslateX((JavaBobyIsYou.WIDTH/2)-((board.getSizeX()*imageSizeX)/4));
+        //root.setTranslateX((JavaBobyIsYou.WIDTH/2)-((board.getSizeX()*imageSizeX)/4));
         root.setTranslateY(30);
         if (rootImage.getChildren().contains(vbox))
             rootImage.getChildren().add(1, root);

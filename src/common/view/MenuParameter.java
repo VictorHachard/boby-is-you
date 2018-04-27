@@ -24,7 +24,7 @@ public class MenuParameter {
         return INSTANCE;
     }
     
-    MenuParameter() {
+    private MenuParameter() {
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
         scene.getStylesheets().add(JavaBobyIsYou.THEME);
         //recuper les donner dans config

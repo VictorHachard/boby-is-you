@@ -16,13 +16,6 @@ public class MenuAchievement {
     
     private Pane root = new Pane();
     Scene scene;
-    private static MenuAchievement INSTANCE = null;
-    
-    static MenuAchievement getInstance() {           
-        //if (INSTANCE == null)  
-            INSTANCE = new MenuAchievement();
-        return INSTANCE;
-    }
     
     MenuAchievement() {
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);

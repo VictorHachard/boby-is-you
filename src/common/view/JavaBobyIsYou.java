@@ -27,7 +27,7 @@ public class JavaBobyIsYou extends Application {
     
     static final String THEME = "/common/ressources/css/theme.css";
     static final Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();   
-    public static final double WIDTH = visualBounds.getWidth()-30;
+    public static final double WIDTH = visualBounds.getHeight()-30;
     public static final double HEIGHT = visualBounds.getHeight()-30;
     private static final Logger LOGGER = Logger.getGlobal();
     public static int indice =0;

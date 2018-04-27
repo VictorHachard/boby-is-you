@@ -32,10 +32,12 @@ public class MenuInit {
         return this.primaryStage;
     }
 
-    MenuInit() {
+    private MenuInit() {
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
         scene.getStylesheets().add(JavaBobyIsYou.THEME);
         root.getChildren().add(JavaFXMethode.addBackGround("common/ressources/images/empty.png"));
+        BackGround b = new BackGround();
+        root.getChildren().add(b.getPane());
         root.getChildren().add(JavaFXMethode.addTitle("Boby Is You",Color.WHITE));
         addMenu();
     }
@@ -64,7 +66,7 @@ public class MenuInit {
             this.primaryStage.setScene(MenuParameter.getInstance().scene);
         });
         buttonAcheivement.setOnAction(event -> {    
-            this.primaryStage.setScene(MenuAchievement.getInstance().scene);
+            this.primaryStage.setScene(new MenuAchievement().scene);
         });
         buttonContinue.setOnAction(event -> {
             if (Levels.getInstance().getContinue())

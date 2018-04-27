@@ -19,13 +19,6 @@ public class MenuEsc {
     private Pane root = new Pane();
     private Display continuer;
     Scene scene;
-    private static MenuEsc INSTANCE = null;
-    
-    static MenuEsc getInstance(Display continuer) {           
-        if (INSTANCE == null)  
-            INSTANCE = new MenuEsc(continuer);
-        return INSTANCE;
-    }
     
     /**
      * 
