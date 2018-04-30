@@ -1,7 +1,0 @@
-level 3
-continue true
-KeyUP UP
-KeyDOWN DOWN
-KeyLEFT LEFT
-KeyRIGHT RIGHT
-KeyR R

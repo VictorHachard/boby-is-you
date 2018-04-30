@@ -22,7 +22,8 @@ public class Maps {
     private int y;
     private Map<Position, List<Element>> Element = new HashMap<>();
     private ArrayList<Element> listAllElement = new ArrayList<>();
-    private Element unplayable = new Element(TypeElement.WALLINJOUABLE,Directions.RIGHT);
+    private Element unplayable = new Element(TypeElement.WALLINJOUABLE,
+            Directions.RIGHT);
     private Element empty = new Element(TypeElement.EMPTY,Directions.RIGHT);
     private static final Logger LOGGER = Logger.getGlobal();
     int limitedDeplacement;
@@ -65,9 +66,8 @@ public class Maps {
                     this.limitedDeplacement = Integer.parseInt(parts[1]);  
                     //this.limitedDeplacement = Integer.parseInt(parts[2]);  
                 }
-                else if (parts[0].equals("title")) {
+                else if (parts[0].equals("title"))
                     this.title=parts[1].replaceAll("_", " ");
-                }
                 else if (parts.length<=2 || parts.length>=5)
                     continue;
                 else {
@@ -123,7 +123,8 @@ public class Maps {
      */
     public void addMap(int x, int y, Element e) {   
         if (checkIfPosIsInMap(x,y,e.getTypeElement())) {
-            if (!(e.getType()==Type.PLAYER || e.getTypeElement()==TypeElement.ROCK))
+            if (!(e.getType()==Type.PLAYER || e.getTypeElement()==
+                    TypeElement.ROCK))
                 for(Element el:this.listAllElement) {
                     if(el.equals(e)) {
                         putObjects (Element, new Position(y,x), el);
@@ -151,7 +152,8 @@ public class Maps {
      * @param e Element, elme à supprimer.
      * @throws TypeElementNotFoundException 
      */
-    public void removeMap(int x, int y, Element e) throws TypeElementNotFoundException {
+    public void removeMap(int x, int y, Element e) 
+            throws TypeElementNotFoundException {
         if (checkIfPosIsInMap(x,y,e.getTypeElement()))
             removeObjects (Element, new Position(y,x), e);
     }
@@ -162,7 +164,7 @@ public class Maps {
      * @param p Position, la position ou on ajoute te. 
      * @param e Elemnt, l'element que l'on veut ajouter.
      */
-    private void putObjects(Map<Position,List<Element>> te, Position p, Element e) {
+    private void putObjects(Map<Position,List<Element>>te,Position p,Element e){
         List<Element> temps = te.get(p);
         if(temps == null) {
             temps = new ArrayList<>();
@@ -171,7 +173,8 @@ public class Maps {
         else if (temps.contains(e))
             return;
         temps.add(e);
-        Collections.sort(temps, (Element e1, Element e2) -> e1.getTypeElement().getPriority() - e2.getTypeElement().getPriority());
+        Collections.sort(temps, (Element e1, Element e2) ->
+        e1.getTypeElement().getPriority() - e2.getTypeElement().getPriority());
     }
     
     /**
@@ -180,7 +183,8 @@ public class Maps {
      * @param key Position, la position ou on supprime te. 
      * @param te Elemnt, l'element que l'on veut supprime.
      */
-    private void removeObjects(Map<Position, List<Element>> typeElem, Position key, Element te) {
+    private void removeObjects(Map<Position, List<Element>> typeElem,
+            Position key, Element te) {
         List<Element> temps = typeElem.get(key);
         if(temps == null) {
             throw new IllegalStateException();
@@ -192,8 +196,8 @@ public class Maps {
 
     /**
      * Revois une liste d'element en position demander.
-     * @param x int, la case en abssice ou se trouve la liste, en commensant par 0.
-     * @param y int, la case en ordonnée ou se trouve la liste, en commensant par 0.
+     * @param x la case en abssice ou se trouve la liste, en commensant par 0.
+     * @param y la case en ordonnée ou se trouve la liste, en commensant par 0.
      * @return ListElement, liste de tout les element de cette position.
      */
     public List<Element> getListElement(int x, int y) { 
@@ -223,7 +227,8 @@ public class Maps {
                 try  {
                     throw new IndexOutOfBoundsException();
                 } catch (IndexOutOfBoundsException e) {
-                    LOGGER.log(Level.SEVERE, "TypeElement "+te+" is out of the Maps, "+x+", "+y+"\nSOLVE: delete "+te);
+                    LOGGER.log(Level.SEVERE, "TypeElement "+te+" is out of the "
+                            + "Maps, "+x+", "+y+"\nSOLVE: delete "+te);
                     return false;
                 }
             }
@@ -231,7 +236,8 @@ public class Maps {
                 try  {
                     throw new IndexOutOfBoundsException();
                 } catch (IndexOutOfBoundsException e) {
-                    LOGGER.log(Level.SEVERE, "TypeElement "+te+" is out of the Maps, "+x+"\nSOLVE: delete "+te);
+                    LOGGER.log(Level.SEVERE, "TypeElement "+te+" is out of the "
+                            + "Maps, "+x+"\nSOLVE: delete "+te);
                     return false;
                 }
             }
@@ -239,7 +245,8 @@ public class Maps {
                 try  {
                     throw new IndexOutOfBoundsException();
                 } catch (IndexOutOfBoundsException e) {
-                    LOGGER.log(Level.SEVERE, "TypeElement "+te+" is out of the Maps, "+x+"\nSOLVE: delete "+te);
+                    LOGGER.log(Level.SEVERE, "TypeElement "+te+" is out of the "
+                            + "Maps, "+x+"\nSOLVE: delete "+te);
                     return false;
                 }
             }
@@ -262,20 +269,16 @@ public class Maps {
         return this.y;
     }
     
-    /**
-     * Revois une chaine de charactére de la Map pour afficher la map en console.
-     * @return String
-     */
     @Override
     public String toString(){
         StringBuilder  sb = new StringBuilder();
         for(int i=0;i<y;i++){
             for(int j=0;j<x;j++){
                 List<Element> te =  this.Element.get(new Position(i,j));
-                sb.append(te.get(te.size()-1).getTypeElement().getLetter()).append("|");
+                sb.append(te.get(te.size()-1).getTypeElement().getLetter());
+                sb.append("|");
             }
             sb.append("\n");
-        }
-        return sb.toString();
+        } return sb.toString();
     }
 }

@@ -38,9 +38,6 @@ public final class Levels {
         return INSTANCE;
     }
     
-    /**
-     * 
-     */
     public static void ReloadInstance() {           
         INSTANCE = null;
     }
@@ -77,7 +74,7 @@ public final class Levels {
     /**
      * Change la maps en focntion de b.
      * @param b true ou false, change la direction dans la quel la Map va etre 
- changer
+     * changer
      */
     public void switchMaps(boolean b) {
         if (b)
@@ -142,8 +139,8 @@ public final class Levels {
     
     /**
      * Ouvre dans le fichier "maps", ajoute toues les maps sous formats "txt"
- dans la liste des maps "listMap" qui sont prealablement transformer et 
- Map.
+     * dans la liste des maps "listMap" qui sont prealablement transformer et 
+     * Map.
      */
     void loadMap() {
         char[] listchar = {'2','a','b','c','d','e','f','g','h','1','i','j','k','l','m','o'};

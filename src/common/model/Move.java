@@ -51,35 +51,43 @@ public class Move extends Rule {
         });  
     }
     
-    void moveMonster() {
-        Directions dir = listGrid.get(listMonster.get(0).y).get(listMonster.get(0).x).getElements(this.te).getDirections();
+    private void moveMonster() {
+        Directions dir = listGrid.get(listMonster.get(0).y)
+                .get(listMonster.get(0).x).getElements(te).getDirections();
         //trie pour ne pas addi les player
         sort(dir);
         for(Position pos:this.listMonster) {
-            dir = listGrid.get(pos.y).get(pos.x).getElements(this.te).getDirections();
-            if(pos.y+dir.getDirVer() < board.getSizeY() && pos.x+dir.getDirHori() < board.getSizeX()) {
-                if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).canAdd()){ //verifie si il peut add la case suivante
-                    board.editPlacement(pos,dir,this.te);
-                }
-                else if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).canPush()) { //verifie si il peut push la case suivante
-                    if (board.push(new Position(pos.x+dir.getDirHori(),pos.y+dir.getDirVer()),dir))
-                        board.editPlacement(pos,dir,this.te);
+            dir = listGrid.get(pos.y).get(pos.x)
+                    .getElements(te).getDirections();
+            if(pos.y+dir.getDirVer() < board.getSizeY()
+                    && pos.x+dir.getDirHori() < board.getSizeX()) {
+                if (listGrid.get(pos.y+dir.getDirVer())
+                        .get(pos.x+dir.getDirHori()).canAdd())
+                    board.editPlacement(pos,dir,te);
+                else if (listGrid.get(pos.y+dir.getDirVer())
+                        .get(pos.x+dir.getDirHori()).canPush()) {
+                    if (board.push(new Position(pos.x+dir.getDirHori(),
+                            pos.y+dir.getDirVer()),dir))
+                        board.editPlacement(pos,dir,te);
                     else {
-                        listGrid.get(pos.y).get(pos.x).getElements(this.te).setDirections(dir.getOpp());
-                        board.editPlacement(pos,dir.getOpp(),this.te);
+                        listGrid.get(pos.y).get(pos.x).getElements(te)
+                                .setDirections(dir.getOpp());
+                        board.editPlacement(pos,dir.getOpp(),te);
                         }
                 }
                 else {
-                    if (listGrid.get(pos.y+dir.getOpp().getDirVer()).get(pos.x+dir.getOpp().getDirHori()).canAdd()) {
-                        listGrid.get(pos.y).get(pos.x).getElements(this.te).setDirections(dir.getOpp());
-                        board.editPlacement(pos,dir.getOpp(),this.te);
+                    if (listGrid.get(pos.y+dir.getOpp().getDirVer())
+                            .get(pos.x+dir.getOpp().getDirHori()).canAdd()) {
+                        listGrid.get(pos.y).get(pos.x).getElements(te)
+                                .setDirections(dir.getOpp());
+                        board.editPlacement(pos,dir.getOpp(),te);
                     }
                 }
             }
         }
     }
     
-    boolean checkRule(Property pro) {
+    private boolean checkRule(Property pro) {
         for (Element e:board.getListAllElement())
             if (e.getTypeRule().contains(pro)) {
                 this.te = e.getTypeElement();
@@ -89,11 +97,10 @@ public class Move extends Rule {
         return false;
     }
     
-    void getMonster() {
+    private void getMonster() {
         this.listMonster = board.getPositionOf(this.te);
-        if (!(listMonster.isEmpty())) {
+        if (!(listMonster.isEmpty()))
             this.isMonster = true;
-        }
     } 
     
     @Override

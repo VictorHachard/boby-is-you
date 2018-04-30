@@ -86,10 +86,9 @@ public class Element {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 71 * hash + Objects.hashCode(this.te);
-        hash = 71 * hash + Objects.hashCode(this.ltr);
-        hash = 71 * hash + Objects.hashCode(this.dir);
+        int hash = 42 + Objects.hashCode(this.te);
+        hash = 42 + Objects.hashCode(this.ltr);
+        hash = 42 + Objects.hashCode(this.dir);
         return hash;
     }
     
@@ -166,6 +165,5 @@ public class Element {
      */
     boolean isRule(Property listRule) {
         return ltr.contains(listRule);
-    }
-    
+    }    
 }

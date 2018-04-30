@@ -120,7 +120,7 @@ public class CheckAchievement {
 	}
     }
     
-    public void load() {
+    private void load() {
         Object data;
         try (ObjectInputStream reader = new ObjectInputStream(new FileInputStream("achievements"))) {
             data = reader.readObject();

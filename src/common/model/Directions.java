@@ -17,10 +17,6 @@ public enum Directions {
     private final int direction;
     private static final Logger LOGGER = Logger.getGlobal();
     
-    /**
-     * 
-     * @param d int
-     */
     Directions(int d){
         direction = d;
     }
@@ -31,18 +27,12 @@ public enum Directions {
      * @return Directions, la direction en fonction de direction. 
      */
     static Directions fromString(int dir) {
-        try {
-            for(Directions type : Directions.values()) {
-                if (type.getDir()==dir) {
-                    return type;
-                }
-            }
-            throw new IllegalArgumentException();
-        }
-        catch (IllegalArgumentException e) {
-            LOGGER.log(Level.WARNING, "int {0} cannot be convert into a Directions\nSOLVE: {0} convert into RIGHT", dir);
-            return Directions.RIGHT;
-        }
+        for(Directions type : Directions.values())
+            if (type.direction==dir)
+                return type;
+        LOGGER.log(Level.WARNING,"int {0} cannot be convert into a Directions\n"
+                + "SOLVE: {0} convert into RIGHT", dir);
+        return Directions.RIGHT;
     }
     
     /**

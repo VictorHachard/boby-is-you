@@ -18,16 +18,13 @@ public enum TypeElement {
     WALL("WALL","E_W ",1,null,null,Type.BLOCK),
     WALLINJOUABLE("WALLINJOUABLE","E_WI",0,null,null,Type.BLOCK),
     ICE("ICE","E_I ",1,null,null,Type.BLOCK),
-    //SPIKE("SPIKE","E_S ",1,null,null,Type.BLOCK),
     WATER("WATER","E_WA",1,null,null,Type.BLOCK),
-    //ERROR("ERROR","E_ER",1,null,null,Type.BLOCK),
     SKULL("SKULL","E_S ",2,null,null,Type.BLOCK),
     GRASS("GRASS","E_G ",1,null,null,Type.BLOCK),
     FLAG("FLAG","E_F ",2,null,null,Type.BLOCK),
     EMPTY("EMPTY","    ",0,null,null,Type.BLOCK),
     EMPTYINJOUABLE("EMPTYINJOUABLE","    ",0,null,null,Type.BLOCK),
     METAL("METAL","E_M ",1,null,null,Type.BLOCK),
-    //STAR("STAR","E_ST",2,null,null,Type.BLOCK),
     LOVE("LOVE","E_L ",2,null,null,Type.BLOCK),
     DOOR("DOOR","E_DO",2,null,null,Type.BLOCK),
     KEY("KEY","E_KE",2,null,null,Type.BLOCK),
@@ -43,13 +40,11 @@ public enum TypeElement {
     TEXT_DOOR("TEXT_DOOR","T_DO",3,TypeElement.DOOR,null,Type.TEXT),
     TEXT_KEY("TEXT_KEY","T_KE",3,TypeElement.KEY,null,Type.TEXT),
     TEXT_ROCK("TEXT_ROCK","T_R ",3,TypeElement.ROCK,null,Type.TEXT),
-    //TEXT_STAR("TEXT_STAR","T_ST",3,TypeElement.STAR,null,Type.TEXT),
     TEXT_LAVA("TEXT_LAVA","T_LA",3,TypeElement.LAVA,null,Type.TEXT),
     TEXT_WALL("TEXT_WALL","T_W ",3,TypeElement.WALL,null,Type.TEXT),
     TEXT_PLAYER1("TEXT_BABA","T_P ",3,TypeElement.PLAYER1,null,Type.TEXT),
     TEXT_GRASS("TEXT_GRASS","T_G ",3,TypeElement.GRASS,null,Type.TEXT),
     TEXT_FLAG("TEXT_FLAG","T_F ",3,TypeElement.FLAG,null,Type.TEXT),
-    //TEXT_ERROR("TEXT_ERROR","T_ER",3,TypeElement.ERROR,null,Type.TEXT),
     TEXT_EMPTY("TEXT_EMPTY","T_EM",3,TypeElement.EMPTY,null,Type.TEXT),
     TEXT_LOVE("TEXT_LOVE","T_L ",3,TypeElement.LOVE,null,Type.TEXT),
     TEXT_GOOP("TEXT_WATER","T_WA",3,TypeElement.WATER,null,Type.TEXT),
@@ -58,9 +53,7 @@ public enum TypeElement {
     TEXT_ICE("TEXT_ICE","T_I ",3,TypeElement.ICE,null,Type.TEXT),
     TEXT_MONSTER("TEXT_MONSTER","T_M ",3,TypeElement.MONSTER,null,Type.TEXT),
     
-    SHUT("SHUT","R_SH",3,null,Property.SHUT,Type.RULE),
     STRONG("STRONG","R_ST",3,null,Property.STRONG,Type.RULE),
-    OPEN("OPEN","R_OP",3,null,Property.OPEN,Type.RULE),
     WEAK("WEAK","R_WE",3,null,Property.WEAK,Type.RULE),
     SLIP("SLIP","R_SL",3,null,Property.SLIP,Type.RULE),
     FLY("FLY","R_FL",3,null,Property.FLY,Type.RULE),
@@ -75,7 +68,6 @@ public enum TypeElement {
     YOU("YOU","R_Y ",3,null,Property.YOU,Type.RULE),
     YOU1("YOU1","R_Y ",3,null,Property.YOU1,Type.RULE),
     YOU2("YOU2","R_Y ",3,null,Property.YOU2,Type.RULE),
-    //GRAB("GRAB","R_G ",3,null,Property.GRAB,Type.RULE),
     KILL("KILL","R_K ",3,null,Property.KILL,Type.RULE),
     
     UP("UP","UP  ",3,null,Property.UP,Type.RULE),
@@ -97,15 +89,6 @@ public enum TypeElement {
     private final Property rule;
     private final Type type;
     
-    /**
-     * 
-     * @param fromString
-     * @param stringConsole
-     * @param intType
-     * @param te
-     * @param rule
-     * @param type 
-     */
     TypeElement(String fromString,String stringConsole, int intType, TypeElement te,Property rule,Type type) {
 	this.fromString = fromString;
         this.stringConsole = stringConsole;
@@ -119,24 +102,14 @@ public enum TypeElement {
      * Tranforme et revois un string en TypeElments.
      * @param element String
      * @return TypeElments
-     * @throws TypeElementNotFoundException Si l'erreur est throw cela return TypeElement EMPTY.
      */
     static TypeElement fromString(String element) {
-        try {
-            for(TypeElement type : TypeElement.values()) {
-                if (type.getElements().equals(element)) {
-                    return type;
-                }
-            }
-            throw new TypeElementNotFoundException();
-        }
-        catch(TypeElementNotFoundException ex) {
-            LOGGER.log(Level.WARNING, "TypeElements {0} was not found\nSOLVE: {0} was replaced by EMPTY",element);
-            return TypeElement.EMPTY;
-        }
+        for(TypeElement type : TypeElement.values())
+            if (type.getElements().equals(element))
+                return type;
+        LOGGER.log(Level.WARNING, "TypeElements {0} was not found\nSOLVE: {0} was replaced by EMPTY",element);
+        return TypeElement.EMPTY;
     }
-
-    //Getters
     
     /**
      * Revois le Type de l'element.
@@ -193,5 +166,4 @@ public enum TypeElement {
     public static TypeElement[] getAll(){
         return TypeElement.values();
     }
-       
 }

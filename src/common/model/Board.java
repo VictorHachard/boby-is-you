@@ -15,7 +15,7 @@ public class Board {
     private GameModeTimer gameModeTimer = new GameModeTimer(this);
     private List<Element> listAllElement = new ArrayList<>();
     private final GameMode listLose;
-    private List<TypeElement> bestlist = new ArrayList<>();
+    private List<TypeElement> bestList = new ArrayList<>();
     private List<Position> is;
     private List<Position> make;
     private List<List<Cell>> listGrid = new ArrayList<>();
@@ -23,7 +23,6 @@ public class Board {
     private final int y;
     private final Cell unplayable = new Cell(new Unplayable());
     private final Element empty = new Empty();
-    private final MusicHashMap music= MusicHashMap.getInstance();
     private Rule listRule;
     private static Board INSTANCE = null;
     private final Element emptyPlayable=new Element(TypeElement.EMPTY);
@@ -37,7 +36,7 @@ public class Board {
     /**
      * 
      * @param map
-     * @return
+     * @return L'instance de Board
      */
     public static Board getInstance(Maps map) {           
         if (INSTANCE == null)
@@ -53,9 +52,6 @@ public class Board {
         return INSTANCE;
     }
     
-    /**
-     * 
-     */
     public static void reloadInstance() {
         INSTANCE = null;
     }
@@ -88,7 +84,7 @@ public class Board {
         fillEmpty();
         is = getAllPos(TypeElement.IS);
         for (Position p:is)
-            rule(p,TypeElement.IS);
+            rule(p);
         
         listRule = new Tp(this);
         listRule.addRule(new Fly(this),
@@ -98,21 +94,20 @@ public class Board {
                 new Move(this),
                 new Melt(this),
                 new Weak(this),
-                new Win(this),
-                new Shut(this));
+                new Win(this));
         this.limitedDeplacement=map.limitedDeplacement;
         this.title=map.title;
         listLose = new GameModeNumberOfMove(this);
-        listLose.addGameMode(gameModeTimer);
-        //listRule.addRule(new Shut(this));
-        //make = getAllPos(TypeElement.MAKE);
-        
+        listLose.addGameMode(gameModeTimer);        
     }   
     
     public int getTime() {
         return this.gameModeTimer.getTime();
     }
     
+    /**
+     * Supprime tout les emptys jouable et les recalcules.
+     */
     private void fillEmpty() {
         this.listAllElement.remove(this.emptyPlayable);
         //remove tout les empty
@@ -220,7 +215,7 @@ public class Board {
                     listGrid.get(x).get(y+1).getType(te1));
             else {  
                 if (listGrid.get(x).get(y+1).find(TypeElement.BEST)) {
-                    bestlist.add(listGrid.get(x).get(y-1).getType(te).getText());
+                    bestList.add(listGrid.get(x).get(y-1).getType(te).getText());
                 }
                 if (listGrid.get(x).get(y+1).find(TypeElement.UP) || 
                         listGrid.get(x).get(y+1).find(TypeElement.LEFT) ||
@@ -242,7 +237,7 @@ public class Board {
                     listGrid.get(x+1).get(y).getType(te1));
             else { 
                 if (listGrid.get(x+1).get(y).find(TypeElement.BEST)) {
-                    bestlist.add(listGrid.get(x-1).get(y).getType(te).getText());
+                    bestList.add(listGrid.get(x-1).get(y).getType(te).getText());
                 }
                 if (listGrid.get(x+1).get(y).find(TypeElement.UP) || 
                         listGrid.get(x+1).get(y).find(TypeElement.LEFT) ||
@@ -277,7 +272,7 @@ public class Board {
      * 
      * 
      */
-    private void rule(Position pos, TypeElement te) {
+    private void rule(Position pos) {
         if (checkRule(pos.y,pos.x,Type.TEXT,Type.RULE))
             return;
         checkRule(pos.y,pos.x,Type.TEXT,Type.TEXT);
@@ -501,7 +496,7 @@ public class Board {
         deleteAllRule();
         fillEmpty();
         for (Position p:is)
-            rule(p,TypeElement.IS);
+            rule(p);
         Rule.setActivity(Property.TP, true);
         for(Pair<Position,TypeElement> a:player) {
             pos = a.getKey();
@@ -518,24 +513,18 @@ public class Board {
                     return;
                 }
                 Rule.activatePlayerList(temps1);
-                if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).canAdd()){ //verifie si il peut add la case suivante
+                if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).canAdd()) //verifie si il peut add la case suivante
                     editPlacement(pos,dir,te);
-                    //this.music.play(Music.ADD);
-                }
-                else if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).canPush()) { //verifie si il peut push la case suivante
-                    if (push(new Position(pos.x+dir.getDirHori(),pos.y+dir.getDirVer()),dir)) {
-                        editPlacement(pos,dir,te);
-                        //this.music.play(Music.PUSH);
-                    }
-                }
-            
+                else if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).canPush()) //verifie si il peut push la case suivante
+                    if (push(new Position(pos.x+dir.getDirHori(),pos.y+dir.getDirVer()),dir))
+                        editPlacement(pos,dir,te);            
             }
         }
         deleteAllRule();
-        bestlist=new ArrayList<>();
+        bestList=new ArrayList<>();
         fillEmpty();
         for (Position p:is)
-            rule(p,TypeElement.IS);
+            rule(p);
         Rule.setActivity(Property.TP, true);
         player = getPlayerType(pro);
         if (player==null)
@@ -554,8 +543,13 @@ public class Board {
         this.limitedDeplacement--;
     }
     
+    /**
+     * Revois true ou false en fonction de la presence de te dans bestList
+     * @param te Le TypeElement a tester
+     * @return true ou false
+     */
     public boolean best(TypeElement te) {
-        for (TypeElement e:this.bestlist)
+        for (TypeElement e:this.bestList)
             if (e==te)
                 return true;
         return false;
