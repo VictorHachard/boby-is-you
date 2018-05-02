@@ -1,0 +1,6 @@
+continue false
+KeyUP UP
+KeyDOWN DOWN
+KeyLEFT LEFT
+KeyRIGHT RIGHT
+KeyR R
