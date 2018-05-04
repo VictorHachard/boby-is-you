@@ -85,6 +85,7 @@ public class Board {
         is = getAllPos(TypeElement.IS);
         for (Position p:is)
             rule(p);
+        Rule.setActivity(Property.TP, Boolean.TRUE);
         
         listRule = new Tp(this);
         listRule.addRule(new Fly(this),
@@ -491,13 +492,9 @@ public class Board {
         List<Pair<Position,TypeElement>> player = sort(dir, getPlayerType(pro));   
         Position pos;
         TypeElement te;
+        boolean verifie = false;
         //just executer move
         achi.checkMove();
-        deleteAllRule();
-        fillEmpty();
-        for (Position p:is)
-            rule(p);
-        Rule.setActivity(Property.TP, true);
         for(Pair<Position,TypeElement> a:player) {
             pos = a.getKey();
             te = a.getValue();
@@ -516,16 +513,20 @@ public class Board {
                 if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).canAdd()) //verifie si il peut add la case suivante
                     editPlacement(pos,dir,te);
                 else if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).canPush()) //verifie si il peut push la case suivante
-                    if (push(new Position(pos.x+dir.getDirHori(),pos.y+dir.getDirVer()),dir))
-                        editPlacement(pos,dir,te);            
+                    if (push(new Position(pos.x+dir.getDirHori(),pos.y+dir.getDirVer()),dir))  {
+                        editPlacement(pos,dir,te); 
+                        verifie = true;
+                    }
             }
         }
-        deleteAllRule();
-        bestList=new ArrayList<>();
+        if (verifie || Rule.isActive(Property.MOVE)) {
+            bestList=new ArrayList<>();
+            deleteAllRule();
+            for (Position p:is)
+                rule(p);
+            Rule.setActivity(Property.TP, true);
+        }
         fillEmpty();
-        for (Position p:is)
-            rule(p);
-        Rule.setActivity(Property.TP, true);
         player = getPlayerType(pro);
         if (player==null)
             return;
