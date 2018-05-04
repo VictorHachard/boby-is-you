@@ -25,9 +25,6 @@ public class Win extends Rule {
     }
 
     @Override
-    /**
-     * Revois la Property de la regle.
-     */
     Property getProperty() {
         return Property.WIN;
     }

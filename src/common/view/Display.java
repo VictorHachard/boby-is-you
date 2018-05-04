@@ -13,6 +13,7 @@ import common.model.GameMode;
 import common.model.Levels;
 import common.model.Music;
 import common.model.MusicHashMap;
+import common.model.Rule;
 import common.model.TypeElement;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -101,10 +102,14 @@ public class Display {
             
             else if (keyCode.equals(Key.getInstance().getKeyR())) 
                 Levels.getInstance().reload();
-            else if (keyCode.equals(KeyCode.SUBTRACT))
+            else if (keyCode.equals(KeyCode.P))
                 Levels.getInstance().switchMaps(false);
-            else if (keyCode.equals(KeyCode.ADD))
+            else if (keyCode.equals(KeyCode.M))
                 Levels.getInstance().switchMaps(true);
+            else if (keyCode.equals(KeyCode.O))
+                GameMode.desactivateAll();
+            else if (keyCode.equals(KeyCode.L))
+                Rule.desactivateAll();
             else if (keyCode.equals(KeyCode.PAGE_UP)) {
                 if (volume<10) {
                     volume++;
