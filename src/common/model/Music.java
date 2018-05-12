@@ -12,7 +12,6 @@ public enum Music {
     KILL,
     DESTROY,
     MELT,
-    PORTAL,
     MELTBLOCK,
     SINK,
     SINKBLOCK,

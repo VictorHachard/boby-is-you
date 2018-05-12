@@ -1,4 +1,6 @@
 18 18
+config 60
+title Hill_Valley
 text_empty 3 10
 is 3 11
 text_baba 3 12

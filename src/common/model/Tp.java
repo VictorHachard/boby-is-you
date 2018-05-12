@@ -46,7 +46,6 @@ public class Tp extends Rule {
             //changement true false
             isPortal = false;
             removePortal = true;      
-            MusicHashMap.getInstance().play(Music.PORTAL);
             return false;
         } else return true;
     }

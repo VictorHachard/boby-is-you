@@ -72,7 +72,7 @@ public enum TypeElement {
     
     IS("IS","IS  ",3,null,null,Type.CONNECTER),
     AND("AND","AND ",3,null,null,Type.CONNECTER),
-    MAKE("MAKE","MAKE",3,null,null,Type.CONNECTER),
+    //MAKE("MAKE","MAKE",3,null,null,Type.CONNECTER),
     
     NONEINRANGE("NONE",null,-1,null,null,null);
 
