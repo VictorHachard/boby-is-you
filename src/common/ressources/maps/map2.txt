@@ -1,34 +1,10 @@
 18 18 
-config 50
-title Seacouver
-baba 4 5
-strong 3 3
-is 4 3
-text_baba 5 3
-text_wall 17 1
-is 17 2
-weak 17 3
-text_baba 17 5
-is 17 6
-you 17 7
-text_flag 17 9
-is 17 10
-win 17 11
-wall 8 0
-wall 8 1
-wall 8 2
-wall 8 3
-wall 8 4
-wall 8 5
-wall 8 6
-wall 8 7
-wall 8 8
-wall 8 9
-wall 8 10
-wall 8 11
-wall 8 12
-wall 8 13
-wall 8 14
-wall 8 15
-wall 8 16
-wall 8 17
+config 1000
+text_wall 2 2
+is 2 3
+p1 2 4
+text_rock 6 2
+is 6 3
+p2 6 4
+wall 2 6
+rock 6 6

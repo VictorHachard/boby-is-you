@@ -1,5 +1,6 @@
 package common.view;
 
+import common.model.CheckAchievement;
 import common.model.Game;
 import common.model.GameMode;
 import common.model.Levels;
@@ -116,7 +117,14 @@ public class JavaBobyIsYou extends Application {
         d.setStage(primaryStage);
         primaryStage.setTitle("BobyIsYou");
         primaryStage.setScene(d.scene);
+        primaryStage.setOnCloseRequest(e -> close(primaryStage));
         primaryStage.show();
+    }
+    
+    private void close(Stage primaryStage) {
+        save(); //save config and avancement du joueur
+        CheckAchievement.getInstance().save();
+        primaryStage.close();
     }
     
     /**

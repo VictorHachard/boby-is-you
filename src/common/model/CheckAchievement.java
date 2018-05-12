@@ -14,9 +14,10 @@ import java.util.logging.Logger;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+
 /**
- *
- * @author Glaskani
+ * 
+ * @author Thomas Lavend'Homme and Victor Hachard
  */
 public class CheckAchievement {
     
