@@ -134,7 +134,7 @@ public class JavaBobyIsYou extends Application {
     public static void main(String[] args) {
         try {
             //Looger
-            FileHandler hdl = new FileHandler("BIS.log");
+            FileHandler hdl = new FileHandler("crash.log");
             hdl.setFormatter(new SimpleFormatter());
             LOGGER.addHandler(hdl);
             

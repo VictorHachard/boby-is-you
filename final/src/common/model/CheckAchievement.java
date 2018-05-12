@@ -14,9 +14,10 @@ import java.util.logging.Logger;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+
 /**
- *
- * @author Glaskani
+ * 
+ * @author Thomas Lavend'Homme and Victor Hachard
  */
 public class CheckAchievement {
     
@@ -120,7 +121,7 @@ public class CheckAchievement {
 	}
     }
     
-    public void load() {
+    private void load() {
         Object data;
         try (ObjectInputStream reader = new ObjectInputStream(new FileInputStream("achievements"))) {
             data = reader.readObject();

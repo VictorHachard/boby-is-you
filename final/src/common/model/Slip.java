@@ -22,7 +22,6 @@ public class Slip extends Rule {
     boolean work(Position pos,Directions dir,TypeElement te) {
         boolean ret = false;
         if (isSlip) {
-            System.out.println("coucou enter isslip");
             //si c est pas de l ice
             if (!(listGrid.get(pos.y+this.dirSlip.getDirVer()).get(pos.x+this.dirSlip.getDirHori()).find(Property.SLIP))) {
                 //pour sortire de la ICCE

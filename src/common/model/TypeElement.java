@@ -1,6 +1,5 @@
 package common.model;
 
-import common.exeptions.TypeElementNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,8 +25,6 @@ public enum TypeElement {
     EMPTYINJOUABLE("EMPTYINJOUABLE","    ",0,null,null,Type.BLOCK),
     METAL("METAL","E_M ",1,null,null,Type.BLOCK),
     LOVE("LOVE","E_L ",2,null,null,Type.BLOCK),
-    DOOR("DOOR","E_DO",2,null,null,Type.BLOCK),
-    KEY("KEY","E_KE",2,null,null,Type.BLOCK),
     PORTAL_IN("PORTAL_IN","E_PI",1,null,null,Type.BLOCK),
     PORTAL_OUT("PORTAL_OUT","E_PO",1,null,null,Type.BLOCK),
     
@@ -36,9 +33,7 @@ public enum TypeElement {
     PLAYER1("BABA","E_P ",3,null,null,Type.PLAYER),
     MONSTER("MONSTER","E_M ",3,null,null,Type.BLOCK),
     ANNI("ANNI","E_A ",3,null,null,Type.PLAYER),
-    
-    TEXT_DOOR("TEXT_DOOR","T_DO",3,TypeElement.DOOR,null,Type.TEXT),
-    TEXT_KEY("TEXT_KEY","T_KE",3,TypeElement.KEY,null,Type.TEXT),
+   
     TEXT_ROCK("TEXT_ROCK","T_R ",3,TypeElement.ROCK,null,Type.TEXT),
     TEXT_LAVA("TEXT_LAVA","T_LA",3,TypeElement.LAVA,null,Type.TEXT),
     TEXT_WALL("TEXT_WALL","T_W ",3,TypeElement.WALL,null,Type.TEXT),

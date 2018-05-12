@@ -36,7 +36,7 @@
 	<target name="clean">
 		<delete dir="build"/>
 		<delete dir="dist"/>
-		<delete file="bis.log"/>
+		<delete file="crash.log"/>
 		<delete file="config.txt"/>
 		<delete file="achievements"/>
 	</target>

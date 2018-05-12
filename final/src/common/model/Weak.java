@@ -16,17 +16,23 @@ public class Weak extends Rule {
     
     @Override
     public boolean work(Position pos,Directions dir,TypeElement te) {
-        if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).find(Property.WEAK)) {
-            if (listGrid.get(pos.y).get(pos.x).getElements(te).getTypeRule().contains(Property.STRONG)) {
-                for (Element e:listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).getZ())
+        if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori())
+                .find(Property.WEAK)) {
+            if (listGrid.get(pos.y).get(pos.x).getElements(te).getTypeRule()
+                    .contains(Property.STRONG)) {
+                for (Element e:listGrid.get(pos.y+dir.getDirVer())
+                        .get(pos.x+dir.getDirHori()).getZ())
                     if (e.isRule(Property.WEAK)) {
-                        listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).removeElement(e.getTypeElement());
+                        listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir
+                               .getDirHori()).removeElement(e.getTypeElement());
                         MusicHashMap.getInstance().play(Music.DESTROY);
                     }
             }
         }
-        else if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).find(Property.STRONG)) {
-            if (listGrid.get(pos.y).get(pos.x).getElements(te).getTypeRule().contains(Property.WEAK)) {
+        else if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori())
+                .find(Property.STRONG)) {
+            if (listGrid.get(pos.y).get(pos.x).getElements(te).getTypeRule()
+                    .contains(Property.WEAK)) {
                 listGrid.get(pos.y).get(pos.x).removeElement(te);
                 MusicHashMap.getInstance().play(Music.DESTROY);
             }
@@ -36,11 +42,15 @@ public class Weak extends Rule {
     
     @Override
     boolean workPush(Position pos,Directions dir,TypeElement te) {
-        if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).find(Property.WEAK)) {
-            if (listGrid.get(pos.y).get(pos.x).getElements(te).getTypeRule().contains(Property.STRONG)) {
-                for (Element e:listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).getZ())
+        if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori())
+                .find(Property.WEAK)) {
+            if (listGrid.get(pos.y).get(pos.x).getElements(te).getTypeRule()
+                    .contains(Property.STRONG)) {
+                for (Element e:listGrid.get(pos.y+dir.getDirVer())
+                        .get(pos.x+dir.getDirHori()).getZ())
                     if (e.isRule(Property.WEAK)) {
-                        listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).removeElement(e.getTypeElement());
+                        listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir
+                               .getDirHori()).removeElement(e.getTypeElement());
                         MusicHashMap.getInstance().play(Music.DESTROY);
                     }
             }

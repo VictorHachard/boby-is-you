@@ -1,5 +1,6 @@
 package common.view;
 
+import common.model.CheckAchievement;
 import common.model.Game;
 import common.model.GameMode;
 import common.model.Levels;
@@ -27,7 +28,7 @@ public class JavaBobyIsYou extends Application {
     
     static final String THEME = "/common/ressources/css/theme.css";
     static final Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();   
-    public static final double WIDTH = visualBounds.getWidth()-30;
+    public static final double WIDTH = visualBounds.getHeight()-30;
     public static final double HEIGHT = visualBounds.getHeight()-30;
     private static final Logger LOGGER = Logger.getGlobal();
     public static int indice =0;
@@ -116,7 +117,14 @@ public class JavaBobyIsYou extends Application {
         d.setStage(primaryStage);
         primaryStage.setTitle("BobyIsYou");
         primaryStage.setScene(d.scene);
+        primaryStage.setOnCloseRequest(e -> close(primaryStage));
         primaryStage.show();
+    }
+    
+    private void close(Stage primaryStage) {
+        save(); //save config and avancement du joueur
+        CheckAchievement.getInstance().save();
+        primaryStage.close();
     }
     
     /**
@@ -126,7 +134,7 @@ public class JavaBobyIsYou extends Application {
     public static void main(String[] args) {
         try {
             //Looger
-            FileHandler hdl = new FileHandler("BIS.log");
+            FileHandler hdl = new FileHandler("crash.log");
             hdl.setFormatter(new SimpleFormatter());
             LOGGER.addHandler(hdl);
             

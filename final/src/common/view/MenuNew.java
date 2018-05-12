@@ -9,7 +9,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 /**
  *
@@ -27,9 +26,10 @@ public class MenuNew {
         return INSTANCE;
     }
     
-    MenuNew() {
+    private MenuNew() {
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
         scene.getStylesheets().add(JavaBobyIsYou.THEME);
+        root.getChildren().add(BackGround.getInstance().getPane());
         root.getChildren().add(JavaFXMethode.addTitle("ESC",Color.WHITE));
         addMenu();
     }

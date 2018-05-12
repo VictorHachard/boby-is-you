@@ -15,18 +15,16 @@ public class Win extends Rule {
         this.listGrid=board.getListGrid();
     }
     
-    
     @Override
-    public boolean work(Position pos,Directions dir,TypeElement te) throws WinException {
-        if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).find(Property.WIN))
+    public boolean work(Position pos, Directions dir, TypeElement te)
+            throws WinException {
+        if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori())
+                .find(Property.WIN))
             throw new WinException();
         return true;
     }
 
     @Override
-    /**
-     * Revois la Property de la regle.
-     */
     Property getProperty() {
         return Property.WIN;
     }

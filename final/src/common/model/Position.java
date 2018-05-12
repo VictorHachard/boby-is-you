@@ -19,10 +19,6 @@ public class Position {
         this.y = y;
     }
     
-    /**
-     * 
-     * @return 
-     */
     @Override
     public int hashCode(){
         int hashcode = 0;

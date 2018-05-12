@@ -86,10 +86,9 @@ public class Cell {
      * @return true ou false
      */
     public boolean find(TypeElement te){
-        for(Element e:this.listZ){
+        for(Element e:this.listZ)
             if(e.getTypeElement()==te)
                 return true;
-        }
         return false;
     }
     
@@ -136,15 +135,13 @@ public class Cell {
      * Revois une ListElement composer de touts les Element qui on comme regle
      * Property tr.
      * @param tr Property, , utiliser pour la recherche
-     * @return ListElement, peut etre vide si aucun Element n'a la regl
+     * @return ListElement, peut etre vide si aucun Element n'a la regle
      */
     List<Element> getElementsOf(Property tr){
         List<Element> ret = new ArrayList<>();
-        
         for(Element e:this.listZ)
             if(e.getTypeRule().contains(tr))
                 ret.add(e);
-        
         return ret;
     }
 }

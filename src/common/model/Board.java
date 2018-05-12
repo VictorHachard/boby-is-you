@@ -17,7 +17,6 @@ public class Board {
     private final GameMode listLose;
     private List<TypeElement> bestList = new ArrayList<>();
     private List<Position> is;
-    private List<Position> make;
     private List<List<Cell>> listGrid = new ArrayList<>();
     private final int x;
     private final int y;
@@ -25,9 +24,10 @@ public class Board {
     private final Element empty = new Empty();
     private Rule listRule;
     private static Board INSTANCE = null;
-    private final Element emptyPlayable=new Element(TypeElement.EMPTY);
+    private final Element emptyPlayable = new Element(TypeElement.EMPTY);
     public int limitedDeplacement;
-    public String title="";
+    public String title = "";
+    private boolean verifie;
     
     public Rule getRule() {
         return listRule;
@@ -478,7 +478,15 @@ public class Board {
         //verifier si on a pas fini un gamemode
         if (!this.listLose.check())
             return;
-        Property pro = Property.YOU;
+        if (verifie || Rule.isActive(Property.MOVE)) {
+            verifie= false;
+            bestList=new ArrayList<>();
+            deleteAllRule();
+            for (Position p:is)
+                rule(p);
+            Rule.setActivity(Property.TP, true);
+        }
+        Property pro = null;
         if (getPositionOf(TypeElement.YOU1)==null || getPositionOf(TypeElement.YOU2)==null)
             pro = Property.YOU;
         else {
@@ -492,7 +500,6 @@ public class Board {
         List<Pair<Position,TypeElement>> player = sort(dir, getPlayerType(pro));   
         Position pos;
         TypeElement te;
-        boolean verifie = false;
         //just executer move
         achi.checkMove();
         for(Pair<Position,TypeElement> a:player) {
@@ -519,14 +526,16 @@ public class Board {
                     }
             }
         }
+        fillEmpty();
         if (verifie || Rule.isActive(Property.MOVE)) {
             bestList=new ArrayList<>();
             deleteAllRule();
             for (Position p:is)
-                rule(p);
+                checkRule(p.y,p.x,Type.TEXT,Type.RULE);
             Rule.setActivity(Property.TP, true);
         }
-        fillEmpty();
+        for (Position p:is)
+            checkRule(p.y,p.x,Type.TEXT,Type.TEXT);
         player = getPlayerType(pro);
         if (player==null)
             return;

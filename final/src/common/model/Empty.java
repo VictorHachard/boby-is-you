@@ -4,12 +4,12 @@ package common.model;
  *
  * @author Glaskani
  */
-public class Empty extends Element{
+public class Empty extends Element {
     
     /**
      * Crée un EmptyInjouable, Directions RIGHT.
      */
-    Empty(){
+    Empty() {
         super(TypeElement.EMPTYINJOUABLE,Directions.RIGHT);
     }
 }

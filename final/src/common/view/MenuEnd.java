@@ -22,7 +22,7 @@ public class MenuEnd {
         return INSTANCE;
     }
     
-    MenuEnd() {
+    private MenuEnd() {
         VBox b = new VBox();
         this.scene = new Scene(root,JavaBobyIsYou.WIDTH,JavaBobyIsYou.HEIGHT);
         scene.getStylesheets().add(JavaBobyIsYou.THEME);

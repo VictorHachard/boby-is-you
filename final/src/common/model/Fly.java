@@ -18,7 +18,8 @@ public class Fly extends Rule {
     
     @Override
     boolean work(Position pos, Directions dir, TypeElement te) {
-    if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori()).find(TypeElement.WALLINJOUABLE)) {
+    if (listGrid.get(pos.y+dir.getDirVer()).get(pos.x+dir.getDirHori())
+            .find(TypeElement.WALLINJOUABLE)) {
         int y = pos.y;
         int x = pos.x;
         if (pos.y+dir.getDirVer()==0)
@@ -30,14 +31,14 @@ public class Fly extends Rule {
         else if (pos.x+dir.getDirHori()==board.getSizeX()-1)
                 x = 1;
         //verifier si il y a pas un push ou stop a la sortie
-        if (listGrid.get(y).get(x).find(Property.PUSH) || listGrid.get(y).get(x).find(Property.STOP))
+        if (listGrid.get(y).get(x).find(Property.PUSH)
+                || listGrid.get(y).get(x).find(Property.STOP))
             return true;
         listGrid.get(y).get(x)
                 .addElement(listGrid.get(pos.y).get(pos.x).getElements(te));
         listGrid.get(pos.y).get(pos.x).removeElement(te);
             return false;
-        }
-        return true;  
+        } return true;  
     }
 
     @Override

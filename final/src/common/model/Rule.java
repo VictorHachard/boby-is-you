@@ -26,7 +26,7 @@ public abstract class Rule {
     /**
      * Desactive toutes les regles presentent dans activeMap.
      */
-    static void desactivateAll() {
+    public static void desactivateAll() {
         activeMap = new HashMap<>();
     }
     
