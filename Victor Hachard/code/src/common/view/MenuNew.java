@@ -44,7 +44,7 @@ public class MenuNew {
 	
         vbox.getChildren().addAll(
                 buttonNormal,
-                buttonTimer,
+               // buttonTimer,
                 buttonLimited,
                 buttonBack);
         vbox.getStyleClass().add("vbox");
