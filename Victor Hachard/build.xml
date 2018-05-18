@@ -1,0 +1,44 @@
+<project name="JavaBobyIsYou" xmlns:fx="javafx:com.sun.javafx.tools.ant" default="run">
+    <description>Build, Clean, Run, DoUnityTest</description>
+	<target name="init" depends="clean">
+			<mkdir dir="code/build/classes"/>
+			<mkdir dir="code/build/classes/common/ressource"/>
+			<mkdir dir="code/dist"/>
+	</target>
+
+	<target name="build" depends="init">
+		<javac srcdir="code/src" destdir="code/build/classes" classpath="code/junit-4.12.jar"/>
+		<copy todir="code/build/classes/common/ressources">
+				<fileset dir="code/src/common/ressources"/>
+		</copy>
+	</target>
+
+<!--	<target name="dist" depends="build">
+			<taskdef resource="com/sun/javafx/tools/ant/antlib.xml"
+				uri="javafx:com.sun.javafx.tools.ant"
+				classpath=".:${JAVA_HOME}/lib/ant-javafx.jar"/>
+			<fx:jar destfile="dist/JavaBobyIsYou.jar">
+				<fx:application name="JavaBobyIsYou" mainClass="common.view.JavaBobyIsYou"/>
+				<fx:fileset dir="build/classes"/>
+			</fx:jar>
+	</target> -->
+
+	<target name="test" depends="build">
+		<java classname="org.junit.runner.JUnitCore" classpath="code/build/classes:code/junit-4.12.jar:code/hamcrest-core-1.3.jar" fork="true">
+			<arg value="common.test.Test"/>
+		</java>
+	</target>
+
+	<target name="run">
+		<java classname="common.view.JavaBobyIsYou" classpath="code/build/classes" fork="true"/>
+	</target>
+
+	<target name="clean">
+		<delete dir="code/build"/>
+		<delete dir="code/dist"/>
+		<delete file="crash.log"/>
+		<delete file="config.txt"/>
+		<delete file="achievements"/>
+	</target>
+
+</project>
