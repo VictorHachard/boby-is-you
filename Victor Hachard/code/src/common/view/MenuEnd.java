@@ -31,7 +31,7 @@ public class MenuEnd {
         b.setMinHeight(JavaBobyIsYou.HEIGHT);
         b.setBackground(JavaFXMethode.addColoredBackGround(Color.BLACK));
         b.setSpacing(40);
-        b.getChildren().addAll(JavaFXMethode.addTitle("Vous avez gagne",Color.WHITE),JavaFXMethode.addTitle("appuiez sur 'enter' pour retourner au menu.",Color.WHITE,16));
+        b.getChildren().addAll(JavaFXMethode.addTitle("YOU IS WIN",Color.WHITE),JavaFXMethode.addTitle("appuyez sur 'enter' pour retourner au menu.",Color.WHITE,16));
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER)
                 MenuInit.getInstance().getStage().setScene(MenuInit.getInstance().scene);
