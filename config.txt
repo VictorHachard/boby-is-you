@@ -1,4 +1,5 @@
-continue false
+level 1
+continue true
 KeyUP UP
 KeyDOWN DOWN
 KeyLEFT LEFT

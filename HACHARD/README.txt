@@ -1,1 +1,0 @@
-Le "jar" ne peut pas etre contruit en raison d'un problème de path, donc un "jar" deja construit à eté placer dans le fichier pour votre usage.
