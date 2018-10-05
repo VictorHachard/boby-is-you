@@ -32,6 +32,7 @@ public class JavaFXMethode {
         return new Background(new BackgroundFill(c,CornerRadii.EMPTY, Insets.EMPTY));
     }
     
+    
     public static Text addTitle(String s,Color c,int i) {
         Text t = new Text(s);
         t.setFont(Font.loadFont(loadFont(),i));
