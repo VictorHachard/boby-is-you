@@ -26,8 +26,7 @@ Add a "TXT" file in code / src / common / resources / maps. Then in the Levels j
 
 ## Gallery
 
-![screenshot](https://github.com/Glaskani/BobyIsYou/blob/master/sample1.gif)
-![screenshot2](https://github.com/Glaskani/BobyIsYou/blob/master/sample2.gif)
+![screenshot](https://github.com/Glaskani/BobyIsYou/blob/master/sample.gif)
 
 ## Contributors
 
