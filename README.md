@@ -16,7 +16,6 @@ Control :
 - R is for restart
 - Esc to have the menu
 - pageup, pagedown is increase, decrease volume
-
 - De-bug : P, M switch the level
 - De-bug : O reset the game mode
 - De-bug : L reset the rule
