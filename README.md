@@ -36,7 +36,7 @@ I want to thank everyone who contributed to the project.
 
 First of all, for the many exchanges on the structure and implementation of the project, Pierre Woi, student at HE2B ESI in second year in Industrial Computing.
 
-Moreover for the environment of the game, music, Clément Roart, studying at Umons in BAB3 Mathematics. For the textures Johan Nevroux, student at the Human Academy in the first year of Manga.
+Moreover for the environment of the game, music, Clément Roart, studying at Umons in BAB3 Mathematics. For the textures Johan Nevoux, student at the Human Academy in the first year of Manga.
 
 Finally, I thank for the general help that he could bring, Thomas Lavend'Homme, student in Umons in first year in Computer Science.
 
