@@ -2,7 +2,7 @@
 
 Boby Is You is a small game copy of [Baba Is You](https://store.steampowered.com/app/736260/Baba_Is_You/). Baba Is You is an award-winning puzzle game where you can change the rules by which you play. In every level, the rules themselves are present as blocks you can interact with; by manipulating them, you can change how the level works and cause surprising, unexpected interactions! With some simple block-pushing you can turn yourself into a rock, turn patches of grass into dangerously hot obstacles, and even change the goal you need to reach to something entirely different. [link](https://store.steampowered.com/app/736260/Baba_Is_You/)
 
-![screenshot](https://github.com/Glaskani/VictorHachard/blob/master/sample.gif)
+![screenshot](https://github.com/VictorHachard/BobyIsYou/blob/master/sample.gif)
 
 ## Building
 
