@@ -1,8 +1,8 @@
-# BobyIsYou
+# Boby Is You
 
 Boby Is You is a small game copy of [Baba Is You](https://store.steampowered.com/app/736260/Baba_Is_You/). Baba Is You is an award-winning puzzle game where you can change the rules by which you play. In every level, the rules themselves are present as blocks you can interact with; by manipulating them, you can change how the level works and cause surprising, unexpected interactions! With some simple block-pushing you can turn yourself into a rock, turn patches of grass into dangerously hot obstacles, and even change the goal you need to reach to something entirely different. [link](https://store.steampowered.com/app/736260/Baba_Is_You/)
 
-![screenshot](https://github.com/Glaskani/BobyIsYou/blob/master/sample.gif)
+![screenshot](https://github.com/Glaskani/VictorHachard/blob/master/sample.gif)
 
 ## Building
 
@@ -30,7 +30,7 @@ Control :
 
 ## Authors & Contributors
 
-* **Hachard Victor** - *Initial work* - [Glaskani](https://github.com/Glaskani)
+* **Hachard Victor** - *Initial work* - [Glaskani](https://github.com/VictorHachard)
 
 I want to thank everyone who contributed to the project.
 
@@ -40,9 +40,9 @@ Moreover for the environment of the game, music, Clément Roart, studying at Umo
 
 Finally, I thank for the general help that he could bring, Thomas Lavend'Homme, student in Umons in first year in Computer Science.
 
-See the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+See the list of [contributors](https://github.com/VictorHachard/BobyIsYou/graphs/contributors) who participated in this project.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/VictorHachard/BobyIsYou/blob/master/LICENSE) file for details
 
