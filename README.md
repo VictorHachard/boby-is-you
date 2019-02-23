@@ -30,7 +30,7 @@ Control :
 
 ## Authors & Contributors
 
-* **Hachard Victor** - *Initial work* - [Glaskani](https://github.com/VictorHachard)
+* **Hachard Victor** - *Initial work* - [VictorHachard](https://github.com/VictorHachard)
 
 I want to thank everyone who contributed to the project.
 
