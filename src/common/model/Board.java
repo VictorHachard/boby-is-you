@@ -447,7 +447,7 @@ public class Board {
                 if (p==player && (!(alredycheck.contains(e.getTypeElement())))) {
                     alredycheck.add(e.getTypeElement());
                     temp = getPositionOf(e.getTypeElement());
-                    if (!(temp==null))
+                    if (temp!=null)
                         for (Position pos:temp)
                             tempsList.add(new Pair<>(pos,e.getTypeElement()));
                 }
@@ -475,7 +475,6 @@ public class Board {
      * @param i
      */
     public void movePlayer(Directions dir, int i) {
-        //verifier si on a pas fini un gamemode
         if (!this.listLose.check())
             return;
         if (verifie || Rule.isActive(Property.MOVE)) {

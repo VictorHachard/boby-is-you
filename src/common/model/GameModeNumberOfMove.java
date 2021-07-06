@@ -25,7 +25,7 @@ public class GameModeNumberOfMove extends GameMode {
 
     @Override
     boolean work() {
-        return !(board.getLimitedDeplacement()==0);
+        return board.getLimitedDeplacement()!=0;
     }
     
 }

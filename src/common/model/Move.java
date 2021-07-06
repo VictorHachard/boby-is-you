@@ -21,15 +21,12 @@ public class Move extends Rule {
         this.listGrid=board.getListGrid();
         checkRule(Property.MOVE);
     }
-    
-    
+
     @Override
     public boolean work(Position pos,Directions dir,TypeElement player) {
-        if (isMonster) {
-            if (checkRule(Property.MOVE)) {
-                getMonster();
-                moveMonster();
-            }
+        if (isMonster && checkRule(Property.MOVE)) {
+            getMonster();
+            moveMonster();
         }
         return true;
     }

@@ -41,7 +41,7 @@ public class JavaBobyIsYou extends Application {
     public static void save() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File("config.txt")))) {
             //writer.write("date "+"\n");
-            if (!(Levels.instance()==null))
+            if (Levels.instance()!=null)
                 writer.write("level "+Levels.instance().getIndice()+"\n");
             if (GameMode.isActive(Game.TIMER))
                 writer.write("gameModeTIME true\n");

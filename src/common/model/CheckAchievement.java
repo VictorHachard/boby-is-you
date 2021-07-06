@@ -24,8 +24,6 @@ public class CheckAchievement {
     private static final Logger LOGGER = Logger.getGlobal();
     private HashMap<Achievement, Integer> data = new HashMap<>();
     public Display d;
-    private Text text = new Text();
-    private Text description = new Text();
     private static CheckAchievement INSTANCE = null;
     
     public HashMap<Achievement, Integer> getData() {
@@ -59,66 +57,66 @@ public class CheckAchievement {
     public void checkMove() {
         data.put(Achievement.MOVE, data.get(Achievement.MOVE) + 1);
         //Sauvegarder tout les 50 deplacements
-	if (data.get(Achievement.MOVE) % 50 == 0)
+	    if (data.get(Achievement.MOVE) % 50 == 0)
             save();
         switch (data.get(Achievement.MOVE)) {
             case 10: 
-            show(Achievement.MOVE,"","dix fois");
-            break;
-	case 100: 
-            show(Achievement.MOVE,"","100 fois");
-            break;
-	case 1000: 
-            show(Achievement.MOVE,"","1000 fois");
-            break;
-	case 10000: 
-            show(Achievement.MOVE,"","10000 fois");
-            break;
-	}
+                show(Achievement.MOVE,"","dix fois");
+                break;
+            case 100:
+                show(Achievement.MOVE,"","100 fois");
+                break;
+            case 1000:
+                show(Achievement.MOVE,"","1000 fois");
+                break;
+            case 10000:
+                show(Achievement.MOVE,"","10000 fois");
+                break;
+	    }
     }
     
     public void checkReload() {
         data.put(Achievement.RELOAD, data.get(Achievement.RELOAD) + 1);
         switch (data.get(Achievement.RELOAD)) {
             case 1: 
-            show(Achievement.RELOAD,"","une fois");
-            break;
-	case 10: 
-            show(Achievement.RELOAD,"","dix fois");
-            break;
-	case 100: 
-            show(Achievement.RELOAD,"","100 fois");
-            break;
-	case 1000: 
-            show(Achievement.RELOAD,"","1000 fois");
-            break;
-	}
+                show(Achievement.RELOAD,"","une fois");
+                break;
+            case 10:
+                show(Achievement.RELOAD,"","dix fois");
+                break;
+            case 100:
+                show(Achievement.RELOAD,"","100 fois");
+                break;
+            case 1000:
+                show(Achievement.RELOAD,"","1000 fois");
+                break;
+        }
     }
     
     public void checkWin() {
         data.put(Achievement.WIN, data.get(Achievement.WIN) + 1);
         switch (data.get(Achievement.WIN)) {
             case 1: 
-            show(Achievement.WIN,"","une partie");
-            break;
-	case 10: 
-            show(Achievement.WIN,"","dix parties");
-            break;
-	case 100: 
-            show(Achievement.WIN,"","100 parties");
-            break;
-	case 1000: 
-            show(Achievement.WIN,"","1000 parties");
-            break;
-	}
+                show(Achievement.WIN,"","une partie");
+                break;
+            case 10:
+                show(Achievement.WIN,"","dix parties");
+                break;
+            case 100:
+                show(Achievement.WIN,"","100 parties");
+                break;
+            case 1000:
+                show(Achievement.WIN,"","1000 parties");
+                break;
+	    }
     }
     
     public void save() {
-	try (ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream("achievements"))) {
-            writer.writeObject(data);
-	} catch (IOException e) {
-            LOGGER.log(Level.SEVERE,"Could not write achievement data",e);
-	}
+        try (ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream("achievements"))) {
+                writer.writeObject(data);
+        } catch (IOException e) {
+                LOGGER.log(Level.SEVERE,"Could not write achievement data",e);
+        }
     }
     
     private void load() {
@@ -130,14 +128,13 @@ public class CheckAchievement {
             this.data.put(Achievement.RELOAD, 0);
             this.data.put(Achievement.WIN, 0);
             return;
-	} 
-	try {
+	    } try {
             this.data = (HashMap<Achievement, Integer>) data;
-	} catch (Exception e) {
+        } catch (Exception e) {
             this.data.put(Achievement.MOVE, 0);
             this.data.put(Achievement.RELOAD, 0);
             this.data.put(Achievement.WIN, 0);
-	}
+        }
     }
 
 }
